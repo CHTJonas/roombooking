@@ -1,0 +1,16 @@
+<% content_for :title, "Registered Users" %>
+<table class="table table-condensed table-bordered table-hover">
+  <thead>
+    <tr>
+      <td>Full Name</td>
+      <td>Email Address</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <%= render user %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
