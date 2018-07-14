@@ -1,17 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-adc">
-  <%= link_to 'Room Booking', root_path, class: 'navbar-brand' %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <% logo = image_tag('logo-long-white.svg', width: '160', alt: 'Room Booking') %>
+  <%= link_to logo, root_path, class: 'navbar-brand' %>
+  <button class="navbar-toggler adc-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse">
-    <div class="navbar-nav">
-      <%= link_to 'About', page_path('about'), class: 'nav-item nav-link' %>
-      <%= link_to 'Development', page_path('development'), class: 'nav-item nav-link' %>
-      <% if user_signed_in? %>
-        <%= link_to 'Sign out', signout_path, class: 'nav-item nav-link' %>
-      <% else %>
-        <%= link_to 'Sign in', signin_path, class: 'nav-item nav-link' %>
-      <% end %>
-    </div>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <%= link_to 'About', page_path('about'), class: 'nav-link' %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'Development', page_path('development'), class: 'nav-link' %>
+      </li>
+      <li class="nav-item">
+        <% if user_signed_in? %>
+          <%= link_to 'Sign out', signout_path, class: 'nav-link' %>
+        <% else %>
+          <%= link_to 'Sign in', signin_path, class: 'nav-link' %>
+        <% end %>
+      </li>
+    </ul>
   </div>
 </nav>

@@ -13,21 +13,3 @@
  *= require_tree .
  *= require_self
  */
-
- .navbar-adc {
-   background-color: #C52169;
- }
- /* change the brand and text color */
-.navbar-adc .navbar-brand,
-.navbar-adc .navbar-text {
-    color: rgba(255,255,255,.8);
-}
-/* change the link color */
-.navbar-adc .navbar-nav .nav-link {
-    color: rgba(255,255,255,.5);
-}
-/* change the color of active or hovered links */
-.navbar-adc .nav-item.active .nav-link,
-.navbar-adc .nav-item:hover .nav-link {
-    color: #ffffff;
-}
