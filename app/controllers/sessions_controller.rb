@@ -9,20 +9,23 @@ class SessionsController < ApplicationController
     # Find the user if they exist or create if they don't.
     user = User.where(:provider => auth['provider'],
                       :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
-    # Save the user ID in the session so it can be used subsequent requests.
+    # Save the user ID in the session so it can be used for subsequent requests.
     session[:user_id] = user.id
-    redirect_to root_url, flash: { success: 'You have successfully logged in.' }
+    message = { class: 'success', message: auth['credentials'].inspect}
+    redirect_to root_url, flash: { message: message }
   end
 
   def destroy
     # This removes the user_id session value
     @current_user = session[:user_id] = nil
-    redirect_to root_url, flash: { success: 'You have successfully logged out.' }
+    message = { class: 'success', message: 'You have successfully logged out.' }
+    redirect_to root_url, flash: { message: message }
   end
 
   def failure
     # Handle OAuth errors
-    redirect_to root_url, flash: { danger: "Authentication error. Please contact support and quote the following error: #{params[:message].humanize}" }
+    message = { class: 'danger', message: 'Authentication error. Please contact support and quote the following error: #{params[:message].humanize}' }
+    redirect_to root_url, flash: { message: message }
   end
 
 end

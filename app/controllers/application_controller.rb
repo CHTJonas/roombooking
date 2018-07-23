@@ -31,14 +31,16 @@ class ApplicationController < ActionController::Base
         nil
       end
       unless current_user == @user
-        redirect_to root_url, flash: { danger: 'Access denied.' }
+        message = { class: 'danger', message: 'Access denied' }
+        redirect_to root_url, flash: { message: message }
       end
     end
 
     # Make sure the user is logged in
     def authenticate_user!
       if !current_user
-        redirect_to root_url, flash: { danger: 'You need to login for access to this page.' }
+        message = { class: 'danger', message: 'You need to login for access to this page.' }
+        redirect_to root_url, flash: { message: message }
       end
     end
 
