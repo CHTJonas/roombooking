@@ -31,8 +31,8 @@ class ApplicationController < ActionController::Base
         nil
       end
       unless current_user == @user
-        options = { class: 'danger', message: 'Access denied' }
-        flash[:alert] = Roombooking::Alert.new(options)
+        alert = { 'class' => 'danger', 'message' => 'Access denied' }
+        flash[:alert] = alert
         redirect_to root_url
       end
     end
@@ -40,8 +40,8 @@ class ApplicationController < ActionController::Base
     # Make sure the user is logged in
     def authenticate_user!
       if !current_user
-        options = { class: 'danger', message: 'You need to login for access to this page.' }
-        flash[:alert] = Roombooking::Alert.new(options)
+        alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
+        flash[:alert] = alert
         redirect_to root_url
       end
     end

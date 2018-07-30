@@ -11,23 +11,23 @@ class SessionsController < ApplicationController
                       :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
     # Save the user ID in the session so it can be used for subsequent requests.
     session[:user_id] = user.id
-    options = { class: 'success', message: auth['credentials'].inspect}
-    flash[:alert] = Roombooking::Alert.new(options)
+    alert = { 'class' => 'success', 'message' => auth['credentials'].inspect }
+    flash[:alert] = alert
     redirect_to root_url
   end
 
   def destroy
     # This removes the user_id session value
     @current_user = session[:user_id] = nil
-    options = { class: 'success', message: 'You have successfully logged out.' }
-    flash[:alert] = Roombooking::Alert.new(options)
+    alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
+    flash[:alert] = alert
     redirect_to root_url
   end
 
   def failure
     # Handle OAuth errors
-    options = { class: 'danger', message: 'Authentication error. Please contact support and quote the following error: #{params[:message].humanize}' }
-    flash[:alert] = Roombooking::Alert.new(options)
+    alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{params[:message].humanize}" }
+    flash[:alert] = alert
     redirect_to root_url
   end
 
