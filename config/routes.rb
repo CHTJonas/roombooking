@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :venues
+
   resources :users
   get '/auth/:provider/callback' => 'sessions#create'
   get '/login' => 'sessions#new', :as => :signin

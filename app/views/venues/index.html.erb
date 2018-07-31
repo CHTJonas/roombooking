@@ -1,0 +1,10 @@
+<% content_for :title, "Venues" %>
+<div class="alert alert-primary" role="alert">
+  <%= link_to 'New venue', new_venue_path %>
+</div>
+<ul>
+<% @venues.each do |venue| %>
+  <li>
+    <%= link_to venue.name, venue_path(venue) %>
+  </li>
+<% end %>
