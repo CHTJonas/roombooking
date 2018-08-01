@@ -22,6 +22,8 @@ gem 'high_voltage'
 # OAuth login for Camdram
 gem 'omniauth'
 gem 'omniauth-camdram'
+# Soft-delete records from the database
+gem "paranoia", "~> 2.2"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
