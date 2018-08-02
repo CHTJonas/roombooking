@@ -1,0 +1,15 @@
+<% content_for :title, @booking.name %>
+<div class="alert alert-primary" role="alert">
+  <p class="mb-0"><%= link_to 'Edit', edit_booking_path(@booking) %></p>
+  <p class="mb-0"><%= link_to 'Destroy', booking_path(@booking), method: :delete, data: {confirm: "Are you sure you want to delete #{@booking.name}?"} %></p>
+</div>
+
+<%= tag.div do %>
+  <%= tag.p @booking.name.inspect %>
+  <%= tag.p @booking.notes.inspect %>
+  <%= tag.p @booking.when.inspect %>
+  <%= tag.p @booking.duration.inspect %>
+  <%= tag.p @booking.venue.inspect %>
+<% end %>
+
+<%= render 'backfooter' %>

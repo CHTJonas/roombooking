@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :venues
+  resources :bookings
 
   resources :users
   get '/auth/:provider/callback' => 'sessions#create'

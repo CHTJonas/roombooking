@@ -12,7 +12,7 @@
           <%= link_to page.capitalize, page_path(page), class: 'nav-link' %>
         </li>
       <% end %>
-      <% controllers = ['venues'] %>
+      <% controllers = ['bookings', 'venues'] %>
       <% controllers.each do |controller| %>
         <li class="nav-item">
           <%= link_to controller.capitalize, { controller: "/#{controller}" }, class: 'nav-link' %>

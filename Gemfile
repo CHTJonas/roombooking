@@ -24,6 +24,10 @@ gem 'omniauth'
 gem 'omniauth-camdram'
 # Soft-delete records from the database
 gem "paranoia", "~> 2.2"
+# Date/time handling
+gem 'chronic'
+gem 'chronic_duration'
+gem 'datey'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
