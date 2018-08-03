@@ -1,0 +1,7 @@
+<li class="nav-item">
+  <% if user_signed_in? %>
+    <%= link_to 'Log Out', signout_path, class: 'nav-link' %>
+  <% else %>
+    <%= link_to 'Log In', signin_path, class: 'nav-link' %>
+  <% end %>
+</li>

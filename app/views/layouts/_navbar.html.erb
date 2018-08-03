@@ -6,25 +6,9 @@
   </button>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
-      <% pages = ['about', 'development'] %>
-      <% pages.each do |page| %>
-        <li class="nav-item">
-          <%= link_to page.capitalize, page_path(page), class: 'nav-link' %>
-        </li>
-      <% end %>
-      <% controllers = ['bookings', 'venues'] %>
-      <% controllers.each do |controller| %>
-        <li class="nav-item">
-          <%= link_to controller.capitalize, { controller: "/#{controller}" }, class: 'nav-link' %>
-        </li>
-      <% end %>
-      <li class="nav-item">
-        <% if user_signed_in? %>
-          <%= link_to 'Log Out', signout_path, class: 'nav-link' %>
-        <% else %>
-          <%= link_to 'Log In', signin_path, class: 'nav-link' %>
-        <% end %>
-      </li>
+      <%= render 'layouts/navbar_pages' %>
+      <%= render 'layouts/navbar_controllers' %>
+      <%= render 'layouts/navbar_login' %>
     </ul>
   </div>
 </nav>

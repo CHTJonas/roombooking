@@ -1,0 +1,6 @@
+<% controllers = ['bookings', 'venues'] %>
+<% controllers.each do |controller| %>
+  <li class="nav-item">
+    <%= link_to controller.capitalize, { controller: "/#{controller}" }, class: 'nav-link' %>
+  </li>
+<% end %>
