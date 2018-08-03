@@ -5,5 +5,6 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require moment
+//= require moment/en-gb.js
 //= require tempusdominus-bootstrap-4.js
 //= require_tree .

@@ -1,7 +1,7 @@
 `
 $(function () {
   $('#booking_when').datetimepicker({
-    locale: 'en'
+    locale: 'en-gb'
   });
 });
 `
