@@ -8,7 +8,6 @@ gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
-gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -17,7 +16,6 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem 'bootstrap-sass'
 gem 'high_voltage'
 # OAuth login for Camdram
 gem 'omniauth'
@@ -28,6 +26,12 @@ gem "paranoia", "~> 2.2"
 gem 'chronic'
 gem 'chronic_duration'
 gem 'datey'
+# Asset pipeline
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
+gem 'momentjs-rails'
+gem 'bootstrap4-datetime-picker-rails'
+gem "font-awesome-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
