@@ -1,4 +1,7 @@
 class BookingsController < ApplicationController
+  before_action :authenticate_user!, :except => [:index, :show]
+  before_action :correct_user, :except => [:index, :show]
+
   def index
     @bookings = Booking.all
   end
@@ -51,8 +54,13 @@ class BookingsController < ApplicationController
   end
 
   private
-  def booking_params
-    puts params.require(:booking).permit(:name, :notes, :when, :length, :venue_id).inspect
-    params.require(:booking).permit(:name, :notes, :when, :length, :venue_id)
-  end
+
+    def booking_params
+      params.require(:booking).permit(:name, :notes, :when, :length, :venue_id)
+    end
+
+    # Checks if the user is accessing one of their own bookings
+    def correct_user
+      check_user Booking.find(params[:id]).user
+    end
 end

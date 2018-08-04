@@ -2,9 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  helper_method :current_user
   helper_method :user_signed_in?
-  helper_method :correct_user?
 
   private
 
@@ -23,15 +21,10 @@ class ApplicationController < ActionController::Base
       return true if current_user
     end
 
-    # True if the user is accessing their own user page, false otherwise.
-    def correct_user?
-      begin
-        @user = User.find(params[:id])
-      rescue Exception => e
-        nil
-      end
-      unless current_user == @user
-        alert = { 'class' => 'danger', 'message' => 'Access denied' }
+    # Helper to block access to models for which the user is not authorised
+    def check_user(user)
+      unless current_user == user
+        alert = { 'class' => 'danger', 'message' => 'Access denied.' }
         flash[:alert] = alert
         redirect_to root_url
       end
