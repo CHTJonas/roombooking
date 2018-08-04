@@ -26,6 +26,8 @@ gem "paranoia", "~> 2.2"
 gem 'chronic'
 gem 'chronic_duration'
 gem 'datey'
+# Calendar
+gem "simple_calendar", "~> 2.0"
 # Asset pipeline
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
