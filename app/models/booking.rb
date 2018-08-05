@@ -24,7 +24,7 @@ class Booking < ApplicationRecord
   def finish_time
     # Gets the finish time based on the start time and the duration
     if self.when && self.duration
-      self.when + (self.duration * 60 * 60)
+      self.when + self.duration
     end
   end
 end
