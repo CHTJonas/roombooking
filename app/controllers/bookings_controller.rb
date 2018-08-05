@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user!, :except => [:index, :show]
-  before_action :correct_user, :except => [:index, :show]
+  before_action :correct_user, :except => [:index, :show, :new, :create]
 
   def index
     @bookings = Booking.all
