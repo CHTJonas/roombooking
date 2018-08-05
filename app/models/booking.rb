@@ -27,4 +27,14 @@ class Booking < ApplicationRecord
       self.when + self.duration
     end
   end
+
+  # Helper method for calendar
+  def start_time
+    self.when
+  end
+
+  # Helper method for calendar
+  def end_time
+    self.finish_time
+  end
 end

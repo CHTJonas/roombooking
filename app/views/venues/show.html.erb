@@ -3,4 +3,12 @@
   <p class="mb-0"><%= link_to 'Edit', edit_venue_path(@venue) %></p>
   <p class="mb-0"><%= link_to 'Destroy', venue_path(@venue), method: :delete, data: {confirm: "Are you sure you want to delete #{@venue.name}?"} %></p>
 </div>
+<%= week_calendar(events: @bookings) do |date, bookings| %>
+  <%= date %>
+  <% bookings.each do |booking| %>
+    <div>
+      <%= booking.name %>
+    </div>
+  <% end %>
+<% end %>
 <%= render 'backfooter' %>
