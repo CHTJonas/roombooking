@@ -4,8 +4,6 @@
 </div>
 <ul>
   <% @venues.each do |venue| %>
-    <li>
-      <%= link_to venue.name, venue_path(venue) %>
-    </li>
+    <%= render venue %>
   <% end %>
 </ul>

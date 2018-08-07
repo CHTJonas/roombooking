@@ -24,7 +24,7 @@ class BookingsController < ApplicationController
     else
       alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
       flash.now[:alert] = alert
-      render 'new'
+      render :new
     end
   end
 
@@ -37,7 +37,7 @@ class BookingsController < ApplicationController
     else
       alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
       flash.now[:alert] = alert
-      render 'edit'
+      render :edit
     end
   end
 

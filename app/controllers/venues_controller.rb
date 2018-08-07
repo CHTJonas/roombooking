@@ -20,7 +20,7 @@ class VenuesController < ApplicationController
     else
       alert = { 'class' => 'danger', 'message' => @venue.errors.full_messages.first }
       flash.now[:alert] = alert
-      render 'new'
+      render :new
     end
   end
 
@@ -33,7 +33,7 @@ class VenuesController < ApplicationController
     else
       alert = { 'class' => 'danger', 'message' => @venue.errors.full_messages.first }
       flash.now[:alert] = alert
-      render 'edit'
+      render :edit
     end
   end
 
