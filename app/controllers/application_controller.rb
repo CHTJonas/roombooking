@@ -25,8 +25,8 @@ class ApplicationController < ActionController::Base
     def check_user(user)
       unless current_user == user
         alert = { 'class' => 'danger', 'message' => 'Access denied.' }
-        flash[:alert] = alert
-        redirect_to root_url
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'current_user not equal to user'}, status: :forbidden
       end
     end
 
@@ -34,8 +34,8 @@ class ApplicationController < ActionController::Base
     def authenticate_user!
       if !current_user
         alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
-        flash[:alert] = alert
-        redirect_to root_url
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
       end
     end
 
