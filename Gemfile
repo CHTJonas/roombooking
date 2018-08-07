@@ -32,6 +32,10 @@ gem 'jquery-rails'
 gem 'momentjs-rails'
 gem 'bootstrap4-datetime-picker-rails'
 gem "font-awesome-rails"
+# HAML view rendering
+gem 'haml'
+# GDPR
+gem 'cookies_eu'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

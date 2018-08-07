@@ -7,4 +7,5 @@
 //= require moment
 //= require moment/en-gb.js
 //= require tempusdominus-bootstrap-4.js
+//= require cookies_eu
 //= require_tree .
