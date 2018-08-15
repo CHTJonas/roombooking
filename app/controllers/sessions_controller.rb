@@ -9,6 +9,15 @@ class SessionsController < ApplicationController
     # Find the user if they exist or create if they don't.
     user = User.where(:provider => auth['provider'],
                       :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
+    # Log the event
+    begin
+      LogLogins.success(user.email, user, request.remote_ip)
+    rescue LogLogins::LoginBlocked
+      user = nil
+      alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+      flash[:alert] = alert
+      redirect_to root_url
+    end
     # Save the user ID in the session so it can be used for subsequent requests.
     session[:user_id] = user.id
     alert = { 'class' => 'success', 'message' => auth['credentials'].inspect }
