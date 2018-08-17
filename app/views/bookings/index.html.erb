@@ -3,6 +3,7 @@
   <%= link_to 'New booking', new_booking_path %>
 </div>
 <ul>
-<% @bookings.each do |booking| %>
-  <%= render booking %>
-<% end %>
+  <% @bookings.each do |booking| %>
+    <%= render booking %>
+  <% end %>
+</ul>
