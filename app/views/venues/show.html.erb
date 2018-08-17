@@ -3,12 +3,12 @@
   <p class="mb-0"><%= link_to 'Edit', edit_venue_path(@venue) %></p>
   <p class="mb-0"><%= link_to 'Destroy', venue_path(@venue), method: :delete, data: {confirm: "Are you sure you want to delete #{@venue.name}?"} %></p>
 </div>
-<%= week_calendar(events: @bookings) do |date, bookings| %>
-  <%= date %>
+
+<%= week_calendar(events: @bookings, partial: 'calendar/roombooking_calendar') do |date, bookings| %>
   <% bookings.each do |booking| %>
-    <div>
-      <%= booking.name %>
-    </div>
+    <% top = (booking.when.hour - 8) * 6.25 + booking.when.min * 3.125 %>
+    <% height = (booking.duration / 1800) * 3.125 %>
+    <%= link_to booking.name, booking_path(booking), {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} %>
   <% end %>
 <% end %>
 <%= render 'backfooter' %>
