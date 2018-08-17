@@ -1,14 +1,18 @@
+div.calendar-nav {
+  width: 50%;
+}
+
 div.calendar {
   position:relative;
-  top:0;left:0;
-  margin-left:50px;
-  margin-right:50px;
+  top:0;
+  left:0;
   border-width:1pt;
   border-style:solid;
   border-color:#000000;
 }
 
 table.calendar {
+  font-size: 10pt;
   position:relative;
   width:100%;
   padding:0;
