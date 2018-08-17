@@ -25,7 +25,7 @@ class Booking < ApplicationRecord
   end
 
   def must_fill_half_hour_slot
-    if self.when.present? && self.when.min % 1800 != 0
+    if self.when.present? && self.when.min % 30 != 0
       errors.add(:when, "must be a multiple of thirty minutes")
     end
     if self.duration.present? && self.duration % 1800 != 0
