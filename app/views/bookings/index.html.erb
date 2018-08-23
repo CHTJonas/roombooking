@@ -1,4 +1,5 @@
-<% content_for :title, "Bookings" %>
+<% content_for :title, 'Bookings' %>
+<% content_for :heading, 'Recent Bookings' %>
 <% content_for :controller_links do %>
   <%= link_to 'New booking', new_booking_path %>
 <% end if user_signed_in? %>

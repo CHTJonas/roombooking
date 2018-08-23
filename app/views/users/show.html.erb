@@ -1,4 +1,5 @@
-<% content_for :title, "User " + @user.id.to_s %>
+<% content_for :title, @user.name %>
+<% content_for :heading, @user.name %>
 <p>
   <%= @user.inspect %>
 </p>
