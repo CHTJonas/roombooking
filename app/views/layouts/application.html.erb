@@ -7,7 +7,7 @@
     <meta name="author" content="ADC Theatre">
     <meta name="title" content="<%= content_for?(:title) ? yield(:title) : "Roombooking" %>">
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "ADC Roombooking System" %>">
-    <title><%= content_for?(:title) ? yield(:title) : "Roombooking" %></title>
+    <title>ADC Room Booking<%= ": #{yield(:title)}" if content_for?(:title) %></title>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
@@ -17,8 +17,10 @@
     <header>
       <%= render 'layouts/navbar' %>
     </header>
-    <main role="main" class="container">
-      <h1 class="mt-3 mb-5"><%= content_for?(:title) ? yield(:title) : "Roombooking" %></h1>
+    <main role="main" class="container mt-3">
+      <% if content_for?(:heading) %>
+        <h1 class="mt-3 mb-4"><%= yield(:heading) %></h1>
+      <% end %>
       <%= render 'layouts/alert' %>
       <%= yield %>
     </main>
