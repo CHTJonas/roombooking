@@ -21,6 +21,11 @@
       <% if content_for?(:heading) %>
         <h1 class="mt-3 mb-4"><%= yield(:heading) %></h1>
       <% end %>
+      <% if content_for?(:controller_links) %>
+        <div class="alert alert-primary" role="alert">
+          <%= yield(:controller_links) %>
+        </div>
+      <% end %>
       <%= render 'layouts/alert' %>
       <%= yield %>
     </main>

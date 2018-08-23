@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :user_signed_in?
+  helper_method :user_is_admin?
 
   private
 
@@ -21,8 +22,14 @@ class ApplicationController < ActionController::Base
       return true if current_user
     end
 
-    # Helper to block access to models for which the user is not authorised
+    # True if the user is a site administrator, false otherwise.
+    def user_is_admin?
+      return user_signed_in? && current_user.is_admin?
+    end
+
+    # Helper to block access to models for which the user is not authorised.
     def check_user(user)
+      return if user_is_admin? # Admins can do anything!
       unless current_user == user
         alert = { 'class' => 'danger', 'message' => 'Access denied.' }
         flash.now[:alert] = alert
@@ -30,7 +37,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # Make sure the user is logged in
+    # Method to make sure the user is logged in.
     def authenticate_user!
       if !current_user
         alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }

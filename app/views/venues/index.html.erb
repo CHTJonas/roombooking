@@ -1,7 +1,8 @@
 <% content_for :title, "Venues" %>
-<div class="alert alert-primary" role="alert">
-  <%= link_to 'New venue', new_venue_path %>
-</div>
+<% content_for :controller_links do %>
+  <p class="mb-0"><%= link_to('New venue', new_venue_path) %></p>
+<% end if user_is_admin? %>
+
 <ul>
   <% @venues.each do |venue| %>
     <%= render venue %>

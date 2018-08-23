@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :booking
 
+  # Create a User model object from an omniauth authentication object.
   def self.create_with_omniauth(auth)
     create! do |user|
       user.provider = auth['provider']
@@ -10,6 +11,21 @@ class User < ApplicationRecord
          user.email = auth['info']['email'] || ""
       end
     end
+  end
+
+  # True if the user is a site administrator, false otherwise.
+  def is_admin?
+    return admin
+  end
+
+  # Grants site administrator privileges to the user.
+  def make_admin!
+    self.admin = true
+  end
+
+  # Revokes site administrator privileges from the user.
+  def revoke_admin!
+    self.admin = false
   end
 
 end

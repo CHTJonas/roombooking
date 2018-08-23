@@ -1,7 +1,8 @@
 <% content_for :title, "Bookings" %>
-<div class="alert alert-primary" role="alert">
+<% content_for :controller_links do %>
   <%= link_to 'New booking', new_booking_path %>
-</div>
+<% end if user_signed_in? %>
+
 <ul>
   <% @bookings.each do |booking| %>
     <%= render booking %>

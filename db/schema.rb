@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 3) do
     t.string "email"
     t.string "provider"
     t.string "uid"
+    t.boolean "admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
