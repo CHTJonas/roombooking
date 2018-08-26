@@ -9,7 +9,7 @@
     <% @bookings.each do |booking| %>
       <div class="col-md-4 border border-secondary rounded py-3 mb-4">
         <h4><%= booking.name %></h4>
-        <p>From <%= booking.when.strftime("%H:%M") %> to <%= (booking.when+booking.duration).strftime("%H:%M") %> on <%= booking.when.strftime("%d/%m/%y") %>.</p>
+        <p>From <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %> on <%= booking.when.strftime("%d/%m/%y") %>.</p>
         <%= link_to 'View details »', booking_path(booking), class: 'btn btn-secondary' %>
       </div>
     <% end %>

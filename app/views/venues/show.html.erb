@@ -12,7 +12,7 @@
     <%= link_to booking, {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} do %>
       <%= booking.name %>
       <%= content_tag :span, class: 'time' do %>
-        <%= booking.when.strftime("%H:%M") %>&mdash;<%= (booking.when+booking.duration).strftime("%H:%M") %>
+        <%= booking.start_time.strftime("%H:%M") %>&mdash;<%= booking.end_time.strftime("%H:%M") %>
       <% end %>
     <% end %>
   <% end %>
