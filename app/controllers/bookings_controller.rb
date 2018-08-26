@@ -3,7 +3,7 @@ class BookingsController < ApplicationController
   before_action :correct_user, :except => [:index, :show, :new, :create]
 
   def index
-    @bookings = Booking.all
+    @bookings = Booking.last(6)
   end
 
   def new

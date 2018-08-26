@@ -4,10 +4,14 @@
   <%= link_to 'New booking', new_booking_path %>
 <% end if user_signed_in? %>
 
-<ul>
-  <% @bookings.each do |booking| %>
-    <li>
-      <%= link_to booking.name, booking_path(booking) %>
-    </li>
-  <% end %>
-</ul>
+<div class="container">
+  <div class="row">
+    <% @bookings.each do |booking| %>
+      <div class="col-md-4 border border-secondary rounded py-3 mb-4">
+        <h4><%= booking.name %></h4>
+        <p>From <%= booking.when.strftime("%H:%M") %> to <%= (booking.when+booking.duration).strftime("%H:%M") %> on <%= booking.when.strftime("%d/%m/%y") %>.</p>
+        <%= link_to 'View details »', booking_path(booking), class: 'btn btn-secondary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
