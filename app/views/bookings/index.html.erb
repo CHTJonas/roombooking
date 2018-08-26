@@ -6,6 +6,8 @@
 
 <ul>
   <% @bookings.each do |booking| %>
-    <%= render booking %>
+    <li>
+      <%= link_to booking.name, booking_path(booking) %>
+    </li>
   <% end %>
 </ul>

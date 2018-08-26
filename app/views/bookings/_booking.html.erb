@@ -1,3 +1,24 @@
-<li>
-  <%= link_to booking.name, booking_path(booking) %>
-</li>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Name:') %>
+  <%= content_tag(:td, @booking.name) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Date:') %>
+  <%= content_tag(:td, @booking.when.strftime("%d/%m/%y")) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Start Time:') %>
+  <%= content_tag(:td, @booking.when.strftime("%H:%M")) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Finish Time:') %>
+  <%= content_tag(:td, (@booking.when+@booking.duration).strftime("%H:%M")) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Room:') %>
+  <%= content_tag(:td, @booking.venue.name) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Creator:') %>
+  <%= content_tag(:td, @booking.user.name) %>
+<% end %>
