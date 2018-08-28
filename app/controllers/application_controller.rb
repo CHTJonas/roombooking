@@ -17,6 +17,16 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    # Finds the CamdramToken with the ID that is stored in the session.
+    # Logging in sets this session value and logging out removes it.
+    def current_camdram_token
+      begin
+        @camdram_token ||= CamdramToken.find(session[:camdram_token_id]) if session[:camdram_token_id]
+      rescue Exception => e
+        nil
+      end
+    end
+
     # True if the user is signed in, false otherwise.
     def user_signed_in?
       return true if current_user

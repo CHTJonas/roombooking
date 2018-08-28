@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :booking
+  has_many :camdram_token
 
   # Create a User model object from an omniauth authentication object.
   def self.create_with_omniauth(auth)
