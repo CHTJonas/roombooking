@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     def camdram
       @camdram ||= Camdram::Client.new do |config|
         config.api_token = current_camdram_token.token
-        config.user_agent = 'ADC Room Booking System'
+        config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
       end
     end
 
