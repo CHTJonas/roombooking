@@ -21,10 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    # This removes the user_id session value
-    @current_user = session[:user_id] = nil
-    # This removes the camdram_token session value
-    @camdram_token = session[:camdram_token_id] = nil
+    invalidate_session
     alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
     flash[:alert] = alert
     redirect_to root_url

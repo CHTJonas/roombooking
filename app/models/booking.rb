@@ -1,8 +1,24 @@
 class Booking < ApplicationRecord
+  enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ]
+  def self.admin_purposes
+    [ :performance_of, :get_in_for, :theatre_closed, :training, :other ]
+  end
+  def self.purposes_with_shows
+    [ :audition_for, :meeting_for, :performance_of, :rehearsal_for, :get_in_for ]
+  end
+  def self.purposes_with_societies
+    [ :meeting_of ]
+  end
+  def self.purposes_with_none
+    [ :theatre_closed, :training, :other ]
+  end
+
   belongs_to :venue
   belongs_to :user
+  belongs_to :camdram_object, optional: true
   validates_associated :venue
   validates_associated :user
+  validates_associated :camdram_object
 
   validates :name, presence: true
   validates :when, presence: true
@@ -46,6 +62,12 @@ class Booking < ApplicationRecord
     else
       self.duration = nil
     end
+  end
+
+  def purpose_string
+    string = self.purpose.humanize
+    string << %Q[ "#{camdram_object.name}"] if !self.camdram_object_id.nil?
+    return string
   end
 
   def finish_time

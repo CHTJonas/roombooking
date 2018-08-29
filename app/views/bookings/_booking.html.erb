@@ -22,3 +22,7 @@
   <%= content_tag(:td, 'Creator:') %>
   <%= content_tag(:td, @booking.user.name) %>
 <% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Purpose:') %>
+  <%= content_tag(:td, @booking.purpose_string) %>
+<% end %>

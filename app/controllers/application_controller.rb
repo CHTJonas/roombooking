@@ -27,9 +27,17 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    # Returns the objects used to store the client to the Camdram API.
+    def camdram
+      @camdram ||= Camdram::Client.new do |config|
+        config.api_token = current_camdram_token.token
+        config.user_agent = 'ADC Room Booking System'
+      end
+    end
+
     # True if the user is signed in, false otherwise.
     def user_signed_in?
-      return true if current_user
+      return true if current_user && current_camdram_token
     end
 
     # True if the user is a site administrator, false otherwise.
@@ -47,13 +55,28 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # Method to make sure the user is logged in.
+    # Method to ensure the user is logged in with a valid Camdram API token.
     def authenticate_user!
-      if !current_user
+      if !current_user || !current_camdram_token
+        invalidate_session
         alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
+        render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized and return
       end
+      if current_camdram_token.expired?
+        invalidate_session
+        alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'camdram token expired'}
+      end
+    end
+
+    # Method to simulate a user logoff.
+    def invalidate_session
+      # This removes the user_id session value
+      @current_user = session[:user_id] = nil
+      # This removes the camdram_token session value
+      @camdram_token = session[:camdram_token_id] = nil
     end
 
 end

@@ -11,4 +11,9 @@ class CamdramToken < ActiveRecord::Base
       cdtkn.user = user
     end
   end
+
+  # True if the Camdram API token has expired, false otherwise
+  def expired?
+    Time.now.to_i >= self.expires_at
+  end
 end
