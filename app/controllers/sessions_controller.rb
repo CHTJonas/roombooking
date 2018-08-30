@@ -14,8 +14,8 @@ class SessionsController < ApplicationController
       LogEvent.log(user, 'failure', 'User login', 'web', request.remote_ip, request.user_agent)
       user = nil
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
-      flash[:alert] = alert
-      redirect_to root_url
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'user blocked'}, status: :forbidden
     else
       LogEvent.log(user, 'success', 'User login', 'web', request.remote_ip, request.user_agent)
       # Save the user ID in the session so it can be used for subsequent requests.
@@ -27,11 +27,13 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
-    # This removes the user_id session value
-    @current_user = session[:user_id] = nil
-    alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
-    flash[:alert] = alert
+    if user_signed_in?
+      LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
+      # This removes the user_id session value
+      @current_user = session[:user_id] = nil
+      alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
+      flash[:alert] = alert
+    end
     redirect_to root_url
   end
 

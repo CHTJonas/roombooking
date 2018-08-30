@@ -37,12 +37,17 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # Method to make sure the user is logged in.
+    # Method to make sure the user is logged in and not blocked.
     def authenticate_user!
       if !current_user
         alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
+      end
+      if current_user.blocked?
+        alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized
       end
     end
 
