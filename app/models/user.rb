@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :log_events, as: :logable, :dependent => :delete_all
   has_many :booking
 
   def self.create_with_omniauth(auth)
