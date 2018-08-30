@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string  :provider
       t.string  :uid
       t.boolean :admin
+      t.boolean :blocked
 
       t.timestamps
       t.datetime :deleted_at

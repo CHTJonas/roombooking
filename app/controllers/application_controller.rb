@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # Method to ensure the user is logged in with a valid Camdram API token.
+    # Method to ensure the user is logged in with a valid Camdram API token and not blocked.
     def authenticate_user!
       if !current_user || !current_camdram_token
         invalidate_session
@@ -67,7 +67,13 @@ class ApplicationController < ActionController::Base
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'camdram token expired'}
+        render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
+      end
+      if current_user.blocked?
+        invalidate_session
+        alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
       end
     end
 
