@@ -9,14 +9,25 @@ class SessionsController < ApplicationController
     # Find the user if they exist or create if they don't.
     user = User.where(:provider => auth['provider'],
                       :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
-    # Save the user ID in the session so it can be used for subsequent requests.
-    session[:user_id] = user.id
-    alert = { 'class' => 'success', 'message' => auth['credentials'].inspect }
-    flash[:alert] = alert
-    redirect_to root_url
+    # Log the event
+    if user.blocked?
+      LogEvent.log(user, 'failure', 'User login', 'web', request.remote_ip, request.user_agent)
+      user = nil
+      alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+      flash[:alert] = alert
+      redirect_to root_url
+    else
+      LogEvent.log(user, 'success', 'User login', 'web', request.remote_ip, request.user_agent)
+      # Save the user ID in the session so it can be used for subsequent requests.
+      session[:user_id] = user.id
+      alert = { 'class' => 'success', 'message' => auth['credentials'].inspect }
+      flash[:alert] = alert
+      redirect_to root_url
+    end
   end
 
   def destroy
+    LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
     # This removes the user_id session value
     @current_user = session[:user_id] = nil
     alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }

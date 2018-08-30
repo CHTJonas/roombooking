@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :log_events, as: :logable, :dependent => :delete_all
   has_many :booking
 
   # Create a User model object from an omniauth authentication object.
