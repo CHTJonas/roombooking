@@ -40,6 +40,8 @@ gem 'haml'
 gem 'cookies_eu'
 # Camdram API wrapper
 gem 'camdram', '~> 1.0'
+# Authorisation library
+gem 'cancancan', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

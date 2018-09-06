@@ -2,7 +2,7 @@
 <% content_for :heading, 'Venues' %>
 <% content_for :controller_links do %>
   <p class="mb-0"><%= link_to('New venue', new_venue_path) %></p>
-<% end if user_is_admin? %>
+<% end if can? :manage, Venue.new %>
 
 <ul>
   <% @venues.each do |venue| %>

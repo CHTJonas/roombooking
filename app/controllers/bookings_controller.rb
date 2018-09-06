@@ -1,22 +1,23 @@
 class BookingsController < ApplicationController
-  before_action :authenticate_user!, :except => [:index, :show]
-  before_action :correct_user, :except => [:index, :show, :new, :create]
 
   def index
-    @bookings = Booking.last(6)
+    @bookings = Booking.accessible_by(current_ability, :read).last(6)
   end
 
   def new
     @booking = Booking.new
+    authorize! :create, @booking
     enumerate_camdram
   end
 
   def edit
     @booking = Booking.find(params[:id])
+    authorize! :edit, @booking
   end
 
   def create
     @booking = Booking.new(booking_params)
+    authorize! :create, @booking
     unless Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
       @booking.camdram_object_id = params[:booking]["camdram_object_id_#{@booking.purpose}".to_sym]
     end
@@ -34,6 +35,7 @@ class BookingsController < ApplicationController
 
   def update
     @booking = Booking.find(params[:id])
+    authorize! :edit, @booking
     if @booking.update(booking_params)
       alert = { 'class' => 'success', 'message' => "Updated #{@booking.name}!"}
       flash[:alert] = alert
@@ -47,10 +49,12 @@ class BookingsController < ApplicationController
 
   def show
     @booking = Booking.find(params[:id])
+    authorize! :read, @booking
   end
 
   def destroy
     @booking = Booking.find(params[:id])
+    authorize! :destroy, @booking
     @booking.destroy
     alert = { 'class' => 'success', 'message' => "Deleted #{@booking.name}!"}
     flash[:alert] = alert
@@ -59,58 +63,53 @@ class BookingsController < ApplicationController
 
   private
 
-    def booking_params
-      params.require(:booking).permit(:name, :notes, :when, :length, :venue_id, :purpose)
-    end
+  def booking_params
+    params.require(:booking).permit(:name, :notes, :when, :length, :venue_id, :purpose)
+  end
 
-    # Checks if the user is accessing one of their own bookings.
-    def correct_user
-      check_user Booking.find(params[:id]).user
+  def enumerate_camdram
+    @shows = Array.new
+    shows = case user_is_admin?
+      when false
+        # Users can make bookings on behalf of shows they admin on Camdram
+        # TODO remove non ADC shows and include corpus shows and bar shows
+        camdram.user.get_shows
+      when true
+        # Admins can make bookings on behalf of any upcoming shows
+        # TODO include corpus shows and bar shows
+        camdram.get_venue('adc-theatre').shows
     end
-
-    def enumerate_camdram
-      @shows = Array.new
-      shows = case user_is_admin?
-        when false
-          # Users can make bookings on behalf of shows they admin on Camdram
-          # TODO remove non ADC shows and include corpus shows and bar shows
-          camdram.user.get_shows
-        when true
-          # Admins can make bookings on behalf of any upcoming shows
-          # TODO include corpus shows and bar shows
-          camdram.get_venue('adc-theatre').shows
-      end
-      shows.each do |show|
-        if show.performances.last.end_date > Time.now
-          cdobj = CamdramObject.where(ref_type: 'show', camdram_id: show.id)
-          if cdobj.empty?
-            @shows << CamdramObject.create_from_show(show)
-          else
-            @shows << cdobj.first
-          end
-        end
-      end
-      @societies = Array.new
-      societies = case user_is_admin?
-        when false
-          # Users can make bookings on behalf of societies they admin on Camdram
-          camdram.user.get_orgs
-        when true
-          # Admins can make bookings on behalf of any societies
-          camdram.get_orgs
-      end
-      societies.each do |society|
-        cdobj = CamdramObject.where(ref_type: 'society', camdram_id: society.id)
+    shows.each do |show|
+      if show.performances.last.end_date > Time.now
+        cdobj = CamdramObject.where(ref_type: 'show', camdram_id: show.id)
         if cdobj.empty?
-          @societies << CamdramObject.create_from_society(society)
+          @shows << CamdramObject.create_from_show(show)
         else
-          @societies << cdobj.first
+          @shows << cdobj.first
         end
       end
-      # if @camdram_objects.blank?
-      #   alert = { 'class' => 'danger', 'message' => 'You must be listed as a Camdram admin for a society or upcoming show in order to make bookings.' }
-      #   flash.now[:alert] = alert
-      #   render 'layouts/blank', locals: {reason: 'camdram_objects array is blank'}, status: :forbidden
-      # end
     end
+    @societies = Array.new
+    societies = case user_is_admin?
+      when false
+        # Users can make bookings on behalf of societies they admin on Camdram
+        camdram.user.get_orgs
+      when true
+        # Admins can make bookings on behalf of any societies
+        camdram.get_orgs
+    end
+    societies.each do |society|
+      cdobj = CamdramObject.where(ref_type: 'society', camdram_id: society.id)
+      if cdobj.empty?
+        @societies << CamdramObject.create_from_society(society)
+      else
+        @societies << cdobj.first
+      end
+    end
+    # if @camdram_objects.blank?
+    #   alert = { 'class' => 'danger', 'message' => 'You must be listed as a Camdram admin for a society or upcoming show in order to make bookings.' }
+    #   flash.now[:alert] = alert
+    #   render 'layouts/blank', locals: {reason: 'camdram_objects array is blank'}, status: :forbidden
+    # end
+  end
 end

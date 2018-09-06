@@ -15,11 +15,6 @@ class User < ApplicationRecord
     end
   end
 
-  # True if the user is a site administrator, false otherwise.
-  def is_admin?
-    return admin
-  end
-
   # Grants site administrator privileges to the user.
   def make_admin!
     self.admin = true

@@ -3,7 +3,7 @@
 <% content_for :controller_links do %>
   <p class="mb-0"><%= link_to 'Edit', edit_booking_path(@booking) %></p>
   <p class="mb-0"><%= link_to 'Destroy', booking_path(@booking), method: :delete, data: {confirm: "Are you sure you want to delete #{@booking.name}?"} %></p>
-<% end if user_signed_in? %>
+<% end if can? :manage, @booking %>
 
 <table class="table table-sm table-striped table-bordered">
   <tbody>
@@ -11,7 +11,7 @@
   </tbody>
 </table>
 
-<% if !@booking.notes.blank? %>
+<% unless @booking.notes.blank? %>
   <%= content_tag(:h4, 'Notes') %>
   <%= tag.p @booking.notes %>
 <% end %>
