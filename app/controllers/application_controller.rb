@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
+  before_action :check_user!
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 
@@ -49,7 +50,7 @@ class ApplicationController < ActionController::Base
 
   # True if the user is signed in, false otherwise.
   def user_signed_in?
-    return true if current_user && current_camdram_token
+    return true if current_user
   end
 
   # True if the user is a site administrator, false otherwise.
@@ -57,25 +58,21 @@ class ApplicationController < ActionController::Base
     return user_signed_in? && current_user.admin?
   end
 
-  # Method to ensure the user is logged in with a valid Camdram API token and not blocked.
-  def authenticate_user!
-    if !current_user || !current_camdram_token
-      invalidate_session
-      alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
-      flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized and return
-    end
-    if current_camdram_token.expired?
-      invalidate_session
-      alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
-      flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
-    end
-    if current_user.blocked?
-      invalidate_session
-      alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
-      flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
+  # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
+  def check_user!
+    if user_signed_in?
+      if current_camdram_token.expired?
+        invalidate_session
+        alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
+      end
+      if current_user.blocked?
+        invalidate_session
+        alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
+      end
     end
   end
 
