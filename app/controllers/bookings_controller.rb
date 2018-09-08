@@ -13,6 +13,15 @@ class BookingsController < ApplicationController
   def edit
     @booking = Booking.find(params[:id])
     authorize! :edit, @booking
+    unless Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
+      # @booking.camdram_object_id = params[:booking]["camdram_object_id_#{@booking.purpose}".to_sym]
+      enumerate_camdram
+      unless @shows.map { |x| x.id }.include?(@booking.camdram_object_id) || @societies.map { |x| x.id }.include?(@booking.camdram_object_id)
+        alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to edit it." }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'edit access denied: not a camdram admin'}, status: :forbidden and return
+      end
+    end
   end
 
   def create
@@ -20,6 +29,12 @@ class BookingsController < ApplicationController
     authorize! :create, @booking
     unless Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
       @booking.camdram_object_id = params[:booking]["camdram_object_id_#{@booking.purpose}".to_sym]
+      enumerate_camdram
+      unless @shows.map { |x| x.id }.include?(@booking.camdram_object_id) || @societies.map { |x| x.id }.include?(@booking.camdram_object_id)
+        alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to create it." }
+        flash.now[:alert] = alert
+        render :new, status: :forbidden and return
+      end
     end
     @booking.user_id = current_user.id
     if @booking.save
