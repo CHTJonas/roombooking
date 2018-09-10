@@ -1,7 +1,9 @@
-@import 'bootstrap';
-@import 'tempusdominus-bootstrap-4.css';
-@import 'font-awesome';
-@import 'cookies_eu';
-@import 'navbar.css';
-@import "calendar.css";
-@import 'cookies.css'
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+ @import 'bootstrap';
+ @import 'tempusdominus-bootstrap-4';
+ @import 'font-awesome';
+ @import 'cookies_eu';
