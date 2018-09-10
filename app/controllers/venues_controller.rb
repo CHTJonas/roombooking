@@ -1,18 +1,22 @@
 class VenuesController < ApplicationController
+
   def index
-    @venues = Venue.all
+    @venues = Venue.accessible_by(current_ability, :read)
   end
 
   def new
+    authorize! :create, Venue
     @venue = Venue.new
   end
 
   def edit
     @venue = Venue.find(params[:id])
+    authorize! :edit, @venue
   end
 
   def create
     @venue = Venue.new(venue_params)
+    authorize! :create, @venue
     if @venue.save
       alert = { 'class' => 'success', 'message' => "Added #{@venue.name}!" }
       flash[:alert] = alert
@@ -26,6 +30,7 @@ class VenuesController < ApplicationController
 
   def update
     @venue = Venue.find(params[:id])
+    authorize! :edit, @venue
     if @venue.update(venue_params)
       alert = { 'class' => 'success', 'message' => "Updated #{@venue.name}!"}
       flash[:alert] = alert
@@ -39,11 +44,13 @@ class VenuesController < ApplicationController
 
   def show
     @venue = Venue.find(params[:id])
-    @bookings = @venue.booking
+    authorize! :read, @venue
+    @bookings = @venue.booking.accessible_by(current_ability, :read)
   end
 
   def destroy
     @venue = Venue.find(params[:id])
+    authorize! :destroy, @venue
     @venue.destroy
     alert = { 'class' => 'success', 'message' => "Deleted #{@venue.name}!"}
     flash[:alert] = alert
@@ -51,6 +58,7 @@ class VenuesController < ApplicationController
   end
 
   private
+
   def venue_params
     params.require(:venue).permit(:name)
   end

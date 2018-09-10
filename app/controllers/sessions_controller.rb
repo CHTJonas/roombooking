@@ -20,7 +20,11 @@ class SessionsController < ApplicationController
       LogEvent.log(user, 'success', 'User login', 'web', request.remote_ip, request.user_agent)
       # Save the user ID in the session so it can be used for subsequent requests.
       session[:user_id] = user.id
-      alert = { 'class' => 'success', 'message' => auth['credentials'].inspect }
+      # Create an object to store the Camdram API token.
+      camdram_token = CamdramToken.create_with_credentials(auth['credentials'], user)
+      # Save the Camdram API token ID in the session so it can be used for subsequent requests.
+      session[:camdram_token_id] = camdram_token.id
+      alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
       flash[:alert] = alert
       redirect_to root_url
     end
@@ -29,8 +33,7 @@ class SessionsController < ApplicationController
   def destroy
     if user_signed_in?
       LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
-      # This removes the user_id session value
-      @current_user = session[:user_id] = nil
+      invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
       flash[:alert] = alert
     end

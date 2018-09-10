@@ -61,6 +61,10 @@ GEM
       momentjs-rails (~> 2.10, >= 2.10.5)
     builder (3.2.3)
     byebug (10.0.2)
+    camdram (1.0.0)
+      json (~> 2.1)
+      minitest (~> 5.11)
+    cancancan (2.2.0)
     capybara (3.2.1)
       addressable
       mini_mime (>= 0.1.3)
@@ -114,6 +118,7 @@ GEM
       thor (>= 0.14, < 2.0)
     js_cookie_rails (2.2.0)
       railties (>= 3.1)
+    json (2.1.0)
     jwt (1.5.6)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -253,6 +258,8 @@ DEPENDENCIES
   bootstrap (~> 4.1.3)
   bootstrap4-datetime-picker-rails
   byebug
+  camdram (~> 1.0)
+  cancancan (~> 2.0)
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
   chronic

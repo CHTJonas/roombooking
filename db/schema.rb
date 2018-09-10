@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 5) do
 
   create_table "bookings", force: :cascade do |t|
     t.string "name"
     t.text "notes"
     t.datetime "when"
     t.integer "duration"
+    t.integer "purpose"
+    t.integer "camdram_id"
     t.integer "venue_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -24,6 +26,17 @@ ActiveRecord::Schema.define(version: 6) do
     t.datetime "deleted_at"
     t.index ["user_id"], name: "index_bookings_on_user_id"
     t.index ["venue_id"], name: "index_bookings_on_venue_id"
+  end
+
+  create_table "camdram_tokens", force: :cascade do |t|
+    t.string "token"
+    t.string "refresh_token"
+    t.boolean "expires"
+    t.integer "expires_at"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
   end
 
   create_table "log_events", force: :cascade do |t|
