@@ -41,7 +41,7 @@
           <% @items = nil %>
           <% @items = @shows if Booking.purposes_with_shows.find_index(purpose.to_sym) %>
           <% @items = @societies if Booking.purposes_with_societies.find_index(purpose.to_sym) %>
-          <%= form.collection_select("camdram_object_id_#{purpose}".to_sym, @items, :id, :name, class: 'form-control') if @items %>
+          <%= form.collection_select("camdram_id_#{purpose}".to_sym, @items, :second, :first, class: 'form-control') if @items %>
         <% end %>
       <% end %>
     </div>

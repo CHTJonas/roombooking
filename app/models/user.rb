@@ -39,7 +39,7 @@ class User < ApplicationRecord
       venues.each { |venue| all_shows += camdram.get_venue(venue).shows }
     else
       # Get the user's upcoming shows in venues we care about.
-      all_shows += camdram.user.get_shows.reject { |x| !venues.include? x.venue.slug }
+      all_shows += camdram.user.get_shows.reject { |show| !venues.include? show.venue.slug }
     end
     all_shows.each do |show|
       # We only care about upcoming shows not shows in the past.

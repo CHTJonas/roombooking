@@ -5,8 +5,8 @@ class VenuesController < ApplicationController
   end
 
   def new
+    authorize! :create, Venue
     @venue = Venue.new
-    authorize! :create, @venue
   end
 
   def edit
