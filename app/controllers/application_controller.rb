@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 
+  # Rescue exceptions raised by user access violations from CanCan
   rescue_from CanCan::AccessDenied do |exception|
     if user_signed_in?
       alert = { 'class' => 'danger', 'message' => 'Access denied.' }
@@ -17,6 +18,14 @@ class ApplicationController < ActionController::Base
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
     end
+  end
+
+  # Recue exceptions raised due to cross-site request forgery
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    invalidate_session
+    alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
+    flash.now[:alert] = alert
+    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden
   end
 
   private
