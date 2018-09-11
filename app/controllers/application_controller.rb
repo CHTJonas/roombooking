@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :check_user!
+  before_action :set_raven_context if Rails.env.production?
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 
@@ -82,6 +83,11 @@ class ApplicationController < ActionController::Base
     @current_user = session[:user_id] = nil
     # This removes the camdram_token session value
     @camdram_token = session[:camdram_token_id] = nil
+  end
+
+  def set_raven_context
+    Raven.user_context(id: current_user.try(:id), name: current_user.try(:name), email: current_user.try(:email))
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 
 end

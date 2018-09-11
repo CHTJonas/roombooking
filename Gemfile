@@ -42,6 +42,8 @@ gem 'cookies_eu'
 gem 'camdram', '~> 1.0'
 # Authorisation library
 gem 'cancancan', '~> 2.0'
+# Error tracking and reporting
+gem 'sentry-raven'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
