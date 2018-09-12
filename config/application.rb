@@ -14,7 +14,6 @@ module Roombooking
     config.time_zone = 'London'
     config.beginning_of_week = :sunday
     config.eager_load_paths << Rails.root.join('lib')
-    config.active_job.queue_adapter = :delayed_job
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

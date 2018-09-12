@@ -18,8 +18,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'mini_magick', '~> 4.8'
 
 # Background job processing
-gem 'delayed_job_active_record'
-gem 'daemons'
+gem 'sidekiq'
 # Static page serving
 gem 'high_voltage'
 # OAuth login for Camdram
