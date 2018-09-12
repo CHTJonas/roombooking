@@ -57,7 +57,14 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_cache_store, {
+    url: Rails.application.credentials.dig(:redis, :cache_url),
+    error_handler: -> (method:, returning:, exception:) {
+      # Report errors to Sentry as warnings
+      Raven.capture_exception exception, level: 'warning',
+        tags: { method: method, returning: returning }
+    }
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   config.active_job.queue_adapter     = :sidekiq
