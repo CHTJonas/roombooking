@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :check_user!
-  before_action :set_raven_context if Rails.env.production?
+  before_action :set_raven_context
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 
