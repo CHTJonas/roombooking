@@ -16,6 +16,6 @@ test:
 
 production:
   adapter: postgresql
-  database: roomballot_production
+  database: roombooking_production
   pool: 5
   timeout: 5000
