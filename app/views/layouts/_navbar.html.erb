@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-adc">
-  <% logo = image_tag('logo-long-white.svg', width: '160', alt: 'Room Booking') %>
-  <%= link_to logo, root_path, class: 'navbar-brand' %>
+  <%= link_to root_path, class: 'navbar-brand' do %>
+    <img src="logo-long-white.svg" alt="Room Booking" width="160">
+  <% end %>
   <button class="navbar-toggler adc-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
