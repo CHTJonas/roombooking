@@ -21,18 +21,15 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     @booking.user_id = current_user.id
-    if @booking.invalid?
-      alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
-      flash.now[:alert] = alert
-      render :new and return
+    unless @booking.purpose.nil?
+      if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
+        @booking.camdram_id = nil
+      else
+        @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
+      end
     end
-    if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
-      @booking.camdram_id = nil
-    else
-      @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
-    end
-    unless validate_booking_against_camdram(@booking)
-      alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to create it." }
+    unless authorise_booking_against_camdram(@booking)
+      alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :new and return
     end
@@ -50,18 +47,15 @@ class BookingsController < ApplicationController
 
   def update
     @booking = Booking.find(params[:id])
-    if @booking.invalid?
-      alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
-      flash.now[:alert] = alert
-      render :new and return
+    unless @booking.purpose.nil?
+      if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
+        @booking.camdram_id = nil
+      else
+        @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
+      end
     end
-    if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
-      @booking.camdram_id = nil
-    else
-      @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
-    end
-    unless validate_booking_against_camdram(@booking)
-      alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to edit it." }
+    unless authorise_booking_against_camdram(@booking)
+      alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :edit and return
     end
@@ -97,16 +91,19 @@ class BookingsController < ApplicationController
     params.require(:booking).permit(:name, :notes, :when, :length, :venue_id, :purpose)
   end
 
-  def validate_booking_against_camdram(booking)
-    if Booking.admin_purposes.find_index(booking.purpose.to_sym) && !current_user.admin?
-      return false
+  def authorise_booking_against_camdram(booking)
+    return true if booking.purpose.nil? # can't authorise if there's no purpose given (get's caught by validation in model)
+    if Booking.admin_purposes.find_index(booking.purpose.to_sym)
+      return current_user.admin?
     end
+    if Booking.purposes_with_none.find_index(booking.purpose.to_sym)
+      return true
+    end
+    return true if params[:booking]["camdram_id_#{@booking.purpose}".to_sym].nil? # can't authorise if there's no show/society selected (get's caught by validation in model)
     if Booking.purposes_with_shows.find_index(booking.purpose.to_sym)
       return current_user.authorised_camdram_shows.map { |e| e[1] }.include? booking.camdram_id
     elsif Booking.purposes_with_societies.find_index(booking.purpose.to_sym)
       return current_user.authorised_camdram_societies.map { |e| e[1] }.include? booking.camdram_id
-    elsif Booking.purposes_with_none.find_index(booking.purpose.to_sym)
-      return true
     else
       return false
     end
