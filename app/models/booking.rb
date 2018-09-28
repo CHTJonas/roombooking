@@ -31,7 +31,7 @@ class Booking < ApplicationRecord
 
   def cannot_be_in_the_past
     if self.when.present? && self.when < Date.today
-      errors.add(:when, "can't be in the past")
+      errors.add(:when, "can't be in the past") unless self.user.admin?
     end
   end
 
