@@ -6,10 +6,10 @@ env:
   RAILS_ENV: production
 processes:
   web:
-    log_file_name: puma.log
+    log_file_name: unicorn.log
     restart_mode: usr2
-    term_signal: INT
+    term_signal: QUIT
   worker:
     log_file_name: sidekiq.log
     restart_mode: start-term
-    term_signal: INT
+    term_signal: TERM
