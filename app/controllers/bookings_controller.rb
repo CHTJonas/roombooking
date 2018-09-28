@@ -21,13 +21,18 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     @booking.user_id = current_user.id
+    if @booking.invalid?
+      alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
+      flash.now[:alert] = alert
+      render :new and return
+    end
     if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
       @booking.camdram_id = nil
     else
       @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
     end
     unless validate_booking_against_camdram(@booking)
-      alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to edit it." }
+      alert = { 'class' => 'danger', 'message' => "You need to be a Camdram admin of a booking's show/society in order to create it." }
       flash.now[:alert] = alert
       render :new and return
     end
@@ -45,6 +50,11 @@ class BookingsController < ApplicationController
 
   def update
     @booking = Booking.find(params[:id])
+    if @booking.invalid?
+      alert = { 'class' => 'danger', 'message' => @booking.errors.full_messages.first }
+      flash.now[:alert] = alert
+      render :new and return
+    end
     if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
       @booking.camdram_id = nil
     else

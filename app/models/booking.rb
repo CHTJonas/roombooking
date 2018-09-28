@@ -51,6 +51,7 @@ class Booking < ApplicationRecord
   end
 
   def camdram_id_must_be_valid
+    return if self.purpose.nil? # if no purpose has been selected just return
     unless Booking.purposes_with_none.find_index(self.purpose.to_sym)
       errors.add(:purpose, "needs to be a valid selection") if camdram_id.nil?
     end
