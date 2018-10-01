@@ -7,8 +7,7 @@ class SessionsController < ApplicationController
   def create
     auth = request.env["omniauth.auth"]
     # Find the user if they exist or create if they don't.
-    user = User.where(:provider => auth['provider'],
-                      :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
+    user = User.find_by(provider: auth['provider'], uid: auth['uid'].to_s) || User.create_with_omniauth(auth)
     # Log the event
     if user.blocked?
       LogEvent.log(user, 'failure', 'User login', 'web', request.remote_ip, request.user_agent)
