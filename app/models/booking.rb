@@ -29,6 +29,7 @@ class Booking < ApplicationRecord
   validate :cannot_be_in_the_past
   validate :cannot_be_during_quiet_hours
   validate :must_fill_half_hour_slot
+  validate :must_not_overlap
   validate :camdram_id_must_be_valid
 
   def cannot_be_in_the_past
@@ -49,6 +50,12 @@ class Booking < ApplicationRecord
     end
     if self.duration.present? && self.duration % 1800 != 0
       errors.add(:duration, "must be a multiple of thirty minutes")
+    end
+  end
+
+  def must_not_overlap
+    if Booking.where("start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end", {start: self.start_time, end: self.end_time})
+      errors.add(:base, "The times given overlap with another booking")
     end
   end
 
