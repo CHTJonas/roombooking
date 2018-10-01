@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "bookings", force: :cascade do |t|
     t.string "name"
     t.text "notes"
-    t.datetime "when"
-    t.integer "duration"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "purpose"
     t.integer "camdram_id"
     t.integer "venue_id"

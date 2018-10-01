@@ -88,7 +88,7 @@ class BookingsController < ApplicationController
   private
 
   def booking_params
-    params.require(:booking).permit(:name, :notes, :when, :length, :venue_id, :purpose)
+    params.require(:booking).permit(:name, :notes, :start_time, :length, :venue_id, :purpose)
   end
 
   def authorise_booking_against_camdram(booking)

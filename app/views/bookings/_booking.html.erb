@@ -4,7 +4,7 @@
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Date:') %>
-  <%= content_tag(:td, @booking.when.strftime("%d/%m/%y")) %>
+  <%= content_tag(:td, @booking.start_time.strftime("%d/%m/%y")) %>
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Start Time:') %>
@@ -12,7 +12,7 @@
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Finish Time:') %>
-  <%= content_tag(:td, @booking.finish_time.strftime("%H:%M")) %>
+  <%= content_tag(:td, @booking.end_time.strftime("%H:%M")) %>
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Room:') %>
