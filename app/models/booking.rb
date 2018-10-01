@@ -20,9 +20,11 @@ class Booking < ApplicationRecord
   validates_associated :user
 
   validates :name, presence: true
-  validates :when, presence: true
-  validates :purpose, presence: true
+  validates :start_time, presence: true
+  validates :end_time, presence: true
   validates :duration, :numericality => {:greater_than_or_equal_to => 1800, :message => "must be at least 30 minutes"}
+
+  validates :purpose, presence: true
 
   validate :cannot_be_in_the_past
   validate :cannot_be_during_quiet_hours
@@ -30,20 +32,20 @@ class Booking < ApplicationRecord
   validate :camdram_id_must_be_valid
 
   def cannot_be_in_the_past
-    if self.when.present? && self.when < Date.today
-      errors.add(:when, "can't be in the past") unless self.user.admin?
+    if self.start_time.present? && self.start_time < Date.today
+      errors.add(:start_time, "can't be in the past") unless self.user.admin?
     end
   end
 
   def cannot_be_during_quiet_hours
-    if self.when.present? && self.when.hour < 8
-      errors.add(:when, "can't be between midnight and 8am")
+    if self.start_time.present? && self.start_time.hour < 8
+      errors.add(:start_time, "can't be between midnight and 8am")
     end
   end
 
   def must_fill_half_hour_slot
-    if self.when.present? && self.when.min % 30 != 0
-      errors.add(:when, "must be a multiple of thirty minutes")
+    if self.start_time.present? && self.start_time.min % 30 != 0
+      errors.add(:start_time, "must be a multiple of thirty minutes")
     end
     if self.duration.present? && self.duration % 1800 != 0
       errors.add(:duration, "must be a multiple of thirty minutes")
@@ -64,35 +66,24 @@ class Booking < ApplicationRecord
   def length=(string)
     @length = string
     if string =~ /\A(\d+)\z/
-      self.duration = string.to_i
+      @length = string.to_i
     elsif parsed_time = ChronicDuration.parse(string)
-      self.duration = parsed_time
+      @length = parsed_time
     else
-      self.duration = nil
+      @length = nil
     end
+    self.end_time = self.start_time + @length if self.start_time && @length
+  end
+
+  # Returns the duration of the booking
+  def duration
+    @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
   end
 
   def purpose_string
     string = self.purpose.humanize
     string << %Q[ "#{camdram_object.name}"] if !self.camdram_id.nil?
     return string
-  end
-
-  def finish_time
-    # Gets the finish time based on the start time and the duration
-    if self.when && self.duration
-      self.when + self.duration
-    end
-  end
-
-  # Helper method for calendar
-  def start_time
-    self.when
-  end
-
-  # Helper method for calendar
-  def end_time
-    self.finish_time
   end
 
   # Returns the Camdram object the booking references

@@ -3,8 +3,8 @@ class CreateBookings < ActiveRecord::Migration[5.2]
     create_table :bookings do |t|
       t.string :name
       t.text :notes
-      t.datetime :when
-      t.integer :duration
+      t.datetime :start_time
+      t.datetime :end_time
       t.integer :purpose
       t.integer :camdram_id
       t.references :venue, foreign_key: true

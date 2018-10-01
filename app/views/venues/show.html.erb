@@ -7,7 +7,7 @@
 
 <%= week_calendar(events: @bookings, partial: 'calendar/roombooking_calendar') do |date, bookings| %>
   <% bookings.each do |booking| %>
-    <% top = (booking.when.hour - 8) * 6.25 + (booking.when.min / 30) * 3.125 %>
+    <% top = (booking.start_time.hour - 8) * 6.25 + (booking.start_time.min / 30) * 3.125 %>
     <% height = (booking.duration / 1800) * 3.125 %>
     <%= link_to booking, {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} do %>
       <%= booking.name %>
