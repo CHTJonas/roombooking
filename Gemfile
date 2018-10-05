@@ -38,8 +38,9 @@ gem 'jquery-rails'
 gem 'momentjs-rails'
 gem 'bootstrap4-datetime-picker-rails'
 gem "font-awesome-rails"
-# HAML view rendering
+# View rendering
 gem 'haml'
+gem 'kramdown'
 # GDPR
 gem 'cookies_eu'
 # Camdram API wrapper
@@ -48,6 +49,8 @@ gem 'camdram', '~> 1.0'
 gem 'cancancan', '~> 2.0'
 # Error tracking and reporting
 gem 'sentry-raven'
+# Markdown for emails
+gem 'maildown'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
