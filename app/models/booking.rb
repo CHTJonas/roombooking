@@ -54,7 +54,7 @@ class Booking < ApplicationRecord
   end
 
   def must_not_overlap
-    if Booking.where("start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end", {start: self.start_time, end: self.end_time})
+    unless Booking.where("id != :id AND (start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end)", {id: self.id, start: self.start_time, end: self.end_time}).empty?
       errors.add(:base, "The times given overlap with another booking")
     end
   end
