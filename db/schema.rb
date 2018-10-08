@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "end_time"
     t.integer "purpose"
     t.integer "camdram_id"
+    t.boolean "approved"
     t.integer "venue_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
