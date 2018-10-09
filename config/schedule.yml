@@ -1,0 +1,3 @@
+Approval reminder generator:
+  cron: '0 11 * * *'
+  class: 'ApprovalReminderJob'

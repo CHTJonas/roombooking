@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
+  require 'sidekiq/cron/web'
   require 'roombooking/admin_constraint'
   mount Sidekiq::Web => '/sidekiq', :constraints => Roombooking::AdminConstraint.new
 

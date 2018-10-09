@@ -19,6 +19,8 @@ gem 'redis', '~> 4.0'
 
 # Background job processing
 gem 'sidekiq'
+gem 'sidekiq-cron', '~> 0.6.3'
+gem 'rufus-scheduler', '~> 3.4.0' # needed as a bugfix for above
 # Static page serving
 gem 'high_voltage'
 # OAuth login for Camdram
