@@ -54,7 +54,7 @@ class Booking < ApplicationRecord
   end
 
   def must_not_overlap
-    if Booking.where("start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end", {start: self.start_time, end: self.end_time})
+    unless Booking.where("id != :id AND (start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end)", {id: self.id, start: self.start_time, end: self.end_time}).empty?
       errors.add(:base, "The times given overlap with another booking")
     end
   end
@@ -82,7 +82,7 @@ class Booking < ApplicationRecord
     self.end_time = self.start_time + @length if self.start_time && @length
   end
 
-  # Returns the duration of the booking
+  # Returns the duration of the booking.
   def duration
     @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
   end
@@ -93,7 +93,7 @@ class Booking < ApplicationRecord
     return string
   end
 
-  # Returns the Camdram object the booking references
+  # Returns the Camdram object the booking references.
   def camdram_object
     if Booking.purposes_with_shows.find_index(self.purpose.to_sym)
       return camdram.get_show(self.camdram_id)

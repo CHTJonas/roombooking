@@ -94,6 +94,8 @@ GEM
     crass (1.0.4)
     datey (1.1.0)
     erubi (1.7.1)
+    et-orbi (1.1.6)
+      tzinfo
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -122,6 +124,7 @@ GEM
     json (2.1.0)
     jwt (1.5.6)
     kgio (2.11.2)
+    kramdown (1.17.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -131,6 +134,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
+    maildown (3.0.2)
+      actionmailer (>= 4.0.0)
+      kramdown
     marcel (0.3.2)
       mimemagic (~> 0.3.2)
     method_source (0.9.0)
@@ -206,6 +212,8 @@ GEM
     redis (4.0.2)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -226,6 +234,9 @@ GEM
       connection_pool (~> 2.2, >= 2.2.2)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-cron (0.6.3)
+      rufus-scheduler (>= 3.3.0)
+      sidekiq (>= 4.2.1)
     simple_calendar (2.2.7)
       rails (>= 3.0)
     spring (2.0.2)
@@ -288,7 +299,9 @@ DEPENDENCIES
   high_voltage
   jbuilder (~> 2.5)
   jquery-rails
+  kramdown
   listen (>= 3.0.5, < 3.2)
+  maildown
   momentjs-rails
   omniauth
   omniauth-camdram
@@ -297,10 +310,12 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.0)
   redis (~> 4.0)
+  rufus-scheduler (~> 3.4.0)
   sass-rails (~> 5.0)
   selenium-webdriver
   sentry-raven
   sidekiq
+  sidekiq-cron (~> 0.6.3)
   simple_calendar (~> 2.0)
   spring
   spring-watcher-listen (~> 2.0.0)

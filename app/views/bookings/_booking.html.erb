@@ -3,6 +3,15 @@
   <%= content_tag(:td, @booking.name) %>
 <% end %>
 <%= content_tag :tr do %>
+  <%= content_tag(:td, 'Status:') %>
+  <%= content_tag(:td, case @booking.approved
+    when true
+      'Approved'
+    else
+      'Unapproved'
+    end) %>
+<% end %>
+<%= content_tag :tr do %>
   <%= content_tag(:td, 'Date:') %>
   <%= content_tag(:td, @booking.start_time.strftime("%d/%m/%y")) %>
 <% end %>

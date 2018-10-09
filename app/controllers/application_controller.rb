@@ -71,6 +71,12 @@ class ApplicationController < ActionController::Base
   # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
   def check_user!
     if user_signed_in?
+      unless current_camdram_token
+        # The user is logged in but we can't find a Camdram API token for them.
+        # Maybe it was purged from the database? Maybe there was a session issue?
+        invalidate_session
+        return
+      end
       if current_camdram_token.expired?
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }

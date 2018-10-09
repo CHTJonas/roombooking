@@ -20,6 +20,7 @@ class BookingsController < ApplicationController
 
   def create
     @booking = Booking.new(booking_params)
+    @booking.approved = user_is_admin?
     @booking.user_id = current_user.id
     unless @booking.purpose.nil?
       if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
@@ -35,7 +36,8 @@ class BookingsController < ApplicationController
     end
     authorize! :create, @booking
     if @booking.save
-      alert = { 'class' => 'success', 'message' => "Added #{@booking.name}!" }
+      notify_admins
+      alert = { 'class' => 'success', 'message' => "Added #{@booking.name}! You will need to wait for this booking to be approved by an admin before it is shown publicly." }
       flash[:alert] = alert
       redirect_to @booking
     else
@@ -80,9 +82,21 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
     authorize! :destroy, @booking
     @booking.destroy
-    alert = { 'class' => 'success', 'message' => "Deleted #{@booking.name}!"}
+    alert = { 'class' => 'success', 'message' => "Deleted #{@booking.name}!" }
     flash[:alert] = alert
     redirect_to bookings_path
+  end
+
+  def approve
+    @booking = Booking.find(params[:id])
+    authorize! :approve, @booking
+    @booking.approved = true
+    if @booking.save
+      ApprovalsMailer.approve(@booking.user, @booking).deliver_later
+      alert = { 'class' => 'success', 'message' => "Approved #{@booking.name}!" }
+      flash[:alert] = alert
+      redirect_to @booking
+    end
   end
 
   private
@@ -107,5 +121,11 @@ class BookingsController < ApplicationController
     else
       return false
     end
+  end
+
+  def notify_admins
+    User.where(admin: true).find_each(batch_size: 2) do |user|
+      ApprovalsMailer.notify(user, @booking).deliver_later
+    end unless @booking.approved
   end
 end
