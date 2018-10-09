@@ -91,10 +91,12 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
     authorize! :approve, @booking
     @booking.approved = true
-    @booking.save
-    alert = { 'class' => 'success', 'message' => "Approved #{@booking.name}!" }
-    flash[:alert] = alert
-    redirect_to @booking
+    if @booking.save
+      ApprovalsMailer.approve(@booking.user, @booking).deliver_later
+      alert = { 'class' => 'success', 'message' => "Approved #{@booking.name}!" }
+      flash[:alert] = alert
+      redirect_to @booking
+    end
   end
 
   private
