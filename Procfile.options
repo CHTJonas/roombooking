@@ -10,6 +10,10 @@ processes:
     restart_mode: usr2
     term_signal: QUIT
   worker:
-    log_file_name: sidekiq.log
+    log_file_name: sidekiq-worker.log
+    restart_mode: start-term
+    term_signal: TERM
+  mailer:
+    log_file_name: sidekiq-mailer.log
     restart_mode: start-term
     term_signal: TERM
