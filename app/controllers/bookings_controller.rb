@@ -7,19 +7,18 @@ class BookingsController < ApplicationController
   def new
     authorize! :create, Booking
     @booking = Booking.new
-    @shows = current_user.authorised_camdram_shows
-    @societies = current_user.authorised_camdram_societies
+    populate_camdram
   end
 
   def edit
     @booking = Booking.find(params[:id])
-    @shows = current_user.authorised_camdram_shows
-    @societies = current_user.authorised_camdram_societies
+    populate_camdram
     authorize! :edit, @booking
   end
 
   def create
     @booking = Booking.new(booking_params)
+    populate_camdram
     @booking.approved = user_is_admin?
     @booking.user_id = current_user.id
     unless @booking.purpose.nil?
@@ -49,6 +48,7 @@ class BookingsController < ApplicationController
 
   def update
     @booking = Booking.find(params[:id])
+    populate_camdram
     unless @booking.purpose.nil?
       if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
         @booking.camdram_id = nil
@@ -103,6 +103,11 @@ class BookingsController < ApplicationController
 
   def booking_params
     params.require(:booking).permit(:name, :notes, :start_time, :length, :venue_id, :purpose)
+  end
+
+  def populate_camdram
+    @shows = current_user.authorised_camdram_shows
+    @societies = current_user.authorised_camdram_societies
   end
 
   def authorise_booking_against_camdram(booking)
