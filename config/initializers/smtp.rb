@@ -6,7 +6,7 @@ if Rails.application.credentials.dig(:smtp, :host)
     :user_name              => Rails.application.credentials.dig(:smtp, :username),
     :password               => Rails.application.credentials.dig(:smtp, :password),
     :authentication         => Rails.application.credentials.dig(:smtp, :auth),
-    :enable_starttls_auto   => Rails.application.credentials.dig(:smtp, :starttls) == 1
+    :enable_starttls_auto   => Rails.application.credentials.dig(:smtp, :starttls) == '1'
   }
 else
   ActionMailer::Base.delivery_method = :sendmail
