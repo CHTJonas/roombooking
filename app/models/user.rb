@@ -15,6 +15,14 @@ class User < ApplicationRecord
     end
   end
 
+  # Return true if the user has their admin bit explicitly set, otherwise
+  # return whether they are listed as an admin of the 'ADC Theatre' venue on Camdram.
+  def admin?
+    return true if self.admin
+    # ADC's magic number on Camdram (https://www.camdram.net/venues/adc-theatre.json)
+    return self.camdram.user.get_venues.any? { |venue| venue.id == 29 }
+  end
+
   # Grants site administrator privileges to the user.
   def make_admin!
     self.admin = true

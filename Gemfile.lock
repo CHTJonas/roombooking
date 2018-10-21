@@ -61,7 +61,7 @@ GEM
       momentjs-rails (~> 2.10, >= 2.10.5)
     builder (3.2.3)
     byebug (10.0.2)
-    camdram (1.0.0)
+    camdram (1.1.0)
       json (~> 2.1)
       minitest (~> 5.11)
     cancancan (2.2.0)
@@ -285,7 +285,7 @@ DEPENDENCIES
   bootstrap (~> 4.1.3)
   bootstrap4-datetime-picker-rails
   byebug
-  camdram (~> 1.0)
+  camdram (~> 1.1)
   cancancan (~> 2.0)
   capybara (>= 2.15, < 4.0)
   chromedriver-helper

@@ -46,7 +46,7 @@ gem 'kramdown'
 # GDPR
 gem 'cookies_eu'
 # Camdram API wrapper
-gem 'camdram', '~> 1.0'
+gem 'camdram', '~> 1.1'
 # Authorisation library
 gem 'cancancan', '~> 2.0'
 # Error tracking and reporting
