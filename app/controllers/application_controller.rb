@@ -98,6 +98,8 @@ class ApplicationController < ActionController::Base
     @current_user = session[:user_id] = nil
     # This removes the camdram_token session value
     @camdram_token = session[:camdram_token_id] = nil
+    # Issue a new session identifier to protect against fixation
+    reset_session
   end
 
   def set_raven_context

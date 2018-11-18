@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :bookings
   resources :users
 
-  get '/bookings/:id/approve' => 'bookings#approve', :as => :approve_booking
+  post '/bookings/:id/approve' => 'bookings#approve', :as => :approve_booking
   get '/auth/:provider/callback' => 'sessions#create'
   get '/login' => 'sessions#new', :as => :signin
   get '/logout' => 'sessions#destroy', :as => :signout

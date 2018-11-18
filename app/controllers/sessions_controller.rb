@@ -8,7 +8,9 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     # Find the user if they exist or create if they don't.
     user = User.find_by(provider: auth['provider'], uid: auth['uid'].to_s) || User.create_with_omniauth(auth)
-    # Log the event
+    # Issue a new session identifier to protect against fixation
+    reset_session
+    # Log the event and render/redirect.
     if user.blocked?
       LogEvent.log(user, 'failure', 'User login', 'web', request.remote_ip, request.user_agent)
       user = nil
