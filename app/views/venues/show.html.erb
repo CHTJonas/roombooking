@@ -5,14 +5,14 @@
   <p class="mb-0"><%= link_to 'Destroy', venue_path(@venue), method: :delete, data: {confirm: "Are you sure you want to delete #{@venue.name}?"} %></p>
 <% end if can? :manage, @venue %>
 
-<%= week_calendar(events: @bookings, partial: 'calendar/roombooking_calendar') do |date, bookings| %>
-  <% bookings.each do |booking| %>
-    <% top = (booking.start_time.hour - 8) * 6.25 + (booking.start_time.min / 30) * 3.125 %>
-    <% height = (booking.duration / 1800) * 3.125 %>
-    <%= link_to booking, {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} do %>
-      <%= booking.name %>
+<%= week_calendar(events: events_for(@venue), partial: 'calendar/roombooking_calendar') do |date, events| %>
+  <% events.each do |event| %>
+    <% top = (event.start_time.hour - 8) * 6.25 + (event.start_time.min / 30) * 3.125 %>
+    <% height = (event.duration / 1800) * 3.125 %>
+    <%= link_to event.booking, {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} do %>
+      <%= event.booking.name %>
       <%= content_tag :span, class: 'time' do %>
-        <%= booking.start_time.strftime("%H:%M") %>&mdash;<%= booking.end_time.strftime("%H:%M") %>
+        <%= event.start_time.strftime("%H:%M") %>&mdash;<%= event.end_time.strftime("%H:%M") %>
       <% end %>
     <% end %>
   <% end %>

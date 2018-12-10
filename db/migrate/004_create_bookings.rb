@@ -5,6 +5,7 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.text :notes
       t.datetime :start_time
       t.datetime :end_time
+      t.date :repeat_until
       t.integer :purpose
       t.integer :camdram_id
       t.boolean :approved

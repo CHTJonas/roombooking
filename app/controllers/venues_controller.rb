@@ -1,4 +1,5 @@
 class VenuesController < ApplicationController
+  include VenuesHelper
 
   def index
     @venues = Venue.accessible_by(current_ability, :read)
@@ -45,7 +46,6 @@ class VenuesController < ApplicationController
   def show
     @venue = Venue.find(params[:id])
     authorize! :read, @venue
-    @bookings = @venue.booking.accessible_by(current_ability, :read)
   end
 
   def destroy
