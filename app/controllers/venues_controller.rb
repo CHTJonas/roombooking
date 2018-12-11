@@ -1,5 +1,4 @@
 class VenuesController < ApplicationController
-  include VenuesHelper
 
   def index
     @venues = Venue.accessible_by(current_ability, :read)

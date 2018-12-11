@@ -2,7 +2,7 @@
 <% content_for :heading, 'Booking Details' %>
 <% content_for :controller_links do %>
   <p class="mb-0"><%= link_to 'Edit', edit_booking_path(@booking) %></p>
-  <p class="mb-0"><%= link_to 'Destroy', booking_path(@booking), method: :delete, data: {confirm: "Are you sure you want to delete #{@booking.name}?"} %></p>
+  <p class="mb-0"><%= delete_confirm 'Delete', @booking %></p>
   <% if can?(:approve, @booking) && !@booking.approved? %>
     <p class="mb-0"><%= link_to 'Approve', approve_booking_path(@booking), method: :post %></p>
   <% end %>

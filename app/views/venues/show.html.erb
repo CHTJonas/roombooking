@@ -1,20 +1,20 @@
 <% content_for :title, @venue.name %>
 <% content_for :heading, 'Venue Calendar' %>
+
 <% content_for :controller_links do %>
   <p class="mb-0"><%= link_to 'Edit', edit_venue_path(@venue) %></p>
-  <p class="mb-0"><%= link_to 'Destroy', venue_path(@venue), method: :delete, data: {confirm: "Are you sure you want to delete #{@venue.name}?"} %></p>
+  <p class="mb-0"><%= delete_confirm 'Delete', @venue %></p>
 <% end if can? :manage, @venue %>
 
 <%= week_calendar(events: events_for(@venue), partial: 'calendar/roombooking_calendar') do |date, events| %>
   <% events.each do |event| %>
-    <% top = (event.start_time.hour - 8) * 6.25 + (event.start_time.min / 30) * 3.125 %>
-    <% height = (event.duration / 1800) * 3.125 %>
-    <%= link_to event.booking, {:style=>"top:#{top}%;height:#{height}%;background-color:#00FF00", :class => 'booking'} do %>
+    <%= link_to event.booking, { style: event_div_styles(event), class: 'booking' } do %>
       <%= event.booking.name %>
       <%= content_tag :span, class: 'time' do %>
-        <%= event.start_time.strftime("%H:%M") %>&mdash;<%= event.end_time.strftime("%H:%M") %>
+        <%= event_time_range(event) %>
       <% end %>
     <% end %>
   <% end %>
 <% end %>
+
 <%= render 'backfooter' %>
