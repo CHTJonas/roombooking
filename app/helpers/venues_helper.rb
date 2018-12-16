@@ -6,7 +6,8 @@ module VenuesHelper
   def event_div_styles(event)
     top = event_div_top(event)
     height = event_div_height(event)
-    "top:#{top}%;height:#{height}%;background-color:#00FF00"
+    colour = event.booking.css_colour
+    "top:#{top}%;height:#{height}%;background-color:#{colour}"
   end
 
   def event_div_top(event)

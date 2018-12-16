@@ -104,6 +104,30 @@ class Booking < ApplicationRecord
     end
   end
 
+  # Returns the CSS colour of the booking as determined by the booking's type.
+  def css_colour
+    case self.purpose.to_sym
+    when :audition_for
+      "\#FFFF00"
+    when :meeting_for
+      "\#00FFAA"
+    when :meeting_of
+      "\#00DDFF"
+    when :performance_of
+      "\#FF00FF"
+    when :rehearsal_for
+      "\#00FF00"
+    when :get_in_for
+      "\#FFAAAA"
+    when :theatre_closed
+      "\#FF0000"
+    when :training
+      "\#BFBFBF"
+    else
+      "\#888888"
+    end
+  end
+
   private
 
   def camdram
