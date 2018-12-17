@@ -13,30 +13,32 @@
 ActiveRecord::Schema.define(version: 5) do
 
   create_table "bookings", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "notes"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.datetime "start_time", null: false
+    t.datetime "end_time", null: false
     t.date "repeat_until"
-    t.integer "repeat_mode", default: 0
-    t.integer "purpose"
+    t.integer "repeat_mode", default: 0, null: false
+    t.integer "purpose", null: false
     t.integer "camdram_id"
-    t.boolean "approved"
-    t.integer "venue_id"
-    t.integer "user_id"
+    t.boolean "approved", default: false, null: false
+    t.integer "venue_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.index ["repeat_until"], name: "index_bookings_on_repeat_until"
+    t.index ["start_time"], name: "index_bookings_on_start_time"
     t.index ["user_id"], name: "index_bookings_on_user_id"
     t.index ["venue_id"], name: "index_bookings_on_venue_id"
   end
 
   create_table "camdram_tokens", force: :cascade do |t|
-    t.string "token"
-    t.string "refresh_token"
-    t.boolean "expires"
-    t.integer "expires_at"
-    t.integer "user_id"
+    t.string "token", null: false
+    t.string "refresh_token", null: false
+    t.boolean "expires", null: false
+    t.integer "expires_at", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
@@ -58,19 +60,20 @@ ActiveRecord::Schema.define(version: 5) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "provider"
-    t.string "uid"
-    t.boolean "admin"
-    t.boolean "blocked"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.boolean "admin", default: false, null: false
+    t.boolean "blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.index ["uid"], name: "index_users_on_uid"
   end
 
   create_table "venues", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
