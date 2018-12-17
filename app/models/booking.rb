@@ -1,5 +1,7 @@
 class Booking < ApplicationRecord
-  enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ]
+  enum repeat_mode: [ :none, :daily, :weekly ], _prefix: :repeat_mode
+
+  enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ], _prefix: :purpose
   def self.admin_purposes
     [ :performance_of, :get_in_for, :theatre_closed, :training, :other ]
   end

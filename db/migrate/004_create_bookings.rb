@@ -6,6 +6,7 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.datetime :start_time
       t.datetime :end_time
       t.date :repeat_until
+      t.integer :repeat_mode, default: 0
       t.integer :purpose
       t.integer :camdram_id
       t.boolean :approved

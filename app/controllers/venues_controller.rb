@@ -63,17 +63,33 @@ class VenuesController < ApplicationController
     start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
     end_date = start_date + 6.days
 
-    daily_bookings = venue.booking.where("repeat_until IS NULL").where(start_time: start_date..end_date).accessible_by(current_ability, :read)
+    daily_bookings = venue.booking.where(repeat_mode: :none)
+                                  .where(start_time: start_date..end_date)
+                                  .accessible_by(current_ability, :read)
     daily_events = Array.new(daily_bookings.length)
     daily_bookings.to_a.each_with_index { |val, index| daily_events[index] = Event.create_from_booking(val) }
 
     repeat_events = LinkedList::List.new
-    repeat_bookings = venue.booking.where(repeat_until: start_date..end_date).accessible_by(current_ability, :read)
-    repeat_bookings.to_a.each do |booking|
+
+    daily_repeat_bookings = venue.booking.where(repeat_mode: :daily)
+                                         .where(start_time: Time.at(0)..end_date)
+                                         .where(repeat_until: start_date..DateTime::Infinity.new)
+                                         .accessible_by(current_ability, :read)
+    daily_repeat_bookings.to_a.each do |booking|
       (booking.start_time.to_date..booking.repeat_until).each do |date|
+        break if date > end_date
         offset = date - booking.start_time.to_date
         repeat_events.push Event.create_from_booking(booking, offset)
       end
+    end
+
+    weekly_repeat_bookings = venue.booking.where(repeat_mode: :weekly)
+                                          .where(start_time: Time.at(0)..end_date)
+                                          .where(repeat_until: start_date..DateTime::Infinity.new)
+                                          .accessible_by(current_ability, :read)
+    weekly_repeat_bookings.to_a.each do |booking|
+      offset = start_date - booking.start_time.to_date.beginning_of_week
+      repeat_events.push Event.create_from_booking(booking, offset)
     end
 
     daily_events + repeat_events.to_a
