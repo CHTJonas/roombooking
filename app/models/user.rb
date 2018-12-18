@@ -18,11 +18,13 @@ class User < ApplicationRecord
   # Grants site administrator privileges to the user.
   def make_admin!
     self.admin = true
+    self.save
   end
 
   # Revokes site administrator privileges from the user.
   def revoke_admin!
     self.admin = false
+    self.save
   end
 
   # Returns the last CamdramToken object stored in the database that belongs to the user.
