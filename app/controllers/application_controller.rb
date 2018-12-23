@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  before_action :check_user!
   before_action :set_raven_context
+  before_action :check_user!
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 

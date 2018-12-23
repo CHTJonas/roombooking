@@ -56,7 +56,8 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Use a different cache store in production.
+  # Use Redis for caching in production.
+  config.action_controller.perform_caching = true
   config.cache_store = :redis_cache_store, {
     url: Rails.application.credentials.dig(:redis, :cache_url),
     error_handler: -> (method:, returning:, exception:) {

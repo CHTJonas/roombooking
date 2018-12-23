@@ -54,6 +54,8 @@ gem 'cancancan', '~> 2.0'
 gem 'sentry-raven'
 # Markdown for emails
 gem 'maildown'
+# DDoS protection and IP blocking
+gem 'rack-attack', '~> 5.4', '>= 5.4.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
