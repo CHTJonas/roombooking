@@ -33,6 +33,8 @@ gem "paranoia", "~> 2.2"
 gem 'chronic'
 gem 'chronic_duration'
 gem 'datey'
+# Humanise true/false values
+gem 'humanize_boolean', '~> 0.0.2'
 # Calendar
 gem "simple_calendar", "~> 2.0"
 # Asset pipeline
@@ -56,6 +58,8 @@ gem 'sentry-raven'
 gem 'maildown'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 5.4', '>= 5.4.2'
+# User Gravatar profile pictures
+gem 'gravatar_image_tag', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

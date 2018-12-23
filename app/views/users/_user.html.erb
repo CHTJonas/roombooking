@@ -1,4 +1,28 @@
-<tr>
-  <td><%= link_to user.name, user %></td>
-  <td><%= user.email %></td>
-</tr>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Full Name:') %>
+  <%= content_tag(:td, @user.name) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Email:') %>
+  <%= content_tag(:td, @user.email) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'User ID:') %>
+  <%= content_tag(:td, @user.id) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Camdram ID:') %>
+  <%= content_tag(:td, @user.uid) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Administrator:') %>
+  <%= content_tag(:td, @user.admin?.humanize) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Blocked:') %>
+  <%= content_tag(:td, @user.blocked?.humanize) %>
+<% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Account Created:') %>
+  <%= content_tag(:td, @user.created_at.rfc2822) %>
+<% end %>

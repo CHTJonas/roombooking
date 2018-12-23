@@ -1,5 +1,18 @@
 <% content_for :title, @user.name %>
-<% content_for :heading, @user.name %>
-<p>
-  <%= @user.inspect %>
-</p>
+<% content_for :heading, 'User Details' %>
+<% content_for :controller_links do %>
+  <p class="mb-0"><%= link_to 'Edit', edit_user_path(@user) %></p>
+<% end if can? :crud, @user %>
+
+<div class="row">
+    <div class="col-md-auto">
+      <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
+    </div>
+  <div class="col">
+    <table class="table table-sm table-striped table-bordered">
+      <tbody>
+        <%= render @user %>
+      </tbody>
+    </table>
+  </div>
+</div>
