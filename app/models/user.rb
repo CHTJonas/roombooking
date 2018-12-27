@@ -51,7 +51,8 @@ class User < ApplicationRecord
     all_shows.each do |show|
       # We only care about upcoming shows not shows in the past.
       if show.performances.last.end_date > Time.now
-        shows << [show.name, show.id]
+        # We only care about shows that have been activated.
+        shows << [show.name, show.id] if CamdramProduction.find_by(camdram_id: show.id)
       end
     end
     return shows
@@ -68,7 +69,8 @@ class User < ApplicationRecord
       all_societies += camdram.user.get_orgs
     end
     all_societies.each do |society|
-      societies << [society.name, society.id]
+      # We only care about societies that have been activated.
+      societies << [society.name, society.id] if CamdramSociety.find_by(camdram_id: society.id)
     end
     return societies
   end

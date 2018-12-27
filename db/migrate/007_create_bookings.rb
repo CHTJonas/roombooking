@@ -8,10 +8,10 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.date :repeat_until, index: true
       t.integer :repeat_mode, default: 0, null: false
       t.integer :purpose, null: false
-      t.integer :camdram_id
       t.boolean :approved, default: false, null: false
       t.references :venue, foreign_key: true, null: false
       t.references :user, foreign_key: true, null: false
+      t.references :camdram_model, polymorphic: true, index: true
       t.timestamps
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 10) do
 
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
@@ -20,16 +20,32 @@ ActiveRecord::Schema.define(version: 8) do
     t.date "repeat_until"
     t.integer "repeat_mode", default: 0, null: false
     t.integer "purpose", null: false
-    t.integer "camdram_id"
     t.boolean "approved", default: false, null: false
     t.integer "venue_id", null: false
     t.integer "user_id", null: false
+    t.string "camdram_model_type"
+    t.integer "camdram_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["camdram_model_type", "camdram_model_id"], name: "index_bookings_on_camdram_model_type_and_camdram_model_id"
     t.index ["repeat_until"], name: "index_bookings_on_repeat_until"
     t.index ["start_time"], name: "index_bookings_on_start_time"
     t.index ["user_id"], name: "index_bookings_on_user_id"
     t.index ["venue_id"], name: "index_bookings_on_venue_id"
+  end
+
+  create_table "camdram_productions", force: :cascade do |t|
+    t.integer "camdram_id", null: false
+    t.integer "max_bookings", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "camdram_societies", force: :cascade do |t|
+    t.integer "camdram_id", null: false
+    t.integer "max_bookings", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "camdram_tokens", force: :cascade do |t|

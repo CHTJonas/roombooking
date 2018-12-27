@@ -23,7 +23,7 @@ class BookingsController < ApplicationController
     @booking.user_id = current_user.id
     unless @booking.purpose.nil?
       if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
-        @booking.camdram_id = nil
+        @booking.camdram_model = nil
       else
         @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
       end
