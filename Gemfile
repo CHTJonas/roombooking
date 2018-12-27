@@ -18,6 +18,8 @@ gem 'redis', '~> 4.0'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+# Administrator interface
+gem 'rails_admin', '~> 1.3'
 # Background job processing
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 0.6.3'
