@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
+ActiveRecord::Schema.define(version: 7) do
 
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.index ["repeat_until"], name: "index_bookings_on_repeat_until"
     t.index ["start_time"], name: "index_bookings_on_start_time"
     t.index ["user_id"], name: "index_bookings_on_user_id"
@@ -68,7 +67,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.boolean "blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.index ["uid"], name: "index_users_on_uid"
   end
 
@@ -76,7 +74,28 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
+  end
+
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.integer "foreign_key_id"
+    t.integer "transaction_id"
+    t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
+    t.index ["transaction_id"], name: "index_version_associations_on_transaction_id"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.json "object_changes"
+    t.datetime "created_at"
+    t.index ["item_id"], name: "index_versions_on_item_id"
+    t.index ["item_type"], name: "index_versions_on_item_type"
   end
 
 end

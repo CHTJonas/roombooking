@@ -17,7 +17,6 @@ class Booking < ApplicationRecord
 
   belongs_to :venue
   belongs_to :user
-  belongs_to :camdram_object, optional: true
   validates_associated :venue
   validates_associated :user
 

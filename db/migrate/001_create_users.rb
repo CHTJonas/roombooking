@@ -9,7 +9,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :blocked, default: false, null: false
 
       t.timestamps
-      t.datetime :deleted_at
     end
   end
 end

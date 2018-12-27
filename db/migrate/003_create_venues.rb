@@ -4,7 +4,6 @@ class CreateVenues < ActiveRecord::Migration[5.2]
       t.string :name, null: false
 
       t.timestamps
-      t.datetime :deleted_at
     end
   end
 end

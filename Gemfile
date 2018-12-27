@@ -18,8 +18,12 @@ gem 'redis', '~> 4.0'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+# Audit model changes
+gem 'paper_trail', '~> 10.1'
+gem 'paper_trail-association_tracking', '~> 1.0'
 # Administrator interface
 gem 'rails_admin', '~> 1.3'
+gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
 # Background job processing
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 0.6.3'
@@ -29,8 +33,6 @@ gem 'high_voltage'
 # OAuth login for Camdram
 gem 'omniauth'
 gem 'omniauth-camdram'
-# Soft-delete records from the database
-gem "paranoia", "~> 2.2"
 # Date/time handling
 gem 'chronic'
 gem 'chronic_duration'

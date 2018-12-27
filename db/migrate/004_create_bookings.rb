@@ -14,7 +14,6 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true, null: false
 
       t.timestamps
-      t.datetime :deleted_at
     end
   end
 end
