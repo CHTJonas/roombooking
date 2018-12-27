@@ -7,6 +7,8 @@ class CreateVersions < ActiveRecord::Migration[5.2]
       t.string :whodunnit
       t.json :object
       t.json :object_changes
+      t.string :ip  # could change to :inet but would lose support for SQLite
+      t.string :user_agent
       t.datetime :created_at
     end
   end

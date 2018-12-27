@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?
   helper_method :user_is_admin?
 
+  # Record this information when auditing models
+  def info_for_paper_trail
+    { ip: request.remote_ip, user_agent: request.user_agent }
+  end
+
   # Rescue exceptions raised by user access violations from CanCan
   rescue_from CanCan::AccessDenied do |exception|
     if user_signed_in?

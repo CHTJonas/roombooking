@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 7) do
     t.string "whodunnit"
     t.json "object"
     t.json "object_changes"
+    t.string "ip"
+    t.string "user_agent"
     t.datetime "created_at"
     t.index ["item_id"], name: "index_versions_on_item_id"
     t.index ["item_type"], name: "index_versions_on_item_type"
