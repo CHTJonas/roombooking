@@ -6,7 +6,6 @@ class CreateCamdramTokens < ActiveRecord::Migration[5.2]
       t.boolean :expires, null: false
       t.integer :expires_at, null: false
       t.references :user, foreign_key: true, null: false
-
       t.timestamps
     end
   end

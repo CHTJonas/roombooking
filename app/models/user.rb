@@ -1,17 +1,22 @@
 class User < ApplicationRecord
   has_many :log_events, as: :logable, :dependent => :delete_all
-  has_many :booking
+  has_many :provider_account
   has_many :camdram_token
+  has_many :booking
 
   # Create a User model object from an omniauth authentication object.
-  def self.create_with_omniauth(auth)
-    create! do |user|
-      user.provider = auth['provider']
-      user.uid = auth['uid']
-      if auth['info']
-         user.name = auth['info']['name'] || ""
-         user.email = auth['info']['email'] || ""
-      end
+  def self.create_with_provider(auth)
+    ActiveRecord::Base.transaction do
+      u = User.new
+      u.name = auth['info']['name'] || ""
+      u.email = auth['info']['email'] || ""
+      u.save
+      pa = ProviderAccount.new
+      pa.provider = auth['provider']
+      pa.uid = auth['uid']
+      pa.user_id = u.id
+      pa.save
+      u
     end
   end
 

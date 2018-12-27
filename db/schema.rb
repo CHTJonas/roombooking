@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7) do
+ActiveRecord::Schema.define(version: 8) do
 
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
@@ -58,16 +58,23 @@ ActiveRecord::Schema.define(version: 7) do
     t.index ["logable_type", "logable_id"], name: "index_log_events_on_logable_type_and_logable_id"
   end
 
+  create_table "provider_accounts", force: :cascade do |t|
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_provider_accounts_on_uid"
+    t.index ["user_id"], name: "index_provider_accounts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
-    t.string "provider", null: false
-    t.string "uid", null: false
     t.boolean "admin", default: false, null: false
     t.boolean "blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["uid"], name: "index_users_on_uid"
   end
 
   create_table "venues", force: :cascade do |t|

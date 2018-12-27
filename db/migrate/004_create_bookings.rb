@@ -12,7 +12,6 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.boolean :approved, default: false, null: false
       t.references :venue, foreign_key: true, null: false
       t.references :user, foreign_key: true, null: false
-
       t.timestamps
     end
   end
