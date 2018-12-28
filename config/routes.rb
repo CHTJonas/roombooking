@@ -3,6 +3,14 @@ Rails.application.routes.draw do
   must_be_admin = Roombooking::AdminConstraint.new
 
   get '/admin' => 'admin#index', constraints: must_be_admin
+  get '/admin/shows' => 'admin#view_camdram_shows', constraints: must_be_admin
+  post '/admin/shows/:id/import' => 'admin#import_camdram_show', constraints: must_be_admin
+  post '/admin/shows/:id/activate' => 'admin#activate_camdram_show', constraints: must_be_admin
+  post '/admin/shows/:id/deactivate' => 'admin#deactivate_camdram_show', constraints: must_be_admin
+  get '/admin/societies' => 'admin#view_camdram_societies', constraints: must_be_admin
+  post '/admin/societies/:id/import' => 'admin#import_camdram_society', constraints: must_be_admin
+  post '/admin/societies/:id/activate' => 'admin#activate_camdram_society', constraints: must_be_admin
+  post '/admin/societies/:id/deactivate' => 'admin#deactivate_camdram_society', constraints: must_be_admin
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'

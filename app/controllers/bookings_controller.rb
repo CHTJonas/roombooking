@@ -24,19 +24,23 @@ class BookingsController < ApplicationController
     unless @booking.purpose.nil?
       if Booking.purposes_with_none.find_index(@booking.purpose.to_sym)
         @booking.camdram_model = nil
-      else
-        @booking.camdram_id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
+      elsif Booking.purposes_with_shows.find_index(@booking.purpose.to_sym)
+        @booking.camdram_model = CamdramProduction.find_by(camdram_id: params[:booking]["camdram_id_#{@booking.purpose}".to_sym])
+      elsif Booking.purposes_with_shows.find_index(@booking.purpose.to_sym)
+        @booking.camdram_model = CamdramProduction.find_by(camdram_id: params[:booking]["camdram_id_#{@booking.purpose}".to_sym])
       end
     end
-    unless authorise_booking_against_camdram(@booking)
-      alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
-      flash.now[:alert] = alert
-      render :new and return
-    end
+    # unless authorise_booking_against_camdram(@booking)
+    #   alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
+    #   flash.now[:alert] = alert
+    #   render :new and return
+    # end
     authorize! :create, @booking
     if @booking.save
       notify_admins
-      alert = { 'class' => 'success', 'message' => "Added #{@booking.name}! You will need to wait for this booking to be approved by an admin before it is shown publicly." }
+      msg = "Added #{@booking.name}!"
+      msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." if user_is_admin?
+      alert = { 'class' => 'success', 'message' =>  msg}
       flash[:alert] = alert
       redirect_to @booking
     else
@@ -110,23 +114,23 @@ class BookingsController < ApplicationController
     @societies = current_user.authorised_camdram_societies
   end
 
-  def authorise_booking_against_camdram(booking)
-    return true if booking.purpose.nil? # can't authorise if there's no purpose given (get's caught by validation in model)
-    if Booking.admin_purposes.find_index(booking.purpose.to_sym)
-      return current_user.admin?
-    end
-    if Booking.purposes_with_none.find_index(booking.purpose.to_sym)
-      return true
-    end
-    return true if params[:booking]["camdram_id_#{@booking.purpose}".to_sym].nil? # can't authorise if there's no show/society selected (get's caught by validation in model)
-    if Booking.purposes_with_shows.find_index(booking.purpose.to_sym)
-      return current_user.authorised_camdram_shows.map { |e| e[1] }.include? booking.camdram_id
-    elsif Booking.purposes_with_societies.find_index(booking.purpose.to_sym)
-      return current_user.authorised_camdram_societies.map { |e| e[1] }.include? booking.camdram_id
-    else
-      return false
-    end
-  end
+  # def authorise_booking_against_camdram(booking)
+  #   return true if booking.purpose.nil? # can't authorise if there's no purpose given (get's caught by validation in model)
+  #   if Booking.admin_purposes.find_index(booking.purpose.to_sym)
+  #     return current_user.admin?
+  #   end
+  #   if Booking.purposes_with_none.find_index(booking.purpose.to_sym)
+  #     return true
+  #   end
+  #   return true if params[:booking]["camdram_id_#{@booking.purpose}".to_sym].nil? # can't authorise if there's no show/society selected (get's caught by validation in model)
+  #   if Booking.purposes_with_shows.find_index(booking.purpose.to_sym)
+  #     return current_user.authorised_camdram_shows.map { |e| e[1] }.include? booking.camdram_id
+  #   elsif Booking.purposes_with_societies.find_index(booking.purpose.to_sym)
+  #     return current_user.authorised_camdram_societies.map { |e| e[1] }.include? booking.camdram_id
+  #   else
+  #     return false
+  #   end
+  # end
 
   def notify_admins
     User.where(admin: true).find_each(batch_size: 2) do |user|
