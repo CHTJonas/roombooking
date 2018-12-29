@@ -58,10 +58,7 @@ class ApplicationController < ActionController::Base
 
   # Returns the objects used to store the client to the Camdram API.
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = current_camdram_token.token
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-    end
+    Rails.application.config.camdram_client
   end
 
   # True if the user is signed in, false otherwise.

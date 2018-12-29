@@ -17,13 +17,15 @@ class Booking < ApplicationRecord
 
   belongs_to :venue
   belongs_to :user
+  belongs_to :camdram_model, polymorphic: true, required: false
   validates_associated :venue
   validates_associated :user
+  validates_associated :camdram_model
 
   validates :name, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
-  validates :duration, :numericality => {:greater_than_or_equal_to => 1800, :message => "must be at least 30 minutes"}
+  validates :duration, numericality: { greater_than_or_equal_to: 1800, message: 'must be at least 30 minutes' }
 
   validates :purpose, presence: true
 
@@ -31,7 +33,7 @@ class Booking < ApplicationRecord
   validate :cannot_be_during_quiet_hours
   validate :must_fill_half_hour_slot
   validate :must_not_overlap
-  validate :camdram_id_must_be_valid
+  validate :camdram_model_must_be_valid
 
   def cannot_be_in_the_past
     if self.start_time.present? && self.start_time < Date.today
@@ -60,10 +62,11 @@ class Booking < ApplicationRecord
     end
   end
 
-  def camdram_id_must_be_valid
-    return if self.purpose.nil? # if no purpose has been selected just return
+  def camdram_model_must_be_valid
+    # We can't validate camdram_model if there's no purpose set, but this get's caught by other validation.
+    return if self.purpose.nil?
     unless Booking.purposes_with_none.find_index(self.purpose.to_sym)
-      errors.add(:purpose, "needs to be a valid selection") if camdram_id.nil?
+      errors.add(:purpose, "needs to be a valid selection") if camdram_model.nil?
     end
   end
 
@@ -90,19 +93,14 @@ class Booking < ApplicationRecord
 
   def purpose_string
     string = self.purpose.humanize
-    string << %Q[ "#{camdram_object.name}"] if !self.camdram_id.nil?
+    string << %Q[ "#{camdram_object.name}"] unless camdram_object.nil?
     return string
   end
 
   # Returns the Camdram object the booking references.
   def camdram_object
-    if Booking.purposes_with_shows.find_index(self.purpose.to_sym)
-      return camdram.get_show(self.camdram_id)
-    elsif Booking.purposes_with_societies.find_index(self.purpose.to_sym)
-      return camdram.get_org(self.camdram_id)
-    else
-      return nil
-    end
+    # We try and call the method because not all bookings have associated Camdram models
+    self.camdram_model.try(:camdram_object)
   end
 
   # Returns the CSS colour of the booking as determined by the booking's type.
@@ -126,15 +124,6 @@ class Booking < ApplicationRecord
       "\#BFBFBF"
     else
       "\#888888"
-    end
-  end
-
-  private
-
-  def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = nil
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
     end
   end
 end

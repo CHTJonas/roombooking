@@ -53,7 +53,8 @@ gem 'kramdown'
 # GDPR
 gem 'cookies_eu'
 # Camdram API wrapper
-gem 'camdram', '~> 1.1'
+#gem 'camdram', '~> 1.1'
+gem 'camdram', :git => 'https://github.com/CHTJonas/camdram-ruby.git'
 # Authorisation library
 gem 'cancancan', '~> 2.0'
 # Error tracking and reporting

@@ -7,11 +7,11 @@
 </p>
 
 <%= content_tag :div, class: 'card' do %>
-  <%= content_tag :div, 'Import from Camdram', class: 'card-header' %>
+  <%= content_tag :div, 'Setup Booking Entities', class: 'card-header' %>
   <%= content_tag :div, class: 'card-body' do %>
-    <%= content_tag :p, 'Import shows or societies from Camdram to allow them to make bookings within limits you define.', class: 'card-text' %>
-    <%= link_to 'Import Shows', '/admin/import_shows', class: 'btn btn-primary' %>
-    <%= link_to 'Import Societies', '/admin/import_societies', class: 'btn btn-primary' %>
+    <%= content_tag :p, 'Configure shows and societies from Camdram to allow them to make bookings within limits you define.', class: 'card-text' %>
+    <%= link_to 'Configure Shows', '/admin/shows', class: 'btn btn-primary' %>
+    <%= link_to 'Configure Societies', '/admin/societies', class: 'btn btn-primary' %>
   <% end %>
 <% end %>
 
