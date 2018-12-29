@@ -14,7 +14,7 @@ class CamdramSociety < ActiveRecord::Base
 
   # Returns the Camdram::Organisation object that the record references by querying the Camdram API.
   def camdram_object
-    camdram.get_org(self.camdram_id)
+    camdram.get_society(self.camdram_id)
   end
 
   # Returns the name of the society by querying the Camdram API.
@@ -25,9 +25,6 @@ class CamdramSociety < ActiveRecord::Base
   private
 
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = nil
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-    end
+    Rails.application.config.camdram_client
   end
 end

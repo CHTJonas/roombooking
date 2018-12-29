@@ -50,7 +50,7 @@ class User < ApplicationRecord
     if self.admin
       CamdramSociety.where(active: true)
     else
-      societies = camdram.user.get_orgs
+      societies = camdram.user.get_societies
       CamdramSociety.where(camdram_id: societies, active: true)
     end
   end
@@ -58,9 +58,14 @@ class User < ApplicationRecord
   private
 
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = latest_camdram_token.token
+    Camdram::Client.new do |config|
+      token = latest_camdram_token
+      token_hash = {access_token: token.token, refresh_token: token.refresh_token, expires_at: token.expires_at}
+      app_id = Rails.application.credentials.dig(:camdram, :app_id)
+      app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
+      config.auth_code(token_hash, app_id, app_secret)
       config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
+      config.base_url = "https://www.camdram.net"
     end
   end
 

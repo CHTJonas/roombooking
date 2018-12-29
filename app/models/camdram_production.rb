@@ -25,9 +25,6 @@ class CamdramProduction < ActiveRecord::Base
   private
 
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = nil
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-    end
+    Rails.application.config.camdram_client
   end
 end

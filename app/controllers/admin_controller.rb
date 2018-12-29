@@ -37,7 +37,7 @@ class AdminController < ApplicationController
   end
 
   def view_camdram_societies
-    @societies = camdram.get_orgs
+    @societies = camdram.get_societies
   end
 
   def import_camdram_society
