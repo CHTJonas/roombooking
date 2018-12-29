@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_provider_accounts_on_provider_and_uid", unique: true
     t.index ["uid"], name: "index_provider_accounts_on_uid"
     t.index ["user_id"], name: "index_provider_accounts_on_user_id"
   end
@@ -113,6 +114,7 @@ ActiveRecord::Schema.define(version: 10) do
 
   create_table "versions", force: :cascade do |t|
     t.string "item_type", null: false
+    t.string "item_subtype"
     t.integer "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"

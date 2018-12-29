@@ -6,5 +6,6 @@ class CreateProviderAccounts < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true, null: false
       t.timestamps
     end
+    add_index :provider_accounts, [:provider, :uid], unique: true
   end
 end

@@ -1,3 +1,5 @@
+PaperTrail.enabled = false
+
 Venue.create(name: 'Stage')
 Venue.create(name: 'Larkum Studio')
 Venue.create(name: 'Dressing Room 1')
