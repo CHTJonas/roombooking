@@ -17,10 +17,10 @@ class Booking < ApplicationRecord
 
   belongs_to :venue
   belongs_to :user
-  belongs_to :camdram_model, polymorphic: true
+  belongs_to :camdram_model, polymorphic: true, required: false
   validates_associated :venue
   validates_associated :user
-  # validates_associated :camdram_model
+  validates_associated :camdram_model
 
   validates :name, presence: true
   validates :start_time, presence: true
@@ -63,7 +63,8 @@ class Booking < ApplicationRecord
   end
 
   def camdram_model_must_be_valid
-    return if self.purpose.nil? # if no purpose has been selected just return
+    # We can't validate camdram_model if there's no purpose set, but this get's caught by other validation.
+    return if self.purpose.nil?
     unless Booking.purposes_with_none.find_index(self.purpose.to_sym)
       errors.add(:purpose, "needs to be a valid selection") if camdram_model.nil?
     end

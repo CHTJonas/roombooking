@@ -39,19 +39,19 @@ class User < ApplicationRecord
 
   def authorised_camdram_shows
     if self.admin
-      CamdramProduction.all
+      CamdramProduction.where(active: true)
     else
       shows = camdram.user.get_shows.reject { |show| show.performances.last.end_date < Time.now }
-      CamdramProduction.where(camdram_id: shows)
+      CamdramProduction.where(camdram_id: shows, active: true)
     end
   end
 
   def authorised_camdram_societies
     if self.admin
-      CamdramSociety.all
+      CamdramSociety.where(active: true)
     else
       societies = camdram.user.get_orgs
-      CamdramSociety.where(camdram_id: societies)
+      CamdramSociety.where(camdram_id: societies, active: true)
     end
   end
 
