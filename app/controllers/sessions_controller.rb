@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     # Find the user if they exist or create if they don't.
     user = ProviderAccount.find_by(provider: auth['provider'], uid: auth['uid'].to_s).try(:user) || User.create_with_provider(auth)
     # Issue a new session identifier to protect against fixation

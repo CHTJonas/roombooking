@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   # Returns the last CamdramToken object stored in the database that belongs to the user.
   def latest_camdram_token
-    return CamdramToken.where(user_id: self.id).last
+    return self.camdram_token.order(created_at: :desc).first
   end
 
   def authorised_camdram_shows
@@ -60,7 +60,7 @@ class User < ApplicationRecord
   def camdram
     Camdram::Client.new do |config|
       token = latest_camdram_token
-      token_hash = {access_token: token.token, refresh_token: token.refresh_token, expires_at: token.expires_at}
+      token_hash = {access_token: token.access_token, refresh_token: token.refresh_token, expires_at: token.expires_at}
       app_id = Rails.application.credentials.dig(:camdram, :app_id)
       app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
       config.auth_code(token_hash, app_id, app_secret)

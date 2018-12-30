@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 10) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
     t.text "notes"
@@ -21,13 +24,17 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "repeat_mode", default: 0, null: false
     t.integer "purpose", null: false
     t.boolean "approved", default: false, null: false
-    t.integer "venue_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "venue_id", null: false
+    t.bigint "user_id", null: false
     t.string "camdram_model_type"
-    t.integer "camdram_model_id"
+    t.bigint "camdram_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["approved"], name: "index_bookings_on_approved", where: "(approved = false)"
     t.index ["camdram_model_type", "camdram_model_id"], name: "index_bookings_on_camdram_model_type_and_camdram_model_id"
+    t.index ["created_at"], name: "index_bookings_on_created_at", order: :desc
+    t.index ["end_time"], name: "index_bookings_on_end_time"
+    t.index ["repeat_mode"], name: "index_bookings_on_repeat_mode", where: "(repeat_mode <> 0)"
     t.index ["repeat_until"], name: "index_bookings_on_repeat_until"
     t.index ["start_time"], name: "index_bookings_on_start_time"
     t.index ["user_id"], name: "index_bookings_on_user_id"
@@ -40,6 +47,8 @@ ActiveRecord::Schema.define(version: 10) do
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_camdram_productions_on_active", where: "(active = true)"
+    t.index ["camdram_id"], name: "index_camdram_productions_on_camdram_id", unique: true
   end
 
   create_table "camdram_societies", force: :cascade do |t|
@@ -48,22 +57,24 @@ ActiveRecord::Schema.define(version: 10) do
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_camdram_societies_on_active", where: "(active = true)"
+    t.index ["camdram_id"], name: "index_camdram_societies_on_camdram_id", unique: true
   end
 
   create_table "camdram_tokens", force: :cascade do |t|
-    t.string "token", null: false
+    t.string "access_token", null: false
     t.string "refresh_token", null: false
-    t.boolean "expires", null: false
     t.integer "expires_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_camdram_tokens_on_created_at", order: :desc
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
   end
 
   create_table "log_events", force: :cascade do |t|
     t.string "logable_type"
-    t.integer "logable_id"
+    t.bigint "logable_id"
     t.integer "outcome"
     t.string "action"
     t.integer "interface"
@@ -79,11 +90,10 @@ ActiveRecord::Schema.define(version: 10) do
   create_table "provider_accounts", force: :cascade do |t|
     t.string "provider", null: false
     t.string "uid", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["provider", "uid"], name: "index_provider_accounts_on_provider_and_uid", unique: true
-    t.index ["uid"], name: "index_provider_accounts_on_uid"
     t.index ["user_id"], name: "index_provider_accounts_on_user_id"
   end
 
@@ -94,6 +104,8 @@ ActiveRecord::Schema.define(version: 10) do
     t.boolean "blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["admin"], name: "index_users_on_admin", where: "(admin = true)"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   create_table "venues", force: :cascade do |t|
@@ -106,9 +118,8 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
-    t.integer "transaction_id"
+    t.string "foreign_type", null: false
     t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
-    t.index ["transaction_id"], name: "index_version_associations_on_transaction_id"
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
@@ -118,13 +129,18 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.json "object"
-    t.json "object_changes"
-    t.string "ip"
+    t.jsonb "object"
+    t.jsonb "object_changes"
+    t.integer "transaction_id"
+    t.inet "ip"
     t.string "user_agent"
     t.datetime "created_at"
-    t.index ["item_id"], name: "index_versions_on_item_id"
-    t.index ["item_type"], name: "index_versions_on_item_type"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
+  add_foreign_key "bookings", "users"
+  add_foreign_key "bookings", "venues"
+  add_foreign_key "camdram_tokens", "users"
+  add_foreign_key "provider_accounts", "users"
 end

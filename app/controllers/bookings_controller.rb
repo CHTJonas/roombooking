@@ -1,7 +1,7 @@
 class BookingsController < ApplicationController
 
   def index
-    @bookings = Booking.accessible_by(current_ability, :read).last(6)
+    @bookings = Booking.order(created_at: :desc).accessible_by(current_ability, :read).first(6)
   end
 
   def new
