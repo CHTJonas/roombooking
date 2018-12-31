@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_raven_context
   before_action :check_user!
   before_action :set_paper_trail_whodunnit
-  helper_method :user_signed_in?
+  helper_method :user_logged_in?
   helper_method :user_is_admin?
 
   # Record this information when auditing models
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   # Rescue exceptions raised by user access violations from CanCan
   rescue_from CanCan::AccessDenied do |exception|
-    if user_signed_in?
+    if user_logged_in?
       alert = { 'class' => 'danger', 'message' => 'Access denied.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
@@ -62,18 +62,18 @@ class ApplicationController < ActionController::Base
   end
 
   # True if the user is signed in, false otherwise.
-  def user_signed_in?
+  def user_logged_in?
     return true if current_user
   end
 
   # True if the user is a site administrator, false otherwise.
   def user_is_admin?
-    return user_signed_in? && current_user.admin?
+    return user_logged_in? && current_user.admin?
   end
 
   # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
   def check_user!
-    if user_signed_in?
+    if user_logged_in?
       unless current_camdram_token
         # The user is logged in but we can't find a Camdram API token for them.
         # Maybe it was purged from the database? Maybe there was a session issue?
@@ -95,14 +95,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Method to simulate a user logoff.
+  # Method to simulate/force a user logoff.
   def invalidate_session
-    # This removes the user_id session value
-    @current_user = session[:user_id] = nil
-    # This removes the camdram_token session value
-    @camdram_token = session[:camdram_token_id] = nil
-    # Issue a new session identifier to protect against fixation
     reset_session
+    @current_user = nil
+    @camdram_token = nil
   end
 
   def set_raven_context

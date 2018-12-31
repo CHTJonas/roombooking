@@ -4,6 +4,12 @@
   <%= link_to 'New booking', new_booking_path %>
 <% end if can? :create, Booking %>
 
+<% unless user_logged_in? %>
+  <p>
+    You must log in to make a new booking.
+  </p>
+<% end %>
+
 <div class="container">
   <div class="row">
     <% @bookings.each do |booking| %>
