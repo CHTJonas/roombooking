@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
-    t.string "foreign_type", null: false
     t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
