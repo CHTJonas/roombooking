@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 10) do
     t.integer "outcome"
     t.string "action"
     t.integer "interface"
-    t.string "ip"
+    t.inet "ip"
     t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

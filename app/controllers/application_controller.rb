@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_raven_context
   before_action :check_user!
   before_action :set_paper_trail_whodunnit
+  helper_method :current_user
   helper_method :user_logged_in?
   helper_method :user_is_admin?
 
@@ -63,7 +64,7 @@ class ApplicationController < ActionController::Base
 
   # True if the user is signed in, false otherwise.
   def user_logged_in?
-    return true if current_user
+    !current_user.nil?
   end
 
   # True if the user is a site administrator, false otherwise.

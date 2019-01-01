@@ -1,4 +1,4 @@
-class CamdramProduction < ActiveRecord::Base
+class CamdramProduction < ApplicationRecord
   has_many :booking, as: :camdram_model
   validates :camdram_id, numericality: { only_integer: true }
   validates :max_bookings, numericality: { only_integer: true }

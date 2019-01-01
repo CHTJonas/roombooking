@@ -24,6 +24,10 @@
   <%= content_tag(:td, @booking.end_time.strftime("%H:%M")) %>
 <% end %>
 <%= content_tag :tr do %>
+  <%= content_tag(:td, 'Repeats:') %>
+  <%= content_tag(:td, describe_repeat_pattern(@booking.repeat_mode, @booking.repeat_until)) %>
+<% end %>
+<%= content_tag :tr do %>
   <%= content_tag(:td, 'Room:') %>
   <%= content_tag(:td, @booking.venue.name) %>
 <% end %>

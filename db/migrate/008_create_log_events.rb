@@ -5,7 +5,7 @@ class CreateLogEvents < ActiveRecord::Migration[5.2]
       t.integer :outcome
       t.string :action
       t.integer :interface, index: true
-      t.string :ip, index: true
+      t.inet :ip, index: true
       t.string :user_agent
       t.timestamps
     end
