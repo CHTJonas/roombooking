@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
     else
-      alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
+      alert = { 'class' => 'danger', 'message' => 'You need to login to access this page.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
     end
@@ -83,13 +83,13 @@ class ApplicationController < ActionController::Base
       end
       if current_camdram_token.expired?
         invalidate_session
-        alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
+        alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
       end
       if current_user.blocked?
         invalidate_session
-        alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+        alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
       end
