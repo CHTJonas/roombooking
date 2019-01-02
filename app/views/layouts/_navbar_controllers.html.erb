@@ -1,5 +1,5 @@
 <% controllers = ['bookings', 'venues'] %>
-<% controllers.append 'users' if user_is_admin? %>
+<% controllers.append 'users', 'admin' if user_is_admin? %>
 <% controllers.each do |controller| %>
   <li class="nav-item">
     <%= link_to controller.capitalize, { controller: "/#{controller}" }, class: 'nav-link' %>

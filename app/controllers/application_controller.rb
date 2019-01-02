@@ -4,17 +4,24 @@ class ApplicationController < ActionController::Base
 
   before_action :set_raven_context
   before_action :check_user!
-  helper_method :user_signed_in?
+  before_action :set_paper_trail_whodunnit
+  helper_method :current_user
+  helper_method :user_logged_in?
   helper_method :user_is_admin?
+
+  # Record this information when auditing models
+  def info_for_paper_trail
+    { ip: request.remote_ip, user_agent: request.user_agent }
+  end
 
   # Rescue exceptions raised by user access violations from CanCan
   rescue_from CanCan::AccessDenied do |exception|
-    if user_signed_in?
+    if user_logged_in?
       alert = { 'class' => 'danger', 'message' => 'Access denied.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
     else
-      alert = { 'class' => 'danger', 'message' => 'You need to login for access to this page.' }
+      alert = { 'class' => 'danger', 'message' => 'You need to login to access this page.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
     end
@@ -52,25 +59,22 @@ class ApplicationController < ActionController::Base
 
   # Returns the objects used to store the client to the Camdram API.
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = current_camdram_token.token
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-    end
+    Rails.application.config.camdram_client
   end
 
   # True if the user is signed in, false otherwise.
-  def user_signed_in?
-    return true if current_user
+  def user_logged_in?
+    !current_user.nil?
   end
 
   # True if the user is a site administrator, false otherwise.
   def user_is_admin?
-    return user_signed_in? && current_user.admin?
+    return user_logged_in? && current_user.admin?
   end
 
   # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
   def check_user!
-    if user_signed_in?
+    if user_logged_in?
       unless current_camdram_token
         # The user is logged in but we can't find a Camdram API token for them.
         # Maybe it was purged from the database? Maybe there was a session issue?
@@ -79,27 +83,24 @@ class ApplicationController < ActionController::Base
       end
       if current_camdram_token.expired?
         invalidate_session
-        alert = { 'class' => 'warning', 'message' => 'Your session has expired. You must login again.' }
+        alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
       end
       if current_user.blocked?
         invalidate_session
-        alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
+        alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
       end
     end
   end
 
-  # Method to simulate a user logoff.
+  # Method to simulate/force a user logoff.
   def invalidate_session
-    # This removes the user_id session value
-    @current_user = session[:user_id] = nil
-    # This removes the camdram_token session value
-    @camdram_token = session[:camdram_token_id] = nil
-    # Issue a new session identifier to protect against fixation
     reset_session
+    @current_user = nil
+    @camdram_token = nil
   end
 
   def set_raven_context

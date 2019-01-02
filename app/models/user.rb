@@ -1,17 +1,22 @@
 class User < ApplicationRecord
   has_many :log_events, as: :logable, :dependent => :delete_all
-  has_many :booking
+  has_many :provider_account
   has_many :camdram_token
+  has_many :booking
 
   # Create a User model object from an omniauth authentication object.
-  def self.create_with_omniauth(auth)
-    create! do |user|
-      user.provider = auth['provider']
-      user.uid = auth['uid']
-      if auth['info']
-         user.name = auth['info']['name'] || ""
-         user.email = auth['info']['email'] || ""
-      end
+  def self.create_with_provider(auth)
+    ActiveRecord::Base.transaction do
+      u = User.new
+      u.name = auth['info']['name'] || ""
+      u.email = auth['info']['email'] || ""
+      u.save
+      pa = ProviderAccount.new
+      pa.provider = auth['provider']
+      pa.uid = auth['uid']
+      pa.user_id = u.id
+      pa.save
+      u
     end
   end
 
@@ -29,49 +34,38 @@ class User < ApplicationRecord
 
   # Returns the last CamdramToken object stored in the database that belongs to the user.
   def latest_camdram_token
-    return CamdramToken.where(user_id: self.id).last
+    return self.camdram_token.order(created_at: :desc).first
   end
 
   def authorised_camdram_shows
-    venues = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom'] # Holds Camdram venues we care about.
-    all_shows = Array.new # Holds shows we get from Camdram API.
-    shows = Array.new # Holds shows we return to the caller.
     if self.admin
-      # Get all upcoming shows in venues we care about.
-      venues.each { |venue| all_shows += camdram.get_venue(venue).shows }
+      CamdramProduction.where(active: true)
     else
-      # Get the user's upcoming shows in venues we care about.
-      all_shows += camdram.user.get_shows.reject { |show| !venues.include? show.venue.slug }
+      shows = camdram.user.get_shows.reject { |show| show.performances.last.end_date < Time.now }
+      CamdramProduction.where(camdram_id: shows, active: true)
     end
-    all_shows.each do |show|
-      # We only care about upcoming shows not shows in the past.
-      if show.performances.last.end_date > Time.now
-        shows << [show.name, show.id]
-      end
-    end
-    return shows
   end
 
   def authorised_camdram_societies
-    all_societies = Array.new # Holds societies we get from Camdram API.
-    societies = Array.new# Holds societies we return to the caller.
     if self.admin
-      # Admins can make bookings on behalf of any society
-      all_societies += camdram.get_orgs
+      CamdramSociety.where(active: true)
     else
-      # Users can make bookings on behalf of societies they administer on Camdram
-      all_societies += camdram.user.get_orgs
+      societies = camdram.user.get_societies
+      CamdramSociety.where(camdram_id: societies, active: true)
     end
-    all_societies.each do |society|
-      societies << [society.name, society.id]
-    end
-    return societies
   end
 
+  private
+
   def camdram
-    @camdram ||= Camdram::Client.new do |config|
-      config.api_token = latest_camdram_token.token
+    Camdram::Client.new do |config|
+      token = latest_camdram_token
+      token_hash = {access_token: token.access_token, refresh_token: token.refresh_token, expires_at: token.expires_at}
+      app_id = Rails.application.credentials.dig(:camdram, :app_id)
+      app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
+      config.auth_code(token_hash, app_id, app_secret)
       config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
+      config.base_url = "https://www.camdram.net"
     end
   end
 

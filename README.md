@@ -5,7 +5,7 @@ This repository hosts the code for the new Room Booking System for the ADC Theat
 The system is under active development and accordingly there are likely to be some bugs.
 The database schema should also not be considered stable.
 
-The site runs as a Ruby on Rails application, backed by a compatible database.
+The site runs as a Ruby on Rails application, backed by a Postgres database.
 Background job processing is handled by Sidekiq, backed by a Redis key/value store.
 The README assumes you have a basically understanding and working installation of Ruby as well as the Rails framework.
 Please [contact me](mailto:charlie@charliejonas.co.uk) if you need help with this.
@@ -29,6 +29,6 @@ If you think this is something you can do yourself:
 5. Create a new Pull Request.
 
 ## Copyright
-Copyright (c) 2018 Charlie Jonas.
+Copyright (c) 2018-2019 Charlie Jonas.
 The ADC Room Booking System software is released under Version 3 of the GNU General Public License.
 See the LICENSE file for full details.

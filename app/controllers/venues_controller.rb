@@ -61,7 +61,7 @@ class VenuesController < ApplicationController
 
   def events_for(venue)
     start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
-    end_date = start_date + 6.days
+    end_date = start_date + 7.days
 
     daily_bookings = venue.booking.where(repeat_mode: :none)
                                   .where(start_time: start_date..end_date)

@@ -1,13 +1,15 @@
 class SessionsController < ApplicationController
 
   def new
+    # Issue a new session identifier to protect against fixation
+    reset_session
     redirect_to '/auth/camdram'
   end
 
   def create
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     # Find the user if they exist or create if they don't.
-    user = User.find_by(provider: auth['provider'], uid: auth['uid'].to_s) || User.create_with_omniauth(auth)
+    user = ProviderAccount.find_by(provider: auth['provider'], uid: auth['uid'].to_s).try(:user) || User.create_with_provider(auth)
     # Issue a new session identifier to protect against fixation
     reset_session
     # Log the event and render/redirect.
@@ -32,7 +34,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if user_signed_in?
+    if user_logged_in?
       LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
