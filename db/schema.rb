@@ -68,7 +68,9 @@ ActiveRecord::Schema.define(version: 10) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["access_token"], name: "index_camdram_tokens_on_access_token", unique: true
     t.index ["created_at"], name: "index_camdram_tokens_on_created_at", order: :desc
+    t.index ["refresh_token"], name: "index_camdram_tokens_on_refresh_token", unique: true
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
   end
 

@@ -7,6 +7,8 @@ class CreateCamdramTokens < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true, null: false
       t.timestamps
     end
+    add_index :camdram_tokens, :access_token, unique: true
+    add_index :camdram_tokens, :refresh_token, unique: true
     add_index :camdram_tokens, :created_at, order: { created_at: :desc }
   end
 end
