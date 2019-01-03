@@ -1,13 +1,13 @@
 Rails.application.configure do
   console do
-    # PaperTrail.request.whodunnit = ->() {
-    PaperTrail.request.whodunnit = proc {
+    PaperTrail.request.whodunnit = lambda {
       @paper_trail_whodunnit ||= (
         email = nil
         user = nil
         until email.present? && user.present? do
-          print 'In order to audit history correctly, please enter the email associated with you Roombooking account: '
+          print 'Please enter the email associated with your Roombooking account (or none): '
           email = gets.chomp
+          return nil if email == 'none'
           user = User.find_by(email: email)
         end
         user.id
