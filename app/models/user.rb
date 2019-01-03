@@ -1,8 +1,11 @@
 class User < ApplicationRecord
-  has_many :log_events, as: :logable, :dependent => :delete_all
-  has_many :provider_account
-  has_many :camdram_token
-  has_many :booking
+  has_many :log_events, as: :logable, dependent: :delete_all
+  has_many :provider_account, dependent: :delete_all
+  has_many :camdram_token, dependent: :delete_all
+  has_many :booking, dependent: :delete_all
+
+  validates :name, presence: true
+  validates :email, uniqueness: true
 
   # Create a User model object from an omniauth authentication object.
   def self.create_with_provider(auth)
@@ -32,31 +35,43 @@ class User < ApplicationRecord
     self.save
   end
 
-  # Returns the last CamdramToken object stored in the database that belongs to the user.
+  # Returns the last CamdramToken object stored in the database that belongs
+  # to the user.
   def latest_camdram_token
     return self.camdram_token.order(created_at: :desc).first
   end
 
   def authorised_camdram_shows
     if self.admin
+      # Admins are authorised for all active shows!
       CamdramProduction.where(active: true)
     else
-      shows = camdram.user.get_shows.reject { |show| show.performances.last.end_date < Time.now }
+      # Poll Camdram for future shows that the user has access to.
+      shows = camdram.user.get_shows.reject {
+        |show| show.performances.last.end_date < Time.now
+      }
+      # Then authorise any such active shows.
       CamdramProduction.where(camdram_id: shows, active: true)
     end
   end
 
   def authorised_camdram_societies
     if self.admin
+      # Admins are authorised for all active societies!
       CamdramSociety.where(active: true)
     else
+      # Poll Camdram for any societies that the user has access to.
       societies = camdram.user.get_societies
+      # Then authorise any such active societies.
       CamdramSociety.where(camdram_id: societies, active: true)
     end
   end
 
   private
 
+  # Private method to create a Camdram client with the user's OAuth access
+  # token. This client will be able to act as the user and view the list of
+  # shows and societies the user administers.
   def camdram
     Camdram::Client.new do |config|
       token = latest_camdram_token

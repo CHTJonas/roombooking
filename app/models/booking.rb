@@ -25,8 +25,9 @@ class Booking < ApplicationRecord
   validates :name, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
-  validates :duration, numericality: { greater_than_or_equal_to: 1800, message: 'must be at least 30 minutes' }
-
+  validates :duration, numericality: {
+    greater_than_or_equal_to: 1800, message: 'must be at least 30 minutes'
+  }
   validates :purpose, presence: true
 
   validate :cannot_be_in_the_past
@@ -35,18 +36,22 @@ class Booking < ApplicationRecord
   validate :must_not_overlap
   validate :camdram_model_must_be_valid
 
+  # Users should not be able to make ex post facto bookings, unless they
+  # are an admin.
   def cannot_be_in_the_past
-    if self.start_time.present? && self.start_time < Date.today
+    if self.start_time.present? && self.start_time < DateTime.now
       errors.add(:start_time, "can't be in the past") unless self.user.admin?
     end
   end
 
+  # Scheduled bookings can only be made between 08:00 and 23:59.
   def cannot_be_during_quiet_hours
     if self.start_time.present? && self.start_time.hour < 8
       errors.add(:start_time, "can't be between midnight and 8am")
     end
   end
 
+  # Bookings should fit to 30 minute time slots.
   def must_fill_half_hour_slot
     if self.start_time.present? && self.start_time.min % 30 != 0
       errors.add(:start_time, "must be a multiple of thirty minutes")
@@ -56,24 +61,27 @@ class Booking < ApplicationRecord
     end
   end
 
+  # Two bookings cannot be made inthe same place at the same time.
   def must_not_overlap
     unless Booking.where("id != :id AND (start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end)", {id: self.id, start: self.start_time, end: self.end_time}).empty?
       errors.add(:base, "The times given overlap with another booking")
     end
   end
 
+  # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
-    # We can't validate camdram_model if there's no purpose set, but this get's caught by other validation.
-    return if self.purpose.nil?
-    unless Booking.purposes_with_none.find_index(self.purpose.to_sym)
+    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
       errors.add(:purpose, "needs to be a valid selection") if camdram_model.nil?
     end
   end
 
+  # Prettified string describing the booking's duration.
   def length
     @length ||= self.duration ? ChronicDuration.output(self.duration, :format => :long) : nil
   end
 
+  # Sets the booking's end_time database field by parsing the given string
+  # using ChronicDuration.
   def length=(string)
     @length = string
     if string =~ /\A(\d+)\z/

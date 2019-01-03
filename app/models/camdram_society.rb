@@ -1,5 +1,6 @@
 class CamdramSociety < ApplicationRecord
-  has_many :booking, as: :camdram_model
+  has_many :booking, as: :camdram_model, dependent: :delete_all
+
   validates :camdram_id, numericality: { only_integer: true }
   validates :max_bookings, numericality: { only_integer: true }
 
@@ -12,9 +13,10 @@ class CamdramSociety < ApplicationRecord
     end
   end
 
-  # Returns the Camdram::Organisation object that the record references by querying the Camdram API.
+  # Returns the Camdram::Organisation object that the record references by
+  # querying the Camdram API.
   def camdram_object
-    camdram.get_society(self.camdram_id)
+    @camdram_object ||= camdram.get_society(self.camdram_id)
   end
 
   # Returns the name of the society by querying the Camdram API.
@@ -24,6 +26,8 @@ class CamdramSociety < ApplicationRecord
 
   private
 
+  # Private method to return the application-wide Camdram API client from the
+  # Rails config.
   def camdram
     Rails.application.config.camdram_client
   end

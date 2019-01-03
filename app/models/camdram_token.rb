@@ -1,5 +1,10 @@
 class CamdramToken < ActiveRecord::Base
   belongs_to :user
+  validates_associated :user
+
+  validates :access_token, presence: true, uniqueness: true
+  validates :refresh_token, presence: true, uniqueness: true
+  validates :expires_at, numericality: { only_integer: true }
 
   # Create a CamdramToken from an OmniAuth::AuthHash and a User.
   def self.create_with_credentials(creds, user)
