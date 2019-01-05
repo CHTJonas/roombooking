@@ -38,6 +38,8 @@ gem 'chronic_duration'
 gem 'datey'
 # Humanise true/false values
 gem 'humanize_boolean', '~> 0.0.2'
+# Pagination
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
 # Calendar
 gem "simple_calendar", "~> 2.0"
 # Asset pipeline

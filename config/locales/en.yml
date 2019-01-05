@@ -1,3 +1,8 @@
 en:
   cookies_eu:
     cookies_text: "The ADC Room Booking System uses cookies to help deliver the service. If you continue, we'll assume that you're ok with this."
+  views:
+    pagination:
+      previous: "&laquo;"
+      next: "&raquo;"
+      truncate: "..."

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   # Show all users that are registered.
   def index
-    @users = User.accessible_by(current_ability, :read)
+    @users = User.accessible_by(current_ability, :read).page(params[:page])
   end
 
   # Edit a particular user.

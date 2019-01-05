@@ -5,6 +5,10 @@
   Only administrators can view a list of all registered users.
 </p>
 
+<p>
+  <%= page_entries_info @users %>
+</p>
+
 <table class="table table-condensed table-bordered table-hover">
   <thead>
     <%= content_tag :tr do %>
@@ -21,3 +25,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @users %>

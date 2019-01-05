@@ -359,6 +359,7 @@ DEPENDENCIES
   humanize_boolean (~> 0.0.2)
   jbuilder (~> 2.5)
   jquery-rails
+  kaminari (~> 1.1, >= 1.1.1)
   kramdown
   linked-list (~> 0.0.13)
   listen (>= 3.0.5, < 3.2)
