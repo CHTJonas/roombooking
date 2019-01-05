@@ -53,6 +53,8 @@ gem 'haml'
 gem 'kramdown'
 # GDPR
 gem 'cookies_eu'
+# Browser user-agent detection
+gem 'browser', '~> 2.5', '>= 2.5.3'
 # Camdram API wrapper
 #gem 'camdram', '~> 1.1'
 gem 'camdram', :git => 'https://github.com/CHTJonas/camdram-ruby.git'

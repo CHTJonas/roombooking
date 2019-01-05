@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_raven_context
+  before_action :check_browser_version
   before_action :check_user!
   before_action :set_paper_trail_whodunnit
   helper_method :current_user
@@ -106,6 +107,14 @@ class ApplicationController < ActionController::Base
   def set_raven_context
     Raven.user_context(id: current_user.try(:id), name: current_user.try(:name), email: current_user.try(:email))
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
+  def check_browser_version
+    unless browser.modern?
+      alert = { 'class' => 'danger', 'message' => "You seem to be using a very outdated web browser! Unfortunately you'll need to update your system in order to use room booking." }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: "outdated browser"}, status: :ok
+    end
   end
 
 end
