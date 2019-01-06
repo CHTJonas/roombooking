@@ -3,7 +3,7 @@ class CreateCamdramTokens < ActiveRecord::Migration[5.2]
     create_table :camdram_tokens do |t|
       t.string :access_token, null: false
       t.string :refresh_token, null: false
-      t.integer :expires_at, null: false
+      t.datetime :expires_at, null: false
       t.references :user, foreign_key: true, null: false
       t.timestamps
     end

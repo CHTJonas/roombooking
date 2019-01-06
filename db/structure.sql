@@ -125,7 +125,7 @@ ALTER SEQUENCE public.bookings_id_seq OWNED BY public.bookings.id;
 
 CREATE TABLE public.camdram_productions (
     id bigint NOT NULL,
-    camdram_id integer NOT NULL,
+    camdram_id bigint NOT NULL,
     max_bookings integer DEFAULT 0 NOT NULL,
     active boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -158,7 +158,7 @@ ALTER SEQUENCE public.camdram_productions_id_seq OWNED BY public.camdram_product
 
 CREATE TABLE public.camdram_societies (
     id bigint NOT NULL,
-    camdram_id integer NOT NULL,
+    camdram_id bigint NOT NULL,
     max_bookings integer DEFAULT 0 NOT NULL,
     active boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE public.camdram_tokens (
     id bigint NOT NULL,
     access_token character varying NOT NULL,
     refresh_token character varying NOT NULL,
-    expires_at integer NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

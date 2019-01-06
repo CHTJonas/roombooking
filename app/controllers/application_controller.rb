@@ -12,7 +12,11 @@ class ApplicationController < ActionController::Base
 
   # Record this information when auditing models.
   def info_for_paper_trail
-    { ip: request.remote_ip, user_agent: request.user_agent, session: current_session.try(:id) }
+    {
+      ip: request.remote_ip,
+      user_agent: request.user_agent,
+      session: current_session.try(:id)
+    }
   end
 
   # Rescue exceptions raised by user access violations from CanCan.
@@ -74,7 +78,8 @@ class ApplicationController < ActionController::Base
     user_logged_in? && current_user.admin?
   end
 
-  # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
+  # Method to ensure a logged in user has a valid Camdram API token and is
+  # not blocked.
   def check_user!
     if user_logged_in?
       if current_user.blocked?
@@ -96,8 +101,9 @@ class ApplicationController < ActionController::Base
         render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
       end
       unless current_camdram_token.present?
-        # The user is logged in but we can't find a Camdram API token for them.
-        # Maybe it was purged from the database? Maybe there was a session issue?
+        # The user is logged in but we can't find a Camdram API token for
+        # them. Maybe it was purged from the database? Maybe there was a
+        # session issue?
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
