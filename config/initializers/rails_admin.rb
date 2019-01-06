@@ -6,7 +6,7 @@ RailsAdmin.config do |config|
   config.audit_with :paper_trail, 'User', 'PaperTrail::Version'
   config.show_gravatar = false
 
-  excluded_models = ['CamdramToken']
+  excluded_models = ['CamdramToken', 'LogEvent', 'Session']
   audited_models = ['Booking', 'CamdramProduction', 'CamdramSociety', 'ProviderAccount', 'User', 'Venue']
 
   config.model 'User' do

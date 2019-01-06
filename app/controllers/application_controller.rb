@@ -10,12 +10,12 @@ class ApplicationController < ActionController::Base
   helper_method :user_logged_in?
   helper_method :user_is_admin?
 
-  # Record this information when auditing models
+  # Record this information when auditing models.
   def info_for_paper_trail
-    { ip: request.remote_ip, user_agent: request.user_agent }
+    { ip: request.remote_ip, user_agent: request.user_agent, session: current_session.try(:id) }
   end
 
-  # Rescue exceptions raised by user access violations from CanCan
+  # Rescue exceptions raised by user access violations from CanCan.
   rescue_from CanCan::AccessDenied do |exception|
     if user_logged_in?
       alert = { 'class' => 'danger', 'message' => 'Access denied.' }
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Recue exceptions raised due to cross-site request forgery
+  # Recue exceptions raised due to cross-site request forgery.
   rescue_from ActionController::InvalidAuthenticityToken do |exception|
     invalidate_session
     alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
@@ -38,61 +38,73 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # Finds the User with the ID that is stored in the session.
-  # Logging in sets this session value and logging out removes it.
-  def current_user
-    begin
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    rescue Exception => e
-      nil
-    end
-  end
-
-  # Finds the CamdramToken with the ID that is stored in the session.
-  # Logging in sets this session value and logging out removes it.
-  def current_camdram_token
-    begin
-      @camdram_token ||= CamdramToken.find(session[:camdram_token_id]) if session[:camdram_token_id]
-    rescue Exception => e
-      nil
-    end
-  end
-
   # Returns the application-wide Camdram API client from the Rails config.
   def camdram
     Rails.application.config.camdram_client_pool.checkout
   end
 
+  # Finds the Session model object with the ID that is stored in the Rails
+  # session store. Logging in sets this session value and logging out
+  # removes it.
+  def current_session
+    begin
+      @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
+    rescue Exception => e
+      nil
+    end
+  end
+
+  # Returns the User associated with the current session.
+  def current_user
+    @current_user ||= current_session.try(:user)
+  end
+
+  # Returns the CamdramToken associated with the current user.
+  def current_camdram_token
+    @current_camdram_token ||= current_user.try(:latest_camdram_token)
+  end
+
   # True if the user is signed in, false otherwise.
   def user_logged_in?
-    !current_user.nil?
+    current_user.present?
   end
 
   # True if the user is a site administrator, false otherwise.
   def user_is_admin?
-    return user_logged_in? && current_user.admin?
+    user_logged_in? && current_user.admin?
   end
 
   # Method to ensure a logged in user has a valid Camdram API token and is not blocked.
   def check_user!
     if user_logged_in?
-      unless current_camdram_token
-        # The user is logged in but we can't find a Camdram API token for them.
-        # Maybe it was purged from the database? Maybe there was a session issue?
-        invalidate_session
-        return
-      end
-      if current_camdram_token.expired?
-        invalidate_session
-        alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
-        flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'camdram token expired'}, status: :unauthorized and return
-      end
       if current_user.blocked?
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
+      end
+      if current_session.invalidated?
+        invalidate_session
+        alert = { 'class' => 'warning', 'message' => 'Your session has been invalidated by yourself or an administrator. Please login again.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'session invalidated'}, status: :unauthorized and return
+      end
+      if current_session.expired?
+        invalidate_session
+        alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
+      end
+      unless current_camdram_token.present?
+        # The user is logged in but we can't find a Camdram API token for them.
+        # Maybe it was purged from the database? Maybe there was a session issue?
+        invalidate_session
+        alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
+        flash.now[:alert] = alert
+        render 'layouts/blank', locals: {reason: 'camdram token error'}, status: :internal_server_error and return
+      end
+      if current_camdram_token.expired?
+        current_camdram_token.refresh!
       end
     end
   end
@@ -100,18 +112,21 @@ class ApplicationController < ActionController::Base
   # Method to simulate/force a user logoff.
   def invalidate_session
     reset_session
+    @current_session = nil
     @current_user = nil
-    @camdram_token = nil
+    @current_camdram_token = nil
   end
 
+  # Add extra context to any Sentry error reports.
   def set_raven_context
     Raven.user_context(id: current_user.try(:id), name: current_user.try(:name), email: current_user.try(:email))
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 
+  # Make sure the user is using a modern browser.
   def check_browser_version
     unless browser.modern?
-      alert = { 'class' => 'danger', 'message' => "You seem to be using a very outdated web browser! Unfortunately you'll need to update your system in order to use room booking." }
+      alert = { 'class' => 'danger', 'message' => "You seem to be using a very outdated web browser! Unfortunately you'll need to update your system in order to use Room Booking." }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "outdated browser"}, status: :ok
     end

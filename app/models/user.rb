@@ -25,19 +25,24 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   # Create a User model object from an omniauth authentication object.
-  def self.create_with_provider(auth)
+  def self.from_provider(auth)
+    name = auth['info']['name'] || ''
+    email = auth['info']['email'] || ''
+    user = User.find_by(email: email)
     ActiveRecord::Base.transaction do
-      u = User.new
-      u.name = auth['info']['name'] || ""
-      u.email = auth['info']['email'] || ""
-      u.save
-      pa = ProviderAccount.new
-      pa.provider = auth['provider']
-      pa.uid = auth['uid']
-      pa.user_id = u.id
-      pa.save
-      u
+      unless user.present?
+        user = User.new
+        user.name = name
+        user.email = email
+        user.save
+      end
+      provider_account = ProviderAccount.new
+      provider_account.provider = auth['provider']
+      provider_account.uid = auth['uid']
+      provider_account.user_id = user.id
+      provider_account.save
     end
+    user
   end
 
   # Grants site administrator privileges to the user.

@@ -299,6 +299,40 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sessions (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    invalidated boolean DEFAULT false NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    login_at timestamp without time zone NOT NULL,
+    ip inet NOT NULL,
+    user_agent character varying NOT NULL
+);
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -410,6 +444,7 @@ CREATE TABLE public.versions (
     transaction_id integer,
     ip inet,
     user_agent character varying,
+    session bigint,
     created_at timestamp without time zone
 );
 
@@ -473,6 +508,13 @@ ALTER TABLE ONLY public.log_events ALTER COLUMN id SET DEFAULT nextval('public.l
 --
 
 ALTER TABLE ONLY public.provider_accounts ALTER COLUMN id SET DEFAULT nextval('public.provider_accounts_id_seq'::regclass);
+
+
+--
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
 
 
 --
@@ -565,6 +607,14 @@ ALTER TABLE ONLY public.provider_accounts
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -754,6 +804,13 @@ CREATE INDEX index_provider_accounts_on_user_id ON public.provider_accounts USIN
 
 
 --
+-- Name: index_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_user_id ON public.sessions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_admin; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -812,6 +869,14 @@ ALTER TABLE ONLY public.bookings
 
 
 --
+-- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT fk_rails_758836b4f0 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: camdram_tokens fk_rails_bf0aa722d0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -837,6 +902,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('1'),
 ('10'),
 ('11'),
+('12'),
 ('2'),
 ('3'),
 ('4'),

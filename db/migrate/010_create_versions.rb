@@ -11,6 +11,7 @@ class CreateVersions < ActiveRecord::Migration[5.2]
       t.integer :transaction_id
       t.inet :ip
       t.string :user_agent
+      t.bigint :session
       t.datetime :created_at
     end
     add_index :versions, [:item_type, :item_id]
