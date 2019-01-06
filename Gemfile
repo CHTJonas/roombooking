@@ -41,13 +41,13 @@ gem 'humanize_boolean', '~> 0.0.2'
 # Pagination
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 # Calendar
-gem "simple_calendar", "~> 2.0"
+gem 'simple_calendar', '~> 2.0'
 # Asset pipeline
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
 gem 'momentjs-rails'
 gem 'bootstrap4-datetime-picker-rails'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 # View rendering
 gem 'haml'
 gem 'kramdown'
@@ -71,6 +71,7 @@ gem 'gravatar_image_tag', '~> 1.2'
 
 # Database persistence
 gem 'pg'
+gem 'pg_search', '~> 2.1', '>= 2.1.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

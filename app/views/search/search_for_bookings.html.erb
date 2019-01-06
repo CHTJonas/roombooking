@@ -1,0 +1,32 @@
+<% content_for :title, 'Search Bookings' %>
+<% content_for :heading, 'Search Results' %>
+
+<p>
+  <%= form_tag bookings_search_path, class: 'form-inline', method: :get do %>
+    <%= search_field_tag :q, params['q'], placeholder: 'Search bookings', class: 'form-control mr-sm-2' %>
+    <%= submit_tag 'Search', class: 'btn btn-outline-primary my-2 my-sm-0'  %>
+  <% end  %>
+</p>
+
+<table class="table table-condensed table-bordered table-hover">
+  <thead>
+    <%= content_tag :tr do %>
+      <%= content_tag(:td, 'Name') %>
+      <%= content_tag(:td, 'Notes') %>
+      <%= content_tag(:td, 'When') %>
+      <%= content_tag(:td, 'Venue') %>
+    <% end %>
+  </thead>
+  <tbody>
+    <% @bookings.each do |booking| %>
+      <%= content_tag :tr do %>
+        <%= content_tag(:td, link_to(booking.name, booking)) %>
+        <%= content_tag(:td, booking.notes) %>
+        <%= content_tag(:td, full_written_date(booking.start_time)) %>
+        <%= content_tag(:td, booking.venue.name) %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @bookings %>

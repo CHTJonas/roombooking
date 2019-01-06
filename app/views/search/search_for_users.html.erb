@@ -1,0 +1,28 @@
+<% content_for :title, 'Search Users' %>
+<% content_for :heading, 'Search Results' %>
+
+<p>
+  <%= form_tag users_search_path, class: 'form-inline', method: :get do %>
+    <%= search_field_tag :q, params['q'], placeholder: 'Search users', class: 'form-control mr-sm-2' %>
+    <%= submit_tag 'Search', class: 'btn btn-outline-primary my-2 my-sm-0'  %>
+  <% end  %>
+</p>
+
+<table class="table table-condensed table-bordered table-hover">
+  <thead>
+    <%= content_tag :tr do %>
+      <%= content_tag(:td, 'Full Name') %>
+      <%= content_tag(:td, 'Email Address') %>
+    <% end %>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <%= content_tag :tr do %>
+        <%= content_tag(:td, link_to(user.name, user)) %>
+        <%= content_tag(:td, user.email) %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @users %>

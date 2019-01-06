@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   post '/admin/societies/:id/activate' => 'admin#activate_camdram_society', as: 'activate_society', constraints: must_be_admin
   post '/admin/societies/:id/deactivate' => 'admin#deactivate_camdram_society', as: 'deactivate_society', constraints: must_be_admin
 
+  get '/search/bookings' => 'search#search_for_bookings', as: 'bookings_search'
+  get '/search/users' => 'search#search_for_users', as: 'users_search', constraints: must_be_admin
+
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
   mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin

@@ -12,4 +12,8 @@
       <%= render 'layouts/navbar_login' %>
     </ul>
   </div>
+  <%= form_tag bookings_search_path, class: 'form-inline', method: :get do %>
+    <%= search_field_tag :q, params['q'], placeholder: 'Search bookings', class: 'form-control mr-sm-2' %>
+    <%= submit_tag 'Search', class: 'btn btn-outline-light my-2 my-sm-0'  %>
+  <% end  %>
 </nav>
