@@ -29,6 +29,6 @@ class CamdramSociety < ApplicationRecord
   # Private method to return the application-wide Camdram API client from the
   # Rails config.
   def camdram
-    Rails.application.config.camdram_client
+    Rails.application.config.camdram_client_pool.checkout
   end
 end

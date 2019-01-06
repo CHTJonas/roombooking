@@ -356,6 +356,7 @@ DEPENDENCIES
   chronic
   chronic_duration
   coffee-rails (~> 4.2)
+  connection_pool (~> 2.2, >= 2.2.2)
   cookies_eu
   datey
   font-awesome-rails

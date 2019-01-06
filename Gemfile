@@ -55,6 +55,8 @@ gem 'kramdown'
 gem 'cookies_eu'
 # Browser user-agent detection
 gem 'browser', '~> 2.5', '>= 2.5.3'
+# Connection pooling
+gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 # Camdram API wrapper
 #gem 'camdram', '~> 1.1'
 gem 'camdram', :git => 'https://github.com/CHTJonas/camdram-ruby.git'
