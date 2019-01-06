@@ -7,7 +7,7 @@
 
 <% if user_is_admin? %>
   <p>
-    <%= form_tag users_search_path, class: 'form-inline', method: :get do %>
+    <%= form_tag search_users_path, class: 'form-inline', method: :get do %>
       <%= search_field_tag :q, '', placeholder: 'Search users', class: 'form-control mr-sm-2' %>
       <%= submit_tag 'Search', class: 'btn btn-outline-primary my-2 my-sm-0'  %>
     <% end  %>

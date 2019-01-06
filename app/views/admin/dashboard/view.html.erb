@@ -10,8 +10,8 @@
   <%= content_tag :div, 'Setup Booking Entities', class: 'card-header' %>
   <%= content_tag :div, class: 'card-body' do %>
     <%= content_tag :p, 'Configure shows and societies from Camdram to allow them to make bookings within limits you define.', class: 'card-text' %>
-    <%= link_to 'Configure Shows', admin_shows_url, class: 'btn btn-primary' %>
-    <%= link_to 'Configure Societies', admin_societies_url, class: 'btn btn-primary' %>
+    <%= link_to 'Configure Shows', admin_view_shows_path, class: 'btn btn-primary' %>
+    <%= link_to 'Configure Societies', admin_view_societies_path, class: 'btn btn-primary' %>
   <% end %>
 <% end %>
 
@@ -31,7 +31,7 @@
       <%= content_tag :div, 'Sidekiq Jobs', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
         <%= content_tag :p, 'View the background job queue and worker/mailer statuses.', class: 'card-text' %>
-        <%= link_to 'Go to Sidekiq', sidekiq_url, class: 'btn btn-primary' %>
+        <%= link_to 'Go to Sidekiq', sidekiq_path, class: 'btn btn-primary' %>
       <% end %>
     <% end %>
   <% end %>
@@ -40,7 +40,7 @@
       <%= content_tag :div, 'Back Office', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
         <%= content_tag :p, 'Access the site back end and edit model data manually.', class: 'card-text' %>
-        <%= link_to 'Go to Back Office', rails_admin_url, class: 'btn btn-primary' %>
+        <%= link_to 'Go to Back Office', rails_admin_path, class: 'btn btn-primary' %>
       <% end %>
     <% end %>
   <% end %>

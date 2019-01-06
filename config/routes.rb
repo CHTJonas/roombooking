@@ -2,23 +2,27 @@ Rails.application.routes.draw do
   require 'roombooking/route_constraints'
   must_be_admin = Roombooking::AdminConstraint.new
 
-  get '/admin' => 'admin#index', as: 'admin', constraints: must_be_admin
-  get '/admin/shows' => 'admin#view_camdram_shows', as: 'admin_shows', constraints: must_be_admin
-  post '/admin/shows/:id/import' => 'admin#import_camdram_show', as: 'import_show', constraints: must_be_admin
-  post '/admin/shows/:id/activate' => 'admin#activate_camdram_show', as: 'activate_show', constraints: must_be_admin
-  post '/admin/shows/:id/deactivate' => 'admin#deactivate_camdram_show', as: 'deactivate_show', constraints: must_be_admin
-  get '/admin/societies' => 'admin#view_camdram_societies', as: 'admin_societies', constraints: must_be_admin
-  post '/admin/societies/:id/import' => 'admin#import_camdram_society', as: 'import_society', constraints: must_be_admin
-  post '/admin/societies/:id/activate' => 'admin#activate_camdram_society', as: 'activate_society', constraints: must_be_admin
-  post '/admin/societies/:id/deactivate' => 'admin#deactivate_camdram_society', as: 'deactivate_society', constraints: must_be_admin
-
-  get '/search/bookings' => 'search#search_for_bookings', as: 'bookings_search'
-  get '/search/users' => 'search#search_for_users', as: 'users_search', constraints: must_be_admin
+  namespace :admin do
+    get '/' => 'dashboard#view', as: 'view_dashboard', constraints: must_be_admin
+    get '/shows' => 'shows#view', as: 'view_shows', constraints: must_be_admin
+    post '/shows/:id/import' => 'shows#import', as: 'import_show', constraints: must_be_admin
+    post '/shows/:id/activate' => 'shows#activate', as: 'activate_show', constraints: must_be_admin
+    post '/shows/:id/deactivate' => 'shows#deactivate', as: 'deactivate_show', constraints: must_be_admin
+    get '/societies' => 'societies#view', as: 'view_societies', constraints: must_be_admin
+    post '/societies/:id/import' => 'societies#import', as: 'import_society', constraints: must_be_admin
+    post '/societies/:id/activate' => 'societies#activate', as: 'activate_society', constraints: must_be_admin
+    post '/societies/:id/deactivate' => 'societies#deactivate', as: 'deactivate_society', constraints: must_be_admin
+  end
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
   mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin
   mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin', constraints: must_be_admin
+
+  namespace :search do
+    get '/bookings' => 'bookings#search', as: 'bookings'
+    get '/users' => 'bookings#search', as: 'users', constraints: must_be_admin
+  end
 
   resources :venues
   resources :bookings
