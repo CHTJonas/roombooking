@@ -46,7 +46,9 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "camdram_productions", force: :cascade do |t|
     t.bigint "camdram_id", null: false
-    t.integer "max_bookings", default: 0, null: false
+    t.integer "max_rehearsals", default: 0, null: false
+    t.integer "max_auditions", default: 0, null: false
+    t.integer "max_meetings", default: 0, null: false
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -56,7 +58,7 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "camdram_societies", force: :cascade do |t|
     t.bigint "camdram_id", null: false
-    t.integer "max_bookings", default: 0, null: false
+    t.integer "max_meetings", default: 0, null: false
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

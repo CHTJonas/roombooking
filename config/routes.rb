@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     post '/societies/:id/import' => 'societies#import', as: 'import_society', constraints: must_be_admin
     post '/societies/:id/activate' => 'societies#activate', as: 'activate_society', constraints: must_be_admin
     post '/societies/:id/deactivate' => 'societies#deactivate', as: 'deactivate_society', constraints: must_be_admin
+
+    resources :camdram_productions, only: [:update]
   end
 
   require 'sidekiq/web'

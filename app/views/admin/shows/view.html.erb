@@ -10,16 +10,20 @@
   <thead>
     <%= content_tag :tr do %>
       <%= content_tag(:td, 'Name') %>
-      <%= content_tag(:td, 'Actions') %>
+      <%= content_tag(:td, 'Action') %>
+      <%= content_tag(:td, 'Rehearsal hours per week') %>
+      <%= content_tag(:td, 'Audition hours per week') %>
+      <%= content_tag(:td, 'Meeting hours per week') %>
     <% end %>
   </thead>
   <tbody>
     <% @shows.each do |show| %>
       <%= content_tag :tr do %>
         <%= content_tag(:td, show.name) %>
-        <%= content_tag :td do %>
-          <%= actions_for_show show %>
-        <% end %>
+        <%= content_tag(:td, (actions_for_show show)) %>
+        <%= content_tag(:td, (rehearsal_picker_for_show show)) %>
+        <%= content_tag(:td, (audition_picker_for_show show)) %>
+        <%= content_tag(:td, (meeting_picker_for_show show)) %>
       <% end %>
     <% end %>
   </tbody>

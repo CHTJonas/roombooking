@@ -2,7 +2,9 @@ class CamdramProduction < ApplicationRecord
   has_many :booking, as: :camdram_model, dependent: :delete_all
 
   validates :camdram_id, numericality: { only_integer: true }
-  validates :max_bookings, numericality: { only_integer: true }
+  validates :max_rehearsals, numericality: { only_integer: true }
+  validates :max_auditions, numericality: { only_integer: true }
+  validates :max_meetings, numericality: { only_integer: true }
 
   # Creates a CamdramProduction model from a Camdram::Show object.
   def self.create_from_camdram(show)

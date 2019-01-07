@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
         render 'layouts/blank', locals: {reason: 'camdram token error'}, status: :internal_server_error and return
       end
       if current_camdram_token.expired?
-        current_camdram_token.refresh!
+        current_camdram_token.refresh
       end
     end
   end

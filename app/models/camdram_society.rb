@@ -2,7 +2,7 @@ class CamdramSociety < ApplicationRecord
   has_many :booking, as: :camdram_model, dependent: :delete_all
 
   validates :camdram_id, numericality: { only_integer: true }
-  validates :max_bookings, numericality: { only_integer: true }
+  validates :max_meetings, numericality: { only_integer: true }
 
   # Creates a CamdramSociety model from a Camdram::Organisation object.
   def self.create_from_camdram(org)

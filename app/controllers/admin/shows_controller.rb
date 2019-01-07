@@ -9,7 +9,11 @@ module Admin
     def import
       id = params[:id].to_i
       unless id == 0
-        prod = CamdramProduction.create(camdram_id: id, max_bookings: 7, active: false)
+        prod = CamdramProduction.create(camdram_id: id,
+                                        max_rehearsals: 12,
+                                        max_auditions: 10,
+                                        max_meetings: 4,
+                                        active: false)
         prod.save
       end
       redirect_to action: 'view'
