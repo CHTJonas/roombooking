@@ -14,7 +14,7 @@
       <%= content_tag(:td, 'Name') %>
       <%= content_tag(:td, 'Notes') %>
       <%= content_tag(:td, 'When') %>
-      <%= content_tag(:td, 'Venue') %>
+      <%= content_tag(:td, 'Room') %>
     <% end %>
   </thead>
   <tbody>
@@ -23,7 +23,7 @@
         <%= content_tag(:td, link_to(booking.name, booking)) %>
         <%= content_tag(:td, booking.notes) %>
         <%= content_tag(:td, full_written_date(booking.start_time)) %>
-        <%= content_tag(:td, booking.venue.name) %>
+        <%= content_tag(:td, booking.room.name) %>
       <% end %>
     <% end %>
   </tbody>

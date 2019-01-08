@@ -1,5 +1,3 @@
-# https://github.com/sferik/rails_admin/wiki/Base-configuration
-
 RailsAdmin.config do |config|
 
   config.main_app_name = ["Room Booking Back Office", ""]
@@ -7,7 +5,7 @@ RailsAdmin.config do |config|
   config.show_gravatar = false
 
   excluded_models = ['CamdramToken', 'LogEvent', 'Session']
-  audited_models = ['Booking', 'CamdramProduction', 'CamdramSociety', 'ProviderAccount', 'User', 'Venue']
+  audited_models = ['Booking', 'CamdramProduction', 'CamdramSociety', 'ProviderAccount', 'User', 'Room']
 
   config.model 'User' do
     exclude_fields :log_events, :camdram_token

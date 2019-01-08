@@ -19,6 +19,6 @@ The ADC Room Booking System.
 | Date: | <%= @booking.start_time.strftime("%d/%m/%y") %> |
 | Start Time: | <%= @booking.start_time.strftime("%H:%M") %> |
 | Finish Time: | <%= @booking.end_time.strftime("%H:%M") %> |
-| Room: | <%= @booking.venue.name %> |
+| Room: | <%= @booking.room.name %> |
 | Creator: | <%= @booking.user.name %> |
 | Purpose: | <%= @booking.purpose_string %> |

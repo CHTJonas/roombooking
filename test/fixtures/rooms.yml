@@ -5,7 +5,7 @@ one:
   notes: MyText
   when: 2018-08-01 14:40:11
   duration: MyString
-  venue: one
+  room: one
   user: one
   deleted_at: 2018-08-01 14:40:11
 
@@ -14,6 +14,6 @@ two:
   notes: MyText
   when: 2018-08-01 14:40:11
   duration: MyString
-  venue: two
+  room: two
   user: two
   deleted_at: 2018-08-01 14:40:11

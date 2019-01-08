@@ -9,7 +9,7 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.integer :repeat_mode, default: 0, null: false
       t.integer :purpose, null: false
       t.boolean :approved, default: false, null: false
-      t.references :venue, foreign_key: true, null: false
+      t.references :room, foreign_key: true, null: false
       t.references :user, foreign_key: true, null: false
       t.references :camdram_model, polymorphic: true, null: true
       t.timestamps

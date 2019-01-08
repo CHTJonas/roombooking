@@ -2,7 +2,7 @@
   <%= link_to '⬅ Previous', calendar.url_for_previous_view %>
   <span class="calendar-title mx-3">
     <% week_start_date = start_date.at_beginning_of_week %>
-    <%= @venue.name %> bookings for the week of <%= written_date_with_month week_start_date %>
+    <%= @room.name %> bookings for the week of <%= written_date_with_month week_start_date %>
   </span>
   <%= link_to 'Next ➡', calendar.url_for_next_view %>
 </div>

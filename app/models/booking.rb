@@ -35,10 +35,10 @@ class Booking < ApplicationRecord
     [ :theatre_closed, :training, :other ]
   end
 
-  belongs_to :venue
+  belongs_to :room
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
-  validates_associated :venue
+  validates_associated :room
   validates_associated :user
   validates_associated :camdram_model
 

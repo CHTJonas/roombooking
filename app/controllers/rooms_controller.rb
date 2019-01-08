@@ -1,69 +1,69 @@
-class VenuesController < ApplicationController
+class RoomsController < ApplicationController
   helper_method :events_for
 
   def index
-    @venues = Venue.accessible_by(current_ability, :read)
+    @rooms = Room.accessible_by(current_ability, :read)
   end
 
   def new
-    authorize! :create, Venue
-    @venue = Venue.new
+    authorize! :create, Room
+    @room = Room.new
   end
 
   def edit
-    @venue = Venue.find(params[:id])
-    authorize! :edit, @venue
+    @room = Room.find(params[:id])
+    authorize! :edit, @room
   end
 
   def create
-    @venue = Venue.new(venue_params)
-    authorize! :create, @venue
-    if @venue.save
-      alert = { 'class' => 'success', 'message' => "Added #{@venue.name}!" }
+    @room = Room.new(room_params)
+    authorize! :create, @room
+    if @room.save
+      alert = { 'class' => 'success', 'message' => "Added #{@room.name}!" }
       flash[:alert] = alert
-      redirect_to @venue
+      redirect_to @room
     else
-      alert = { 'class' => 'danger', 'message' => @venue.errors.full_messages.first }
+      alert = { 'class' => 'danger', 'message' => @room.errors.full_messages.first }
       flash.now[:alert] = alert
       render :new
     end
   end
 
   def update
-    @venue = Venue.find(params[:id])
-    authorize! :edit, @venue
-    if @venue.update(venue_params)
-      alert = { 'class' => 'success', 'message' => "Updated #{@venue.name}!"}
+    @room = Room.find(params[:id])
+    authorize! :edit, @room
+    if @room.update(room_params)
+      alert = { 'class' => 'success', 'message' => "Updated #{@room.name}!"}
       flash[:alert] = alert
-      redirect_to @venue
+      redirect_to @room
     else
-      alert = { 'class' => 'danger', 'message' => @venue.errors.full_messages.first }
+      alert = { 'class' => 'danger', 'message' => @room.errors.full_messages.first }
       flash.now[:alert] = alert
       render :edit
     end
   end
 
   def show
-    @venue = Venue.find(params[:id])
-    authorize! :read, @venue
+    @room = Room.find(params[:id])
+    authorize! :read, @room
   end
 
   def destroy
-    @venue = Venue.find(params[:id])
-    authorize! :destroy, @venue
-    @venue.destroy
-    alert = { 'class' => 'success', 'message' => "Deleted #{@venue.name}!"}
+    @room = Room.find(params[:id])
+    authorize! :destroy, @room
+    @room.destroy
+    alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!"}
     flash[:alert] = alert
-    redirect_to venues_path
+    redirect_to rooms_path
   end
 
   protected
 
-  def events_for(venue)
+  def events_for(room)
     start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
     end_date = start_date + 7.days
 
-    daily_bookings = venue.booking.where(repeat_mode: :none)
+    daily_bookings = room.booking.where(repeat_mode: :none)
                                   .where(start_time: start_date..end_date)
                                   .accessible_by(current_ability, :read)
     daily_events = Array.new(daily_bookings.length)
@@ -71,7 +71,7 @@ class VenuesController < ApplicationController
 
     repeat_events = LinkedList::List.new
 
-    daily_repeat_bookings = venue.booking.where(repeat_mode: :daily)
+    daily_repeat_bookings = room.booking.where(repeat_mode: :daily)
                                          .where(start_time: Time.at(0)..end_date)
                                          .where(repeat_until: start_date..DateTime::Infinity.new)
                                          .accessible_by(current_ability, :read)
@@ -83,7 +83,7 @@ class VenuesController < ApplicationController
       end
     end
 
-    weekly_repeat_bookings = venue.booking.where(repeat_mode: :weekly)
+    weekly_repeat_bookings = room.booking.where(repeat_mode: :weekly)
                                           .where(start_time: Time.at(0)..end_date)
                                           .where(repeat_until: start_date..DateTime::Infinity.new)
                                           .accessible_by(current_ability, :read)
@@ -97,7 +97,7 @@ class VenuesController < ApplicationController
 
   private
 
-  def venue_params
-    params.require(:venue).permit(:name)
+  def room_params
+    params.require(:room).permit(:name)
   end
 end

@@ -2,8 +2,8 @@ module Admin
   class CamdramShowsController < DashboardController
     def index
       @camdram_shows = Array.new
-      venues = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
-      venues.each { |venue| @camdram_shows += camdram.get_venue(venue).shows }
+      rooms = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
+      rooms.each { |room| @camdram_shows += camdram.get_room(room).shows }
     end
 
     def create

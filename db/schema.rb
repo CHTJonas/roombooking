@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer "repeat_mode", default: 0, null: false
     t.integer "purpose", null: false
     t.boolean "approved", default: false, null: false
-    t.bigint "venue_id", null: false
+    t.bigint "room_id", null: false
     t.bigint "user_id", null: false
     t.string "camdram_model_type"
     t.bigint "camdram_model_id"
@@ -39,9 +39,9 @@ ActiveRecord::Schema.define(version: 12) do
     t.index ["end_time"], name: "index_bookings_on_end_time"
     t.index ["repeat_mode"], name: "index_bookings_on_repeat_mode", where: "(repeat_mode <> 0)"
     t.index ["repeat_until"], name: "index_bookings_on_repeat_until"
+    t.index ["room_id"], name: "index_bookings_on_room_id"
     t.index ["start_time"], name: "index_bookings_on_start_time"
     t.index ["user_id"], name: "index_bookings_on_user_id"
-    t.index ["venue_id"], name: "index_bookings_on_venue_id"
   end
 
   create_table "camdram_shows", force: :cascade do |t|
@@ -104,6 +104,12 @@ ActiveRecord::Schema.define(version: 12) do
     t.index ["user_id"], name: "index_provider_accounts_on_user_id"
   end
 
+  create_table "rooms", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.boolean "invalidated", default: false, null: false
@@ -123,12 +129,6 @@ ActiveRecord::Schema.define(version: 12) do
     t.datetime "updated_at", null: false
     t.index ["admin"], name: "index_users_on_admin", where: "(admin = true)"
     t.index ["email"], name: "index_users_on_email", unique: true
-  end
-
-  create_table "venues", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "version_associations", force: :cascade do |t|
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(version: 12) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
+  add_foreign_key "bookings", "rooms"
   add_foreign_key "bookings", "users"
-  add_foreign_key "bookings", "venues"
   add_foreign_key "camdram_tokens", "users"
   add_foreign_key "provider_accounts", "users"
   add_foreign_key "sessions", "users"

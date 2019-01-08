@@ -5,7 +5,7 @@ class Ability
     alias_action :create, :read, :update, :destroy, to: :crud
 
     can :read, Booking, approved: true # Everyone can view approved bookings.
-    can :read, Venue # Everyone can view venues.
+    can :read, Room # Everyone can view rooms.
     if user.present?  # Additional permissions for logged in users...
       if user.admin?
         can :manage, :all # Administrators can do anything!

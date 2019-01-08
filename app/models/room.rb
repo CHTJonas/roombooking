@@ -1,4 +1,4 @@
-class Venue < ApplicationRecord
+class Room < ApplicationRecord
   has_many :booking, dependent: :delete_all
 
   validates :name, presence: true

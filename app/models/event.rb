@@ -1,4 +1,4 @@
-# Generated dynamically by the VenuesHelper module.
+# Generated dynamically by the RoomsHelper module.
 # Not stored in the database.
 class Event
   attr_accessor :start_time, :end_time, :booking

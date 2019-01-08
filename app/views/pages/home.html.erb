@@ -7,13 +7,13 @@
 </p>
 
 <%= content_tag :div, class: 'list-group' do %>
-  <% Venue.all.each do |venue| %>
-    <% if venue.currently_booked? %>
-      <% str = venue.name + ' — booked for "' + venue.current_booking.name + '"'%>
-      <%= link_to str, venue, class: 'list-group-item list-group-item-action list-group-item-dark' %>
+  <% Room.all.each do |room| %>
+    <% if room.currently_booked? %>
+      <% str = room.name + ' — booked for "' + room.current_booking.name + '"'%>
+      <%= link_to str, room, class: 'list-group-item list-group-item-action list-group-item-dark' %>
     <% else %>
-      <% str = venue.name + ' — not currently booked!' %>
-      <%= link_to str, venue, class: 'list-group-item list-group-item-action list-group-item-light' %>
+      <% str = room.name + ' — not currently booked!' %>
+      <%= link_to str, room, class: 'list-group-item list-group-item-action list-group-item-light' %>
     <% end %>
   <% end %>
 <% end %>

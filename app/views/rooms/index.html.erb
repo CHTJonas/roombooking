@@ -1,0 +1,11 @@
+<% content_for :title, 'Rooms' %>
+<% content_for :heading, 'Rooms' %>
+<% content_for :controller_links do %>
+  <p class="mb-0"><%= link_to('New room', new_room_path) %></p>
+<% end if can? :create, Room %>
+
+<ul>
+  <% @rooms.each do |room| %>
+    <%= render room %>
+  <% end %>
+</ul>

@@ -7,7 +7,7 @@ In particular, please check the following details are correct before approving:
 
 * Dates
 * Times
-* Venue
+* Room
 
 A summary of the booking is given below. You can edit, authorise or delete the booking as appropriate by visiting <<%= url_for(@booking) %>> whilst logged in.
 
@@ -23,6 +23,6 @@ The ADC Room Booking System.
 | Date: | <%= @booking.start_time.strftime("%d/%m/%y") %> |
 | Start Time: | <%= @booking.start_time.strftime("%H:%M") %> |
 | Finish Time: | <%= @booking.end_time.strftime("%H:%M") %> |
-| Room: | <%= @booking.venue.name %> |
+| Room: | <%= @booking.room.name %> |
 | Creator: | <%= @booking.user.name %> |
 | Purpose: | <%= @booking.purpose_string %> |

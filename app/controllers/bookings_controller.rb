@@ -92,7 +92,7 @@ class BookingsController < ApplicationController
   private
 
   def booking_params
-    params.require(:booking).permit(:name, :notes, :start_time, :length, :venue_id, :purpose, :repeat_mode, :repeat_until)
+    params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until)
   end
 
   def populate_from_camdram

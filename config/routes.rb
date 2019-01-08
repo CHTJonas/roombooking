@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     get '/users' => 'bookings#search', as: 'users', constraints: must_be_admin
   end
 
-  resources :venues
   resources :bookings
+  resources :rooms
   resources :users
 
   post '/bookings/:id/approve' => 'bookings#approve', as: :approve_booking
