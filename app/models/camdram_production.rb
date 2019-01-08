@@ -15,6 +15,11 @@ class CamdramProduction < ApplicationRecord
     end
   end
 
+  # Find a CamdramProduction model from a Camdram::Show object.
+  def self.find_from_camdram(show)
+    find_by(camdram_id: show.id)
+  end
+
   # Returns the Camdram::Show object that the record references by querying
   # the Camdram API.
   def camdram_object

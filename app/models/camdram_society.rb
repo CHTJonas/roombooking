@@ -13,6 +13,11 @@ class CamdramSociety < ApplicationRecord
     end
   end
 
+  # Find a CamdramSociety model from a Camdram::Organisation object.
+  def self.find_from_camdram(org)
+    find_by(camdram_id: org.id)
+  end
+
   # Returns the Camdram::Organisation object that the record references by
   # querying the Camdram API.
   def camdram_object

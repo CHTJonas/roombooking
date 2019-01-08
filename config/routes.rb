@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post '/societies/:id/deactivate' => 'societies#deactivate', as: 'deactivate_society', constraints: must_be_admin
 
     resources :camdram_productions, only: [:update]
+    resources :camdram_societies, only: [:update]
   end
 
   require 'sidekiq/web'

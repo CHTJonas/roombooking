@@ -3,22 +3,28 @@
 
 <p>
   Here you can import societies from Camdram that aren't yet known to the internals of Room Booking.
-  Once they're imported you can activate and deactivate them, as well as set limits on the number of bookings they're allowed.
+  Once they're imported you can activate and deactivate them, as well as set limits on the total booking hours they're allowed per week.
 </p>
 
 <table class="table table-condensed table-bordered table-hover">
   <thead>
     <%= content_tag :tr do %>
-      <%= content_tag(:td, 'Name') %>
-      <%= content_tag(:td, 'Actions') %>
+      <%= content_tag(:td, 'Society Name') %>
+      <%= content_tag(:td, 'Status') %>
+      <%= content_tag(:td, 'Booking Hours per Week') %>
     <% end %>
   </thead>
   <tbody>
-    <% @societies.each do |society| %>
+    <% @societies.each do |camdram_society| %>
+      <% roombooking_society = CamdramSociety.find_from_camdram(camdram_society) %>
       <%= content_tag :tr do %>
-        <%= content_tag(:td, society.name) %>
+        <%= content_tag(:td, camdram_society.name) %>
+        <%= content_tag(:td, (actions_for_society camdram_society, roombooking_society)) %>
         <%= content_tag :td do %>
-          <%= actions_for_society society %>
+          <%= form_with(model: roombooking_society, url: admin_camdram_society_path(roombooking_society)) do |form| %>
+            <%= form.label :max_meetings, 'Meetings:' %>
+            <%= form.number_field :max_meetings, class: 'form-control mb-2', disabled: !roombooking_society.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+          <% end if roombooking_society.present? %>
         <% end %>
       <% end %>
     <% end %>

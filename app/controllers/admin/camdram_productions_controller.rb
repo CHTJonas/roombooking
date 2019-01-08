@@ -2,7 +2,11 @@ module Admin
   class CamdramProductionsController < DashboardController
     def update
       @camdram_production = CamdramProduction.find(params[:id])
-      @camdram_production.update(camdram_production_params)
+      @camdram_production.attributes = camdram_production_params
+      if @camdram_production.valid?
+        @camdram_production.save
+      end
+      head :no_content
     end
 
     private

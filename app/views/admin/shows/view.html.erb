@@ -3,27 +3,33 @@
 
 <p>
   Here you can import shows from Camdram that aren't yet known to the internals of Room Booking.
-  Once they're imported you can activate and deactivate them, as well as set limits on the number of bookings they're allowed.
+  Once they're imported you can activate and deactivate them, as well as set limits on the total booking hours they're allowed per week.
 </p>
 
 <table class="table table-condensed table-bordered table-hover">
   <thead>
     <%= content_tag :tr do %>
-      <%= content_tag(:td, 'Name') %>
-      <%= content_tag(:td, 'Action') %>
-      <%= content_tag(:td, 'Rehearsal hours per week') %>
-      <%= content_tag(:td, 'Audition hours per week') %>
-      <%= content_tag(:td, 'Meeting hours per week') %>
+      <%= content_tag(:td, 'Show Name') %>
+      <%= content_tag(:td, 'Status') %>
+      <%= content_tag(:td, 'Booking Hours per Week') %>
     <% end %>
   </thead>
   <tbody>
     <% @shows.each do |show| %>
+      <% prod = CamdramProduction.find_from_camdram(show) %>
       <%= content_tag :tr do %>
         <%= content_tag(:td, show.name) %>
-        <%= content_tag(:td, (actions_for_show show)) %>
-        <%= content_tag(:td, (rehearsal_picker_for_show show)) %>
-        <%= content_tag(:td, (audition_picker_for_show show)) %>
-        <%= content_tag(:td, (meeting_picker_for_show show)) %>
+        <%= content_tag(:td, (actions_for_show show, prod)) %>
+        <%= content_tag :td do %>
+          <%= form_with(model: prod, url: admin_camdram_production_path(prod)) do |form| %>
+            <%= form.label :max_rehearsals, 'Rehearsals:' %>
+            <%= form.number_field :max_rehearsals, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+            <%= form.label :max_auditions, 'Auditions:' %>
+            <%= form.number_field :max_auditions, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+            <%= form.label :max_meetings, 'Meetings:' %>
+            <%= form.number_field :max_meetings, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+          <% end if prod.present? %>
+        <% end %>
       <% end %>
     <% end %>
   </tbody>
