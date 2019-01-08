@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.index ["venue_id"], name: "index_bookings_on_venue_id"
   end
 
-  create_table "camdram_productions", force: :cascade do |t|
+  create_table "camdram_shows", force: :cascade do |t|
     t.bigint "camdram_id", null: false
     t.integer "max_rehearsals", default: 0, null: false
     t.integer "max_auditions", default: 0, null: false
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 12) do
     t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["active"], name: "index_camdram_productions_on_active", where: "(active = true)"
-    t.index ["camdram_id"], name: "index_camdram_productions_on_camdram_id", unique: true
+    t.index ["active"], name: "index_camdram_shows_on_active", where: "(active = true)"
+    t.index ["camdram_id"], name: "index_camdram_shows_on_camdram_id", unique: true
   end
 
   create_table "camdram_societies", force: :cascade do |t|

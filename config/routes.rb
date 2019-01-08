@@ -3,18 +3,9 @@ Rails.application.routes.draw do
   must_be_admin = Roombooking::AdminConstraint.new
 
   namespace :admin do
-    get '/' => 'dashboard#view', as: 'view_dashboard', constraints: must_be_admin
-    get '/shows' => 'shows#view', as: 'view_shows', constraints: must_be_admin
-    post '/shows/:id/import' => 'shows#import', as: 'import_show', constraints: must_be_admin
-    post '/shows/:id/activate' => 'shows#activate', as: 'activate_show', constraints: must_be_admin
-    post '/shows/:id/deactivate' => 'shows#deactivate', as: 'deactivate_show', constraints: must_be_admin
-    get '/societies' => 'societies#view', as: 'view_societies', constraints: must_be_admin
-    post '/societies/:id/import' => 'societies#import', as: 'import_society', constraints: must_be_admin
-    post '/societies/:id/activate' => 'societies#activate', as: 'activate_society', constraints: must_be_admin
-    post '/societies/:id/deactivate' => 'societies#deactivate', as: 'deactivate_society', constraints: must_be_admin
-
-    resources :camdram_productions, only: [:update]
-    resources :camdram_societies, only: [:update]
+    resources :dashboard, only: [:index], constraints: must_be_admin
+    resources :camdram_shows, only: [:index, :create, :update], constraints: must_be_admin
+    resources :camdram_societies, only: [:index, :create, :update], constraints: must_be_admin
   end
 
   require 'sidekiq/web'

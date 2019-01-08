@@ -15,20 +15,20 @@
     <% end %>
   </thead>
   <tbody>
-    <% @shows.each do |show| %>
-      <% prod = CamdramProduction.find_from_camdram(show) %>
+    <% @camdram_shows.each do |camdram_show| %>
+      <% roombooking_show = CamdramShow.find_from_camdram(camdram_show) %>
       <%= content_tag :tr do %>
-        <%= content_tag(:td, show.name) %>
-        <%= content_tag(:td, (actions_for_show show, prod)) %>
+        <%= content_tag(:td, camdram_show.name) %>
+        <%= content_tag(:td, (actions_for_show camdram_show, roombooking_show)) %>
         <%= content_tag :td do %>
-          <%= form_with(model: prod, url: admin_camdram_production_path(prod)) do |form| %>
+          <%= form_with(model: roombooking_show, url: admin_camdram_show_path(roombooking_show)) do |form| %>
             <%= form.label :max_rehearsals, 'Rehearsals:' %>
-            <%= form.number_field :max_rehearsals, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+            <%= form.number_field :max_rehearsals, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
             <%= form.label :max_auditions, 'Auditions:' %>
-            <%= form.number_field :max_auditions, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+            <%= form.number_field :max_auditions, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
             <%= form.label :max_meetings, 'Meetings:' %>
-            <%= form.number_field :max_meetings, class: 'form-control mb-2', disabled: !prod.active?, onchange: 'Rails.fire(this.form, "submit")' %>
-          <% end if prod.present? %>
+            <%= form.number_field :max_meetings, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+          <% end if roombooking_show.present? %>
         <% end %>
       <% end %>
     <% end %>

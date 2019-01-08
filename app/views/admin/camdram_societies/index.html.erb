@@ -15,7 +15,7 @@
     <% end %>
   </thead>
   <tbody>
-    <% @societies.each do |camdram_society| %>
+    <% @camdram_societies.each do |camdram_society| %>
       <% roombooking_society = CamdramSociety.find_from_camdram(camdram_society) %>
       <%= content_tag :tr do %>
         <%= content_tag(:td, camdram_society.name) %>
