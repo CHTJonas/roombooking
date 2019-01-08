@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   resources :rooms
   resources :users
 
-  post '/bookings/:id/approve' => 'bookings#approve', as: :approve_booking
   get '/auth/:provider/callback' => 'sessions#create'
   get '/login' => 'sessions#new', as: :login
   get '/logout' => 'sessions#destroy', as: :logout

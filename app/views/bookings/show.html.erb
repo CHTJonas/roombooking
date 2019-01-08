@@ -4,7 +4,10 @@
   <p class="mb-0"><%= link_to 'Edit', edit_booking_path(@booking) %></p>
   <p class="mb-0"><%= delete_confirm 'Delete', @booking %></p>
   <% if can?(:approve, @booking) && !@booking.approved? %>
-    <p class="mb-0"><%= link_to 'Approve', approve_booking_path(@booking), method: :post %></p>
+    <%= form_with model: @booking, local: true do |form| %>
+      <%= form.hidden_field :approved, value: true %>
+      <%= form.submit 'Approve', id: 'approval', class: 'btn btn-link' %>
+    <% end %>
   <% end %>
 <% end if can? :crud, @booking %>
 
