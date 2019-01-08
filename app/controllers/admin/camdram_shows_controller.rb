@@ -3,7 +3,7 @@ module Admin
     def index
       @camdram_shows = Array.new
       rooms = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
-      rooms.each { |room| @camdram_shows += camdram.get_room(room).shows }
+      rooms.each { |room| @camdram_shows += camdram.get_venue(room).shows }
     end
 
     def create

@@ -107,7 +107,7 @@ class BookingsController < ApplicationController
       else
         id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
         if Booking.purposes_with_shows.find_index(@booking.purpose.to_sym)
-          @booking.camdram_model = CamdramProduction.find(id)
+          @booking.camdram_model = CamdramShow.find(id)
         elsif Booking.purposes_with_societies.find_index(@booking.purpose.to_sym)
           @booking.camdram_model = CamdramSociety.find(id)
         else

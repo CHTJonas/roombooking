@@ -66,14 +66,14 @@ class User < ApplicationRecord
   def authorised_camdram_shows
     if self.admin
       # Admins are authorised for all active shows!
-      CamdramProduction.where(active: true)
+      CamdramShow.where(active: true)
     else
       # Poll Camdram for future shows that the user has access to.
       shows = camdram.user.get_shows.reject {
         |show| show.performances.last.end_date < Time.now
       }
       # Then authorise any such active shows.
-      CamdramProduction.where(camdram_id: shows, active: true)
+      CamdramShow.where(camdram_id: shows, active: true)
     end
   end
 

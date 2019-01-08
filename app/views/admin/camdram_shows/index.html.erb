@@ -21,7 +21,7 @@
         <%= content_tag(:td, camdram_show.name) %>
         <%= content_tag(:td, (actions_for_show camdram_show, roombooking_show)) %>
         <%= content_tag :td do %>
-          <%= form_with(model: roombooking_show, url: admin_camdram_show_path(roombooking_show)) do |form| %>
+          <%= form_with model: roombooking_show, url: admin_camdram_show_path(roombooking_show) do |form| %>
             <%= form.label :max_rehearsals, 'Rehearsals:' %>
             <%= form.number_field :max_rehearsals, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
             <%= form.label :max_auditions, 'Auditions:' %>

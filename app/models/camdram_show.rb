@@ -22,7 +22,7 @@ class CamdramShow < ApplicationRecord
     end
   end
 
-  # Find a CamdramProduction model from a Camdram::Show object.
+  # Find a CamdramShow model from a Camdram::Show object.
   def self.find_from_camdram(camdram_show)
     find_by(camdram_id: camdram_show.id)
   end
