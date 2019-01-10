@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   namespace :search do
     get '/bookings' => 'bookings#search', as: 'bookings'
-    get '/users' => 'bookings#search', as: 'users', constraints: must_be_admin
+    get '/users' => 'users#search', as: 'users', constraints: must_be_admin
   end
 
   resources :bookings

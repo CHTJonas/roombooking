@@ -1,5 +1,5 @@
 threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
-workers_count = ENV.fetch('WEB_CONCURRENCY') { 3 }
+workers_count = ENV.fetch('WEB_CONCURRENCY') { 1 }
 
 threads threads_count, threads_count
 workers workers_count

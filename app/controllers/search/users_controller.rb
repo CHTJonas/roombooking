@@ -1,5 +1,5 @@
 module Search
-  class BookingsController < ApplicationController
+  class UsersController < ApplicationController
     def search
       query = params['q']
       page = params[:page]
