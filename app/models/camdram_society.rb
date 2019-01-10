@@ -26,19 +26,11 @@ class CamdramSociety < ApplicationRecord
   # Returns the Camdram::Organisation object that the record references by
   # querying the Camdram API.
   def camdram_object
-    @camdram_object ||= camdram.get_society(self.camdram_id)
+    @camdram_object ||= Roombooking::CamdramAPI.client.get_society(self.camdram_id)
   end
 
   # Returns the name of the society by querying the Camdram API.
   def name
     camdram_object.name
-  end
-
-  private
-
-  # Private method to return the application-wide Camdram API client from the
-  # Rails config.
-  def camdram
-    Rails.application.config.camdram_client_pool.checkout
   end
 end

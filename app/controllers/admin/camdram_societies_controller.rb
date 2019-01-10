@@ -1,7 +1,7 @@
 module Admin
   class CamdramSocietiesController < DashboardController
     def index
-      @camdram_societies = camdram.get_societies
+      @camdram_societies = Roombooking::CamdramAPI.client.get_societies
     end
 
     def create

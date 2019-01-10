@@ -42,11 +42,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # Returns the application-wide Camdram API client from the Rails config.
-  def camdram
-    Rails.application.config.camdram_client_pool.checkout
-  end
-
   # Finds the Session model object with the ID that is stored in the Rails
   # session store. Logging in sets this session value and logging out
   # removes it.

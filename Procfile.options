@@ -4,11 +4,12 @@ pid_root: tmp/pids
 console_command: bundle exec rails console
 env:
   RAILS_ENV: production
+  RACK_TIMEOUT_SERVICE_TIMEOUT: 5
 processes:
   web:
-    log_file_name: unicorn.log
-    restart_mode: usr2
-    term_signal: QUIT
+    log_file_name: puma.log
+    restart_mode: usr1
+    term_signal: TERM
   worker:
     log_file_name: sidekiq-worker.log
     restart_mode: start-term

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   require 'roombooking/route_constraints'
   must_be_admin = Roombooking::AdminConstraint.new
 
+  get '/admin', to: redirect('/admin/dashboard'), constraints: must_be_admin
   namespace :admin do
     resources :dashboard, only: [:index], constraints: must_be_admin
     resources :camdram_shows, only: [:index, :create, :update], constraints: must_be_admin

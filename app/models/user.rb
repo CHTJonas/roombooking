@@ -47,14 +47,12 @@ class User < ApplicationRecord
 
   # Grants site administrator privileges to the user.
   def make_admin!
-    self.admin = true
-    self.save
+    self.update(admin: true)
   end
 
   # Revokes site administrator privileges from the user.
   def revoke_admin!
-    self.admin = false
-    self.save
+    self.update(admin: false)
   end
 
   # Returns the last CamdramToken object stored in the database that belongs
@@ -69,7 +67,7 @@ class User < ApplicationRecord
       CamdramShow.where(active: true)
     else
       # Poll Camdram for future shows that the user has access to.
-      shows = camdram.user.get_shows.reject {
+      shows = camdram_client.user.get_shows.reject {
         |show| show.performances.last.end_date < Time.now
       }
       # Then authorise any such active shows.
@@ -83,7 +81,7 @@ class User < ApplicationRecord
       CamdramSociety.where(active: true)
     else
       # Poll Camdram for any societies that the user has access to.
-      societies = camdram.user.get_societies
+      societies = camdram_client.user.get_societies
       # Then authorise any such active societies.
       CamdramSociety.where(camdram_id: societies, active: true)
     end
@@ -94,7 +92,7 @@ class User < ApplicationRecord
   # Private method to create a Camdram client with the user's OAuth access
   # token. This client will be able to act as the user and view the list of
   # shows and societies the user administers.
-  def camdram
+  def camdram_client
     Camdram::Client.new do |config|
       token = latest_camdram_token
       token_hash = {access_token: token.access_token, refresh_token: token.refresh_token, expires_at: token.expires_at}
