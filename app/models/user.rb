@@ -55,6 +55,11 @@ class User < ApplicationRecord
     self.update(admin: false)
   end
 
+  # Returns the user's Camdram uid.
+  def camdram_id
+    self.provider_account.find_by(provider: 'camdram').uid
+  end
+
   # Returns the last CamdramToken object stored in the database that belongs
   # to the user.
   def latest_camdram_token
