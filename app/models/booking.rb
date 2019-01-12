@@ -63,24 +63,24 @@ class Booking < ApplicationRecord
   # are an admin.
   def cannot_be_in_the_past
     if self.start_time.present? && self.start_time < DateTime.now
-      errors.add(:start_time, "can't be in the past") unless self.user.admin?
+      errors.add(:start_time, "can't be in the past.") unless self.user.admin?
     end
   end
 
   # Scheduled bookings can only be made between 08:00 and 23:59.
   def cannot_be_during_quiet_hours
     if self.start_time.present? && self.start_time.hour < 8
-      errors.add(:start_time, "can't be between midnight and 8am")
+      errors.add(:start_time, "can't be between midnight and 8am.")
     end
   end
 
   # Bookings should fit to 30 minute time slots.
   def must_fill_half_hour_slot
     if self.start_time.present? && self.start_time.min % 30 != 0
-      errors.add(:start_time, "must be a multiple of thirty minutes")
+      errors.add(:start_time, "must be a multiple of thirty minutes.")
     end
     if self.duration.present? && self.duration % 1800 != 0
-      errors.add(:duration, "must be a multiple of thirty minutes")
+      errors.add(:duration, "must be a multiple of thirty minutes.")
     end
   end
 
@@ -96,7 +96,7 @@ class Booking < ApplicationRecord
       if repeat_until.nil?
         errors.add(:repeat_until, "must be set")
       elsif repeat_until < self.start_time.to_date
-        errors.add(:repeat_until, "must be after the booking's start time")
+        errors.add(:repeat_until, "must be after the booking's start time.")
       end
     end
   end
@@ -104,7 +104,7 @@ class Booking < ApplicationRecord
   # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
     unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
-      errors.add(:purpose, "needs to be a valid selection") if camdram_model.nil?
+      errors.add(:purpose, "needs to be a valid selection.") if camdram_model.nil?
     end
   end
 

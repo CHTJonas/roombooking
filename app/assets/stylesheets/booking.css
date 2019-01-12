@@ -1,5 +1,3 @@
-input#approval {
-  background:none!important;
-  border:none;
-  padding:0!important;
+form {
+  display: inline;
 }

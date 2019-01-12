@@ -2,8 +2,8 @@
 <% content_for :heading, 'Room Calendar' %>
 
 <% content_for :controller_links do %>
-  <p class="mb-0"><%= link_to 'Edit', edit_room_path(@room) %></p>
-  <p class="mb-0"><%= delete_confirm 'Delete', @room %></p>
+  <%= link_to 'Edit', edit_room_path(@room), class: 'btn btn-outline-primary' %>
+  <%= link_to 'Delete', room_path(@room), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
 <% end if can? :manage, @room %>
 
 <%= week_calendar(events: events_for(@room), partial: 'calendar/roombooking_calendar') do |date, events| %>

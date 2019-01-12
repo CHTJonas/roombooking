@@ -1,7 +1,7 @@
 <% content_for :title, @user.name %>
 <% content_for :heading, 'User Details' %>
 <% content_for :controller_links do %>
-  <p class="mb-0"><%= link_to 'Edit', edit_user_path(@user) %></p>
+  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' %>
 <% end if can? :crud, @user %>
 
 <div class="row">

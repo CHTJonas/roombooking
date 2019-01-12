@@ -110,6 +110,7 @@ class BookingsController < ApplicationController
         @booking.camdram_model = nil
       else
         id = params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
+        return unless id.present?
         if Booking.purposes_with_shows.find_index(@booking.purpose.to_sym)
           @booking.camdram_model = CamdramShow.find(id)
         elsif Booking.purposes_with_societies.find_index(@booking.purpose.to_sym)
