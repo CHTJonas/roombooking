@@ -145,8 +145,8 @@ class BookingsController < ApplicationController
   end
 
   def notify_admins
-    User.where(admin: true).find_each(batch_size: 2) do |user|
-      ApprovalsMailer.notify(user, @booking).deliver_later
+    User.where(admin: true).each do |admin|
+      ApprovalsMailer.notify(admin, @booking).deliver_later
     end unless @booking.approved
   end
 end

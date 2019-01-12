@@ -6,15 +6,11 @@ env:
   RAILS_ENV: production
   RACK_TIMEOUT_SERVICE_TIMEOUT: 5
 processes:
-  web:
+  puma:
     log_file_name: puma.log
     restart_mode: usr1
-    term_signal: TERM
-  worker:
-    log_file_name: sidekiq-worker.log
-    restart_mode: start-term
-    term_signal: TERM
-  mailer:
-    log_file_name: sidekiq-mailer.log
+    term_signal: INT
+  sidekiq:
+    log_file_name: sidekiq.log
     restart_mode: start-term
     term_signal: TERM

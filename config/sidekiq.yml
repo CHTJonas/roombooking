@@ -1,0 +1,5 @@
+---
+:concurrency: 2
+:queues:
+  - [roombooking_production_jobs, 2]
+  - [roombooking_production_mail, 1]
