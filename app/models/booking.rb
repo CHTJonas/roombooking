@@ -46,7 +46,8 @@ class Booking < ApplicationRecord
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :duration, numericality: {
-    greater_than_or_equal_to: 1800, message: 'must be at least 30 minutes'
+    greater_than_or_equal_to: 1800,
+    message: 'must be at least 30 minutes'
   }
   validates :purpose, presence: true
 
@@ -55,6 +56,7 @@ class Booking < ApplicationRecord
   validate :must_fill_half_hour_slot
   validate :must_not_overlap
   validate :camdram_model_must_be_valid
+  validate :must_not_exceed_quota
 
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
@@ -92,6 +94,32 @@ class Booking < ApplicationRecord
   def camdram_model_must_be_valid
     unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
       errors.add(:purpose, "needs to be a valid selection") if camdram_model.nil?
+    end
+  end
+
+  # A booking with an associated Camdram model must not go over it's weekly quota.
+  def must_not_exceed_quota
+    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
+      start_of_week = self.start_time.beginning_of_week
+      end_of_week = start_of_week + 7.days
+      # Exclude current record from query because we may be updating and so want to validate the new model data.
+      bookings = Booking.where(start_time: start_of_week..end_of_week, camdram_model: self.camdram_model).where.not(id: self.id).to_a
+      bookings.append self
+      total_hours = 0
+      bookings.each do |booking|
+        # Convert duration from seconds to hours.
+        total_hours += booking.duration / 60 / 60
+      end
+      if self.purpose == 'audition_for' && total_hours > self.camdram_model.max_auditions
+        errors.add(:base, "Your show has exceeded its weekly booking quota for auditions")
+      elsif self.purpose == 'meeting_for' && total_hours > self.camdram_model.max_meetings
+        errors.add(:base, "Your show has exceeded its weekly booking quota for meetings")
+      elsif self.purpose == 'meeting_of' && total_hours > self.camdram_model.max_meetings
+        errors.add(:base, "Your society has exceeded its weekly booking quota for meetings")
+      elsif self.purpose == 'rehearsal_for' && total_hours > self.camdram_model.max_rehearsals
+        errors.add(:base, "Your show has exceeded its weekly booking quota for rehearsals")
+      end
+
     end
   end
 
