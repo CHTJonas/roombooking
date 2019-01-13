@@ -5,11 +5,11 @@
 <% end if can? :crud, @user %>
 
 <div class="row">
-    <div class="col-md-auto">
-      <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
-    </div>
+  <div class="col-md-auto">
+    <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
+  </div>
   <div class="col">
-    <table class="table table-sm table-striped table-bordered">
+    <table class="table table-sm table-striped table-bordered mb-0">
       <tbody>
         <%= render @user %>
       </tbody>
