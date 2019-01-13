@@ -1,9 +1,14 @@
 module Admin
   class CamdramShowsController < DashboardController
     def index
-      @camdram_shows = Array.new
+      list_of_shows = LinkedList::List.new
       rooms = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
-      rooms.each { |room| @camdram_shows += Roombooking::CamdramAPI.client.get_venue(room).shows }
+      rooms.each do |room|
+        shows = Roombooking::CamdramAPI.client.get_venue(room).shows
+        shows.each { |s| list_of_shows << s }
+      end
+      sorted_shows = list_of_shows.to_a.sort_by(&:name)
+      @camdram_shows = Kaminari.paginate_array(sorted_shows).page(params[:page])
     end
 
     def create
