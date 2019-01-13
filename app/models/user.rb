@@ -55,6 +55,16 @@ class User < ApplicationRecord
     self.update(admin: false)
   end
 
+  # Blocks the user and invalidates all their sessions.
+  def block!
+    self.update(blocked: true)
+  end
+
+  # Revokes site administrator privileges from the user.
+  def unblock!
+    self.update(blocked: false)
+  end
+
   # Returns the user's Camdram uid.
   def camdram_id
     self.provider_account.find_by(provider: 'camdram').uid
