@@ -19,6 +19,8 @@ class Booking < ApplicationRecord
                      },
                    }
 
+  paginates_per 9
+
   enum repeat_mode: [ :none, :daily, :weekly ], _prefix: :repeat_mode
 
   enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ], _prefix: :purpose

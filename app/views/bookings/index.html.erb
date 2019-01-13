@@ -1,23 +1,34 @@
 <% content_for :title, 'Bookings' %>
 <% content_for :heading, 'Recent Bookings' %>
 <% content_for :controller_links do %>
-  <%= link_to 'New booking', new_booking_path, class: 'btn btn-outline-success' %>
-<% end if can? :create, Booking %>
-
-<% unless user_logged_in? %>
-  <p>
-    You must log in to make a new booking.
-  </p>
+  <%= link_to_next_page @bookings, 'View more', class: 'btn btn-outline-secondary' %>
+  <%= link_to 'New booking', new_booking_path, class: 'btn btn-outline-success' if can? :create, Booking %>
 <% end %>
 
-<div class="container">
-  <div class="row">
-    <% @bookings.each do |booking| %>
-      <div class="col-md-4 border border-secondary rounded py-3 mb-4">
-        <h4><%= booking.name %></h4>
-        <p>From <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %> on <%= booking.start_time.strftime("%d/%m/%y") %>.</p>
-        <%= link_to 'View details »', booking_path(booking), class: 'btn btn-secondary' %>
-      </div>
+<p>
+  Below you can find a sample of recently approved bookings.
+  <% if user_logged_in? %>
+    To create a booking, click the button at the top-right of this page.
+  <% else %>
+    You must be logged in to create a new booking.
+  <% end %>
+</p>
+
+<%= content_tag :div, class: 'row' do %>
+  <% @bookings.each do |booking| %>
+    <%= content_tag :div, class: 'col-sm-4' do %>
+      <%= content_tag :div, class: 'card bg-light mb-3' do %>
+        <%= content_tag :div, class: 'card-header' do %>
+          <%= link_to booking.name, booking_path(booking) %>
+        <% end %>
+        <%= content_tag :div, class: 'card-body' do %>
+          <%= content_tag :p, class: 'card-text' do %>
+            <%= booking.user.name %> has booked the <%= booking.room.name %>
+            from <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %>
+            on <%= booking.start_time.strftime("%d/%m/%y") %>.
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
-  </div>
-</div>
+  <% end %>
+<% end %>
