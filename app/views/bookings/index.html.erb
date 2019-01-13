@@ -14,21 +14,30 @@
   <% end %>
 </p>
 
-<%= content_tag :div, class: 'row' do %>
-  <% @bookings.each do |booking| %>
-    <%= content_tag :div, class: 'col-sm-4' do %>
-      <%= content_tag :div, class: 'card bg-light mb-3' do %>
-        <%= content_tag :div, class: 'card-header' do %>
-          <%= link_to booking.name, booking_path(booking) %>
-        <% end %>
-        <%= content_tag :div, class: 'card-body' do %>
-          <%= content_tag :p, class: 'card-text' do %>
-            <%= booking.user.name %> has booked the <%= booking.room.name %>
-            from <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %>
-            on <%= booking.start_time.strftime("%d/%m/%y") %>.
+<% if @bookings.count > 0 %>
+  <%= content_tag :div, class: 'row' do %>
+    <% @bookings.each do |booking| %>
+      <%= content_tag :div, class: 'col-sm-4' do %>
+        <%= content_tag :div, class: 'card bg-light mb-3' do %>
+          <%= content_tag :div, class: 'card-header' do %>
+            <%= link_to booking.name, booking_path(booking) %>
+          <% end %>
+          <%= content_tag :div, class: 'card-body' do %>
+            <%= content_tag :p, class: 'card-text' do %>
+              <%= booking.user.name %> has booked the <%= booking.room.name %>
+              from <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %>
+              on <%= booking.start_time.strftime("%d/%m/%y") %>.
+            <% end %>
+            <%= content_tag :p, class: 'card-text' do %>
+              Created <%= time_ago_in_words booking.created_at %> ago.
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
   <% end %>
+<% else %>
+  <p>
+    No bookings have yet been made!
+  </p>
 <% end %>
