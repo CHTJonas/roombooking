@@ -86,9 +86,46 @@ class Booking < ApplicationRecord
     end
   end
 
-  # Two bookings cannot be made inthe same place at the same time.
+  # A booking cannot overlap with any other booking.
   def must_not_overlap
-    unless Booking.where("id != :id AND (start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end)", {id: self.id, start: self.start_time, end: self.end_time}).empty?
+    query_opts = {
+                   start: self.start_time,
+                   end: self.end_time
+                 }
+
+    ordinary_bookings = Booking.where.not(id: self.id)
+                               .where(repeat_mode: :none)
+                               .where(room: self.room)
+                               .where("start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end", query_opts)
+
+    query_end_time = case self.repeat_mode
+      when 'none' then self.end_time
+      else self.repeat_until
+    end
+
+    daily_repeat_bookings = Booking.where.not(id: self.id)
+                                   .where(repeat_mode: :daily)
+                                   .where(start_time: Time.at(0)..query_end_time)
+                                   .where(repeat_until: self.start_time..DateTime::Infinity.new)
+                                   .where(room: self.room)
+                                   .where(%{
+      (start_time::time, end_time::time)
+      OVERLAPS (timestamp :start::time, timestamp :end::time)
+    }, query_opts)
+
+    weekly_repeat_bookings = Booking.where.not(id: self.id)
+                                    .where(repeat_mode: :weekly)
+                                    .where(start_time: Time.at(0)..query_end_time)
+                                    .where(repeat_until: self.start_time..DateTime::Infinity.new)
+                                    .where(room: self.room)
+                                    .where(%{
+      (start_time::time, end_time::time)
+      OVERLAPS (timestamp :start::time, timestamp :end::time)
+      AND EXTRACT(dow FROM start_time)
+      = EXTRACT(dow FROM timestamp :start)
+    }, query_opts)
+
+    unless ordinary_bookings.empty? && daily_repeat_bookings.empty? && weekly_repeat_bookings.empty?
       errors.add(:base, "The times given overlap with another booking.")
     end
   end
