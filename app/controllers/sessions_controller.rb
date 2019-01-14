@@ -52,11 +52,16 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  # Gracefully handle OAuth failures.
   def failure
-    # Handle OAuth errors
-    alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{params[:message].humanize}" }
-    flash[:alert] = alert
-    redirect_to root_url
+    message = params[:message]
+    if message == 'csrf_detected'
+      raise ActionController::InvalidAuthenticityToken
+    else
+      alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}" }
+      flash[:alert] = alert
+      redirect_to root_url
+    end
   end
 
 end
