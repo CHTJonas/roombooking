@@ -71,6 +71,8 @@ gem 'maildown'
 gem 'rack-attack', '~> 5.4', '>= 5.4.2'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
+# Colour text for ANSI terminals
+gem 'rainbow', '~> 3.0'
 
 # Database persistence
 gem 'pg'
