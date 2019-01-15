@@ -133,4 +133,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def peek_enabled?
+    current_user.try(:sysadmin?)
+  end
+
 end

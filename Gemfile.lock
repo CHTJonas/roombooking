@@ -56,6 +56,7 @@ GEM
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
+    atomic (1.1.101)
     autoprefixer-rails (9.4.2)
       execjs
     better_errors (2.5.0)
@@ -103,12 +104,15 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.3)
+    concurrent-ruby-ext (1.1.3)
+      concurrent-ruby (= 1.1.3)
     connection_pool (2.2.2)
     cookies_eu (1.7.3)
       js_cookie_rails (~> 2.2.0)
     crass (1.0.4)
     datey (1.1.0)
     debug_inspector (0.0.3)
+    debugger-ruby_core_source (1.3.8)
     erubi (1.7.1)
     et-orbi (1.1.6)
       tzinfo
@@ -211,6 +215,26 @@ GEM
       activerecord (>= 4.2, < 6.0)
       request_store (~> 1.1)
     paper_trail-association_tracking (1.0.0)
+    peek (1.0.1)
+      concurrent-ruby (>= 0.9.0)
+      concurrent-ruby-ext (>= 0.9.0)
+      railties (>= 4.0.0)
+    peek-gc (0.0.2)
+      peek
+    peek-performance_bar (1.3.1)
+      peek (>= 0.1.0)
+    peek-pg (1.3.0)
+      concurrent-ruby
+      concurrent-ruby-ext
+      peek
+      pg
+    peek-rblineprof (0.2.0)
+      peek
+      rblineprof
+    peek-redis (1.2.0)
+      atomic (>= 1.0.0)
+      peek
+      redis
     pg (1.1.3)
     pg_search (2.1.3)
       activerecord (>= 4.2)
@@ -277,6 +301,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    rblineprof (0.3.7)
+      debugger-ruby_core_source (~> 1.3)
     redis (4.0.3)
     regexp_parser (1.3.0)
     remotipart (1.4.2)
@@ -388,6 +414,12 @@ DEPENDENCIES
   omniauth-camdram
   paper_trail (~> 10.1)
   paper_trail-association_tracking (~> 1.0)
+  peek
+  peek-gc
+  peek-performance_bar
+  peek-pg
+  peek-rblineprof
+  peek-redis
   pg
   pg_search (~> 2.1, >= 2.1.3)
   puma (~> 3.11)

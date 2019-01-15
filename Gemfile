@@ -78,6 +78,14 @@ gem 'rainbow', '~> 3.0'
 gem 'pg'
 gem 'pg_search', '~> 2.1', '>= 2.1.3'
 
+# Performance profiling bar
+gem 'peek'
+gem 'peek-performance_bar'
+gem 'peek-pg'
+gem 'peek-redis'
+gem 'peek-gc'
+gem 'peek-rblineprof'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

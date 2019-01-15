@@ -8,4 +8,7 @@
 //= require moment/en-gb.js
 //= require tempusdominus-bootstrap-4.js
 //= require cookies_eu
+//= require peek
+//= require peek/views/performance_bar
+//= require peek/views/rblineprof
 //= require_tree .
