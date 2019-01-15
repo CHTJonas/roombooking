@@ -33,6 +33,7 @@ Booking System from scratch? (type uppercase YES): }).yellow
     Open3.popen3("pg_dump #{pgsql_args}") do |stdin, stdout, stderr, wait_thr|
       file = File.new(file_path, 'w')
       IO.copy_stream(stdout, file)
+      file.close
       puts stderr.read
     end
     puts Rainbow('Done!').green
