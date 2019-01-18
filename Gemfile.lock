@@ -139,6 +139,8 @@ GEM
       temple (>= 0.8.0)
       tilt
     hashie (3.5.7)
+    health_check (3.0.0)
+      railties (>= 5.0)
     high_voltage (3.1.0)
     humanize_boolean (0.0.2)
       i18n
@@ -411,6 +413,7 @@ DEPENDENCIES
   font-awesome-rails
   gravatar_image_tag (~> 1.2)
   haml
+  health_check (~> 3.0)
   high_voltage
   humanize_boolean (~> 0.0.2)
   jbuilder (~> 2.5)

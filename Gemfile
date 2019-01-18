@@ -88,6 +88,9 @@ gem 'peek-sidekiq', '~> 1.0', '>= 1.0.3', git: 'https://github.com/8398a7/peek-s
 gem 'peek-gc', '~> 0.0.2'
 gem 'peek-rblineprof', '~> 0.2.0'
 
+# App health check
+gem 'health_check', '~> 3.0'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
