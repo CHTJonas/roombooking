@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :booking, dependent: :delete_all
 
   validates :name, presence: true
-  validates :email, uniqueness: true
+  validates :email, presence: true, uniqueness: true, email: true
 
   # Create a User model object from an omniauth authentication object.
   def self.from_provider(auth)
