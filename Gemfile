@@ -60,7 +60,7 @@ gem 'browser', '~> 2.5', '>= 2.5.3'
 gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 # Camdram API wrapper
 #gem 'camdram', '~> 1.1'
-gem 'camdram', :git => 'https://github.com/CHTJonas/camdram-ruby.git'
+gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
 # Authorisation library
 gem 'cancancan', '~> 2.0'
 # Error tracking and reporting
@@ -79,12 +79,14 @@ gem 'pg'
 gem 'pg_search', '~> 2.1', '>= 2.1.3'
 
 # Performance profiling bar
-gem 'peek'
-gem 'peek-performance_bar'
-gem 'peek-pg'
-gem 'peek-redis'
-gem 'peek-gc'
-gem 'peek-rblineprof'
+gem 'peek', '~> 1.0', '>= 1.0.1'
+gem 'peek-git', '~> 1.0', '>= 1.0.2'
+gem 'peek-performance_bar', '~> 1.3', '>= 1.3.1'
+gem 'peek-pg', '~> 1.3'
+gem 'peek-redis', '~> 1.2'
+gem 'peek-sidekiq', '~> 1.0', '>= 1.0.3', git: 'https://github.com/8398a7/peek-sidekiq.git'
+gem 'peek-gc', '~> 0.0.2'
+gem 'peek-rblineprof', '~> 0.2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
