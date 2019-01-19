@@ -19,6 +19,12 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def route_not_found
+    alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
+    flash.now[:alert] = alert
+    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found
+  end
+
   # Rescue exceptions raised by user access violations from CanCan.
   rescue_from CanCan::AccessDenied do |exception|
     if user_logged_in?

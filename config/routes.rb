@@ -36,4 +36,7 @@ Rails.application.routes.draw do
   # Health & Performance
   mount Peek::Railtie => '/peek'
   health_check_routes
+
+  # 404
+  get '*unmatched_route', to: 'application#route_not_found'
 end
