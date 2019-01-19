@@ -12,9 +12,9 @@
       <% end %>
     <% end %>
   <% end %>
-  <%= link_to 'Edit', edit_booking_path(@booking), class: 'btn btn-outline-primary' %>
-  <%= link_to 'Delete', booking_path(@booking), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
-<% end if can? :crud, @booking %>
+  <%= link_to 'Edit', edit_booking_path(@booking), class: 'btn btn-outline-primary' if can? :crud, @booking %>
+  <%= link_to 'Delete', booking_path(@booking), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' if can? :crud, @booking %>
+<% end %>
 
 <table class="table table-sm table-striped table-bordered">
   <tbody>

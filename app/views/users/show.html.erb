@@ -3,8 +3,8 @@
 <% content_for :controller_links do %>
   <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
   <%= link_to 'Impersonate', impersonate_user_path(@user), method: :post, class: 'btn btn-outline-warning' unless @user == current_user || @user == impersonator %>
-  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' %>
-<% end if can? :crud, @user %>
+  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' if can? :crud, @user %>
+<% end %>
 
 <div class="row">
   <div class="col-md-auto">
