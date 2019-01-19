@@ -19,7 +19,17 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  # Render a nice page when the user browses to a URL that doesn't route.
   def route_not_found
+    render_404
+  end
+
+  # Render a nice page when the user attempts to view a record that doesn't exist.
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render_404
+  end
+
+  def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
     flash.now[:alert] = alert
     render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found
