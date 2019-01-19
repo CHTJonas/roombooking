@@ -12,7 +12,7 @@
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Camdram ID:') %>
-  <%= content_tag(:td, @user.camdram_id) %>
+  <%= content_tag(:td, @user.camdram_id || 'No account associated') %>
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Administrator:') %>

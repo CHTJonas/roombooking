@@ -67,7 +67,7 @@ class User < ApplicationRecord
 
   # Returns the user's Camdram uid.
   def camdram_id
-    self.provider_account.find_by(provider: 'camdram').uid
+    self.provider_account.find_by(provider: 'camdram').try(:uid)
   end
 
   # Returns the last CamdramToken object stored in the database that belongs
