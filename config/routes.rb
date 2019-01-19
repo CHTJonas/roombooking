@@ -25,7 +25,11 @@ Rails.application.routes.draw do
   # RESTful Entities
   resources :bookings
   resources :rooms
-  resources :users
+  resources :users do
+    post 'impersonate', on: :member, constraints: must_be_admin
+    post 'discontinue_impersonation', on: :collection,
+      as: 'discontinue_impersonation_of'
+  end
 
   # Authentication
   get '/auth/:provider/callback' => 'sessions#create'

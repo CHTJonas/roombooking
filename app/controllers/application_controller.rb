@@ -7,8 +7,10 @@ class ApplicationController < ActionController::Base
   before_action :check_user!
   before_action :set_paper_trail_whodunnit
   helper_method :current_user
+  helper_method :impersonator
   helper_method :user_logged_in?
   helper_method :user_is_admin?
+  helper_method :user_is_imposter?
 
   # Record this information when auditing models.
   def info_for_paper_trail
@@ -74,6 +76,15 @@ class ApplicationController < ActionController::Base
     @current_user ||= current_session.try(:user)
   end
 
+  # Returns the User who is impersonating the User returned by current_user.
+  def impersonator
+    begin
+      @impersonator ||= User.find(session[:impersonator_id]) if session[:impersonator_id]
+    rescue Exception => e
+      nil
+    end
+  end
+
   # Returns the CamdramToken associated with the current user.
   def current_camdram_token
     @current_camdram_token ||= current_user.try(:latest_camdram_token)
@@ -87,6 +98,11 @@ class ApplicationController < ActionController::Base
   # True if the user is a site administrator, false otherwise.
   def user_is_admin?
     user_logged_in? && current_user.admin?
+  end
+
+  # True if the user is being impersonated, false otherwise.
+  def user_is_imposter?
+    user_logged_in? && impersonator.present?
   end
 
   # Method to ensure a logged in user has a valid Camdram API token and is
@@ -111,18 +127,28 @@ class ApplicationController < ActionController::Base
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
       end
-      unless current_camdram_token.present?
-        # The user is logged in but we can't find a Camdram API token for
-        # them. Maybe it was purged from the database? Maybe there was a
-        # session issue?
+      unless current_camdram_token.present? || user_is_imposter?
+        # The user is logged in and not an imposter, but we can't find a
+        # Camdram API token for them. Maybe it was purged from the database?
+        # Maybe there was a session issue?
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'camdram token error'}, status: :internal_server_error and return
+        render 'layouts/blank', locals: {reason: 'camdram token not present'}, status: :internal_server_error and return
       end
-      if current_camdram_token.expired?
+      if current_camdram_token.try(:expired?)
         current_camdram_token.refresh
       end
+    end
+  end
+
+  # Used by certain controllers/methods which specify this as their
+  # before_action to ensures the user is an administrator.
+  def must_be_admin!
+    unless user_is_admin?
+      alert = { 'class' => 'danger', 'message' => "Acess denied — you don't appear to be an administrator!" }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'user not admin'}, status: :forbidden and return
     end
   end
 

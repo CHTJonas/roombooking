@@ -100,8 +100,16 @@ class BookingsController < ApplicationController
   end
 
   def populate_from_camdram
-    @shows = current_user.authorised_camdram_shows
-    @societies = current_user.authorised_camdram_societies
+    if user_is_imposter?
+      # User is also an administrator so we don't need to care about their
+      # peronal Camdram token as this will use the application token.
+      @shows = impersonator.authorised_camdram_shows
+      @societies = impersonator.authorised_camdram_societies
+    else
+      # User is genuine.
+      @shows = current_user.authorised_camdram_shows
+      @societies = current_user.authorised_camdram_societies
+    end
   end
 
   def setup_booking_purpose

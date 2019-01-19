@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  # Shouldn't be needed as the impersonation route is constrained by
+  # Roombooking::AdminConstraint - this is just to be doubly safe.
+  before_action :must_be_admin!, only: :impersonate
 
   # Show all users that are registered.
   def index
@@ -30,6 +33,36 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     authorize! :read, @user
+  end
+
+  # Allows and administrator to impersonate a user.
+  def impersonate
+    # An imposter can't be a double agent!
+    @current_user = impersonator if user_is_imposter?
+
+    @user = User.find(params[:id])
+    session[:impersonator_id] = current_user.id
+    current_session.invalidate!
+    sesh = Session.create(user: @user,
+      expires_at: current_session.expires_at,
+      login_at: DateTime.now, ip: request.remote_ip,
+      user_agent: request.user_agent)
+    session[:sesh_id] = sesh.id
+    redirect_to @user
+  end
+
+  def discontinue_impersonation
+    if user_is_imposter? && impersonator.admin?
+      user = impersonator
+      current_session.invalidate!
+      sesh = Session.create(user: user,
+        expires_at: current_session.expires_at,
+        login_at: DateTime.now, ip: request.remote_ip,
+        user_agent: request.user_agent)
+      session[:sesh_id] = sesh.id
+      session.delete(:impersonator_id)
+      redirect_to user
+    end
   end
 
   private
