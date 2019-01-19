@@ -1,3 +1,6 @@
 <% content_for :title, 'Edit User' %>
 <% content_for :heading, 'Edit User' %>
+<% content_for :controller_links do %>
+  <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
+<% end %>
 <%= render 'form' %>

@@ -1,7 +1,7 @@
 <% content_for :title, @room.name %>
 <% content_for :heading, 'Room Calendar' %>
-
 <% content_for :controller_links do %>
+  <%= link_to 'Back to Rooms', rooms_path, class: 'btn btn-outline-secondary' %>
   <%= link_to 'Edit', edit_room_path(@room), class: 'btn btn-outline-primary' %>
   <%= link_to 'Delete', room_path(@room), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
 <% end if can? :manage, @room %>
@@ -16,5 +16,3 @@
     <% end %>
   <% end %>
 <% end %>
-
-<%= render 'backfooter' %>

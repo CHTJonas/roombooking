@@ -1,6 +1,7 @@
 <% content_for :title, @booking.name %>
 <% content_for :heading, 'Booking Details' %>
 <% content_for :controller_links do %>
+  <%= link_to 'Back to Bookings', bookings_path, class: 'btn btn-outline-secondary' %>
   <% if can?(:approve, @booking) %>
     <%= form_with model: @booking, local: true do |form| %>
       <%= form.hidden_field :approved, value: !@booking.approved? %>
@@ -25,5 +26,3 @@
   <%= content_tag(:h4, 'Notes') %>
   <%= tag.p @booking.notes %>
 <% end %>
-
-<%= render 'backfooter' %>

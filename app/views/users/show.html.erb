@@ -1,6 +1,7 @@
 <% content_for :title, @user.name %>
 <% content_for :heading, 'User Details' %>
 <% content_for :controller_links do %>
+  <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' %>
 <% end if can? :crud, @user %>
 

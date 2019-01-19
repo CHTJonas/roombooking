@@ -1,4 +1,6 @@
 <% content_for :title, 'Edit Room' %>
 <% content_for :heading, 'Edit Room' %>
+<% content_for :controller_links do %>
+  <%= link_to 'Back to Rooms', rooms_path, class: 'btn btn-outline-secondary' %>
+<% end %>
 <%= render 'form' %>
-<%= render 'backfooter' %>
