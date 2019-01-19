@@ -10,4 +10,9 @@ class Session < ActiveRecord::Base
   def expired?
     Time.now >= self.expires_at
   end
+
+  # Invalidates the session.
+  def invalidate!
+    self.update(invalidated: true)
+  end
 end

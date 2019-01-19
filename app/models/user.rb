@@ -45,12 +45,12 @@ class User < ApplicationRecord
     user
   end
 
-  # Grants site administrator privileges to the user.
+  # Grants administrator privileges to the user.
   def make_admin!
     self.update(admin: true)
   end
 
-  # Revokes site administrator privileges from the user.
+  # Revokes administrator privileges from the user.
   def revoke_admin!
     self.update(admin: false)
   end
@@ -58,9 +58,10 @@ class User < ApplicationRecord
   # Blocks the user and invalidates all their sessions.
   def block!
     self.update(blocked: true)
+    Session.where(user_id: self.id).each(&:invalidate!)
   end
 
-  # Revokes site administrator privileges from the user.
+  # Unblocks the user.
   def unblock!
     self.update(blocked: false)
   end

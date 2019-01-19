@@ -45,6 +45,7 @@ class SessionsController < ApplicationController
   def destroy
     if user_logged_in?
       LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
+      current_session.invalidate!
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
       flash[:alert] = alert
