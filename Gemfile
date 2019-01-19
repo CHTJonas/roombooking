@@ -73,6 +73,8 @@ gem 'rack-attack', '~> 5.4', '>= 5.4.2'
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
 gem 'rainbow', '~> 3.0'
+# Use pry instead of irb for `rails console` command
+gem 'pry-rails', '~> 0.3.9'
 
 # Database persistence
 gem 'pg'
