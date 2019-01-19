@@ -128,6 +128,18 @@ class ApplicationController < ActionController::Base
   def set_raven_context
     Raven.user_context(id: current_user.try(:id), name: current_user.try(:name), email: current_user.try(:email))
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    Raven.tags_context(program: sentry_program_context)
+  end
+
+  # Differentiate between application and worker errors in Sentry reporting.
+  def sentry_program_context
+    if Rails.const_defined? 'Server'
+      'rails-server'
+    elsif Rails.const_defined? 'Console'
+      'rails-console'
+    elsif Sidekiq.server?
+      'sidekiq-worker'
+    end
   end
 
   # Make sure the user is using a modern browser.
