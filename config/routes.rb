@@ -36,7 +36,13 @@ Rails.application.routes.draw do
   # Health & Performance
   mount Peek::Railtie => '/peek'
   health_check_routes
+end
 
-  # 404
-  get '*unmatched_route', to: 'application#route_not_found'
+# Fallback to catch unroutable URLs. This needs to be inserted into the
+# Rails router after the HighVoltage static pages dependency injection.
+# See: https://github.com/thoughtbot/high_voltage/issues/275
+Rails.application.config.after_initialize do |application|
+  application.routes.append do
+    match '*unmatched_route', to: 'application#route_not_found', via: :all
+  end
 end
