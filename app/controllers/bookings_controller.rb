@@ -1,7 +1,10 @@
 class BookingsController < ApplicationController
 
   def index
-    @bookings = Booking.order(created_at: :desc).accessible_by(current_ability, :read).page(params[:page]).without_count
+    @bookings = Booking.order(created_at: :desc)
+      .includes(:user)
+      .accessible_by(current_ability, :read)
+      .page(params[:page]).without_count
   end
 
   def new
