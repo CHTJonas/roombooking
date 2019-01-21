@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: camdram_societies
+#
+#  id           :bigint(8)        not null, primary key
+#  camdram_id   :bigint(8)        not null
+#  max_meetings :integer          default(0), not null
+#  active       :boolean          default(FALSE), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class CamdramSociety < ApplicationRecord
   has_many :booking, as: :camdram_model, dependent: :delete_all
 

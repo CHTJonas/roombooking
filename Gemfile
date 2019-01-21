@@ -120,6 +120,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Help avoid N+1 queries
   gem 'bullet'
+  # Annotate models
+  gem 'annotate'
 end
 
 group :test do

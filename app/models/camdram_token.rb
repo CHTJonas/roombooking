@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: camdram_tokens
+#
+#  id            :bigint(8)        not null, primary key
+#  access_token  :string           not null
+#  refresh_token :string           not null
+#  expires_at    :datetime         not null
+#  user_id       :bigint(8)        not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 class CamdramToken < ActiveRecord::Base
   belongs_to :user
   validates_associated :user

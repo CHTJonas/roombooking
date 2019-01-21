@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: log_events
+#
+#  id           :bigint(8)        not null, primary key
+#  logable_type :string
+#  logable_id   :bigint(8)
+#  outcome      :integer
+#  action       :string
+#  interface    :integer
+#  ip           :inet
+#  user_agent   :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class LogEvent < ActiveRecord::Base
   belongs_to :logable, polymorphic: true
 

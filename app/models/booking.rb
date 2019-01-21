@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: bookings
+#
+#  id                 :bigint(8)        not null, primary key
+#  name               :string           not null
+#  notes              :text
+#  start_time         :datetime         not null
+#  end_time           :datetime         not null
+#  repeat_until       :date
+#  repeat_mode        :integer          default("none"), not null
+#  purpose            :integer          not null
+#  approved           :boolean          default(FALSE), not null
+#  room_id            :bigint(8)        not null
+#  user_id            :bigint(8)        not null
+#  camdram_model_type :string
+#  camdram_model_id   :bigint(8)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 class Booking < ApplicationRecord
   include PgSearch
   pg_search_scope :search_by_name_and_notes,

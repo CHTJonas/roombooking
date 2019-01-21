@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :bigint(8)        not null, primary key
+#  name       :string           not null
+#  email      :string           not null
+#  admin      :boolean          default(FALSE), not null
+#  sysadmin   :boolean          default(FALSE), not null
+#  blocked    :boolean          default(FALSE), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class User < ApplicationRecord
   include PgSearch
   pg_search_scope :search_by_name_and_email,

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: sessions
+#
+#  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
+#  invalidated :boolean          default(FALSE), not null
+#  expires_at  :datetime         not null
+#  login_at    :datetime         not null
+#  ip          :inet             not null
+#  user_agent  :string           not null
+#
+
 class Session < ActiveRecord::Base
   belongs_to :user
 
