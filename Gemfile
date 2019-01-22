@@ -42,6 +42,7 @@ gem 'humanize_boolean', '~> 0.0.2'
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
+gem 'icalendar', '~> 2.5', '>= 2.5.2'
 # Asset pipeline
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'

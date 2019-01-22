@@ -158,6 +158,9 @@ GEM
       i18n
     i18n (1.5.2)
       concurrent-ruby (~> 1.0)
+    icalendar (2.5.2)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.3)
     io-like (0.3.0)
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
@@ -439,6 +442,7 @@ DEPENDENCIES
   health_check (~> 3.0)
   high_voltage
   humanize_boolean (~> 0.0.2)
+  icalendar (~> 2.5, >= 2.5.2)
   jbuilder (~> 2.5)
   jquery-rails
   kaminari (~> 1.1, >= 1.1.1)
