@@ -25,6 +25,7 @@ end
   cal.event do |e|
     e.dtstart     = Icalendar::Values::DateTime.new(booking.start_time, 'tzid' => tzid)
     e.dtend       = Icalendar::Values::DateTime.new(booking.end_time, 'tzid' => tzid)
+    e.rrule       = "FREQ=#{booking.repeat_mode};UNTIL=#{(booking.repeat_until + 1.day).strftime("%Y%m%d")}"
     e.summary     = booking.name
     e.description = "Purpose: #{booking.purpose_string}\n\n#{booking.notes}"
     e.location    = @room.name
