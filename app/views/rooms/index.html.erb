@@ -9,3 +9,7 @@
     <%= render room %>
   <% end %>
 </ul>
+
+<%= content_tag :div, class: 'float-right mt-1' do %>
+  <%= link_to fa_icon('calendar', text: 'Subscribe to iCal'), rooms_path(format: :ics), class: 'btn btn-link' %>
+<% end %>

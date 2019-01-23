@@ -5,7 +5,15 @@ class RoomsController < ApplicationController
   helper_method :events_for
 
   def index
-    @rooms = Room.accessible_by(current_ability, :read)
+    @rooms = Room
+      .then { |_| request.format == :ics ? _.eager_load(booking: :user)
+        .where('bookings.approved = ?', true)
+        : _ }
+      .accessible_by(current_ability, :read)
+    respond_to do |format|
+      format.html
+      format.ics
+    end
   end
 
   def new
