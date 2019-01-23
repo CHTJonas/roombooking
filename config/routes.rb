@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   must_be_admin = Roombooking::AdminConstraint.new
 
   # Admin Dashboard
-  get '/admin', to: redirect('/admin/dashboard'), constraints: must_be_admin
   namespace :admin do
-    resources :dashboard, only: [:index], constraints: must_be_admin
+    root to: redirect('/admin/dashboard'), constraints: must_be_admin
+    get '/dashboard' => 'dashboard#index', constraints: must_be_admin
+    get '/backup' => 'dashboard#backup', constraints: must_be_admin
     resources :camdram_shows, only: [:index, :create, :update], constraints: must_be_admin
     resources :camdram_societies, only: [:index, :create, :update], constraints: must_be_admin
   end
