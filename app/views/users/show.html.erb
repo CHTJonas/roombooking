@@ -6,15 +6,17 @@
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' if can? :crud, @user %>
 <% end %>
 
-<div class="row">
-  <div class="col-md-auto">
-    <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
-  </div>
-  <div class="col">
+<%= content_tag :div, class: 'row' do %>
+  <%= content_tag :div, class: 'col-md-auto' do %>
+    <%= content_tag :div, class: 'container' do %>
+      <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
+    <% end %>
+  <% end %>
+  <%= content_tag :div, class: 'col' do %>
     <table class="table table-sm table-striped table-bordered mb-0">
       <tbody>
         <%= render @user %>
       </tbody>
     </table>
-  </div>
-</div>
+  <% end %>
+<% end %>

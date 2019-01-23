@@ -12,12 +12,5 @@
       <%= render 'layouts/navbar_login' %>
     </ul>
   </div>
-  <% if user_is_imposter? %>
-    <%= link_to "Impersonating #{current_user.name}!", discontinue_impersonation_of_users_path, method: :post, class: 'badge badge-warning mr-2' %>
-  <% end %>
-  <%= form_tag search_bookings_path, class: 'form-inline', method: :get do %>
-    <% query_string = (controller.controller_name != 'users') ? params['q'] : nil %>
-    <%= search_field_tag :q, query_string, placeholder: 'Search bookings', class: 'form-control mr-sm-2' %>
-    <%= submit_tag 'Search', class: 'btn btn-outline-light my-2 my-sm-0'  %>
-  <% end  %>
+  <%= render 'layouts/navbar_search' %>
 </nav>
