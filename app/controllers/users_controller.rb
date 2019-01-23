@@ -51,6 +51,7 @@ class UsersController < ApplicationController
     redirect_to @user
   end
 
+  # Stops an impersonation and returns the user to their rightful account.
   def discontinue_impersonation
     if user_is_imposter? && impersonator.admin?
       user = impersonator
@@ -62,6 +63,8 @@ class UsersController < ApplicationController
       session[:sesh_id] = sesh.id
       session.delete(:impersonator_id)
       redirect_to user
+    else
+      redirect_to current_user
     end
   end
 
