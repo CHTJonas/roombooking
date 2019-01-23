@@ -33,6 +33,7 @@ class User < ApplicationRecord
   has_many :log_events, as: :logable, dependent: :delete_all
   has_many :provider_account, dependent: :delete_all
   has_many :camdram_token, dependent: :delete_all
+  has_one :latest_camdram_token, -> { order(created_at: :desc) }, class_name: "CamdramToken"
   has_many :booking, dependent: :delete_all
 
   validates :name, presence: true
@@ -83,12 +84,6 @@ class User < ApplicationRecord
   # Returns the user's Camdram uid.
   def camdram_id
     self.provider_account.find_by(provider: 'camdram').try(:uid)
-  end
-
-  # Returns the last CamdramToken object stored in the database that belongs
-  # to the user.
-  def latest_camdram_token
-    return self.camdram_token.order(created_at: :desc).first
   end
 
   def authorised_camdram_shows

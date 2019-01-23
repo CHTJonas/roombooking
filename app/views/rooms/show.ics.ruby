@@ -21,7 +21,7 @@ cal.timezone do |t|
   end
 end
 
-@bookings.each do |booking|
+@room.booking.each do |booking|
   cal.event do |e|
     e.dtstart     = Icalendar::Values::DateTime.new(booking.start_time, 'tzid' => tzid)
     e.dtend       = Icalendar::Values::DateTime.new(booking.end_time, 'tzid' => tzid)

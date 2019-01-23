@@ -65,7 +65,9 @@ class ApplicationController < ActionController::Base
   # removes it.
   def current_session
     begin
-      @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
+      @current_session ||= Session
+        .eager_load(user: :latest_camdram_token)
+        .find(session[:sesh_id]) if session[:sesh_id]
     rescue Exception => e
       nil
     end

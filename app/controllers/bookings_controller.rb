@@ -2,7 +2,7 @@ class BookingsController < ApplicationController
 
   def index
     @bookings = Booking.order(created_at: :desc)
-      .includes(:user)
+      .eager_load(:user, :room)
       .accessible_by(current_ability, :read)
       .page(params[:page]).without_count
   end
@@ -67,7 +67,7 @@ class BookingsController < ApplicationController
   end
 
   def show
-    @booking = Booking.find(params[:id])
+    @booking = Booking.eager_load(:user, :room).find(params[:id])
     authorize! :read, @booking
   end
 

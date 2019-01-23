@@ -52,11 +52,15 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
+    @room = Room
+      .then { |_| request.format == :ics ? _.eager_load(booking: :user)
+        .where('bookings.approved = ?', true)
+        : _ }
+      .find(params[:id])
     authorize! :read, @room
     respond_to do |format|
       format.html
-      format.ics { @bookings = @room.booking.eager_load(:user).where(approved: true) }
+      format.ics
     end
   end
 
