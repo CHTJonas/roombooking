@@ -28,15 +28,20 @@ Booking System from scratch? (type uppercase YES): }).yellow
   task backup: :environment do
     require 'open3'
     puts Rainbow('Dumping Postgres database...').blue
-    file_path = "#{Rails.root}/db/backup/roombooking_#{Rails.env}_#{DateTime.now.to_i}.pgdump"
-    pgsql_args = "-Fc roombooking_#{Rails.env}"
-    Open3.popen3("pg_dump #{pgsql_args}") do |stdin, stdout, stderr, wait_thr|
+    file_path = Rails.root.join('db', 'backup', "roombooking_#{Rails.env}_#{DateTime.now.to_i}.pgdump")
+    return_value = nil
+    Open3.popen3('pg_dump', '-Fc', "roombooking_#{Rails.env}") do |stdin, stdout, stderr, wait_thr|
       file = File.new(file_path, 'w')
       IO.copy_stream(stdout, file)
+      print Rainbow(stderr.read).yellow
+      return_value = wait_thr.value
       file.close
-      puts stderr.read
     end
-    puts Rainbow('Done!').green
+    if return_value.success?
+      puts Rainbow('Done!').green
+    else
+      puts Rainbow('Failed!').red
+    end
   end
 
   Rake::Task['roombooking:install'].enhance ['roombooking:protect', 'db:drop', 'db:create', 'db:schema:load', 'db:seed', 'assets:clobber', 'assets:precompile']
