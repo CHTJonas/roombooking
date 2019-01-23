@@ -1,7 +1,4 @@
 class RoomsController < ApplicationController
-  # Skip browser check if we're serialising to ical as some mail and
-  # calendar applications fail the user agent detection.
-  before_action :check_browser_version, unless: proc { request.format == :ics }
   helper_method :events_for
 
   def index

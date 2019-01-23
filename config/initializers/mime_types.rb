@@ -1,4 +1,5 @@
-# Be sure to restart your server when you modify this file.
-
-# Add new mime types for use in respond_to blocks:
-# Mime::Type.register "text/richtext", :rtf
+if Rails.env.development?
+  # Allows the iCal subscription URLs to be viewed in-browser rather than
+  # triggering a download of the .ics file.
+  Mime::Type.register "text/plain", :ics
+end

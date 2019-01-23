@@ -180,7 +180,7 @@ class ApplicationController < ActionController::Base
 
   # Make sure the user is using a modern browser.
   def check_browser_version
-    unless browser.modern?
+    unless request.format != :html || browser.modern?
       alert = { 'class' => 'danger', 'message' => "You seem to be using a very outdated web browser! Unfortunately you'll need to update your system in order to use Room Booking." }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "outdated browser"}, status: :ok
