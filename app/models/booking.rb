@@ -61,9 +61,6 @@ class Booking < ApplicationRecord
   belongs_to :room
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
-  validates_associated :room
-  validates_associated :user
-  validates_associated :camdram_model
 
   validates :name, presence: true
   validates :start_time, presence: true

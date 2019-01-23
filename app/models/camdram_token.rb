@@ -13,7 +13,6 @@
 
 class CamdramToken < ActiveRecord::Base
   belongs_to :user
-  validates_associated :user
 
   validates :access_token, presence: true, uniqueness: true
   validates :refresh_token, presence: true, uniqueness: true
