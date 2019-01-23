@@ -32,6 +32,7 @@ class User < ApplicationRecord
 
   has_many :log_events, as: :logable, dependent: :delete_all
   has_many :provider_account, dependent: :delete_all
+  has_one :camdram_account, -> { where(provider: 'camdram') }, class_name: "ProviderAccount"
   has_many :camdram_token, dependent: :delete_all
   has_one :latest_camdram_token, -> { order(created_at: :desc) }, class_name: "CamdramToken"
   has_many :booking, dependent: :delete_all
@@ -83,7 +84,7 @@ class User < ApplicationRecord
 
   # Returns the user's Camdram uid.
   def camdram_id
-    self.provider_account.find_by(provider: 'camdram').try(:uid)
+    self.camdram_account.try(:uid)
   end
 
   def authorised_camdram_shows

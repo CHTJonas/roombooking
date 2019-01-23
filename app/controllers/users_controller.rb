@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   # Show all information stored about a single user.
   def show
-    @user = User.find(params[:id])
+    @user = User.eager_load(:camdram_account).find(params[:id])
     authorize! :read, @user
   end
 
