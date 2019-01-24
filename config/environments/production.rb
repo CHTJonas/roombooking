@@ -49,13 +49,6 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :warn
-
-  # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
-
   # Use Redis for caching in production.
   config.action_controller.perform_caching = true
   config.cache_store = :redis_cache_store, {
@@ -84,12 +77,19 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
+  # Use Yell instead of ActiveSupport for logging.
+  yell_config_file = Rails.root.join( 'config', 'yell.yml' )
+  Yell['rails'] = Yell.load!(yell_config_file)
+  config.logger = Yell['rails']
+
+  # Log everything at or above this level.
+  config.log_level = :info
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [ :request_id ]
+
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-
-  # Use a different logger for distributed setups.
-  # require 'syslog/logger'
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

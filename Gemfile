@@ -93,8 +93,9 @@ gem 'peek-rblineprof', '~> 0.2.0'
 # App health check
 gem 'health_check', '~> 3.0'
 
-# Metrics
+# Metrics & Logging
 gem 'ddtrace', '~> 0.18.3'
+gem 'yell', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

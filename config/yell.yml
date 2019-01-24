@@ -1,0 +1,11 @@
+production:
+  :level: 'gte.info'
+  :keep: 7
+  :adapters:
+    - :datefile:
+        :level: 'lte.info'
+        :filename: 'log/roombooking_production_info.log'
+    - :datefile:
+        :level: 'gte.warn'
+        :filename: 'log/roombooking_production_error.log'
+
