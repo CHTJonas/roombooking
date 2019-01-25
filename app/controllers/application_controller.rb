@@ -58,8 +58,6 @@ class ApplicationController < ActionController::Base
     render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden
   end
 
-  private
-
   # Finds the Session model object with the ID that is stored in the Rails
   # session store. Logging in sets this session value and logging out
   # removes it.
@@ -192,5 +190,4 @@ class ApplicationController < ActionController::Base
   def peek_enabled?
     current_user.try(:sysadmin?) || Rails.env == 'development'
   end
-
 end

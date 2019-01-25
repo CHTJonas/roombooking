@@ -85,11 +85,24 @@ Rails.application.configure do
   # Log everything at or above this level.
   config.log_level = :info
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  # Don't log Rack::Timeout changes in state during the lifetime of a request.
+  Rack::Timeout::Logger.disable
 
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  # Use Lograge to tame logging to a single line and include some extra info.
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    {
+      host: controller.request.host,
+      session_id: controller.current_session.try(:id),
+      user_id: controller.current_user.try(:id)
+    }
+  end
+  config.lograge.custom_options = lambda do |event|
+    exceptions = %w(controller action format id)
+    {
+      params: event.payload[:params].except(*exceptions)
+    }
+  end
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
