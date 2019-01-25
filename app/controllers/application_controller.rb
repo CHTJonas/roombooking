@@ -40,10 +40,12 @@ class ApplicationController < ActionController::Base
   # Rescue exceptions raised by user access violations from CanCan.
   rescue_from CanCan::AccessDenied do |exception|
     if user_logged_in?
+      log_abuse "Blocked access to #{request.fullpath} by #{current_user.name.possessive} session with id #{current_session.id} as the CanCan authorisation check failed"
       alert = { 'class' => 'danger', 'message' => 'Access denied.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
     else
+      log_abuse "Blocked access to #{request.fullpath} as no valid login session was present"
       alert = { 'class' => 'danger', 'message' => 'You need to login to access this page.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
@@ -52,6 +54,7 @@ class ApplicationController < ActionController::Base
 
   # Recue exceptions raised due to cross-site request forgery.
   rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    log_abuse "Possible CSRF attack detected at #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'}"
     invalidate_session
     alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
     flash.now[:alert] = alert
@@ -110,18 +113,21 @@ class ApplicationController < ActionController::Base
   def check_user!
     if user_logged_in?
       if current_user.blocked?
+        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as their account was blocked"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
       end
       if current_session.invalidated?
+        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as it was invalidated"
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has been invalidated by yourself or an administrator. Please login again.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'session invalidated'}, status: :unauthorized and return
       end
       if current_session.expired?
+        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as it had expired"
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
         flash.now[:alert] = alert
@@ -131,6 +137,7 @@ class ApplicationController < ActionController::Base
         # The user is logged in and not an imposter, but we can't find a
         # Camdram API token for them. Maybe it was purged from the database?
         # Maybe there was a session issue?
+        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current camdram token was found"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
@@ -146,6 +153,7 @@ class ApplicationController < ActionController::Base
   # before_action to ensures the user is an administrator.
   def must_be_admin!
     unless user_is_admin?
+      log_abuse "Blocked access to #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'} as they are not an administrator"
       alert = { 'class' => 'danger', 'message' => "Acess denied — you don't appear to be an administrator!" }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'user not admin'}, status: :forbidden and return
@@ -158,6 +166,11 @@ class ApplicationController < ActionController::Base
     @current_session = nil
     @current_user = nil
     @current_camdram_token = nil
+  end
+
+  def log_abuse(str)
+    str << " : [#{request.remote_ip} - #{request.user_agent}]"
+    Yell['abuse'].info(str)
   end
 
   # Add extra context to any Sentry error reports.

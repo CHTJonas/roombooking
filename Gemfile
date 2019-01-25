@@ -36,8 +36,9 @@ gem 'omniauth-camdram'
 gem 'chronic'
 gem 'chronic_duration'
 gem 'datey'
-# Humanise true/false values
+# Humanise some common data types
 gem 'humanize_boolean', '~> 0.0.2'
+gem 'possessive', '~> 1.0', '>= 1.0.1'
 # Pagination
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 # Calendar

@@ -14,14 +14,12 @@ class SessionsController < ApplicationController
     reset_session
     # Log the event and render/redirect.
     if user.blocked?
-      LogEvent.log(user, 'failure', 'User login', 'web', request.remote_ip, request.user_agent)
+      log_abuse "#{user.name} attempted to login but their account is blocked"
       user = nil
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'user blocked'}, status: :forbidden
     else
-      LogEvent.log(user, 'success', 'User login', 'web', request.remote_ip, request.user_agent)
-
       # Create an object to store the Camdram API token.
       camdram_token = CamdramToken.create_with_credentials(auth['credentials'], user)
 
@@ -31,6 +29,9 @@ class SessionsController < ApplicationController
                             login_at: DateTime.now,
                             ip: request.remote_ip,
                             user_agent: request.user_agent)
+
+      # Make a note of the login to track any abuse.
+      log_abuse "#{user.name} successfully logged in with session #{sesh.id} and camdram token #{camdram_token.id}"
 
       # Save the session object ID in the Rails session store so that it can
       # be used for subsequent requests.
@@ -44,7 +45,7 @@ class SessionsController < ApplicationController
 
   def destroy
     if user_logged_in?
-      LogEvent.log(current_user, 'success', 'User logout', 'web', request.remote_ip, request.user_agent)
+      log_abuse "#{current_user.name.capitalize} successfully logged out of their session with id #{current_session.id}"
       current_session.invalidate!
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
@@ -59,9 +60,10 @@ class SessionsController < ApplicationController
     if message == 'csrf_detected'
       raise ActionController::InvalidAuthenticityToken
     else
-      alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}" }
+      log_abuse "A login authentication system error occurred: #{message.humanize}"
+      alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}." }
       flash[:alert] = alert
-      redirect_to root_url
+      render 'layouts/blank', locals: {reason: 'oauth2 failure'}, status: :internal_server_error
     end
   end
 
