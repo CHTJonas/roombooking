@@ -51,8 +51,9 @@ gem 'momentjs-rails'
 gem 'bootstrap4-datetime-picker-rails'
 gem 'font-awesome-rails'
 # View rendering
-gem 'haml'
-gem 'kramdown'
+gem 'haml', '~> 5.0'
+gem 'kramdown', require: false
+gem 'redcarpet', '~> 3.4'
 # GDPR
 gem 'cookies_eu'
 # Browser user-agent detection

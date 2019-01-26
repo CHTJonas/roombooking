@@ -31,6 +31,4 @@
 </ul>
 
 <%= content_tag(:h4, 'Description') %>
-<p>
-  <%= @external_society.description %>
-</p>
+<%= Roombooking::Markdown.render(@external_society.description) %>
