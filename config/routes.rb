@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   # RESTful Entities
   resources :bookings
+  resources :camdram_shows, only: [:show]
+  resources :camdram_societies, only: [:show]
   resources :rooms
   resources :users do
     post 'impersonate', on: :member, constraints: must_be_admin

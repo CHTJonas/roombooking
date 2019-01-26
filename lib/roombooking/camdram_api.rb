@@ -9,6 +9,10 @@ module Roombooking
         client_pool.with &block
       end
 
+      def url_for(entity)
+        client.base_url + entity.url_slug.chomp('.json')
+      end
+
       private
 
       def client_pool

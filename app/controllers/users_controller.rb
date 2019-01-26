@@ -33,6 +33,8 @@ class UsersController < ApplicationController
   def show
     @user = User.eager_load(:camdram_account).find(params[:id])
     authorize! :read, @user
+    @camdram_shows = @user.authorised_camdram_shows
+    @camdram_societies = @user.authorised_camdram_societies
   end
 
   # Allows and administrator to impersonate a user.

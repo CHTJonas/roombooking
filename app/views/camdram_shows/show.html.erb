@@ -1,0 +1,61 @@
+<% content_for :title, @camdram_show.name %>
+<% content_for :heading, @camdram_show.name %>
+<% content_for :controller_links do %>
+  <%= link_to 'Go Back', :back, class: 'btn btn-outline-secondary' %>
+  <%= link_to 'View on Camdram', Roombooking::CamdramAPI.url_for(@external_show), class: 'btn btn-outline-primary' %>
+<% end %>
+
+<%= content_tag(:h4, 'Booking Quotas for This Week') %>
+<table class="table table-sm table-striped">
+  <tbody>
+    <%= content_tag :tr do %>
+      <%= content_tag(:td, 'Rehearsals:', style: 'width: 10%;') %>
+      <%= content_tag(:td, progress_bar(@quota[0], @camdram_show.max_rehearsals)) %>
+    <% end %>
+    <%= content_tag :tr do %>
+      <%= content_tag(:td, 'Auditions:', style: 'width: 10%;') %>
+      <%= content_tag(:td, progress_bar(@quota[1], @camdram_show.max_auditions)) %>
+    <% end %>
+    <%= content_tag :tr do %>
+      <%= content_tag(:td, 'Meetings:', style: 'width: 10%;') %>
+      <%= content_tag(:td, progress_bar(@quota[2], @camdram_show.max_meetings)) %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= content_tag(:h4, 'Bookings:') %>
+<ul>
+  <% if @camdram_show.booking.count == 0 %>
+    <li>
+      None!
+    </li>
+  <% else %>
+    <% @camdram_show.booking.each do |booking| %>
+      <li>
+        <%= link_to booking.name, booking_path(booking) %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<%= content_tag :div, class: 'row' do %>
+  <%= content_tag :div, class: 'col col-sm-12 col-lg-8' do %>
+    <%= content_tag(:h4, 'Description') %>
+    <p>
+      <%= @external_show.description %>
+    </p>
+  <% end %>
+  <%= content_tag :div, '', class: 'd-sm-none w-100' %>
+  <%= content_tag :div, class: 'col col-sm-12 col-lg-4' do %>
+    <%= content_tag(:h4, 'Performances:') %>
+    <ul>
+      <% @external_show.performances.each do |performance| %>
+        <% (performance.start_date..performance.end_date).each do |date| %>
+          <li>
+            <%= performance.time.strftime('%R') %> on <%= date %> at <%= performance.venue.name %>.
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

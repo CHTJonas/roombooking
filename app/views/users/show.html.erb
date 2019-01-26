@@ -20,3 +20,40 @@
     </table>
   <% end %>
 <% end %>
+
+<hr class="my-4">
+
+<%= content_tag :div, class: 'row' do %>
+  <%= content_tag :div, class: 'col' do %>
+    <% if @user == current_user %>
+      <%= content_tag(:h4, 'My Shows:') %>
+    <% else %>
+      <%= content_tag(:h4, "User's Shows:") %>
+    <% end %>
+    <ul>
+      <% if @camdram_shows.count == 0 %>
+        <li>
+          None!
+        </li>
+      <% else %>
+        <%= render @camdram_shows %>
+      <% end %>
+    </ul>
+  <% end %>
+  <%= content_tag :div, class: 'col' do %>
+    <% if @user == current_user %>
+      <%= content_tag(:h4, 'My Societies:') %>
+    <% else %>
+      <%= content_tag(:h4, "User's Societies:") %>
+    <% end %>
+    <ul>
+      <% if @camdram_societies.count == 0 %>
+        <li>
+          None!
+        </li>
+      <% else %>
+        <%= render @camdram_societies %>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
