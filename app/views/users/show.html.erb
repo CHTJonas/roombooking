@@ -6,10 +6,19 @@
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' if can? :crud, @user %>
 <% end %>
 
-<%= content_tag :div, class: 'row' do %>
+<p>
+  This page list all the information we have on file for you, including your email which is used for notifications.
+  Please take a moment to make sure it's accurate!
+  Nobody else can view this page and we promise never to share this data with anyone.
+  Any shows or societies which you can make booking on behalf of will also be listed below.
+  You'll need to be authorised as an 'admin' for that show or society on Camdram for it to appear.
+</p>
+
+<%= content_tag :div, class: 'row no-gutters' do %>
   <%= content_tag :div, class: 'col-md-auto' do %>
     <%= content_tag :div, class: 'container' do %>
       <%= gravatar_image_tag(@user.email, alt: @user.name, class: 'rounded mx-auto d-block', gravatar: { size: 200, secure: true }) %>
+      <p class="text-center"><%= link_to 'Setup Gravatar', 'https://en.gravatar.com' %></p>
     <% end %>
   <% end %>
   <%= content_tag :div, class: 'col' do %>
