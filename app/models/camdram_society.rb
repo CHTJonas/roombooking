@@ -50,4 +50,39 @@ class CamdramSociety < ApplicationRecord
   def name
     camdram_object.name
   end
+
+  # Returns an array that counts the society's currently used quota for the
+  # week beginning on the give day.
+  def weekly_quota(start_of_week)
+    quota = 0
+    bookings = bookings_in_week(start_of_week)
+    bookings.each do |booking|
+      if booking.purpose == 'meeting of'
+        quota += 1
+      end
+    end
+    quota
+  end
+
+  # Gets all the society's bookings for the week beginning on the give day.
+  def bookings_in_week(start_of_week)
+    end_of_week = start_of_week + 1.week
+    bookings_in_range(start_of_week, end_of_week)
+  end
+
+  # Gets all the society's bookings that occur between the times given.
+  def bookings_in_range(start_date, end_date)
+    ordinary_bookings = self.booking
+      .where(repeat_mode: :none)
+      .where(start_time: start_date..end_date)
+    daily_repeat_bookings = self.booking
+      .where(repeat_mode: :daily)
+      .where(start_time: Time.at(0)..end_date)
+      .where(repeat_until: start_date..DateTime::Infinity.new)
+    weekly_repeat_bookings = self.booking
+      .where(repeat_mode: :weekly)
+      .where(start_time: Time.at(0)..end_date)
+      .where(repeat_until: start_date..DateTime::Infinity.new)
+    return ordinary_bookings + daily_repeat_bookings + weekly_repeat_bookings
+  end
 end
