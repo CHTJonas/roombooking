@@ -6,4 +6,12 @@ module BookingsHelper
       return repeat_mode.to_s.capitalize + ' until ' + repeat_until.strftime("%A #{repeat_until.day.ordinalize} %b %Y")
     end
   end
+
+  def purpose_of(booking)
+    string = booking.purpose.humanize
+    unless booking.camdram_model.nil?
+      string << ' "' + link_to(booking.camdram_model.name, url_for(booking.camdram_model)) + '"'
+    end
+    string.html_safe
+  end
 end

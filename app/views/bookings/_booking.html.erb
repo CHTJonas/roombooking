@@ -1,5 +1,5 @@
 <%= content_tag :tr do %>
-  <%= content_tag(:td, 'Name:') %>
+  <%= content_tag(:td, 'Name:', width: '25%') %>
   <%= content_tag(:td, @booking.name) %>
 <% end %>
 <%= content_tag :tr do %>
@@ -29,13 +29,21 @@
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Room:') %>
-  <%= content_tag(:td, @booking.room.name) %>
+  <%= content_tag :td do %>
+    <%= link_to @booking.room.name, room_path(@booking.room) %>
+  <% end %>
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Creator:') %>
-  <%= content_tag(:td, @booking.user.name) %>
+  <%= content_tag :td do %>
+    <% if user_is_admin? %>
+      <%= link_to @booking.user.name, user_path(@booking.user) %>
+    <% else %>
+      <%= @booking.user.name %>
+    <% end %>
+  <% end %>
 <% end %>
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Purpose:') %>
-  <%= content_tag(:td, @booking.purpose_string) %>
+  <%= content_tag(:td, purpose_of(@booking)) %>
 <% end %>

@@ -29,7 +29,9 @@
               on <%= booking.start_time.strftime("%d/%m/%y") %>.
             <% end %>
             <%= content_tag :p, class: 'card-text' do %>
-              Created <%= time_ago_in_words booking.created_at %> ago.
+              <small class="text-muted">
+                Created <%= time_ago_in_words booking.created_at %> ago.
+              </small>
             <% end %>
           <% end %>
         <% end %>

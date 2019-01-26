@@ -2,7 +2,7 @@
 <% content_for :heading, @camdram_show.name %>
 <% content_for :controller_links do %>
   <%= link_to 'Go Back', :back, class: 'btn btn-outline-secondary' %>
-  <%= link_to 'View on Camdram', Roombooking::CamdramAPI.url_for(@external_show), class: 'btn btn-outline-primary' %>
+  <%= link_to 'View on Camdram', camdram_url_for(@external_show), class: 'btn btn-outline-primary' %>
 <% end %>
 
 <%= content_tag(:h4, 'Booking Quotas for This Week') %>
