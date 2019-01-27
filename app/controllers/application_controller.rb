@@ -201,6 +201,6 @@ class ApplicationController < ActionController::Base
   end
 
   def peek_enabled?
-    current_user.try(:sysadmin?) || Rails.env == 'development'
+    current_user.try(:sysadmin?) || Rails.env.development?
   end
 end
