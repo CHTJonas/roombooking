@@ -67,10 +67,18 @@ class CamdramShow < ApplicationRecord
   end
 
   # Returns an array that counts the show's currently used quota for the
-  # week beginning on the give date.
+  # week beginning on the given date.
   def weekly_quota(start_of_week)
+    end_of_week = start_of_week + 1.week
+    bookings = self.booking.in_range(start_of_week, end_of_week)
+    calculate_weekly_quota(start_of_week, bookings)
+  end
+
+  # Abstraction to allow vallidation of new bookings. Returns an array that
+  # counts the show's currently used quota for the week beginning on the
+  # given date.
+  def calculate_weekly_quota(start_of_week, bookings)
     quota = [0, 0, 0] # [rehearsals, auditions, meetings]
-    bookings = bookings_in_week(start_of_week)
     bookings.each do |booking|
       occurrences = 1
       if booking.repeat_mode == 'daily'
@@ -89,9 +97,11 @@ class CamdramShow < ApplicationRecord
     quota
   end
 
-  # Gets all the show's bookings for the week beginning on the give date.
-  def bookings_in_week(start_of_week)
-    end_of_week = start_of_week + 1.week
-    self.booking.in_range(start_of_week, end_of_week)
+  # Returns true if the show has exceeded any of the given quotas,
+  # false otherwise.
+  def exceeded_weekly_quota?(quota)
+    quota[0] > self.max_rehearsals ||
+      quota[1] > self.max_auditions ||
+      quota[2] > self.max_meetings
   end
 end

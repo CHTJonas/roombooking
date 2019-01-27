@@ -106,42 +106,29 @@ class Booking < ApplicationRecord
 
   # A booking cannot overlap with any other booking.
   def must_not_overlap
-    query_opts = {
-                   start: self.start_time,
-                   end: self.end_time
-                 }
-
-    ordinary_bookings = Booking.where.not(id: self.id)
-                               .where(repeat_mode: :none)
-                               .where(room: self.room)
-                               .where("start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end", query_opts)
-
+    query_opts = { start: self.start_time, end: self.end_time }
     query_end_time = case self.repeat_mode
-      when 'none' then self.end_time
-      else self.repeat_until
+    when 'none' then self.end_time
+    else self.repeat_until
     end
 
+    ordinary_bookings = Booking.where.not(id: self.id)
+      .where(repeat_mode: :none)
+      .where(room: self.room)
+      .where(%{start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end}, query_opts)
+
     daily_repeat_bookings = Booking.where.not(id: self.id)
-                                   .where(repeat_mode: :daily)
-                                   .where(start_time: Time.at(0)..query_end_time)
-                                   .where(repeat_until: self.start_time..DateTime::Infinity.new)
-                                   .where(room: self.room)
-                                   .where(%{
-      (start_time::time, end_time::time)
-      OVERLAPS (timestamp :start::time, timestamp :end::time)
-    }, query_opts)
+      .daily_repeat_in_range(self.start_time, query_end_time)
+      .where(room: self.room)
+      .where(%{ (start_time::time, end_time::time)
+OVERLAPS (timestamp :start::time, timestamp :end::time) }, query_opts)
 
     weekly_repeat_bookings = Booking.where.not(id: self.id)
-                                    .where(repeat_mode: :weekly)
-                                    .where(start_time: Time.at(0)..query_end_time)
-                                    .where(repeat_until: self.start_time..DateTime::Infinity.new)
-                                    .where(room: self.room)
-                                    .where(%{
-      (start_time::time, end_time::time)
-      OVERLAPS (timestamp :start::time, timestamp :end::time)
-      AND EXTRACT(dow FROM start_time)
-      = EXTRACT(dow FROM timestamp :start)
-    }, query_opts)
+      .weekly_repeat_in_range(self.start_time, query_end_time)
+      .where(room: self.room)
+      .where(%{ (start_time::time, end_time::time)
+OVERLAPS (timestamp :start::time, timestamp :end::time)
+AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_opts)
 
     unless ordinary_bookings.empty? && daily_repeat_bookings.empty? && weekly_repeat_bookings.empty?
       errors.add(:base, "The times given overlap with another booking.")
@@ -168,7 +155,7 @@ class Booking < ApplicationRecord
   # A booking with an associated Camdram model must not go over it's weekly quota.
   def must_not_exceed_quota
     unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
-      start = self.start_time.beginning_of_week
+      start = self.start_time.to_date.beginning_of_week
       weeks_to_check = []
       if self.repeat_mode == 'none'
         weeks_to_check.append start
@@ -179,10 +166,14 @@ class Booking < ApplicationRecord
         end
       end
       weeks_to_check.each do |start_of_week|
-        error_message = validate_weekly_quota(start_of_week)
-        if error_message
-          errors.add(:base, error_message)
-          return
+        end_of_week = start_of_week + 1.week
+        bookings = self.camdram_model.booking
+          .where.not(id: self.id)
+          .in_range(start_of_week, end_of_week)
+        bookings << self
+        quota = self.camdram_model.calculate_weekly_quota(start_of_week, bookings)
+        if self.camdram_model.exceeded_weekly_quota?(quota)
+          errors.add(:base, "You have exceeded your weekly booking quota (for the week beginning #{start_of_week.to_date}).")
         end
       end
     end
@@ -289,80 +280,5 @@ DATE_PART('day', timestamp :end - timestamp :start) },
 
   def to_event(offset = 0)
     Event.create_from_booking(self, offset)
-  end
-
-  private
-
-  def validate_weekly_quota(start_of_week)
-    end_of_week = start_of_week + 1.week
-
-    # We exclude the current record from our queries throughout because we
-    # may be updating the model and so want to validate the current state,
-    # not the state which may be stored in the database. This is achieved
-    # using the calls to `append self` on the arrays of ActiveRecords.
-
-    ordinary_bookings = Booking.where.not(id: self.id)
-                      .where(repeat_mode: :none)
-                      .where(start_time: start_of_week..end_of_week)
-                      .where(room: self.room)
-                      .where(camdram_model: self.camdram_model)
-                      .where(purpose: self.purpose)
-                      .to_a
-    ordinary_bookings.append self if self.repeat_mode == 'none'
-    total_hours = 0
-    ordinary_bookings.each do |booking|
-      duration = booking.duration
-      # Convert duration from seconds to hours.
-      total_hours += duration / 60 / 60
-    end
-
-    daily_repeat_bookings = Booking.where.not(id: self.id)
-                                   .where(repeat_mode: :daily)
-                                   .where(start_time: Time.at(0)..end_of_week)
-                                   .where(repeat_until: start_of_week..DateTime::Infinity.new)
-                                   .where(room: self.room)
-                                   .where(camdram_model: self.camdram_model)
-                                   .where(purpose: self.purpose)
-                                   .to_a
-    daily_repeat_bookings.append self if self.repeat_mode == 'daily'
-    daily_repeat_bookings.each do |booking|
-      duration = booking.duration
-      # Convert duration from seconds to hours.
-      hours = duration / 60 / 60
-      repeat_start_time = [booking.start_time, start_of_week].max
-      repeat_end_time = [booking.repeat_until + 1.day, end_of_week].min
-      (repeat_start_time.to_date...repeat_end_time.to_date).each do |date|
-        total_hours += hours
-      end
-    end
-
-    weekly_repeat_bookings = Booking.where.not(id: self.id)
-                                   .where(repeat_mode: :weekly)
-                                   .where(start_time: Time.at(0)..end_of_week)
-                                   .where(repeat_until: start_of_week..DateTime::Infinity.new)
-                                   .where(room: self.room)
-                                   .where(camdram_model: self.camdram_model)
-                                   .where(purpose: self.purpose)
-                                   .to_a
-    weekly_repeat_bookings.append self if self.repeat_mode == 'weekly'
-    weekly_repeat_bookings.each do |booking|
-      duration = booking.duration
-      # Convert duration from seconds to hours.
-      hours = duration / 60 / 60
-      total_hours += hours
-    end
-
-    if self.purpose == 'audition_for' && total_hours > self.camdram_model.max_auditions
-      return "Your show has exceeded its weekly audition booking quota for the week beginning #{start_of_week.to_date} by #{total_hours - self.camdram_model.max_auditions} hours."
-    elsif self.purpose == 'meeting_for' && total_hours > self.camdram_model.max_meetings
-      return "Your show has exceeded its weekly meeting booking quota for the week beginning #{start_of_week.to_date} by #{total_hours - self.camdram_model.max_meetings} hours."
-    elsif self.purpose == 'meeting_of' && total_hours > self.camdram_model.max_meetings
-      return "Your society has exceeded its weekly meeting booking quota for the week beginning #{start_of_week.to_date} by #{total_hours - self.camdram_model.max_meetings} hours."
-    elsif self.purpose == 'rehearsal_for' && total_hours > self.camdram_model.max_rehearsals
-      return "Your show has exceeded its weekly rehearsal booking quota for the week beginning #{start_of_week.to_date} by #{total_hours - self.camdram_model.max_rehearsals} hours."
-    end
-
-    # This week validated correctly so return nil.
-    nil
   end
 end
