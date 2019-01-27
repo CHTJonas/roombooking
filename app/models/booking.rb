@@ -215,6 +215,9 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
     self.camdram_model.try(:camdram_object)
   end
 
+  # Scope approved bookings only.
+  scope :approved, -> { where(approved: true) }
+
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
   # to include in the query.
