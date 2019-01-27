@@ -248,6 +248,45 @@ class Booking < ApplicationRecord
     end
   end
 
+  # Scope all bookings that occur between the two given dates. Note that
+  # end_date should be midnight of the day after the last day you'd like
+  # to include in the query.
+  scope :in_range, ->(start_date, end_date) {
+    ordinary_in_range(start_date, end_date) +
+      daily_repeat_in_range(start_date, end_date) +
+      weekly_repeat_in_range(start_date, end_date)
+  }
+
+  # Scope non-repeating bookings that occur between the two given dates.
+  # Note that end_date should be midnight of the day after the last day
+  # you'd like to include in the query.
+  scope :ordinary_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :none).where(start_time: start_date..end_date)
+  }
+
+  # Scope bookings that repeat daily and which occur between the two given
+  # dates. Note that end_date should be midnight of the day after the last
+  # day you'd like to include in the query.
+  scope :daily_repeat_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :daily)
+    .where(start_time: Time.at(0)..end_date)
+    .where(repeat_until: start_date..DateTime::Infinity.new)
+  }
+
+  # Scope bookings that repeat weekly and which occur between the two given
+  # dates. Note that end_date should be midnight of the day after the last
+  # day you'd like to include in the query.
+  scope :weekly_repeat_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :weekly)
+    .where(start_time: Time.at(0)..end_date)
+    .where(repeat_until: start_date..DateTime::Infinity.new)
+    .where(%{
+EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
+AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :start) +
+DATE_PART('day', timestamp :end - timestamp :start) },
+      { start: start_date, end: end_date })
+  }
+
   private
 
   def validate_weekly_quota(start_of_week)
