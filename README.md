@@ -15,7 +15,7 @@ To install ADC-RBS for development purposes you will need to clone this reposito
 
 1. `git clone https://github.com/CHTJonas/roombooking.git && cd roombooking`
 2. `bundle install`
-3. `rails db:setup`
+3. `rails roombooking:install`
 4. `rails server`
 
 ## Contributing
@@ -25,7 +25,7 @@ If you think this is something you can do yourself:
 1. Fork the repo (https://github.com/CHTJonas/roombooking/fork).
 2. Create your feature branch (`git checkout -b my-new-feature`).
 3. Commit your changes (`git commit -am 'Add some feature'`).
-4. Push to the branch (`git push origin my-new-feature`).
+4. Push to the branch (`git push -u origin my-new-feature`).
 5. Create a new Pull Request.
 
 ## Copyright
