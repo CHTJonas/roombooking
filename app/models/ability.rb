@@ -6,6 +6,8 @@ class Ability
 
     can :read, Booking, approved: true # Everyone can view approved bookings.
     can :read, Room # Everyone can view rooms.
+    can :read, CamdramShow # Everyone can view shows imported from Camdram.
+    can :read, CamdramSociety # Everyone can view societies imported from Camdram.
     if user.present?  # Additional permissions for logged in users...
       if user.admin?
         can :manage, :all # Administrators can do anything!
