@@ -97,10 +97,10 @@ class Booking < ApplicationRecord
   # Bookings should fit to 30 minute time slots.
   def must_fill_half_hour_slot
     if self.start_time.present? && self.start_time.min % 30 != 0
-      errors.add(:start_time, "must be a multiple of thirty minutes.")
+      errors.add(:start_time, 'must be a multiple of thirty minutes.')
     end
     if self.duration.present? && self.duration % 1800 != 0
-      errors.add(:duration, "must be a multiple of thirty minutes.")
+      errors.add(:duration, 'must be a multiple of thirty minutes.')
     end
   end
 
@@ -131,14 +131,14 @@ OVERLAPS (timestamp :start::time, timestamp :end::time)
 AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_opts)
 
     unless ordinary_bookings.empty? && daily_repeat_bookings.empty? && weekly_repeat_bookings.empty?
-      errors.add(:base, "The times given overlap with another booking.")
+      errors.add(:base, 'The times given overlap with another booking.')
     end
   end
 
   def repeat_until_must_be_valid
     if self.repeat_mode != 'none'
       if repeat_until.nil?
-        errors.add(:repeat_until, "must be set")
+        errors.add(:repeat_until, 'must be set')
       elsif repeat_until < self.start_time.to_date
         errors.add(:repeat_until, "must be after the booking's start time.")
       end
@@ -148,7 +148,7 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
   # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
     unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
-      errors.add(:purpose, "needs to be a valid selection.") if camdram_model.nil?
+      errors.add(:purpose, 'needs to be a valid selection.') if camdram_model.nil?
     end
   end
 
@@ -213,30 +213,6 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
   def camdram_object
     # We try and call the method because not all bookings have associated Camdram models
     self.camdram_model.try(:camdram_object)
-  end
-
-  # Returns the CSS colour of the booking as determined by the booking's type.
-  def css_colour
-    case self.purpose.to_sym
-    when :audition_for
-      "\#FFFF00"
-    when :meeting_for
-      "\#00FFAA"
-    when :meeting_of
-      "\#00DDFF"
-    when :performance_of
-      "\#FF00FF"
-    when :rehearsal_for
-      "\#00FF00"
-    when :get_in_for
-      "\#FFAAAA"
-    when :theatre_closed
-      "\#FF0000"
-    when :training
-      "\#BFBFBF"
-    else
-      "\#888888"
-    end
   end
 
   # Scope all bookings that occur between the two given dates. Note that
