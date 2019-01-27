@@ -92,32 +92,6 @@ class CamdramShow < ApplicationRecord
   # Gets all the show's bookings for the week beginning on the give date.
   def bookings_in_week(start_of_week)
     end_of_week = start_of_week + 1.week
-    bookings_in_range(start_of_week, end_of_week)
-  end
-
-  # Gets all the show's bookings that occur between the dates given. Note
-  # that end_date should be midnight of the day after the last day you'd
-  # like to include in the query.
-  def bookings_in_range(start_date, end_date)
-    # Cast to dates so we get exact midnights.
-    start_date = start_date.to_date
-    end_date = end_date.to_date
-    ordinary_bookings = self.booking
-      .where(repeat_mode: :none)
-      .where(start_time: start_date..end_date)
-    daily_repeat_bookings = self.booking
-      .where(repeat_mode: :daily)
-      .where(start_time: Time.at(0)..end_date)
-      .where(repeat_until: start_date..DateTime::Infinity.new)
-    weekly_repeat_bookings = self.booking
-      .where(repeat_mode: :weekly)
-      .where(start_time: Time.at(0)..end_date)
-      .where(repeat_until: start_date..DateTime::Infinity.new)
-      .where(%{
-(EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
-AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :end))
-OR age(timestamp :end, timestamp :start) >= interval '1 week'
-}, { start: start_date, end: end_date })
-    bookings = ordinary_bookings + daily_repeat_bookings + weekly_repeat_bookings
+    self.booking.in_range(start_of_week, end_of_week)
   end
 end
