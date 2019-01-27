@@ -67,30 +67,41 @@ class CamdramShow < ApplicationRecord
   end
 
   # Returns an array that counts the show's currently used quota for the
-  # week beginning on the give day.
+  # week beginning on the give date.
   def weekly_quota(start_of_week)
     quota = [0, 0, 0] # [rehearsals, auditions, meetings]
     bookings = bookings_in_week(start_of_week)
     bookings.each do |booking|
-      if booking.purpose == 'rehearsal of'
-        quota[0] += 1
-      elsif booking.purpose == 'audition for'
-        quota[1] += 1
-      elsif booking.purpose == 'meeting for'
-        quota[2] += 1
+      occurrences = 1
+      if booking.repeat_mode == 'daily'
+        start_repeating_from = start_of_week < booking.start_time ? booking.start_time : start_of_week
+        occurrences = (start_repeating_from.to_date..booking.repeat_until.to_date).count
+      end
+      quota_increase = occurrences * booking.duration / 60 / 60
+      if booking.purpose == 'rehearsal_for'
+        quota[0] += quota_increase
+      elsif booking.purpose == 'audition_for'
+        quota[1] += quota_increase
+      elsif booking.purpose == 'meeting_for'
+        quota[2] += quota_increase
       end
     end
     quota
   end
 
-  # Gets all the show's bookings for the week beginning on the give day.
+  # Gets all the show's bookings for the week beginning on the give date.
   def bookings_in_week(start_of_week)
     end_of_week = start_of_week + 1.week
     bookings_in_range(start_of_week, end_of_week)
   end
 
-  # Gets all the show's bookings that occur between the times given.
+  # Gets all the show's bookings that occur between the dates given. Note
+  # that end_date should be midnight of the day after the last day you'd
+  # like to include in the query.
   def bookings_in_range(start_date, end_date)
+    # Cast to dates so we get exact midnights.
+    start_date = start_date.to_date
+    end_date = end_date.to_date
     ordinary_bookings = self.booking
       .where(repeat_mode: :none)
       .where(start_time: start_date..end_date)
@@ -102,6 +113,11 @@ class CamdramShow < ApplicationRecord
       .where(repeat_mode: :weekly)
       .where(start_time: Time.at(0)..end_date)
       .where(repeat_until: start_date..DateTime::Infinity.new)
-    return ordinary_bookings + daily_repeat_bookings + weekly_repeat_bookings
+      .where(%{
+(EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
+AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :end))
+OR age(timestamp :end, timestamp :start) >= interval '1 week'
+}, { start: start_date, end: end_date })
+    bookings = ordinary_bookings + daily_repeat_bookings + weekly_repeat_bookings
   end
 end
