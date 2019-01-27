@@ -1,5 +1,5 @@
-# Generated dynamically by the RoomsHelper module.
-# Not stored in the database.
+# Objects of this class are instantiated dynamically from a collection of
+# bookings and are not stored in the database.
 class Event
   attr_accessor :start_time, :end_time, :booking
 

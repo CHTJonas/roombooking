@@ -6,7 +6,7 @@
   <%= link_to 'Delete', room_path(@room), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' if can? :manage, @room %>
 <% end %>
 
-<%= week_calendar(events: events_for(@room), partial: 'calendar/roombooking_calendar') do |date, events| %>
+<%= week_calendar(events: @events, partial: 'calendar/roombooking_calendar') do |date, events| %>
   <% events.each do |event| %>
     <%= link_to event.booking, { style: event_div_styles(event), class: 'booking' } do %>
       <%= event.booking.name %>

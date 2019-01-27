@@ -287,6 +287,10 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       { start: start_date, end: end_date })
   }
 
+  def to_event(offset = 0)
+    Event.create_from_booking(self, offset)
+  end
+
   private
 
   def validate_weekly_quota(start_of_week)

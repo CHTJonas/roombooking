@@ -52,12 +52,11 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room
-      .then { |_| request.format == :ics ? _.eager_load(booking: :user)
-        .where('bookings.approved = ?', true)
-        : _ }
-      .find(params[:id])
+    @room = Room.eager_load(approved_bookings: :user).find(params[:id])
     authorize! :read, @room
+    start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
+    end_date = start_date + 7.days
+    @events = @room.events_in_range(start_date, end_date)
     respond_to do |format|
       format.html
       format.ics
@@ -71,39 +70,6 @@ class RoomsController < ApplicationController
     alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!"}
     flash[:alert] = alert
     redirect_to rooms_path
-  end
-
-  protected
-
-  def events_for(room)
-    start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
-    end_date = start_date + 7.days
-
-    daily_bookings = room.booking.ordinary_in_range(start_date, end_date)
-      .accessible_by(current_ability, :read)
-    daily_events = Array.new(daily_bookings.length)
-    daily_bookings.to_a.each_with_index { |val, index| daily_events[index] = Event.create_from_booking(val) }
-
-    repeat_events = LinkedList::List.new
-
-    daily_repeat_bookings = room.booking.daily_repeat_in_range(start_date, end_date)
-      .accessible_by(current_ability, :read)
-    daily_repeat_bookings.to_a.each do |booking|
-      (booking.start_time.to_date..booking.repeat_until).each do |date|
-        break if date > end_date
-        offset = date - booking.start_time.to_date
-        repeat_events.push Event.create_from_booking(booking, offset)
-      end
-    end
-
-    weekly_repeat_bookings = room.booking.weekly_repeat_in_range(start_date, end_date)
-      .accessible_by(current_ability, :read)
-    weekly_repeat_bookings.to_a.each do |booking|
-      offset = start_date - booking.start_time.to_date.beginning_of_week
-      repeat_events.push Event.create_from_booking(booking, offset)
-    end
-
-    daily_events + repeat_events.to_a
   end
 
   private
