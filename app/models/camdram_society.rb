@@ -12,6 +12,8 @@
 
 class CamdramSociety < ApplicationRecord
   has_many :booking, as: :camdram_model, dependent: :delete_all
+  has_many :approved_bookings, -> { where(approved: true) },
+    class_name: 'Booking', as: :camdram_model
 
   validates :camdram_id, numericality: {
     only_integer: true,
