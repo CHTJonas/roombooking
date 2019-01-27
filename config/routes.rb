@@ -3,12 +3,12 @@ Rails.application.routes.draw do
   must_be_admin = Roombooking::AdminConstraint.new
 
   # Admin Dashboard
-  namespace :admin do
-    root to: redirect('/admin/dashboard'), constraints: must_be_admin
-    get '/dashboard' => 'dashboard#index', constraints: must_be_admin
-    get '/backup' => 'dashboard#backup', constraints: must_be_admin
-    resources :camdram_shows, only: [:index, :create, :update], constraints: must_be_admin
-    resources :camdram_societies, only: [:index, :create, :update], constraints: must_be_admin
+  namespace :admin, constraints: must_be_admin do
+    root to: 'dashboard#index', as: 'dashboard'
+    get '/backup' => 'dashboard#backup'
+    get '/info' => 'dashboard#info'
+    resources :camdram_shows, only: [:index, :create, :update]
+    resources :camdram_societies, only: [:index, :create, :update]
   end
 
   # Backend Admin Interfaces

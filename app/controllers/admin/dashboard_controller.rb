@@ -13,5 +13,9 @@ module Admin
         render plain: "An error occurred when creating the backup!"
       end
     end
+
+    def info
+      render html: Rails::Info.to_html.html_safe
+    end
   end
 end
