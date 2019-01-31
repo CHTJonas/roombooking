@@ -1,7 +1,7 @@
 module Admin
   class CamdramSocietiesController < DashboardController
     def index
-      sorted_societies = Roombooking::CamdramAPI.client.get_societies.sort_by(&:name)
+      sorted_societies = Roombooking::CamdramAPI.with { |client| client.get_societies.sort_by(&:name) }
       @camdram_societies = Kaminari.paginate_array(sorted_societies).page(params[:page])
     end
 

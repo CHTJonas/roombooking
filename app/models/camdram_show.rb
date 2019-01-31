@@ -58,7 +58,7 @@ class CamdramShow < ApplicationRecord
   # Returns the Camdram::Show object that the record references by querying
   # the Camdram API.
   def camdram_object
-    @camdram_object ||= Roombooking::CamdramAPI.client.get_show(self.camdram_id)
+    @camdram_object ||= Roombooking::CamdramAPI.with { |client| client.get_show(self.camdram_id) }
   end
 
   # Returns the name of the show by querying the Camdram API.

@@ -45,7 +45,7 @@ class CamdramSociety < ApplicationRecord
   # Returns the Camdram::Organisation object that the record references by
   # querying the Camdram API.
   def camdram_object
-    @camdram_object ||= Roombooking::CamdramAPI.client.get_society(self.camdram_id)
+    @camdram_object ||= Roombooking::CamdramAPI.with { |client| client.get_society(self.camdram_id) }
   end
 
   # Returns the name of the society by querying the Camdram API.

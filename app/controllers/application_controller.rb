@@ -61,6 +61,15 @@ class ApplicationController < ActionController::Base
     render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden
   end
 
+  rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
+    alert = { 'class' => 'danger', 'message' => %{
+Sorry, but an error occurred when making a request to the Camdram API!
+This is probably a temporary error - try refreshing the page after a minute or two.
+Errors are tracked automatically but do get in touch if you continue having problems.} }
+    flash.now[:alert] = alert
+    render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error
+  end
+
   # Finds the Session model object with the ID that is stored in the Rails
   # session store. Logging in sets this session value and logging out
   # removes it.

@@ -1,12 +1,17 @@
 module Roombooking
   module CamdramAPI
+    class CamdramError < StandardError; end
     class << self
       def client
         client_pool.checkout
       end
 
       def with(&block)
-        client_pool.with &block
+        client_pool.with do |client|
+          block.call(client)
+        rescue Exception => e
+          raise CamdramError.new, e
+        end
       end
 
       def url_for(entity)

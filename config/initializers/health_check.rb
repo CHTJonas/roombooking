@@ -22,7 +22,7 @@ HealthCheck.setup do |config|
       else
         'Invalid response from the Camdram API'
       end
-    rescue
+    rescue Exception
       'Failed to make a request to the Camdram API'
     end
   end
