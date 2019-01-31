@@ -62,6 +62,7 @@ gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 # Camdram API wrapper
 #gem 'camdram', '~> 1.1'
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
+gem 'patron', '~> 0.13.1'
 # Authorisation library
 gem 'cancancan', '~> 2.0'
 # Error tracking and reporting
