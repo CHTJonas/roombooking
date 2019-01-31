@@ -27,6 +27,9 @@ module Roombooking
             app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
             config.client_credentials(app_id, app_secret) do |faraday|
               faraday.request  :url_encoded
+              faraday.response :logger, Yell['camdram'] do |logger|
+                logger.filter(/Bearer[^"]*/m, '[FILTERED]')
+              end
               faraday.adapter  :patron do |session|
                 session.connect_timeout   = 1
                 session.timeout           = 3
