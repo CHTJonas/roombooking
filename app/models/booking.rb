@@ -106,6 +106,8 @@ class Booking < ApplicationRecord
 
   # A booking cannot overlap with any other booking.
   def must_not_overlap
+    # Needs to have start and end time to validate overlap.
+    return if (self.start_time.nil? || self.end_time.nil?)
     query_opts = { start: self.start_time, end: self.end_time }
     query_end_time = case self.repeat_mode
     when 'none' then self.end_time
@@ -188,14 +190,13 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
   # using ChronicDuration.
   def length=(string)
     @length = string
+    len = nil
     if string =~ /\A(\d+)\z/
-      @length = string.to_i
+      len = string.to_i
     elsif parsed_time = ChronicDuration.parse(string)
-      @length = parsed_time
-    else
-      @length = nil
+      len = parsed_time
     end
-    self.end_time = self.start_time + @length if self.start_time && @length
+    self.end_time = self.start_time + len if (self.start_time && len)
   end
 
   # Returns the duration of the booking.
