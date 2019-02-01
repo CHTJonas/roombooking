@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-adc">
+<nav class="navbar navbar-expand-md navbar-adc">
   <%= link_to root_path, class: 'navbar-brand' do %>
     <img src="/logo-long-white.svg" alt="Room Booking" width="160">
   <% end %>
-  <button class="navbar-toggler adc-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler adc-toggler" type="button" data-toggle="collapse" data-target="#navbarExpandableContent" aria-controls="navbarExpandableContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav">
+  <div class="collapse navbar-collapse" id="navbarExpandableContent">
+    <ul class="navbar-nav mr-auto">
       <%= render 'layouts/navbar_pages' %>
       <%= render 'layouts/navbar_controllers' %>
       <%= render 'layouts/navbar_login' %>
     </ul>
+    <%= render 'layouts/navbar_search' %>
   </div>
-  <%= render 'layouts/navbar_search' %>
 </nav>
