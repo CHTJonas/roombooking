@@ -1,10 +1,7 @@
 $ ->
-
-  $("#booking_when").datetimepicker({
-    locale: 'en-gb'
-  })
-
-  $("#booking_repeat_until").datetimepicker({
-    locale: 'en-gb',
-    format: 'L'
-  })
+  $(".flatdatetimepickr").flatpickr
+    enableTime: true
+    dateFormat: "d/m/Y H:i"
+  $(".flatdatepickr").flatpickr
+    enableTime: false
+    dateFormat: "d/m/Y"

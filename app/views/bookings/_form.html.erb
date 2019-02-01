@@ -15,8 +15,7 @@
   <div class="form-group row">
     <%= form.label :when, class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-10">
-      <%= form.text_field :start_time, data: { toggle: 'datetimepicker',
-        target: '#booking_start_time' }, class: 'form-control datetimepicker-input',
+      <%= form.text_field :start_time, class: 'form-control flatdatetimepickr',
         value: british_date_with_time(@booking.start_time) %>
     </div>
   </div>
@@ -44,8 +43,7 @@
     </div>
     <div class="col-sm-auto">
       <%= form.label :until %>
-      <%= form.text_field :repeat_until, data: { toggle: 'datetimepicker',
-        target: '#booking_repeat_until' }, class: 'form-control datetimepicker-input',
+      <%= form.text_field :repeat_until, class: 'form-control flatdatepickr',
         value: british_date(@booking.repeat_until) %>
     </div>
   </div>

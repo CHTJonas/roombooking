@@ -46,8 +46,7 @@ gem 'icalendar', '~> 2.5', '>= 2.5.2'
 # Asset pipeline
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
-gem 'momentjs-rails'
-gem 'bootstrap4-datetime-picker-rails'
+gem 'flatpickr', '~> 4.5', '>= 4.5.2.0'
 gem 'font-awesome-rails'
 # View rendering
 gem 'haml', '~> 5.0'

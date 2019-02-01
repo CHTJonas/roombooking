@@ -3,9 +3,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
-//= require moment
-//= require moment/en-gb.js
-//= require tempusdominus-bootstrap-4.js
+//= require flatpickr
 //= require cookies_eu
 //= require peek
 //= require peek/views/performance_bar
