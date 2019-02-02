@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 11) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -77,21 +77,6 @@ ActiveRecord::Schema.define(version: 12) do
     t.index ["created_at"], name: "index_camdram_tokens_on_created_at", order: :desc
     t.index ["refresh_token"], name: "index_camdram_tokens_on_refresh_token", unique: true
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
-  end
-
-  create_table "log_events", force: :cascade do |t|
-    t.string "logable_type"
-    t.bigint "logable_id"
-    t.integer "outcome"
-    t.string "action"
-    t.integer "interface"
-    t.inet "ip"
-    t.string "user_agent"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["interface"], name: "index_log_events_on_interface"
-    t.index ["ip"], name: "index_log_events_on_ip"
-    t.index ["logable_type", "logable_id"], name: "index_log_events_on_logable_type_and_logable_id"
   end
 
   create_table "provider_accounts", force: :cascade do |t|
