@@ -22,7 +22,7 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     populate_from_camdram
-    @booking.approved = user_is_admin?
+    @booking.approved = user_is_admin? || ApplicationSetting.instance.auto_approve_bookings?
     @booking.user_id = current_user.id
     setup_booking_purpose
     unless authorise_booking_against_camdram
@@ -34,7 +34,7 @@ class BookingsController < ApplicationController
     if @booking.save
       notify_admins
       msg = "Added #{@booking.name}!"
-      msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless user_is_admin?
+      msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless @booking.approved?
       alert = { 'class' => 'success', 'message' =>  msg}
       flash[:alert] = alert
       redirect_to @booking

@@ -2,7 +2,8 @@
 #
 # Table name: application_settings
 #
-#  id :bigint(8)        not null, primary key
+#  id                    :bigint(8)        not null, primary key
+#  auto_approve_bookings :boolean          default(FALSE), not null
 #
 
 class ApplicationSetting < ApplicationRecord
@@ -23,6 +24,7 @@ class ApplicationSetting < ApplicationRecord
 
   def self.create_with_default_settings
     create! do |settings|
+      settings.auto_approve_bookings = false
     end
   end
 

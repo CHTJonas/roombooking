@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 12) do
   enable_extension "unaccent"
 
   create_table "application_settings", force: :cascade do |t|
+    t.boolean "auto_approve_bookings", default: false, null: false
   end
 
   create_table "bookings", force: :cascade do |t|
