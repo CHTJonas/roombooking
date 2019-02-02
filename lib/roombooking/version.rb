@@ -1,3 +1,3 @@
 module Roombooking
-  VERSION = 'dev'
+  VERSION = @version ||= `git rev-parse HEAD`
 end

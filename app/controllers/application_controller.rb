@@ -12,13 +12,18 @@ class ApplicationController < ActionController::Base
   helper_method :user_is_admin?
   helper_method :user_is_imposter?
 
-  # Record this information when auditing models.
-  def info_for_paper_trail
-    {
-      ip: request.remote_ip,
-      user_agent: request.user_agent,
-      session: current_session.try(:id)
-    }
+  # Set a custom header containing the application version.
+  def render(*args)
+    super.tap do
+      response.headers['X-Roombooking-Version'] = Roombooking::VERSION
+      response.headers['X-Camdram-Client-Version'] = Camdram::VERSION
+    end
+  end
+
+  def render_404
+    alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
+    flash.now[:alert] = alert
+    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found
   end
 
   # Render a nice page when the user browses to a URL that doesn't route.
@@ -31,10 +36,9 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def render_404
-    alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
-    flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found
+  # Render a nice page when the user requests a format that isn't recognised.
+  rescue_from ActionController::UnknownFormat do
+    render_404
   end
 
   # Rescue exceptions raised by user access violations from CanCan.
@@ -62,6 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
+    Raven.capture_exception(exception, message: exception.message)
     alert = { 'class' => 'danger', 'message' => %{
 Sorry, but an error occurred when making a request to the Camdram API!
 This is probably a temporary error - try refreshing the page after a minute or two.
@@ -200,6 +205,15 @@ Errors are tracked automatically but do get in touch if you continue having prob
     end
   end
 
+  # Record this information when auditing models.
+  def info_for_paper_trail
+    {
+      ip: request.remote_ip,
+      user_agent: request.user_agent,
+      session: current_session.try(:id)
+    }
+  end
+
   # Make sure the user is using a modern browser.
   def check_browser_version
     unless request.format != :html || browser.modern?
@@ -209,6 +223,7 @@ Errors are tracked automatically but do get in touch if you continue having prob
     end
   end
 
+  # Enable development bar for sysadmins, or everyone in development.
   def peek_enabled?
     current_user.try(:sysadmin?) || Rails.env.development?
   end
