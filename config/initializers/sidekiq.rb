@@ -1,5 +1,12 @@
+sidekiq_url = case ENV['REDIS_URL'].present?
+when true
+  sidekiq_url = ENV['REDIS_URL']
+else
+  sidekiq_url = Rails.application.credentials.dig(:redis, :persistent_url)
+end
+
 Sidekiq.configure_server do |config|
-  config.redis = { url: Rails.application.credentials.dig(:redis, :persistent_url) }
+  config.redis = { url: sidekiq_url }
   config.error_handlers << Proc.new {|ex,ctx_hash| Raven.capture_exception(ex, level: 'warning') }
 
   schedule_file = "config/schedule.yml"
@@ -10,5 +17,5 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: Rails.application.credentials.dig(:redis, :persistent_url) }
+  config.redis = { url: sidekiq_url }
 end

@@ -4,18 +4,24 @@
 
 test:
   adapter: postgresql
+  <% unless ENV['DATABASE_URL'].present? %>
   database: roombooking_test
+  <% end %>
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
   timeout: 3000
 
 development:
-    adapter: postgresql
-    database: roombooking_development
-    pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
-    timeout: 3000
+  adapter: postgresql
+  <% unless ENV['DATABASE_URL'].present? %>
+  database: roombooking_development
+  <% end %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+  timeout: 3000
 
 production:
   adapter: postgresql
+  <% unless ENV['DATABASE_URL'].present? %>
   database: roombooking_production
+  <% end %>
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
   timeout: 3000
