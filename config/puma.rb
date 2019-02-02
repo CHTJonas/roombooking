@@ -11,6 +11,10 @@ if environment == 'production' || ENV['BIND']
   # If we prune the bundler context in development then we lose Rails' logging to STDOUT.
   prune_bundler
   bind 'unix:///var/run/roombooking/app_serv.sock?umask=0077'
+
+  worker_timeout 10
+  worker_boot_timeout 15
+  worker_shutdown_timeout 15
 end
 
 # We don't need to worry about ActiveRecord since we're not preloading.
