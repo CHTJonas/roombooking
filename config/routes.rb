@@ -7,7 +7,10 @@ Rails.application.routes.draw do
     root to: 'dashboard#index', as: 'dashboard'
     get '/backup' => 'dashboard#backup'
     get '/info' => 'dashboard#info'
-    resources :camdram_shows, only: [:index, :create, :update]
+    resources :camdram_shows, only: [:index, :create, :update] do
+      post 'batch_import', on: :collection
+      post 'manual_import', on: :collection
+    end
     resources :camdram_societies, only: [:index, :create, :update]
   end
 
