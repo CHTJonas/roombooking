@@ -8,6 +8,6 @@ Raven.configure do |config|
   config.release = Roombooking::VERSION
   config.silence_ready = true
   config.async = lambda { |event|
-    SentryJob.perform_later(event.to_hash)
+    SentryJob.perform_later(event)
   }
 end

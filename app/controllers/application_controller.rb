@@ -189,19 +189,36 @@ Errors are tracked automatically but do get in touch if you continue having prob
 
   # Add extra context to any Sentry error reports.
   def set_raven_context
-    Raven.user_context(id: current_user.try(:id), name: current_user.try(:name), email: current_user.try(:email))
+    Raven.user_context(sentry_user_context)
+    Raven.tags_context(sentry_tags_context)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-    Raven.tags_context(program: sentry_program_context)
+  end
+
+  # Params to send as user context along with Sentry errors.
+  def sentry_user_context
+    {
+      id: current_user.try(:id),
+      name: current_user.try(:name),
+      email: current_user.try(:email)
+    }
+  end
+
+  # Params to send as tag context along with Sentry errors.
+  def sentry_tags_context
+    {
+      program: sentry_program_context,
+      camdram_version: Camdram::VERSION
+    }
   end
 
   # Differentiate between application and worker errors in Sentry reporting.
   def sentry_program_context
-    if Rails.const_defined? 'Server'
-      'rails-server'
-    elsif Rails.const_defined? 'Console'
+    if Rails.const_defined? 'Console'
       'rails-console'
     elsif Sidekiq.server?
       'sidekiq-worker'
+    else
+      'rails-server'
     end
   end
 
