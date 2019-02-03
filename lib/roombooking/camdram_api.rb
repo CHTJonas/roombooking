@@ -33,11 +33,22 @@ module Roombooking
               faraday.response :logger, Yell['camdram'] do |logger|
                 logger.filter(/Bearer[^"]*/m, '[FILTERED]')
               end
-              faraday.adapter  :patron do |session|
-                session.connect_timeout   = 1
-                session.timeout           = 3
-                session.dns_cache_timeout = 300
-                session.max_redirects     = 1
+              # Patron is a native extension wrapper around libcurl and is
+              # fater that Ruby's built in Net::HTTP, but it doesn't work
+              # well on macOS. For that reason we only configure Patron if
+              # there is the appropriate environmental variable.
+              if ENV['PATRON']
+                faraday.adapter :patron do |session|
+                  session.connect_timeout   = 1
+                  session.timeout           = 3
+                  session.dns_cache_timeout = 300
+                  session.max_redirects     = 1
+                end
+              else
+                faraday.adapter :net_http do |http|
+                  http.open_timeout = 1
+                  http.read_timeout = 3
+                end
               end
             end
             config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
