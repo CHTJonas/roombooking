@@ -77,6 +77,8 @@ gem 'gravatar_image_tag', '~> 1.2'
 gem 'rainbow', '~> 3.0'
 # Use pry instead of irb for `rails console` command
 gem 'pry-rails', '~> 0.3.9'
+# Push notifications
+gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 
 # Database persistence
 gem 'pg'

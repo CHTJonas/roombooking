@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer "max_auditions", default: 0, null: false
     t.integer "max_meetings", default: 0, null: false
     t.boolean "active", default: false, null: false
+    t.string "slack_webhook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_camdram_shows_on_active", where: "(active = true)"
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.bigint "camdram_id", null: false
     t.integer "max_meetings", default: 0, null: false
     t.boolean "active", default: false, null: false
+    t.string "slack_webhook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_camdram_societies_on_active", where: "(active = true)"

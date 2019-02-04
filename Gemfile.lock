@@ -378,6 +378,7 @@ GEM
       sidekiq (>= 4.2.1)
     simple_calendar (2.3.0)
       rails (>= 3.0)
+    slack-notifier (2.3.2)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -487,6 +488,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-cron (~> 0.6.3)
   simple_calendar (~> 2.0)
+  slack-notifier (~> 2.3, >= 2.3.2)
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

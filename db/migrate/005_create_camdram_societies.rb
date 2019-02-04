@@ -4,6 +4,7 @@ class CreateCamdramSocieties < ActiveRecord::Migration[5.2]
       t.bigint :camdram_id, null: false
       t.integer :max_meetings, default: 0, null: false
       t.boolean :active, default: false, null: false
+      t.string :slack_webhook
       t.timestamps
     end
     add_index :camdram_societies, :camdram_id, unique: true
