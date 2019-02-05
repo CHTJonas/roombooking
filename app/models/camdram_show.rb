@@ -34,6 +34,7 @@ class CamdramShow < ApplicationRecord
     only_integer: true,
     greater_than_or_equal_to: 0
   }
+  validates :slack_webhook, slack_webhook: true
 
   # Creates a CamdramShow model from a Camdram::Show object.
   def self.create_from_camdram(camdram_show)
