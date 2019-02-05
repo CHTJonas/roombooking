@@ -8,7 +8,7 @@
         <%= content_tag :div, class: 'col-sm-4' do %>
           <%= link_to 'Batch Import', batch_import_admin_camdram_shows_path,
             data: { confirm: 'Are you sure you wish to import all upcoming shows?' },
-            class: 'btn btn-primary', method: :post %>
+            id: 'batch-import', remote: true, class: 'btn btn-primary', method: :post %>
         <% end %>
       <% end %>
       <%= content_tag :div, class: 'form-group row' do %>

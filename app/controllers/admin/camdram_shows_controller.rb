@@ -27,7 +27,7 @@ module Admin
 
     def batch_import
       BatchImportJob.perform_later
-      redirect_to action: :index
+      head :no_content
     end
 
     def manual_import
