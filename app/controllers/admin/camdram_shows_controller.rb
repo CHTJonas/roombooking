@@ -1,15 +1,13 @@
 module Admin
   class CamdramShowsController < DashboardController
     def index
-      sorted_shows = enumerate_camdram_shows
+      sorted_shows = Roombooking::CamdramAPI::ShowsEnumerator.retrieve
       @camdram_shows = Kaminari.paginate_array(sorted_shows).page(params[:page])
     end
 
     def create
       id = params[:id].to_i
-      unless id == 0
-        roombooking_show = CamdramShow.create_from_id(id)
-      end
+      CamdramShow.create_from_id(id) unless id == 0
       redirect_to action: :index
     end
 
@@ -28,11 +26,7 @@ module Admin
     end
 
     def batch_import
-      shows = enumerate_camdram_shows
-      shows.each do |camdram_show|
-        roombooking_show = CamdramShow.create_from_camdram(camdram_show)
-        roombooking_show.update(active: true)
-      end
+      BatchImportJob.perform_later
       redirect_to action: :index
     end
 
@@ -49,16 +43,6 @@ module Admin
     end
 
     private
-
-    def enumerate_camdram_shows
-      list_of_shows = LinkedList::List.new
-      rooms = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
-      rooms.each do |room|
-        shows = Roombooking::CamdramAPI.with { |client| client.get_venue(room).shows }
-        shows.each { |s| list_of_shows << s }
-      end
-      list_of_shows.to_a.sort_by(&:name)
-    end
 
     def camdram_show_params
       params.require(:camdram_show).permit(:max_rehearsals, :max_auditions, :max_meetings, :active)
