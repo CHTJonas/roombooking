@@ -1,16 +1,11 @@
 class NotificationJob < ApplicationJob
-  def perform(booking_id, entity_id, entity_type)
-    klass = nil
-    if entity_type == 'CamdramShow'
-      klass = CamdramShow
-    elsif entity_type == 'CamdramSociety'
-      klass = CamdramSociety
-    else
-      raise 'Unknown entity_type!'
-    end
-    @entity = klass.find(entity_id)
+  def perform(booking_id)
     @booking = Booking.find(booking_id)
-    notify_slack_webhook if @entity.slack_webhook.present?
+    @entity = @booking.camdram_model
+    notify_admins unless @booking.approved
+    if @entity.present?
+      notify_slack_webhook if @entity.slack_webhook.present?
+    end
   end
 
   private
@@ -21,6 +16,12 @@ class NotificationJob < ApplicationJob
       msg << " Description:\n#{@booking.notes}" if @booking.notes.present?
       msg
     )
+  end
+
+  def notify_admins
+    User.where(admin: true).each do |admin|
+      ApprovalsMailer.notify(admin, @booking).deliver_later
+    end
   end
 
   def notify_slack_webhook

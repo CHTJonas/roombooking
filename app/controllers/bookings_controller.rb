@@ -32,10 +32,7 @@ class BookingsController < ApplicationController
     end
     authorize! :create, @booking
     if @booking.save
-      notify_admins
-      if @booking.camdram_model.present?
-        NotificationJob.perform_later(@booking.id, @booking.camdram_model.id, @booking.camdram_model.class.to_s)
-      end
+      NotificationJob.perform_later(@booking.id)
       msg = "Added #{@booking.name}!"
       msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless @booking.approved?
       alert = { 'class' => 'success', 'message' =>  msg}
@@ -157,11 +154,5 @@ class BookingsController < ApplicationController
     else
       return false
     end
-  end
-
-  def notify_admins
-    User.where(admin: true).each do |admin|
-      ApprovalsMailer.notify(admin, @booking).deliver_later
-    end unless @booking.approved
   end
 end
