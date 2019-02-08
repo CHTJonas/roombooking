@@ -2,7 +2,12 @@ module Admin
   class CamdramSocietiesController < DashboardController
     def index
       sorted_societies = Roombooking::CamdramAPI.with { |client| client.get_societies.sort_by(&:name) }
-      @camdram_societies = Kaminari.paginate_array(sorted_societies).page(params[:page])
+      @society_tuples = Array.new(sorted_societies.length)
+      sorted_societies.each_with_index do |camdram_society, i|
+        roombooking_society = CamdramSociety.find_from_camdram(camdram_society)
+        @society_tuples[i] = [camdram_society, roombooking_society]
+      end
+      @society_tuples = Kaminari.paginate_array(@society_tuples).page(params[:page])
     end
 
     def create

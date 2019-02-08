@@ -2,7 +2,22 @@ module Admin
   class CamdramShowsController < DashboardController
     def index
       sorted_shows = Roombooking::CamdramAPI::ShowsEnumerator.retrieve
-      @camdram_shows = Kaminari.paginate_array(sorted_shows).page(params[:page])
+      @show_tuples = Array.new(sorted_shows.length)
+      i = 0
+      sorted_shows.each do |camdram_show|
+        roombooking_show = CamdramShow.find_from_camdram(camdram_show)
+        if roombooking_show.try(:dormant?)
+          # Show are only marked dormant at the start/end of a term, in which
+          # case they should be absent from the response from the Camdram API
+          # (since they're no longer upcoming). Hence this operation won't be
+          # called very often is so shouldn't be too computationally expensive.
+          @show_tuples.delete_at(i)
+        else
+          @show_tuples[i] = [camdram_show, roombooking_show]
+          i += 1
+        end
+      end
+      @show_tuples = Kaminari.paginate_array(@show_tuples).page(params[:page])
     end
 
     def create

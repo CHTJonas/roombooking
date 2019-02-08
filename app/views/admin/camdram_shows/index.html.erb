@@ -20,9 +20,9 @@
     <% end %>
   </thead>
   <tbody>
-    <% @camdram_shows.each do |camdram_show| %>
-      <% roombooking_show = CamdramShow.find_from_camdram(camdram_show) %>
-      <% next if roombooking_show.try(:dormant?) %>
+    <% @show_tuples.each do |show_tuple| %>
+      <% camdram_show = show_tuple.first %>
+      <% roombooking_show = show_tuple.second %>
       <%= content_tag :tr do %>
         <%= content_tag(:td, camdram_show.name) %>
         <%= content_tag(:td, (actions_for_show camdram_show, roombooking_show)) %>
@@ -41,4 +41,4 @@
   </tbody>
 </table>
 
-<%= paginate @camdram_shows %>
+<%= paginate @show_tuples %>

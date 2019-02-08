@@ -15,8 +15,9 @@
     <% end %>
   </thead>
   <tbody>
-    <% @camdram_societies.each do |camdram_society| %>
-      <% roombooking_society = CamdramSociety.find_from_camdram(camdram_society) %>
+    <% @society_tuples.each do |society_tuple| %>
+      <% camdram_society = society_tuple.first %>
+      <% roombooking_society = society_tuple.second %>
       <%= content_tag :tr do %>
         <%= content_tag(:td, camdram_society.name) %>
         <%= content_tag(:td, (actions_for_society camdram_society, roombooking_society)) %>
@@ -31,4 +32,4 @@
   </tbody>
 </table>
 
-<%= paginate @camdram_societies %>
+<%= paginate @society_tuples %>
