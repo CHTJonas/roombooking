@@ -25,6 +25,11 @@ module Admin
       end
     end
 
+    def new_term
+      NewTermJob.perform_later
+      head :no_content
+    end
+
     def batch_import
       BatchImportJob.perform_later
       head :no_content

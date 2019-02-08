@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     get '/backup' => 'dashboard#backup'
     get '/info' => 'dashboard#info'
     resources :camdram_shows, only: [:index, :create, :update] do
+      post 'new_term', on: :collection
       post 'batch_import', on: :collection
       post 'manual_import', on: :collection
     end

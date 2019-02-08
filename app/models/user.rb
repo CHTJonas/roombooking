@@ -89,21 +89,22 @@ class User < ApplicationRecord
 
   def authorised_camdram_shows
     if self.admin
-      # Admins are authorised for all active shows!
-      CamdramShow.where(active: true)
+      # Admins are authorised for all active shows that haven't been marked
+      # as dormant (which happens at the start of each new term).
+      CamdramShow.where(dormant: false, active: true)
     else
       # Poll Camdram for future shows that the user has access to.
       shows = camdram_client.user.get_shows.reject {
         |show| show.performances.last.end_date < Time.now
       }
-      # Then authorise any such active shows.
-      CamdramShow.where(camdram_id: shows, active: true)
+      # Then authorise any such active shows that are not dormant.
+      CamdramShow.where(camdram_id: shows, dormant: false, active: true)
     end
   end
 
   def authorised_camdram_societies
     if self.admin
-      # Admins are authorised for all active societies!
+      # Admins are authorised for all active societies.
       CamdramSociety.where(active: true)
     else
       # Poll Camdram for any societies that the user has access to.

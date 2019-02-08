@@ -4,7 +4,12 @@
     <%= content_tag :p, "Note that shows imported using 'Import Tools' are automatically activated.", class: 'card-text' %>
     <%= form_tag manual_import_admin_camdram_shows_path, class: 'form', method: :post do %>
       <%= content_tag :div, class: 'form-group row' do %>
-        <%= content_tag :div, '', class: 'col-sm-8' %>
+        <%= content_tag :div, '', class: 'col-sm-5' %>
+        <%= content_tag :div, class: 'col-sm-3' do %>
+          <%= link_to 'Start New Term', new_term_admin_camdram_shows_path,
+            data: { confirm: 'Are you sure you want to mark all existing shows as dormant and start a new term?' },
+            id: 'new-term', remote: true, class: 'btn btn-primary', method: :post %>
+        <% end %>
         <%= content_tag :div, class: 'col-sm-4' do %>
           <%= link_to 'Batch Import', batch_import_admin_camdram_shows_path,
             data: { confirm: 'Are you sure you wish to import all upcoming shows?' },
