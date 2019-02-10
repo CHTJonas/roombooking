@@ -1,0 +1,15 @@
+<%= content_tag :tr, id: "show-#{camdram_show.id}" do %>
+  <% name = camdram_show.try(:name) || roombooking_show.name %>
+  <%= content_tag(:td, name) %>
+  <%= content_tag(:td, (actions_for_show camdram_show, roombooking_show)) %>
+  <%= content_tag :td do %>
+    <%= form_with model: roombooking_show, url: admin_camdram_show_path(roombooking_show) do |form| %>
+      <%= form.label :max_rehearsals, 'Rehearsals:' %>
+      <%= form.number_field :max_rehearsals, min: 0, step: 1, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+      <%= form.label :max_auditions, 'Auditions:' %>
+      <%= form.number_field :max_auditions, min: 0, step: 1, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+      <%= form.label :max_meetings, 'Meetings:' %>
+      <%= form.number_field :max_meetings, min: 0, step: 1, class: 'form-control mb-2', disabled: !roombooking_show.active?, onchange: 'Rails.fire(this.form, "submit")' %>
+    <% end if roombooking_show.present? %>
+  <% end %>
+<% end %>

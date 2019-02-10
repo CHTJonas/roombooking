@@ -11,30 +11,36 @@ module Admin
     end
 
     def create
-      id = params[:id].to_i
-      unless id == 0
-        roombooking_show = CamdramSociety.create_from_id(id)
+      @roombooking_society = CamdramSociety.new(create_camdram_society_params)
+      @camdram_society = @roombooking_society.camdram_object
+      respond_to do |format|
+        if @roombooking_society.save
+          format.js
+        end
       end
-      redirect_to action: :index
     end
 
     def update
-      @camdram_society = CamdramSociety.find(params[:id])
-      @camdram_society.attributes = camdram_society_params
-      if @camdram_society.valid?
-        @camdram_society.save
-      end
-      if request.xhr?
-        # Request is AJAX.
-        head :no_content
-      else
-        redirect_to action: :index
+      @roombooking_society = CamdramSociety.find(params[:id])
+      @camdram_society = @roombooking_society.camdram_object
+      respond_to do |format|
+        if @roombooking_society.update(update_camdram_society_params)
+          if update_camdram_society_params.include? :active
+            format.js
+          else
+            format.js { head :no_content }
+          end
+        end
       end
     end
 
     private
 
-    def camdram_society_params
+    def create_camdram_society_params
+      params.require(:camdram_society).permit(:camdram_id)
+    end
+
+    def update_camdram_society_params
       params.require(:camdram_society).permit(:max_meetings, :active)
     end
   end

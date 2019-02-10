@@ -21,22 +21,26 @@ module Admin
     end
 
     def create
-      id = params[:id].to_i
-      CamdramShow.create_from_id(id) unless id == 0
-      redirect_to action: :index
+      @roombooking_show = CamdramShow.new(create_camdram_show_params)
+      @camdram_show = @roombooking_show.camdram_object
+      respond_to do |format|
+        if @roombooking_show.save
+          format.js
+        end
+      end
     end
 
     def update
-      @camdram_show = CamdramShow.find(params[:id])
-      @camdram_show.attributes = camdram_show_params
-      if @camdram_show.valid?
-        @camdram_show.save
-      end
-      if request.xhr?
-        # Request is AJAX.
-        head :no_content
-      else
-        redirect_to action: :index
+      @roombooking_show = CamdramShow.find(params[:id])
+      @camdram_show = @roombooking_show.camdram_object
+      respond_to do |format|
+        if @roombooking_show.update(update_camdram_show_params)
+          if update_camdram_show_params.include? :active
+            format.js
+          else
+            format.js { head :no_content }
+          end
+        end
       end
     end
 
@@ -64,7 +68,11 @@ module Admin
 
     private
 
-    def camdram_show_params
+    def create_camdram_show_params
+      params.require(:camdram_show).permit(:camdram_id)
+    end
+
+    def update_camdram_show_params
       params.require(:camdram_show).permit(:max_rehearsals, :max_auditions, :max_meetings, :active)
     end
   end

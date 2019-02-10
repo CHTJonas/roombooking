@@ -16,18 +16,7 @@
   </thead>
   <tbody>
     <% @society_tuples.each do |society_tuple| %>
-      <% camdram_society = society_tuple.first %>
-      <% roombooking_society = society_tuple.second %>
-      <%= content_tag :tr do %>
-        <%= content_tag(:td, camdram_society.name) %>
-        <%= content_tag(:td, (actions_for_society camdram_society, roombooking_society)) %>
-        <%= content_tag :td do %>
-          <%= form_with model: roombooking_society, url: admin_camdram_society_path(roombooking_society) do |form| %>
-            <%= form.label :max_meetings, 'Meetings:' %>
-            <%= form.number_field :max_meetings, min: 0, step: 1, class: 'form-control mb-2', disabled: !roombooking_society.active?, onchange: 'Rails.fire(this.form, "submit")' %>
-          <% end if roombooking_society.present? %>
-        <% end %>
-      <% end %>
+      <%= render 'camdram_society', camdram_society: society_tuple.first, roombooking_society: society_tuple.second %>
     <% end %>
   </tbody>
 </table>
