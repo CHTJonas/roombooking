@@ -4,6 +4,7 @@
 #
 #  id                    :bigint(8)        not null, primary key
 #  auto_approve_bookings :boolean          default(FALSE), not null
+#  camdram_venues        :string           not null, is an Array
 #
 
 class ApplicationSetting < ApplicationRecord
@@ -25,6 +26,7 @@ class ApplicationSetting < ApplicationRecord
   def self.create_with_default_settings
     create! do |settings|
       settings.auto_approve_bookings = false
+      settings.camdram_venues = ['adc-theatre', 'adc-theatre-larkum-studio', 'adc-theatre-bar', 'corpus-playroom']
     end
   end
 

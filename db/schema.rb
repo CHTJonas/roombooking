@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "application_settings", force: :cascade do |t|
     t.boolean "auto_approve_bookings", default: false, null: false
+    t.string "camdram_venues", null: false, array: true
   end
 
   create_table "bookings", force: :cascade do |t|
