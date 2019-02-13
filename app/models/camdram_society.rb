@@ -11,24 +11,11 @@
 #  updated_at    :datetime         not null
 #
 
-class CamdramSociety < ApplicationRecord
-  has_many :booking, as: :camdram_model, dependent: :delete_all
-  has_many :approved_bookings, -> { where(approved: true) },
-    class_name: 'Booking', as: :camdram_model
-
-  validates :camdram_id, numericality: {
-    only_integer: true,
-    greater_than: 0 }
+class CamdramSociety < CamdramEntity
   validates :max_meetings, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
   }
-  validates :slack_webhook, slack_webhook: true
-
-  # Creates a CamdramSociety model from a Camdram::Organisation object.
-  def self.create_from_camdram(camdram_society)
-    create_from_id(camdram_society.id)
-  end
 
   # Creates a CamdramSociety model from a numeric Camdram id.
   def self.create_from_id(id)
@@ -39,33 +26,10 @@ class CamdramSociety < ApplicationRecord
     end
   end
 
-  # Find a CamdramSociety model from a Camdram::Organisation object.
-  def self.find_from_camdram(camdram_society)
-    find_by(camdram_id: camdram_society.id)
-  end
-
   # Returns the Camdram::Organisation object that the record references by
   # querying the Camdram API.
   def camdram_object
     @camdram_object ||= Roombooking::CamdramAPI.with { |client| client.get_society(self.camdram_id) }
-  end
-
-  # Returns the name of the society by querying the Camdram API.
-  def name
-    camdram_object.name
-  end
-
-  # Returns the society's external URL on Camdram.
-  def url
-    Roombooking::CamdramAPI.url_for(camdram_object)
-  end
-
-  # Returns an array that counts the society's currently used quota for the
-  # week beginning on the given date.
-  def weekly_quota(start_of_week)
-    end_of_week = start_of_week + 1.week
-    bookings = self.booking.in_range(start_of_week, end_of_week)
-    calculate_weekly_quota(start_of_week, bookings)
   end
 
   # Abstraction to allow vallidation of new bookings. Returns the society's

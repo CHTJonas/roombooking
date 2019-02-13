@@ -14,15 +14,7 @@
 #  updated_at     :datetime         not null
 #
 
-class CamdramShow < ApplicationRecord
-  has_many :booking, as: :camdram_model, dependent: :delete_all
-  has_many :approved_bookings, -> { where(approved: true) },
-    class_name: 'Booking', as: :camdram_model
-
-  validates :camdram_id, numericality: {
-    only_integer: true,
-    greater_than: 0
-  }
+class CamdramShow < CamdramEntity
   validates :max_rehearsals, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
@@ -35,12 +27,6 @@ class CamdramShow < ApplicationRecord
     only_integer: true,
     greater_than_or_equal_to: 0
   }
-  validates :slack_webhook, slack_webhook: true
-
-  # Creates a CamdramShow model from a Camdram::Show object.
-  def self.create_from_camdram(camdram_show)
-    create_from_id(camdram_show.id)
-  end
 
   # Creates a CamdramShow model from a numeric Camdram id.
   def self.create_from_id(id)
@@ -53,33 +39,10 @@ class CamdramShow < ApplicationRecord
     end
   end
 
-  # Find a CamdramShow model from a Camdram::Show object.
-  def self.find_from_camdram(camdram_show)
-    find_by(camdram_id: camdram_show.id)
-  end
-
   # Returns the Camdram::Show object that the record references by querying
   # the Camdram API.
   def camdram_object
     @camdram_object ||= Roombooking::CamdramAPI.with { |client| client.get_show(self.camdram_id) }
-  end
-
-  # Returns the name of the show by querying the Camdram API.
-  def name
-    camdram_object.name
-  end
-
-  # Returns the show's external URL on Camdram.
-  def url
-    Roombooking::CamdramAPI.url_for(camdram_object)
-  end
-
-  # Returns an array that counts the show's currently used quota for the
-  # week beginning on the given date.
-  def weekly_quota(start_of_week)
-    end_of_week = start_of_week + 1.week
-    bookings = self.booking.in_range(start_of_week, end_of_week)
-    calculate_weekly_quota(start_of_week, bookings)
   end
 
   # Abstraction to allow vallidation of new bookings. Returns an array that
