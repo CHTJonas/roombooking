@@ -1,7 +1,7 @@
 module Admin
   class ShowRetrievalService < ApplicationService
     def perform
-      camdram_shows = Roombooking::CamdramAPI::ShowsEnumerator.retrieve
+      camdram_shows = ShowEnumerationService.perform
       show_tuples = Array.new(camdram_shows.length)
       i = 0
       camdram_shows.each do |camdram_show|
