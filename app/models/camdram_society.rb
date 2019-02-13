@@ -55,6 +55,11 @@ class CamdramSociety < ApplicationRecord
     camdram_object.name
   end
 
+  # Returns the society's external URL on Camdram.
+  def url
+    Roombooking::CamdramAPI.url_for(camdram_object)
+  end
+
   # Returns an array that counts the society's currently used quota for the
   # week beginning on the given date.
   def weekly_quota(start_of_week)
