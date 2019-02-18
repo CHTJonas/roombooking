@@ -111,7 +111,7 @@ class Booking < ApplicationRecord
     query_opts = { start: self.start_time, end: self.end_time }
     query_end_time = case self.repeat_mode
     when 'none' then self.end_time
-    else self.repeat_until
+    else self.repeat_until || return
     end
 
     ordinary_bookings = Booking.where.not(id: self.id)
@@ -156,7 +156,7 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
 
   # A booking with an associated Camdram model must not go over it's weekly quota.
   def must_not_exceed_quota
-    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
+    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym) || self.camdram_model.nil?
       start = self.start_time.to_date.beginning_of_week
       weeks_to_check = []
       if self.repeat_mode == 'none'
@@ -217,7 +217,7 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
   end
 
   # Scope approved bookings only.
-  scope :approved, -> { where(approved: true) }
+  scope :approved, -> { where approved: true }
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
