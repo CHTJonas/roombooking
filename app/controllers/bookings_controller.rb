@@ -10,21 +10,20 @@ class BookingsController < ApplicationController
   def new
     authorize! :create, Booking
     @booking = Booking.new
-    populate_data_from_camdram
+    @shows, @societies = CamdramEntitiesService.get_authorised(current_user, impersonator)
   end
 
   def edit
     @booking = Booking.find(params[:id])
     authorize! :edit, @booking
-    populate_data_from_camdram
+    @shows, @societies = CamdramEntitiesService.get_authorised(current_user, impersonator)
   end
 
   def create
     begin
       @booking, @shows, @societies = Bookings::NewBookingService.perform(params, current_user, impersonator)
     rescue Bookings::NotAuthorisedOnCamdramException => e
-      @booking = e.booking
-      populate_data_from_camdram
+      @booking, @shows, @societies = e.data
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :new and return
@@ -48,8 +47,7 @@ class BookingsController < ApplicationController
     begin
       @booking, @shows, @societies = Bookings::UpdateBookingService.perform(params, current_user, impersonator)
     rescue Bookings::NotAuthorisedOnCamdramException => e
-      @booking = e.booking
-      populate_data_from_camdram
+      @booking, @shows, @societies = e.data
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :edit and return
@@ -90,11 +88,5 @@ class BookingsController < ApplicationController
       flash[:alert] = alert
       redirect_to @booking
     end
-  end
-
-  private
-
-  def populate_data_from_camdram
-    @shows, @societies = CamdramEntitiesService.get_authorised(current_user, impersonator)
   end
 end

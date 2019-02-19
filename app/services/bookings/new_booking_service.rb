@@ -6,8 +6,9 @@ module Bookings
       @booking.user = @user
       populate_data_from_camdram
       setup_booking_purpose
-      raise NotAuthorisedOnCamdramException.new(@booking) unless booking_authorise_against_camdram?
-      [@booking, @shows, @societies]
+      data = [@booking, @shows, @societies]
+      raise NotAuthorisedOnCamdramException.new(data) unless booking_authorise_against_camdram?
+      data
     end
   end
 end
