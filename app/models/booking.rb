@@ -161,6 +161,8 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
       weeks_to_check = []
       if self.repeat_mode == 'none'
         weeks_to_check.append start
+      elsif self.repeat_until.blank?
+        return
       else
         while start <= repeat_until do
           weeks_to_check.append start
