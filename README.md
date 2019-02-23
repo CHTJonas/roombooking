@@ -2,7 +2,7 @@
 
 # ADC Room Booking System
 
-[![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.0-brightgreen.svg)](https://www.ruby-lang.org/en/)
+[![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.1-brightgreen.svg)](https://www.ruby-lang.org/en/)
 [![Rails Version](https://img.shields.io/badge/Rails-v5.2.2-brightgreen.svg)](http://rubyonrails.org/)
 [![Security Warnings](https://hakiri.io/github/CHTJonas/roombooking/master.svg)](https://hakiri.io/github/CHTJonas/roombooking/master)
 
