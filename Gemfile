@@ -44,7 +44,7 @@ gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'simple_calendar', '~> 2.0'
 gem 'icalendar', '~> 2.5', '>= 2.5.2'
 # Asset pipeline
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'jquery-rails'
 gem 'flatpickr', '~> 4.5', '>= 4.5.2.0'
 gem 'font-awesome-rails'
