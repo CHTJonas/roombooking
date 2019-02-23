@@ -34,14 +34,13 @@ class CamdramToken < ActiveRecord::Base
   end
 
   # Attempts to refresh the Camdram access token and, if successful, saves and
-  # returns the new token.
+  # returns the new token. Note that there's no point in caching data here as
+  # the only requests made are for new access tokens.
   def refresh
     client = Camdram::Client.new do |config|
-      token_hash = {
-                      access_token: self.access_token.to_s,
-                      refresh_token: self.refresh_token.to_s,
-                      expires_at: self.expires_at.to_i
-                   }
+      token_hash = { access_token: self.access_token.to_s,
+        refresh_token: self.refresh_token.to_s,
+        expires_at: self.expires_at.to_i }
       app_id = Rails.application.credentials.dig(:camdram, :app_id)
       app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
       config.auth_code(token_hash, app_id, app_secret)
@@ -56,6 +55,8 @@ class CamdramToken < ActiveRecord::Base
 
     begin
       new_token = client.refresh_access_token!
+    rescue Exception => e
+      raise Roombooking::CamdramAPI::CamdramError.new, e
     ensure
       self.destroy
     end
