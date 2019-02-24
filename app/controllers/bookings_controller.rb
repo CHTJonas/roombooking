@@ -21,9 +21,14 @@ class BookingsController < ApplicationController
 
   def create
     begin
-      @booking, @shows, @societies = Bookings::NewBookingService.perform(params, current_user, impersonator)
+      service = Bookings::NewBookingService.perform(params, current_user, impersonator)
+      @booking = service.booking
+      @shows = service.shows
+      @societies = service.societies
     rescue Bookings::NotAuthorisedOnCamdramException => e
-      @booking, @shows, @societies = e.data
+      @booking = e.booking
+      @shows = e.shows
+      @societies = e.societies
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :new and return

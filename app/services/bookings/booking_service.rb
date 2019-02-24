@@ -1,14 +1,11 @@
 module Bookings
   class BookingService < ApplicationService
+    attr_reader :booking, :shows, :societies
+
     def initialize(params, user, impersonator)
       @params = params
       @user = user
       @impersonator = impersonator
-    end
-
-    def camdram_data
-      populate_data_from_camdram
-      [@shows, @societies]
     end
 
     private
