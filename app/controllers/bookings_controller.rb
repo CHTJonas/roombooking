@@ -21,8 +21,7 @@ class BookingsController < ApplicationController
 
   def create
     begin
-      service = Bookings::NewBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
-      @booking = service.booking
+      @booking = Bookings::NewBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
     rescue Bookings::NotAuthorisedOnCamdramException => e
       @booking = e.booking
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
@@ -46,8 +45,7 @@ class BookingsController < ApplicationController
 
   def update
     begin
-      service = Bookings::UpdateBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
-      @booking = service.booking
+      @booking = Bookings::UpdateBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
     rescue Bookings::NotAuthorisedOnCamdramException => e
       @booking = e.booking
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
@@ -95,7 +93,7 @@ class BookingsController < ApplicationController
   private
 
   def populate_camdram_entities
-    @camdram_entity_service = CamdramEntitiesService.perform(current_user, impersonator)
+    @camdram_entity_service = CamdramEntitiesService.create(current_user, impersonator)
     @shows = @camdram_entity_service.shows
     @societies = @camdram_entity_service.societies
   end
