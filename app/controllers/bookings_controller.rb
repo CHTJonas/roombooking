@@ -1,4 +1,6 @@
 class BookingsController < ApplicationController
+  before_action :populate_camdram_entities,
+    only: [:new, :edit, :create, :update]
 
   def index
     @bookings = Booking.order(created_at: :desc)
@@ -10,25 +12,19 @@ class BookingsController < ApplicationController
   def new
     authorize! :create, Booking
     @booking = Booking.new
-    @shows, @societies = CamdramEntitiesService.get_authorised(current_user, impersonator)
   end
 
   def edit
     @booking = Booking.find(params[:id])
     authorize! :edit, @booking
-    @shows, @societies = CamdramEntitiesService.get_authorised(current_user, impersonator)
   end
 
   def create
     begin
-      service = Bookings::NewBookingService.perform(params, current_user, impersonator)
+      service = Bookings::NewBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
       @booking = service.booking
-      @shows = service.shows
-      @societies = service.societies
     rescue Bookings::NotAuthorisedOnCamdramException => e
       @booking = e.booking
-      @shows = e.shows
-      @societies = e.societies
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :new and return
@@ -50,9 +46,10 @@ class BookingsController < ApplicationController
 
   def update
     begin
-      @booking, @shows, @societies = Bookings::UpdateBookingService.perform(params, current_user, impersonator)
+      service = Bookings::UpdateBookingService.perform(params, current_user, impersonator, @camdram_entity_service)
+      @booking = service.booking
     rescue Bookings::NotAuthorisedOnCamdramException => e
-      @booking, @shows, @societies = e.data
+      @booking = e.booking
       alert = { 'class' => 'danger', 'message' => "You're not authorised to make this booking." }
       flash.now[:alert] = alert
       render :edit and return
@@ -93,5 +90,13 @@ class BookingsController < ApplicationController
       flash[:alert] = alert
       redirect_to @booking
     end
+  end
+
+  private
+
+  def populate_camdram_entities
+    @camdram_entity_service = CamdramEntitiesService.perform(current_user, impersonator)
+    @shows = @camdram_entity_service.shows
+    @societies = @camdram_entity_service.societies
   end
 end

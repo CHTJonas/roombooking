@@ -2,10 +2,11 @@ module Bookings
   class BookingService < ApplicationService
     attr_reader :booking, :shows, :societies
 
-    def initialize(params, user, impersonator)
+    def initialize(params, user, impersonator, camdram_entity_service)
       @params = params
       @user = user
       @impersonator = impersonator
+      @camdram_entity_service = camdram_entity_service
     end
 
     private
@@ -18,8 +19,9 @@ module Bookings
       end
     end
 
-    def populate_data_from_camdram
-      @shows, @societies = CamdramEntitiesService.get_authorised(@user, @impersonator)
+    def populate_camdram_entities
+      @shows = @camdram_entity_service.shows
+      @societies = @camdram_entity_service.societies
     end
 
     def setup_booking_purpose
@@ -40,7 +42,7 @@ module Bookings
       end
     end
 
-    def booking_authorise_against_camdram?
+    def booking_authorised_against_camdram?
       # We can't authorise if there's no purpose given, but this get's caught by the Booking model validation.
       return true if @booking.purpose.nil?
       if Booking.admin_purposes.find_index(@booking.purpose.to_sym)
