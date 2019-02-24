@@ -5,10 +5,8 @@ class CamdramEntity < ApplicationRecord
   has_many :approved_bookings, -> { where(approved: true) },
     class_name: 'Booking', as: :camdram_model
 
-  validates :camdram_id, numericality: {
-    only_integer: true,
-    greater_than: 0
-  }
+  validates :camdram_id, numericality: { only_integer: true,
+    greater_than: 0 }, uniqueness: { message: 'entity already exists' }
   validates :slack_webhook, slack_webhook: true
 
   # Creates a CamdramEntity model from a Camdram::Base object.
