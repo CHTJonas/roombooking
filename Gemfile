@@ -2,19 +2,14 @@ source 'https://rubygems.org'
 
 ruby '2.6.1'
 
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 5.2.2'
 gem 'puma', '~> 3.11'
 gem 'rack-timeout', '~> 0.5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
-gem 'jbuilder', '~> 2.5'
 gem 'linked-list', '~> 0.0.13'
 gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.1'
