@@ -74,6 +74,8 @@ gem 'rainbow', '~> 3.0'
 gem 'pry-rails', '~> 0.3.9'
 # Push notifications
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
+# Sitemaps
+gem 'sitemap_generator', '~> 6.0', '>= 6.0.2'
 
 # Database persistence
 gem 'pg'

@@ -1,3 +1,7 @@
 Approval reminder generator:
   cron: '0 10 * * *'
   class: 'ApprovalReminderJob'
+
+Sitemap generator:
+  cron: '0 4 * * *'
+  class: 'SitemapGenerationJob'
