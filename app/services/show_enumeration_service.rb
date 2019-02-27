@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ShowEnumerationService < ApplicationService
   def perform
     list_of_shows = LinkedList::List.new

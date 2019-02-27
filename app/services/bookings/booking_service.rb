@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bookings
   class BookingService < ApplicationService
     attr_reader :booking, :shows, :societies

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CamdramEntitiesService < ApplicationService
   attr_reader :shows, :societies
 
