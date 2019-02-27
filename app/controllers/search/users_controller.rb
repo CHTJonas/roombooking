@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Search
   class UsersController < ApplicationController
     def search

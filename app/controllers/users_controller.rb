@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   # Shouldn't be needed as the impersonation route is constrained by
   # Roombooking::AdminConstraint - this is just to be doubly safe.

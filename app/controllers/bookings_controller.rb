@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookingsController < ApplicationController
   before_action :populate_camdram_entities,
     only: [:new, :edit, :create, :update]
