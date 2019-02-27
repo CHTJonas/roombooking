@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApprovalsMailer < ApplicationMailer
 
   # Notify an admin that a new booking has been created that needs approval.
