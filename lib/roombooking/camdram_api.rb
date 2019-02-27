@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Roombooking
   module CamdramAPI
     class CamdramError < StandardError; end
