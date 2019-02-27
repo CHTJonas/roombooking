@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   id = Rails.application.credentials.dig(:camdram, :app_id)
   secret = Rails.application.credentials.dig(:camdram, :app_secret)

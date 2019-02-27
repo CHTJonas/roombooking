@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 HealthCheck.setup do |config|
   config.uri = 'health_check'
   config.success = "I'm alright, Jack!"

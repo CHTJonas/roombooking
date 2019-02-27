@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   require 'roombooking/route_constraints'
   must_be_admin = Roombooking::AdminConstraint.new
