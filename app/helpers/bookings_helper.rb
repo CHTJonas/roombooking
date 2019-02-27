@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BookingsHelper
   def describe_repeat_pattern(repeat_mode, repeat_until)
     if repeat_mode.to_sym == :none

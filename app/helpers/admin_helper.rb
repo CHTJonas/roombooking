@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminHelper
   def actions_for_show(camdram_show, roombooking_show)
     if roombooking_show.nil?

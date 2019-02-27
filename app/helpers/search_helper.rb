@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SearchHelper
   def full_written_date(date)
     date.strftime("%H:%M on %a #{date.day.ordinalize} %b %Y")
