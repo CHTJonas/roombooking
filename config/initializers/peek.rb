@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Peek.into Peek::Views::Git, nwo: 'CHTJonas/roombooking'
 Peek.into Peek::Views::PerformanceBar
 Peek.into Peek::Views::PG

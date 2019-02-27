@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ddtrace'
 
 if ENV['ENABLE_DATADOG_APM']

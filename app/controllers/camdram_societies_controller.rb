@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CamdramSocietiesController < ApplicationController
   def show
     @camdram_society = CamdramSociety.eager_load(:approved_bookings).find(params[:id])

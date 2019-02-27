@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: bookings
@@ -208,8 +210,8 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
 
   def purpose_string
     string = self.purpose.humanize
-    string << %Q[ "#{camdram_object.name}"] unless camdram_object.nil?
-    return string
+    string += %Q[ "#{camdram_object.name}"] unless camdram_object.nil?
+    string
   end
 
   # Returns the Camdram object the booking references.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bookings
   class UpdateBookingService < BookingService
     def perform

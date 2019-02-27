@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
@@ -183,7 +185,7 @@ Errors are tracked automatically but do get in touch if you continue having prob
   end
 
   def log_abuse(str)
-    str << " : [#{request.remote_ip} - #{request.user_agent}]"
+    str += " : [#{request.remote_ip} - #{request.user_agent}]"
     Yell['abuse'].info(str)
   end
 

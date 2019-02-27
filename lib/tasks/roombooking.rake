@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :roombooking do
   namespace :search do
     desc 'Install the Postgres full-text search dmetaphone function'

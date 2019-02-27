@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 SitemapGenerator::Sitemap.default_host = 'https://roombooking.adctheatre.com'
 SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
 SitemapGenerator::Sitemap.create do

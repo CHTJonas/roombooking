@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if Rails.application.credentials.dig(:smtp, :host)
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {

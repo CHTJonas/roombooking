@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 sidekiq_url = case ENV['REDIS_URL'].present?
 when true
   sidekiq_url = ENV['REDIS_URL']

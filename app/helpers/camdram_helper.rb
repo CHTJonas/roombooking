@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CamdramHelper
   def progress_bar(value, quota)
     percentage = value.to_f / quota.to_f * 100

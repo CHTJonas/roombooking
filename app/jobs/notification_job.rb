@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationJob < ApplicationJob
   def perform(booking_id)
     @booking = Booking.find(booking_id)
@@ -13,7 +15,7 @@ class NotificationJob < ApplicationJob
   def message
     @message ||= (
       msg = "A new #{@booking.room.name} booking has been made on #{@booking.start_time.strftime('%d/%m/%Y')} at #{@booking.start_time.strftime('%R')} – #{@booking.name}."
-      msg << " Description:\n#{@booking.notes}" if @booking.notes.present?
+      msg += " Description:\n#{@booking.notes}" if @booking.notes.present?
       msg
     )
   end

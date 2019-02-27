@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Don't forget to update this in config/initializers/sentry.rb as well!

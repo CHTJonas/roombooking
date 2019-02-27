@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CalendarHelper
   def written_date_with_month(date)
     date.strftime("%a #{date.day.ordinalize} %b")

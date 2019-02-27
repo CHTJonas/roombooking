@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BatchImportJob < ApplicationJob
   def perform
     shows = ShowEnumerationService.perform

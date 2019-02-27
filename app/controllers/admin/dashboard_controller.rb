@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class DashboardController < ApplicationController
     # This method should never be needed as routes are constrained by
