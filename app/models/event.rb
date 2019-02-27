@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Objects of this class are instantiated dynamically from a collection of
 # bookings and are not stored in the database.
 class Event
