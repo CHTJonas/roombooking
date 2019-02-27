@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApprovalReminderJob < ApplicationJob
   def perform(*args)
     Booking.where(approved: false).find_each(batch_size: 5) do |booking|

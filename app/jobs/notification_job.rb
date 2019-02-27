@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationJob < ApplicationJob
   def perform(booking_id)
     @booking = Booking.find(booking_id)

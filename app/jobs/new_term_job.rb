@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewTermJob < ApplicationJob
   def perform
     CamdramShow.all.each do |show|
