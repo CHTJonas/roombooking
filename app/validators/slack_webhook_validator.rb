@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SlackWebhookValidator < ActiveModel::EachValidator
   @@slack_webhook_regexp = /https?:\/\/hooks.slack.com\/services\/.+/i
 
