@@ -4,9 +4,8 @@ class ShowEnumerationService < ApplicationService
   def perform
     list_of_shows = LinkedList::List.new
     Roombooking::CamdramAPI.with do |client|
-      rooms = ApplicationSetting.instance.camdram_venues
-      rooms.each do |room|
-        shows =  client.get_venue(room).shows
+      Roombooking::VenueCache.each do |camdram_venue|
+        shows = client.get_venue(camdram_venue).shows
         shows.each { |s| list_of_shows << s }
       end
     end

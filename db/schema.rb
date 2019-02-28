@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "application_settings", force: :cascade do |t|
     t.boolean "auto_approve_bookings", default: false, null: false
-    t.string "camdram_venues", null: false, array: true
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -99,6 +98,7 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name", null: false
+    t.string "camdram_venues", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
