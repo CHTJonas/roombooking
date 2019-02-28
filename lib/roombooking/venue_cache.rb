@@ -16,13 +16,6 @@ module Roombooking
       end
 
       def regenerate
-        puts ''
-        puts ''
-        puts ''
-        puts 'Regenerating the Camdram venue cache...'
-        puts ''
-        puts ''
-        puts ''
         clear
         Room.all.each do |room|
           add(room)
