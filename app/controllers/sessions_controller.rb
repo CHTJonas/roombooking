@@ -61,6 +61,11 @@ class SessionsController < ApplicationController
     message = params[:message]
     if message == 'csrf_detected'
       raise ActionController::InvalidAuthenticityToken
+    elsif message == 'access_denied'
+      log_abuse 'User declined to login at Camdram prompt screen'
+      alert = { 'class' => 'warning', 'message' => "Login gracefully declined." }
+      flash[:alert] = alert
+      redirect_to root_url
     else
       log_abuse "A login authentication system error occurred: #{message.humanize}"
       alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}." }
