@@ -10,6 +10,14 @@ class Ability
     can :read, Room # Everyone can view rooms.
     can :read, CamdramShow # Everyone can view shows imported from Camdram.
     can :read, CamdramSociety # Everyone can view societies imported from Camdram.
+    can :update, CamdramShow do |camdram_show|
+      # Users can update integrations on shows they admin on Camdram.
+      user.authorised_camdram_shows.include? camdram_show
+    end
+    can :update, CamdramSociety do |camdram_society|
+      # Users can update integrations on societies they admin on Camdram.
+      user.authorised_camdram_societies.include? camdram_society
+    end
     if user.present?  # Additional permissions for logged in users...
       if user.admin?
         can :manage, :all # Administrators can do anything!

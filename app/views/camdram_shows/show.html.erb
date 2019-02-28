@@ -2,7 +2,9 @@
 <% content_for :heading, @camdram_show.name %>
 <% content_for :controller_links do %>
   <%= link_to 'Go Back', :back, class: 'btn btn-outline-secondary' %>
-  <%= link_to 'View on Camdram', @camdram_show.url, class: 'btn btn-outline-primary' %>
+  <%= link_to 'Setup Integrations', edit_camdram_show_path(@camdram_show),
+    class: 'btn btn-outline-primary' if can? :update, @camdram_show %>
+  <%= link_to 'View on Camdram', @camdram_show.url, class: 'btn btn-outline-info' %>
 <% end %>
 
 <%= content_tag(:h4, 'Booking Quotas for This Week') %>
