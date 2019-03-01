@@ -80,6 +80,7 @@ class Booking < ApplicationRecord
   validate :repeat_until_must_be_valid
   validate :camdram_model_must_be_valid
   validate :must_not_exceed_quota
+  validate :room_must_allow_camdram_venue
 
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
@@ -181,6 +182,15 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
         if self.camdram_model.exceeded_weekly_quota?(quota)
           errors.add(:base, "You have exceeded your weekly booking quota (for the week beginning #{start_of_week.to_date}).")
         end
+      end
+    end
+  end
+
+  # The booking's selected room must allow a show's camdram venue.
+  def room_must_allow_camdram_venue
+    if self.room.present? && self.camdram_model.instance_of?(CamdramShow)
+      unless self.room.camdram_venues.include?(self.camdram_model.camdram_object.venue.slug)
+        errors.add(:base, "Your show may not make bookings for this room.")
       end
     end
   end
