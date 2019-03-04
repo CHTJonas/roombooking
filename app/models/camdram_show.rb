@@ -77,4 +77,37 @@ class CamdramShow < CamdramEntity
       quota[1] > self.max_auditions ||
       quota[2] > self.max_meetings
   end
+
+  def block_out_bookings(user)
+    performances = camdram_object.performances.select { |p| p.venue.slug = 'adc-theatre' }
+    # Wrap in a single transaction so that we either make all the block
+    # bookings successfully, or none at all.
+    ActiveRecord::Base.transaction do
+      performances.each do |performance|
+        performance_time = performance.start_date.to_time + performance.time.to_i
+        if performance_time.hour == 19
+          start_time = performance.start_date.to_time + 18.hours
+          end_time = performance.start_date.to_time + 22.hours + 30.minutes
+          repeat_until = performance.end_date
+          Booking.create(name: 'Mainshow', start_time: start_time, end_time: end_time,
+            repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+            approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+        elsif performance_time.hour == 23
+          start_time = performance.start_date.to_time + 22.hours + 30.minutes
+          end_time = performance.start_date.to_time + 24.hours
+          repeat_until = performance.end_date
+          Booking.create(name: 'Lateshow', start_time: start_time, end_time: end_time,
+            repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+            approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+        elsif performance_time.hour == 14
+          start_time = performance.start_date.to_time + 13.hours
+          end_time = performance.start_date.to_time + 18.hours
+          repeat_until = performance.end_date
+          Booking.create(name: 'Matinee', start_time: start_time, end_time: end_time,
+            repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+            approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+        end
+      end
+    end
+  end
 end
