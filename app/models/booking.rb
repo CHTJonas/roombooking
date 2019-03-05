@@ -275,4 +275,28 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   def to_event(offset = 0)
     Event.create_from_booking(self, offset)
   end
+
+  def repeat_iterator
+    if self.repeat_mode == 'none'
+      yield(self.start_time, self.end_time)
+    elsif self.repeat_mode == 'daily'
+      end_point = self.repeat_until + 1.day
+      st = self.start_time
+      et = self.end_time
+      begin
+        yield(st, et)
+        st += 1.day
+        et += 1.day
+      end until st > end_point
+    elsif self.repeat_mode == 'weekly'
+      end_point = self.repeat_until + 1.week
+      st = self.start_time
+      et = self.end_time
+      begin
+        yield(st, et)
+        st += 1.week
+        et += 1.week
+      end until st > end_point
+    end
+  end
 end
