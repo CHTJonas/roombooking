@@ -120,13 +120,15 @@ class Booking < ApplicationRecord
     ordinary_bookings = Booking.where.not(id: self.id)
       .where(repeat_mode: :none)
       .where(room: self.room)
-      .where(%{start_time BETWEEN :start AND :end OR end_time BETWEEN :start AND :end}, query_opts)
+      .where(%{(:start <= start_time AND start_time < :end) OR (:start < end_time AND end_time <= :end)}, query_opts)
+      .select { |b| b.overlaps?(self) }
 
     daily_repeat_bookings = Booking.where.not(id: self.id)
       .daily_repeat_in_range(self.start_time, query_end_time)
       .where(room: self.room)
       .where(%{ (start_time::time, end_time::time)
 OVERLAPS (timestamp :start::time, timestamp :end::time) }, query_opts)
+      .select { |b| b.overlaps?(self) }
 
     weekly_repeat_bookings = Booking.where.not(id: self.id)
       .weekly_repeat_in_range(self.start_time, query_end_time)
@@ -134,6 +136,7 @@ OVERLAPS (timestamp :start::time, timestamp :end::time) }, query_opts)
       .where(%{ (start_time::time, end_time::time)
 OVERLAPS (timestamp :start::time, timestamp :end::time)
 AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_opts)
+      .select { |b| b.overlaps?(self) }
 
     unless ordinary_bookings.empty? && daily_repeat_bookings.empty? && weekly_repeat_bookings.empty?
       errors.add(:base, 'The times given overlap with another booking.')
@@ -298,5 +301,18 @@ DATE_PART('day', timestamp :end - timestamp :start) },
         et += 1.week
       end until st > end_point
     end
+  end
+
+  def overlaps?(booking)
+    self.repeat_iterator do |st1, et1|
+      booking.repeat_iterator do |st2, et2|
+        if st2 < st1
+          return true if et2 > st1
+        else
+          return true if st2 < et1
+        end
+      end
+    end
+    false
   end
 end
