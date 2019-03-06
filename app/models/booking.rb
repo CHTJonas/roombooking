@@ -292,7 +292,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
         et += 1.day
       end until st > end_point
     elsif self.repeat_mode == 'weekly'
-      end_point = self.repeat_until + 1.week
+      end_point = self.repeat_until + 1.day
       st = self.start_time
       et = self.end_time
       begin
