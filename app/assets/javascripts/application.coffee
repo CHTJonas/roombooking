@@ -15,9 +15,11 @@ window.rbModal = (title, message) ->
   $('#roombookingModalContent').text(message)
   $('#roombookingModal').modal('show')
 
-ajaxFail = ->
-  alert "Oops something's gone wrong! Please try again after a few seconds..."
+window.rbAjaxFail = ->
+  rbModal "AJAX Error", "Oops something's gone wrong!
+    Please try again after a few seconds and contact
+    support if you continue experiencing issues."
 
 $ ->
-  $("a").on "ajax:error", ajaxFail
-  $("form").on "ajax:error", ajaxFail
+  $("a").on "ajax:error", rbAjaxFail
+  $("form").on "ajax:error", rbAjaxFail

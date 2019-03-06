@@ -1,2 +1,3 @@
 <% new_content = escape_javascript(render 'camdram_show', camdram_show: @camdram_show, roombooking_show: @roombooking_show) %>
 $("tr#show-<%= @camdram_show.id %>").replaceWith("<%= new_content %>");
+$("tr#show-<%= @camdram_show.id %> > td > form").on("ajax:error", rbAjaxFail);
