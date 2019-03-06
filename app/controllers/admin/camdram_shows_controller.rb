@@ -37,7 +37,7 @@ module Admin
     end
 
     def batch_import
-      BatchImportJob.perform_later
+      BatchImportJob.perform_later(current_user.id)
       head :no_content
     end
 
