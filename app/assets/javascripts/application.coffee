@@ -10,6 +10,11 @@
 #= require peek/views/rblineprof
 #= require_tree .
 
+window.rbModal = (title, message) ->
+  $('#roombookingModalTitle').text(title)
+  $('#roombookingModalContent').text(message)
+  $('#roombookingModal').modal('show')
+
 ajaxFail = ->
   alert "Oops something's gone wrong! Please try again after a few seconds..."
 
