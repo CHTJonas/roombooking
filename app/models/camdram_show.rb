@@ -86,24 +86,27 @@ class CamdramShow < CamdramEntity
       performances.each do |performance|
         performance_time = performance.start_date.to_time + performance.time.to_i
         if performance_time.hour == 19
+          # Mainshow
           start_time = performance.start_date.to_time + 18.hours
           end_time = performance.start_date.to_time + 22.hours + 30.minutes
           repeat_until = performance.end_date
-          Booking.create(name: 'Mainshow', start_time: start_time, end_time: end_time,
+          Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
             repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
             approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
         elsif performance_time.hour == 23
+          # Lateshow
           start_time = performance.start_date.to_time + 22.hours + 30.minutes
           end_time = performance.start_date.to_time + 24.hours
           repeat_until = performance.end_date
-          Booking.create(name: 'Lateshow', start_time: start_time, end_time: end_time,
+          Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
             repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
             approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
         elsif performance_time.hour == 14
+          # Matinee
           start_time = performance.start_date.to_time + 13.hours
           end_time = performance.start_date.to_time + 18.hours
           repeat_until = performance.end_date
-          Booking.create(name: 'Matinee', start_time: start_time, end_time: end_time,
+          Booking.create!(name: 'Matinee', start_time: start_time, end_time: end_time,
             repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
             approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
         end

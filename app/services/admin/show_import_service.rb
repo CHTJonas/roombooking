@@ -16,7 +16,7 @@ module Admin
           camdram_show = Roombooking::CamdramAPI.with { |client| client.get_show(slug) }
           CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           true
-        rescue Exception
+        rescue Exception => e
           false
         end
       else

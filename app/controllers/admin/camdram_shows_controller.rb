@@ -47,7 +47,8 @@ module Admin
       if Admin::ShowImportService.perform(params[:camdram_url], current_user)
         redirect_to action: :index
       else
-        # TODO display an error message to the user.
+        alert = { 'class' => 'danger', 'message' => 'An error occurred whilst performing the import.' }
+        flash[:alert] = alert
         redirect_to action: :index
       end
     end
