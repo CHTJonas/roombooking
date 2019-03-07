@@ -2,8 +2,9 @@
 
 module Admin
   class ShowImportService < ApplicationService
-    def initialize(url)
+    def initialize(url, user)
       @url = url
+      @user = user
     end
 
     def perform
@@ -13,8 +14,7 @@ module Admin
         slug = path[2]
         begin
           camdram_show = Roombooking::CamdramAPI.with { |client| client.get_show(slug) }
-          roombooking_show = CamdramShow.create_from_camdram(camdram_show)
-          roombooking_show.update(active: true)
+          CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           true
         rescue Exception
           false

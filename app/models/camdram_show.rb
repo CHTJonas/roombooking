@@ -37,7 +37,7 @@ class CamdramShow < CamdramEntity
       roombooking_show.max_rehearsals = 12
       roombooking_show.max_auditions = 10
       roombooking_show.max_meetings = 4
-      roombooking_show.active = false
+      roombooking_show.active = true
     end
   end
 

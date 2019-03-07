@@ -8,10 +8,12 @@ module Admin
     end
 
     def create
-      @roombooking_show = CamdramShow.new(create_camdram_show_params)
+      id = create_camdram_show_params[:camdram_id]
+      @roombooking_show = CamdramShow.create_from_id(id)
       @camdram_show = @roombooking_show.camdram_object
       respond_to do |format|
         if @roombooking_show.save
+          @roombooking_show.block_out_bookings(current_user)
           format.js
         end
       end
@@ -42,7 +44,7 @@ module Admin
     end
 
     def manual_import
-      if Admin::ShowImportService.perform(params[:camdram_url])
+      if Admin::ShowImportService.perform(params[:camdram_url], current_user)
         redirect_to action: :index
       else
         # TODO display an error message to the user.
