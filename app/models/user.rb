@@ -16,21 +16,9 @@
 
 class User < ApplicationRecord
   include PgSearch
-  pg_search_scope :search_by_name_and_email,
-                   against: [:name, :email],
-                   ignoring: :accents,
-                   using: {
-                     tsearch: {
-                       prefix: true,
-                       dictionary: 'english'
-                     },
-                     dmetaphone: {
-                       any_word: true
-                     },
-                     trigram: {
-                       only: [:name]
-                     },
-                   }
+  pg_search_scope :search_by_name_and_email, against: [:name, :email],
+    ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
+    dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   has_many :log_events, as: :logable, dependent: :delete_all
   has_many :provider_account, dependent: :delete_all
