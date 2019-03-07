@@ -12,7 +12,7 @@
 #
 
 class Room < ApplicationRecord
-  has_many :booking, dependent: :delete_all
+  has_many :booking, dependent: :destroy
   has_many :approved_bookings, -> { where(approved: true) }, class_name: 'Booking'
 
   validates :name, presence: true

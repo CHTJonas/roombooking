@@ -3,7 +3,7 @@
 class CamdramEntity < ApplicationRecord
   self.abstract_class = true
 
-  has_many :booking, as: :camdram_model, dependent: :delete_all
+  has_many :booking, as: :camdram_model, dependent: :destroy
   has_many :approved_bookings, -> { where(approved: true) },
     class_name: 'Booking', as: :camdram_model
 
