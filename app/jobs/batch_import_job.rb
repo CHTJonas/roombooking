@@ -5,6 +5,9 @@ class BatchImportJob < ApplicationJob
     shows = ShowEnumerationService.perform
     shows.each do |camdram_show|
       begin
+        # Wrap in a single transaction here so that we either
+        # import the show and make its block bookings successfully,
+        # or we rollback and ignore that single show.
         ActiveRecord::Base.transaction do
           show = CamdramShow.create_from_camdram(camdram_show)
           show.block_out_bookings(User.find(user_id))

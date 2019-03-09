@@ -10,7 +10,7 @@ module Roombooking
         return false unless session.present? && !session.invalidated?
         user = session.user
         return !user.blocked? && user.admin?
-      rescue Exception
+      rescue Exception => e
         return false
       end
     end

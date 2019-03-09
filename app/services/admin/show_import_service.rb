@@ -14,9 +14,12 @@ module Admin
         slug = path[2]
         begin
           camdram_show = Roombooking::CamdramAPI.with { |client| client.get_show(slug) }
-          CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
+          ActiveRecord::Base.transaction do
+            CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
+          end
           true
         rescue Exception => e
+          Raven.capture_exception(e)
           false
         end
       else

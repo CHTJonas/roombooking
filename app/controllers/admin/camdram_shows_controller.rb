@@ -9,13 +9,18 @@ module Admin
 
     def create
       id = create_camdram_show_params[:camdram_id]
-      @roombooking_show = CamdramShow.create_from_id(id)
-      @camdram_show = @roombooking_show.camdram_object
-      respond_to do |format|
-        if @roombooking_show.save
+      begin
+        ActiveRecord::Base.transaction do
+          @roombooking_show = CamdramShow.create_from_id(id)
           @roombooking_show.block_out_bookings(current_user)
+          @camdram_show = @roombooking_show.camdram_object
+        end
+        respond_to do |format|
           format.js
         end
+      rescue Exception => e
+        Raven.capture_exception(e)
+        format.js { head :internal_server_error }
       end
     end
 
