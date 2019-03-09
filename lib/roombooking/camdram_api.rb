@@ -30,7 +30,7 @@ module Roombooking
             config.client_credentials(app_id, app_secret) do |faraday|
               faraday.request  :url_encoded
               faraday.response :caching do
-                Rails.cache
+                Roombooking::CamdramAPI::ResponseCacheStore
               end
               faraday.response :logger, Yell['camdram'] do |logger|
                 logger.filter(/Bearer[^"]*/m, '[FILTERED]')
