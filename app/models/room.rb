@@ -17,6 +17,8 @@ class Room < ApplicationRecord
 
   validates :name, presence: true
 
+  after_commit { Roombooking::VenueCache.regenerate }
+
   def currently_booked?
     current_booking.present?
   end

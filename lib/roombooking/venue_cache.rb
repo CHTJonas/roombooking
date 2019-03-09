@@ -3,14 +3,6 @@
 module Roombooking
   module VenueCache
     class << self
-      def clear
-        cache.clear
-      end
-
-      def add(room)
-        cache.merge(room.camdram_venues)
-      end
-
       def each(&block)
         cache.each(&block)
       end
@@ -20,16 +12,21 @@ module Roombooking
       end
 
       def regenerate
-        clear
-        Room.all.each do |room|
-          add(room)
-        end
+        @cache = nil
+        cache
+        nil
       end
 
       private
 
       def cache
-        @cache ||= Concurrent::Set.new
+        @cache ||= (
+          set = Concurrent::Set.new
+          Room.all.each do |room|
+            set.merge(room.camdram_venues) if room.camdram_venues
+          end
+          set
+        )
       end
     end
   end
