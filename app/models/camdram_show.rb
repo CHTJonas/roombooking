@@ -79,7 +79,7 @@ class CamdramShow < CamdramEntity
   end
 
   def block_out_bookings(user)
-    performances = camdram_object.performances.select { |p| p.venue && p.venue.slug = 'adc-theatre' }
+    performances = camdram_object.performances.select { |p| p.venue && Roombooking::VenueCache.contains?(p.venue.slug) }
     # Wrap in a single transaction so that we either make all the block
     # bookings successfully, or none at all.
     ActiveRecord::Base.transaction do

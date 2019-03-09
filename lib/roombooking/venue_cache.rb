@@ -15,6 +15,10 @@ module Roombooking
         cache.each(&block)
       end
 
+      def contains?(o)
+        cache.include?(o)
+      end
+
       def regenerate
         clear
         Room.all.each do |room|

@@ -289,6 +289,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   end
 
   def overlaps?(booking)
+    return false if self.room != booking.room
     self.repeat_iterator do |st1, et1|
       booking.repeat_iterator do |st2, et2|
         if st2 < st1
