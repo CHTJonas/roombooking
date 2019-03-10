@@ -4,10 +4,6 @@ module Roombooking
   module CamdramAPI
     class CamdramError < StandardError; end
     class << self
-      def client
-        client_pool.checkout
-      end
-
       def with(&block)
         client_pool.with do |client|
           block.call(client)
@@ -17,12 +13,14 @@ module Roombooking
       end
 
       def url_for(entity)
-        client.base_url + entity.url_slug.chomp('.json')
+        @base_url + entity.url_slug.chomp('.json')
       end
 
       private
 
       def client_pool
+        @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::VERSION}".freeze
+        @base_url ||= 'https://www.camdram.net'
         @client_pool ||= ConnectionPool.new(size: ENV.fetch('RAILS_MAX_THREADS') { 5 }, timeout: 3) do
           Camdram::Client.new do |config|
             app_id     = Rails.application.credentials.dig(:camdram, :app_id)
@@ -54,8 +52,8 @@ module Roombooking
                 end
               end
             end
-            config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-            config.base_url = "https://www.camdram.net"
+            config.user_agent = @user_agent
+            config.base_url = @base_url
           end
         end
       end

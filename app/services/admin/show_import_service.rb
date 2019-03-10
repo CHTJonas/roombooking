@@ -13,7 +13,7 @@ module Admin
       if path.length == 3 && path[1] == 'shows'
         slug = path[2]
         begin
-          camdram_show = Roombooking::CamdramAPI.with { |client| client.get_show(slug) }
+          camdram_show = Roombooking::CamdramAPI.with { |client| client.get_show(slug).make_orphan }
           ActiveRecord::Base.transaction do
             CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           end

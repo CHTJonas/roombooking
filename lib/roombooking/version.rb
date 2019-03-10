@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Roombooking
-  VERSION = @version ||= `git rev-parse HEAD`
+  VERSION = @version ||= `git rev-parse --short HEAD`
 end

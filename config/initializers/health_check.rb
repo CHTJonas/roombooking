@@ -17,8 +17,7 @@ HealthCheck.setup do |config|
     # Should return a blank string on success and
     # a non-blank string upon failure.
     begin
-      client = Roombooking::CamdramAPI.client
-      user = client.user
+      user = Roombooking::CamdramAPI.with { |client| client.user.make_orphan }
       if user.id == 3807
         ''
       else
