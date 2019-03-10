@@ -28,6 +28,7 @@ module Roombooking
             app_id     = Rails.application.credentials.dig(:camdram, :app_id)
             app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
             config.client_credentials(app_id, app_secret) do |faraday|
+              faraday.use(:ddtrace)
               faraday.request  :url_encoded
               faraday.response :caching do
                 Roombooking::CamdramAPI::ResponseCacheStore
