@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
-    Raven.capture_exception(exception, message: exception.message)
+    Raven.capture_exception(exception)
     alert = { 'class' => 'danger', 'message' => %{
 Sorry, but an error occurred when making a request to the Camdram API!
 This is probably a temporary error - try refreshing the page after a minute or two.
