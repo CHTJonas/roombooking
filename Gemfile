@@ -19,8 +19,7 @@ gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
 # Background job processing
 gem 'sidekiq'
-gem 'sidekiq-cron', '~> 0.6.3'
-gem 'rufus-scheduler', '~> 3.4.0' # needed as a bugfix for above
+gem 'sidekiq-cron', '~> 1.1'
 # Static page serving
 gem 'high_voltage'
 # OAuth login for Camdram
