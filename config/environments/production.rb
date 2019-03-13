@@ -95,8 +95,8 @@ Rails.application.configure do
   config.lograge.custom_payload do |controller|
     {
       host: controller.request.host,
-      session_id: controller.current_session.try(:id),
-      user_id: controller.current_user.try(:id)
+      session_id: controller.try(:current_session).try(:id),
+      user_id: controller.try(:current_user).try(:id)
     }
   end
   config.lograge.custom_options = lambda do |event|
