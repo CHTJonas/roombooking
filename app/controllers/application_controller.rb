@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found
+    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found, formats: :html
   end
 
   # Render a nice page when the user browses to a URL that doesn't route.
