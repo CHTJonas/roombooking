@@ -16,7 +16,7 @@ module Roombooking
     config.time_zone = 'London'
     config.beginning_of_week = :sunday
     config.eager_load_paths << Rails.root.join('lib')
-    config.action_mailer.default_url_options = { host: 'roombooking.adctheatre.com' }
+    config.action_mailer.default_url_options = { host: 'roombooking-dev.adctheatre.com' }
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
