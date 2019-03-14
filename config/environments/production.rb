@@ -95,6 +95,7 @@ Rails.application.configure do
   config.lograge.custom_payload do |controller|
     {
       host: controller.request.host,
+      client: controller.request.ip,
       session_id: controller.try(:current_session).try(:id),
       user_id: controller.try(:current_user).try(:id)
     }
