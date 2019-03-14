@@ -8,4 +8,3 @@ production:
     - :datefile:
         :level: 'gte.warn'
         :filename: 'log/roombooking_production_error.log'
-
