@@ -110,15 +110,10 @@ class User < ApplicationRecord
   # token. This client will be able to act as the user and view the list of
   # shows and societies the user administers.
   def camdram_client
-    Camdram::Client.new do |config|
-      token = latest_camdram_token
-      token_hash = {access_token: token.access_token, refresh_token: token.refresh_token, expires_at: token.expires_at}
-      app_id = Rails.application.credentials.dig(:camdram, :app_id)
-      app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
-      config.auth_code(token_hash, app_id, app_secret)
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
-      config.base_url = "https://www.camdram.net"
-    end
+    token = latest_camdram_token
+    token_hash = {access_token: token.access_token,
+      refresh_token: token.refresh_token, expires_at: token.expires_at}
+    Roombooking::CamdramAPI::ClientFactory.new(token_hash)
   end
 
 end
