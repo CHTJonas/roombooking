@@ -9,12 +9,15 @@
 #
 
 class ApplicationSetting < ApplicationRecord
-  @@instance = nil
+  has_paper_trail
+
   after_create :freeze
   before_save :prevent_changes
   before_update :prevent_changes
   after_update :freeze
   before_destroy :prevent_changes
+
+  @@instance = nil
 
   def self.instance
     @@instance || self.refresh

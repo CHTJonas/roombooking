@@ -22,6 +22,7 @@
 #
 
 class Booking < ApplicationRecord
+  has_paper_trail
   include PgSearch
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },

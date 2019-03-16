@@ -13,7 +13,7 @@
 #  updated_at    :datetime         not null
 #
 
-class CamdramToken < ActiveRecord::Base
+class CamdramToken < ApplicationRecord
   belongs_to :user
 
   validates :access_token, presence: true, uniqueness: true

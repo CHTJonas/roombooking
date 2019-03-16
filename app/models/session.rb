@@ -13,7 +13,7 @@
 #  user_agent  :string           not null
 #
 
-class Session < ActiveRecord::Base
+class Session < ApplicationRecord
   belongs_to :user
 
   validates :expires_at, presence: true

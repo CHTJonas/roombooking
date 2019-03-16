@@ -12,6 +12,8 @@
 #
 
 class Room < ApplicationRecord
+  has_paper_trail
+
   has_many :booking, dependent: :destroy
   has_many :approved_bookings, -> { where(approved: true) }, class_name: 'Booking'
 
