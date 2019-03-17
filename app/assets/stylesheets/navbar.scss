@@ -1,0 +1,36 @@
+@import 'adc_house_colours';
+
+.navbar-adc {
+  background-color: $adc-pink;
+
+  .navbar-brand {
+     /* Change the branding text color */
+    color: rgba(255,255,255,.8);
+  }
+
+  .navbar-nav .nav-link {
+    /* Change the link color */
+    color: rgba(255,255,255,.55);
+
+    &:hover {
+      /* Change the color of hovered links */
+      color: rgba(255,255,255,0.9);
+    }
+
+    &:active {
+      /* Change the color of active links */
+      color: #ffffff;
+    }
+  }
+}
+
+.adc-toggler {
+  .navbar-toggler {
+    /* Change the colour of the navbar toggle for mobile */
+    border-color: rgba(255,255,255,0.7);
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+}
