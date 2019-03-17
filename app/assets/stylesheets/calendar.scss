@@ -1,0 +1,53 @@
+div.calendar-nav {
+  width: 50%;
+}
+
+table.calendar {
+  font-size: 10pt;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  h3 {
+    text-align: center;
+    width: 100%;
+    height: 1.2em;
+    margin: 2pt;
+  }
+
+  td {
+    padding: 0;
+    position: relative;
+    height: 50em;
+    width: 14.285714286%;
+  }
+
+  .booking {
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #dee2e6;
+    z-index: 3;
+    overflow: hidden;
+
+    &:last-child {
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: #dee2e6;
+    }
+  }
+
+  a {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #000000;
+
+    span.time {
+      font-size: 80%;
+      display: block;
+      width: 100%;
+    }
+  }
+}
