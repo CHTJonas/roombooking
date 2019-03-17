@@ -1,3 +1,5 @@
+@import 'adc_house_colours';
+
 div.calendar-nav {
   width: 50%;
 }
@@ -42,12 +44,25 @@ table.calendar {
     left: 0;
     right: 0;
     text-align: center;
-    color: #000000;
 
     span.time {
       font-size: 80%;
       display: block;
       width: 100%;
     }
+
+    &:hover {
+      color: inherit;
+    }
   }
 }
+
+.booking-performance_of { background-color: $adc-purple;     color: #fff !important; }
+.booking-meeting_of     { background-color: $adc-blue;       color: #fff !important; }
+.booking-meeting_for    { background-color: $adc-blue;       color: #fff !important; }
+.booking-rehearsal_for  { background-color: $adc-dark-green; color: #fff !important; }
+.booking-audition_for   { background-color: $adc-yellow;     color: #000 !important; }
+.booking-get_in_for     { background-color: $adc-dark-pink;  color: #fff !important; }
+.booking-training       { background-color: $adc-orange;     color: #000 !important; }
+.booking-theatre_closed { background-color: $adc-red;        color: #fff !important; }
+.booking-other          { background-color: $adc-teal;       color: #000 !important; }

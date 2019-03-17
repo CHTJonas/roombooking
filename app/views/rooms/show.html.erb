@@ -9,7 +9,7 @@
 <%= week_calendar(events: @events, partial: 'calendar/roombooking_calendar') do |date, events| %>
   <% events.each do |event| %>
     <% next if event.start_time < date %>
-    <%= link_to event.booking, { style: event_div_styles(event), class: 'booking' } do %>
+    <%= link_to event.booking, { style: event_div_styles(event), class: "booking booking-#{event.booking.purpose}" } do %>
       <%= content_tag :span, event.booking.name %>
       <%= content_tag :span, class: 'time text-center' do %>
         <%= event_time_range(event) %>
