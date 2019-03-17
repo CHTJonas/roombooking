@@ -1,14 +1,14 @@
 <div class="calendar-nav mx-auto">
-  <%= link_to '⬅ Previous', calendar.url_for_previous_view %>
+  <%= link_to 'Previous', calendar.url_for_previous_view %>
   <span class="calendar-title mx-3">
     <% week_start_date = start_date.at_beginning_of_week %>
     <%= @room.name %> bookings for the week of <%= written_date_with_month week_start_date %>
   </span>
-  <%= link_to 'Next ➡', calendar.url_for_next_view %>
+  <%= link_to 'Next', calendar.url_for_next_view %>
 </div>
 
-<div class="calendar mt-3">
-  <table class="calendar">
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-sm calendar">
     <thead>
       <tr>
         <% date_range.slice(0, 7).each do |day| %>
@@ -19,10 +19,8 @@
     <tbody>
         <tr>
           <% date_range.slice(0, 7).each do |day| %>
-            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
-              <%= content_tag :div, class: 'column' do %>
-                <% block.call day, sorted_events.fetch(day, []) %>
-              <% end %>
+            <%= content_tag :td do %>
+              <% block.call(day, sorted_events.fetch(day, [])) %>
             <% end %>
           <% end %>
         </tr>
