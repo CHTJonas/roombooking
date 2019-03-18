@@ -1,7 +1,12 @@
 @import 'adc_house_colours';
 
-div.calendar-nav {
-  width: 50%;
+// Hide nav icons on mobile devices
+@media (max-width: 575px) {
+  div.calendar-nav {
+    i {
+      display:none !important;
+    }
+  }
 }
 
 table.calendar {
