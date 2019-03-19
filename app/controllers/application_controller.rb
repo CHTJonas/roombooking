@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     invalidate_session
     alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden
+    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden, formats: :html
   end
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
@@ -74,7 +74,7 @@ Sorry, but an error occurred when making a request to the Camdram API!
 This is probably a temporary error - try refreshing the page after a minute or two.
 Errors are tracked automatically but do get in touch if you continue having problems.} }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error
+    render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error, formats: :html
   end
 
   # Finds the Session model object with the ID that is stored in the Rails
