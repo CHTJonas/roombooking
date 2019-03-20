@@ -5,9 +5,8 @@ class RoomsController < ApplicationController
 
   def index
     @rooms = Room
-      .then { |_| request.format == :ics ? _.eager_load(booking: :user)
-        .where('bookings.approved = ?', true)
-        : _ }
+      .then { |_| request.format == :ics ? _.eager_load(approved_bookings: [:room, :user])
+        .preload(approved_bookings: :camdram_model) : _ }
       .accessible_by(current_ability, :read)
     respond_to do |format|
       format.html
@@ -54,7 +53,8 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.eager_load(approved_bookings: :user).find(params[:id])
+    @room = Room.eager_load(approved_bookings: :user)
+      .then { |_| request.format == :ics ? _.preload(approved_bookings: :camdram_model) : _ }.find(params[:id])
     authorize! :read, @room
     start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
     end_date = start_date + 7.days
