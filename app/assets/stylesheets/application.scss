@@ -7,10 +7,17 @@
  *= require_self
  */
 
- @import 'bootstrap';
- @import 'font-awesome';
- @import 'cookies_eu';
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'cookies_eu';
 
- #peek {
+.controller-links {
+  * {
+    margin-top: inherit;
+    margin-bottom: inherit;
+  }
+}
+
+#peek {
   overflow: hidden;
 }
