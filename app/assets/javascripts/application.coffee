@@ -8,6 +8,7 @@
 #= require peek
 #= require peek/views/performance_bar
 #= require peek/views/rblineprof
+#= require @github/hotkey/dist/index.umd
 #= require_tree .
 
 window.rbModal = (title, message) ->
@@ -23,3 +24,4 @@ window.rbAjaxFail = ->
 $ ->
   $("a").on "ajax:error", rbAjaxFail
   $("form").on "ajax:error", rbAjaxFail
+  hotkey.install el for el in document.querySelectorAll '[data-hotkey]'

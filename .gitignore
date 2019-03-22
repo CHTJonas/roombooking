@@ -6,7 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
-vendor/bundle
+/vendor/bundle
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -24,7 +24,8 @@ vendor/bundle
 # Ignore uploaded files in development
 /storage/*
 
-/node_modules
+# Ignore Node.js artifacts
+/vendor/assets/node_modules
 /yarn-error.log
 
 /public/assets

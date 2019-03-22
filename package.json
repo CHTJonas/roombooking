@@ -1,5 +1,7 @@
 {
   "name": "roombooking",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@github/hotkey": "^1.2.0"
+  }
 }
