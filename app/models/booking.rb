@@ -46,7 +46,7 @@ class Booking < ApplicationRecord
     [ :theatre_closed, :training, :other ]
   end
 
-  belongs_to :room
+  belongs_to :room, touch: true
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
 

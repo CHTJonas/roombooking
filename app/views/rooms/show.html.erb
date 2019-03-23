@@ -6,16 +6,8 @@
   <%= link_to 'Delete', room_path(@room), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' if can? :manage, @room %>
 <% end %>
 
-<%= week_calendar(events: @events, partial: 'calendar/roombooking_calendar') do |date, events| %>
-  <% events.each do |event| %>
-    <% next if event.start_time < date %>
-    <%= link_to event.booking, { style: event_div_styles(event), class: "booking booking-#{event.booking.purpose}" } do %>
-      <%= content_tag :span, event.booking.name %>
-      <%= content_tag :span, class: 'time text-center' do %>
-        <%= event_time_range(event) %>
-      <% end %>
-    <% end %>
-  <% end %>
+<% cache @room, virtual_path: @start_date.to_s do %>
+  <%= render 'calendar' %>
 <% end %>
 
 <%= content_tag :div, class: 'float-right mt-1' do %>
