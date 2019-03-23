@@ -1,29 +1,20 @@
-<%= content_tag :div, class: 'card mb-4', style: 'width: 44rem;' do %>
+<%= content_tag :div, class: 'card mb-4', id: 'import-tools' do %>
   <%= content_tag :div, 'Import Tools', class: 'card-header' %>
   <%= content_tag :div, class: 'card-body' do %>
-    <%= content_tag :p, "Note that shows imported using 'Import Tools' are automatically activated.", class: 'card-text' %>
-    <%= form_tag manual_import_admin_camdram_shows_path, class: 'form', method: :post do %>
-      <%= content_tag :div, class: 'form-group row' do %>
-        <%= content_tag :div, '', class: 'col-sm-5' %>
-        <%= content_tag :div, class: 'col-sm-3' do %>
-          <%= link_to 'Start New Term', new_term_admin_camdram_shows_path,
-            data: { confirm: 'Are you sure you want to mark all existing shows as dormant and start a new term?' },
-            id: 'new-term', remote: true, class: 'btn btn-primary', method: :post %>
-        <% end %>
-        <%= content_tag :div, class: 'col-sm-4' do %>
-          <%= link_to 'Batch Import', batch_import_admin_camdram_shows_path,
-            data: { confirm: 'Are you sure you wish to import all upcoming shows?' },
-            id: 'batch-import', remote: true, class: 'btn btn-primary', method: :post %>
-        <% end %>
+  <%= content_tag :p, "Quickly and easily import shows using the options in this pane. Note that any shows you import here are automatically activated.", class: 'card-text' %>
+    <%= content_tag :div, class: 'd-flex flex-row justify-content-end mb-2' do %>
+      <%= link_to 'Start New Term', new_term_admin_camdram_shows_path,
+        data: { confirm: 'Are you sure you want to mark all existing shows as dormant and start a new term?' },
+        id: 'new-term', remote: true, class: 'btn btn-primary import-tools-fixed-width ml-1', method: :post %>
+      <%= link_to 'Batch Import', batch_import_admin_camdram_shows_path,
+        data: { confirm: 'Are you sure you wish to import all upcoming shows?' },
+        id: 'batch-import', remote: true, class: 'btn btn-primary import-tools-fixed-width ml-1', method: :post %>
+    <% end %>
+    <%= form_tag manual_import_admin_camdram_shows_path, class: 'form d-flex flex-row justify-content-end mt-2', method: :post do %>
+      <%= content_tag :div, class: 'import-tools-width-remaining' do %>
+        <%= text_field_tag :camdram_url, '', placeholder: "https://www.camdram.net/shows/#{Date.today.year}-name", class: 'form-control' %>
       <% end %>
-      <%= content_tag :div, class: 'form-group row' do %>
-        <%= content_tag :div, class: 'col-sm-8' do %>
-          <%= text_field_tag :camdram_url, '', placeholder: "https://www.camdram.net/shows/#{Date.today.year}-name", class: 'form-control' %>
-        <% end %>
-        <%= content_tag :div, class: 'col-sm-4' do %>
-          <%= submit_tag 'Manual Import', class: 'btn btn-primary'  %>
-        <% end %>
-      <% end %>
+      <%= submit_tag 'Manual Import', class: 'btn btn-primary import-tools-fixed-width ml-1'  %>
     <% end %>
   <% end %>
 <% end %>
