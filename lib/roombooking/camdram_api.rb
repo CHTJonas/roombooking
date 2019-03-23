@@ -27,8 +27,16 @@ module Roombooking
       private
 
       def client_pool
-        @client_pool ||= ConnectionPool.new(size: ENV.fetch('RAILS_MAX_THREADS') { 5 }, timeout: 3) do
+        @client_pool ||= ConnectionPool.new(size: ENV.fetch('RAILS_MAX_THREADS') { 5 }, timeout: wait_timeout) do
           Roombooking::CamdramAPI::ClientFactory.new
+        end
+      end
+
+      def wait_timeout
+        if Sidekiq.server?
+          10
+        else
+          3
         end
       end
     end

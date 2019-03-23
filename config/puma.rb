@@ -14,7 +14,7 @@ if environment == 'production' || ENV['BIND']
   prune_bundler
   port 8080
 
-  worker_timeout 10
+  worker_timeout 15
   worker_boot_timeout 15
   worker_shutdown_timeout 15
 end

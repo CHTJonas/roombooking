@@ -40,17 +40,35 @@ module Roombooking
             # if there is the appropriate environmental variable.
             if ENV['PATRON']
               faraday.adapter :patron do |session|
-                session.connect_timeout   = 1
-                session.timeout           = 3
+                session.connect_timeout   = socket_timeout
+                session.timeout           = http_timeout
                 session.dns_cache_timeout = 300
                 session.max_redirects     = 1
               end
             else
               faraday.adapter :net_http do |http|
-                http.open_timeout = 1
-                http.read_timeout = 3
+                http.open_timeout = socket_timeout
+                http.read_timeout = http_timeout
               end
             end
+          end
+        end
+
+        private
+
+        def socket_timeout
+          if Sidekiq.server?
+            3
+          else
+            1
+          end
+        end
+
+        def http_timeout
+          if Sidekiq.server?
+            10
+          else
+            3.5
           end
         end
       end
