@@ -1,10 +1,11 @@
 <div class="calendar-nav d-flex justify-content-center my-0">
-  <%= link_to fa_icon('arrow-circle-o-left', text: 'Previous'), calendar.url_for_previous_view, class: 'mx-2' %>
+  <%= link_to fa_icon('arrow-circle-o-left', class: 'd-none d-md-inline-block', text: 'Previous'), calendar.url_for_previous_view, class: 'mx-2' %>
+  <!-- This is a test -->
   <span>
     <% week_start_date = start_date.at_beginning_of_week %>
     <%= @room.name %> bookings for the week of <%= written_date_with_month week_start_date %>
   </span>
-  <%= link_to fa_icon('arrow-circle-o-right', text: 'Next', right: true), calendar.url_for_next_view, class: 'mx-2' %>
+  <%= link_to fa_icon('arrow-circle-o-right', class: 'd-none d-md-inline-block', text: 'Next', right: true), calendar.url_for_next_view, class: 'mx-2' %>
 </div>
 
 <div class="table-responsive mt-3">
