@@ -22,6 +22,17 @@
       color: #ffffff;
     }
   }
+
+  .form-control {
+    /**
+     * Prevent the booking search text box
+     * from filling the parent container on
+     * large screens.
+     */
+    @media (min-width: 768px) {
+      width: unset !important;
+    }
+  }
 }
 
 .adc-toggler {
