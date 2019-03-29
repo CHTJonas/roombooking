@@ -50,9 +50,10 @@
     <%= content_tag(:h4, 'Performances:') %>
     <ul>
       <% @external_show.performances.each do |performance| %>
+        <% next unless performance.other_venue.present? %>
         <% (performance.start_date..performance.end_date).each do |date| %>
           <li>
-            <%= performance.time.strftime('%R') %> on <%= date %> at <%= performance.venue.name %>.
+            <%= performance.time.strftime('%R') %> on <%= date %> at <%= performance.other_venue %>
           </li>
         <% end %>
       <% end %>
