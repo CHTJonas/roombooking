@@ -124,8 +124,7 @@ Errors are tracked automatically but do get in touch if you continue having prob
     user_logged_in? && impersonator.present?
   end
 
-  # Method to ensure a logged in user has a valid Camdram API token and is
-  # not blocked.
+  # Ensure that a user has a valid session, account and Camdram API token.
   def check_user!
     if user_logged_in?
       if current_user.blocked?
@@ -152,15 +151,22 @@ Errors are tracked automatically but do get in touch if you continue having prob
       unless current_camdram_token.present? || user_is_imposter?
         # The user is logged in and not an imposter, but we can't find a
         # Camdram API token for them. Maybe it was purged from the database?
-        # Maybe there was a session issue?
-        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current camdram token was found"
+        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current Camdram token was found"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'camdram token not present'}, status: :internal_server_error and return
       end
-      if current_camdram_token.try(:expired?)
-        current_camdram_token.refresh
+      if current_camdram_token.expired?
+        if current_camdram_token.refreshable?
+          current_camdram_token.refresh
+        else
+          log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as the Camdram token was expired and couldn't be refreshed"
+          invalidate_session
+          alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
+          flash.now[:alert] = alert
+          render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
+        end
       end
     end
   end

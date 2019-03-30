@@ -20,6 +20,12 @@ class CamdramToken < ApplicationRecord
   validates :refresh_token, presence: true, uniqueness: true
   validates :expires_at, presence: true
 
+  # These are tokens that have expired so long ago that they can't be renewed.
+  scope :dead, -> { where 'expires_at <= ?', DateTime.now - 1.hour }
+
+  # These are tokens that have expired or are expiring soon, but can be renewed.
+  scope :expiring_soon, -> { where expires_at: (DateTime.now - 1.hour)..(DateTime.now + 5.minutes) }
+
   # Create a CamdramToken from an OmniAuth::AuthHash and a User.
   def self.create_with_credentials(creds, user)
     create! do |cdtkn|
@@ -30,9 +36,14 @@ class CamdramToken < ApplicationRecord
     end
   end
 
-  # True if the Camdram API token has expired, false otherwise
+  # True if the Camdram API token has expired, false otherwise.
   def expired?
-    Time.now >= self.expires_at
+    DateTime.now >= self.expires_at
+  end
+
+  # True if the token can be refreshed, false otherwise.
+  def refreshable?
+    DateTime.now < self.expires_at + 1.hour
   end
 
   # Attempts to refresh the Camdram access token and, if successful, saves and

@@ -7,3 +7,8 @@ Sitemap generator:
   cron: '0 4 * * *'
   class: 'SitemapGenerationJob'
   queue: 'jobs'
+
+Camdram API access token housekeeping:
+  cron: '*/5 * * * *'
+  class: 'HousekeepingJob'
+  queue: 'jobs'

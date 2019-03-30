@@ -22,15 +22,12 @@ class SessionsController < ApplicationController
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'user blocked'}, status: :forbidden
     else
-      # Create an object to store the Camdram API token.
+      # Create a record to store the Camdram API token.
       camdram_token = CamdramToken.create_with_credentials(auth['credentials'], user)
 
-      # Create an object to represent the session.
-      sesh = Session.create(user: user,
-                            expires_at: Time.at(camdram_token.expires_at) + 1.hour,
-                            login_at: DateTime.now,
-                            ip: request.remote_ip,
-                            user_agent: request.user_agent)
+      # Create a record to store the session.
+      sesh = Session.create(user: user, expires_at: DateTime.now + 60.days,
+        login_at: DateTime.now, ip: request.remote_ip, user_agent: request.user_agent)
 
       # Make a note of the login to track any abuse.
       log_abuse "#{user.name} successfully logged in with session #{sesh.id} and camdram token #{camdram_token.id}"
