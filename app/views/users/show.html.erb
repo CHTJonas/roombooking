@@ -40,10 +40,10 @@
       <%= content_tag(:h4, "User's Shows:") %>
     <% end %>
     <ul>
-      <% if @camdram_shows.count == 0 %>
-        <li>
-          None!
-        </li>
+      <% if @camdram_shows.nil? %>
+        <li>Unknown!</li>
+      <% elsif @camdram_shows.count == 0 %>
+        <li>None!</li>
       <% else %>
         <%= render @camdram_shows %>
       <% end %>
@@ -56,10 +56,10 @@
       <%= content_tag(:h4, "User's Societies:") %>
     <% end %>
     <ul>
-      <% if @camdram_societies.count == 0 %>
-        <li>
-          None!
-        </li>
+      <% if @camdram_societies.nil? %>
+        <li>Unknown!</li>
+      <% elsif @camdram_societies.count == 0 %>
+        <li>None!</li>
       <% else %>
         <%= render @camdram_societies %>
       <% end %>

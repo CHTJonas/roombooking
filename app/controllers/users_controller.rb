@@ -35,8 +35,13 @@ class UsersController < ApplicationController
   def show
     @user = User.eager_load(:camdram_account).find(params[:id])
     authorize! :read, @user
-    @camdram_shows = @user.authorised_camdram_shows
-    @camdram_societies = @user.authorised_camdram_societies
+    begin
+      @camdram_shows = @user.authorised_camdram_shows
+      @camdram_societies = @user.authorised_camdram_societies
+    rescue Roombooking::CamdramAPI::NoAccessToken, Roombooking::CamdramAPI::CamdramError
+      alert = { 'class' => 'warning', 'message' => "The was a problem retrieving this user's data from Camdram." }
+      flash.now[:alert] = alert
+    end
   end
 
   # Allows and administrator to impersonate a user.

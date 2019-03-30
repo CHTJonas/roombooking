@@ -2,7 +2,6 @@
 
 module Roombooking
   module CamdramAPI
-    class CamdramError < StandardError; end
     class << self
       def user_agent
         @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::VERSION}".freeze

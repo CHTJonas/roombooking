@@ -83,12 +83,17 @@ class User < ApplicationRecord
       # as dormant (which happens at the start of each new term).
       CamdramShow.where(dormant: false, active: true)
     else
-      # Poll Camdram for future shows that the user has access to.
-      shows = camdram_client.user.get_shows.reject {
-        |show| show.performances.last.end_date < Time.now
-      }
-      # Then authorise any such active shows that are not dormant.
-      CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
+      begin
+        # Poll Camdram for future shows that the user has access to.
+        shows = camdram_client.user.get_shows
+        shows.reject! { |show| show.performances.last.end_date < Time.now }
+        # Then authorise any such active shows that are not dormant.
+        CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
+      rescue Roombooking::CamdramAPI::NoAccessToken => e
+        raise e
+      rescue
+        raise Roombooking::CamdramAPI::CamdramError
+      end
     end
   end
 
@@ -97,10 +102,16 @@ class User < ApplicationRecord
       # Admins are authorised for all active societies.
       CamdramSociety.where(active: true)
     else
-      # Poll Camdram for any societies that the user has access to.
-      societies = camdram_client.user.get_societies
-      # Then authorise any such active societies.
-      CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
+      begin
+        # Poll Camdram for any societies that the user has access to.
+        societies = camdram_client.user.get_societies
+        # Then authorise any such active societies.
+        CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
+      rescue Roombooking::CamdramAPI::NoAccessToken => e
+        raise e
+      rescue
+        raise Roombooking::CamdramAPI::CamdramError
+      end
     end
   end
 
@@ -111,8 +122,9 @@ class User < ApplicationRecord
   # shows and societies the user administers.
   def camdram_client
     token = latest_camdram_token
-    token_hash = {access_token: token.access_token,
-      refresh_token: token.refresh_token, expires_at: token.expires_at}
+    raise Roombooking::CamdramAPI::NoAccessToken, 'No Camdram tokens found for the user' unless token.present?
+    token_hash = { access_token: token.access_token,
+      refresh_token: token.refresh_token, expires_at: token.expires_at }
     Roombooking::CamdramAPI::ClientFactory.new(token_hash)
   end
 
