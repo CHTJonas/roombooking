@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NotificationJob < ApplicationJob
+  throttle threshold: 150, period: 30.minutes
+
   def perform(booking_id)
     @booking = Booking.find(booking_id)
     @entity = @booking.camdram_model

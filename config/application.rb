@@ -13,6 +13,16 @@ module Roombooking
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # Use Redis for caching.
+    config.cache_store = :redis_cache_store, {
+      url: Rails.application.credentials.dig(:redis, :cache_url),
+      error_handler: -> (method:, returning:, exception:) {
+        # Report errors to Sentry as warnings
+        Raven.capture_exception exception, level: 'warning',
+          tags: { method: method, returning: returning }
+      }
+    }
+
     config.time_zone = 'London'
     config.beginning_of_week = :sunday
     config.eager_load_paths << Rails.root.join('lib')

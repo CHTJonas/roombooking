@@ -20,6 +20,7 @@ gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
 # Background job processing
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.1'
+gem 'activejob-traffic_control', git: 'https://github.com/keylimetoolbox/activejob-traffic_control.git', branch: 'distinct_lock_key'
 # Static page serving
 gem 'high_voltage'
 # OAuth login for Camdram

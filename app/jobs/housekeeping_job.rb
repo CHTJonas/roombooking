@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class HousekeepingJob < ApplicationJob
+  concurrency 1, drop: true
+
   def perform(*args)
     User.find_each(batch_size: 10) do |user|
       user.camdram_token.dead.destroy_all

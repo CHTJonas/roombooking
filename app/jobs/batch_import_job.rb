@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BatchImportJob < ApplicationJob
+  concurrency 1, drop: true
+
   def perform(user_id)
     shows = ShowEnumerationService.perform
     shows.each do |camdram_show|

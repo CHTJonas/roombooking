@@ -47,17 +47,6 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Use Redis for caching in production.
-  config.action_controller.perform_caching = true
-  config.cache_store = :redis_cache_store, {
-    url: Rails.application.credentials.dig(:redis, :cache_url),
-    error_handler: -> (method:, returning:, exception:) {
-      # Report errors to Sentry as warnings
-      Raven.capture_exception exception, level: 'warning',
-        tags: { method: method, returning: returning }
-    }
-  }
-
   # Use a real queuing backend for Active Job (and separate queues per environment)
   config.active_job.queue_adapter     = :sidekiq
   config.active_job.queue_name_prefix = "roombooking_#{Rails.env}"

@@ -30,7 +30,7 @@ module Roombooking
             faraday.request  :url_encoded
             faraday.response :caching do
               Roombooking::CamdramAPI::ResponseCacheStore
-            end if cache_responses
+            end if cache_responses && Rails.application.config.action_controller.perform_caching
             faraday.response :logger, Yell['camdram'] do |logger|
               logger.filter(/Bearer[^"]*/m, '[FILTERED]')
             end

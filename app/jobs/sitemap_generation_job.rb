@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class SitemapGenerationJob < ApplicationJob
+  throttle threshold: 5, period: 1.day, drop: true
+  concurrency 1, drop: true
+
   def perform
     SitemapGenerator::Interpreter.run
     # We're deploying to roombooking-dev.adctheatre.com so don't actually
