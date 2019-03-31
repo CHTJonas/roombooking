@@ -23,12 +23,11 @@
 
 class Booking < ApplicationRecord
   has_paper_trail
+  paginates_per 9
   include PgSearch
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
-
-  paginates_per 9
 
   enum repeat_mode: [ :none, :daily, :weekly ], _prefix: :repeat_mode
   enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ], _prefix: :purpose
@@ -68,6 +67,48 @@ class Booking < ApplicationRecord
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
 
+  # Scope approved bookings only.
+  scope :approved, -> { where approved: true }
+
+  # Scope all bookings that occur between the two given dates. Note that
+  # end_date should be midnight of the day after the last day you'd like
+  # to include in the query.
+  scope :in_range, ->(start_date, end_date) {
+    ordinary_in_range(start_date, end_date) +
+      daily_repeat_in_range(start_date, end_date) +
+      weekly_repeat_in_range(start_date, end_date)
+  }
+
+  # Scope non-repeating bookings that occur between the two given dates.
+  # Note that end_date should be midnight of the day after the last day
+  # you'd like to include in the query.
+  scope :ordinary_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :none).where(start_time: start_date..end_date)
+  }
+
+  # Scope bookings that repeat daily and which occur between the two given
+  # dates. Note that end_date should be midnight of the day after the last
+  # day you'd like to include in the query.
+  scope :daily_repeat_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :daily)
+    .where(start_time: Time.at(0)..end_date)
+    .where(repeat_until: start_date..DateTime::Infinity.new)
+  }
+
+  # Scope bookings that repeat weekly and which occur between the two given
+  # dates. Note that end_date should be midnight of the day after the last
+  # day you'd like to include in the query.
+  scope :weekly_repeat_in_range, ->(start_date, end_date) {
+    where(repeat_mode: :weekly)
+    .where(start_time: Time.at(0)..end_date)
+    .where(repeat_until: start_date..DateTime::Infinity.new)
+    .where(%{
+EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
+AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :start) +
+DATE_PART('day', timestamp :end - timestamp :start) },
+      { start: start_date, end: end_date })
+  }
+
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
   def cannot_be_in_the_past
@@ -83,7 +124,7 @@ class Booking < ApplicationRecord
     end
   end
 
-  # Bookings should fit to 30 minute time slots.
+  # Bookings should fit into 30 minute time slots.
   def must_fill_half_hour_slot
     if self.start_time.present? && self.start_time.min % 30 != 0
       errors.add(:start_time, 'must be a multiple of thirty minutes.')
@@ -97,35 +138,17 @@ class Booking < ApplicationRecord
   def must_not_overlap
     # Needs to have start and end time to validate overlap.
     return if (self.start_time.nil? || self.end_time.nil?)
-    query_opts = { start: self.start_time, end: self.end_time }
-    query_end_time = case self.repeat_mode
+    st = self.start_time
+    et = case self.repeat_mode
     when 'none' then self.end_time
     else self.repeat_until || return
     end
-
-    ordinary_bookings = Booking.where.not(id: self.id)
-      .where(repeat_mode: :none)
-      .where(room: self.room)
-      .where(%{(:start <= start_time AND start_time < :end) OR (:start < end_time AND end_time <= :end)}, query_opts)
+    overlapping_bookings = Booking.where.not(id: self.id)
+      .in_range(st, et)
       .select { |b| b.overlaps?(self) }
-
-    daily_repeat_bookings = Booking.where.not(id: self.id)
-      .daily_repeat_in_range(self.start_time, query_end_time)
-      .where(room: self.room)
-      .where(%{ (start_time::time, end_time::time)
-OVERLAPS (timestamp :start::time, timestamp :end::time) }, query_opts)
-      .select { |b| b.overlaps?(self) }
-
-    weekly_repeat_bookings = Booking.where.not(id: self.id)
-      .weekly_repeat_in_range(self.start_time, query_end_time)
-      .where(room: self.room)
-      .where(%{ (start_time::time, end_time::time)
-OVERLAPS (timestamp :start::time, timestamp :end::time)
-AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_opts)
-      .select { |b| b.overlaps?(self) }
-
-    unless ordinary_bookings.empty? && daily_repeat_bookings.empty? && weekly_repeat_bookings.empty?
-      errors.add(:base, 'The times given overlap with another booking.')
+    unless overlapping_bookings.empty?
+      url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
+      errors.add(:base, "The times given overlap with another booking [here](#{url}).")
     end
   end
 
@@ -141,8 +164,11 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
 
   # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
-    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym)
-      errors.add(:purpose, 'needs to be a valid selection.') if camdram_model.nil?
+    return if self.purpose.nil?
+    if Booking.purposes_with_none.find_index(self.purpose.to_sym)
+      self.camdram_model = nil
+    else
+      errors.add(:purpose, 'needs to be a valid selection.') if self.camdram_model.nil?
     end
   end
 
@@ -207,64 +233,27 @@ AND EXTRACT(dow FROM start_time) = EXTRACT(dow FROM timestamp :start) }, query_o
     @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
   end
 
+  # Returns a human-friendly string describing the booking's purpose.
   def purpose_string
     string = self.purpose.humanize
     string += %Q[ "#{camdram_object.name}"] unless camdram_object.nil?
     string
   end
 
-  # Returns the Camdram object the booking references.
+  # Returns the Camdram object that the booking references.
   def camdram_object
-    # We try and call the method because not all bookings have associated Camdram models
+    # We try and call the method because not all bookings have
+    # Camdram models associated with them. This returns either
+    # the Camdram object or nil.
     self.camdram_model.try(:camdram_object)
   end
 
-  # Scope approved bookings only.
-  scope :approved, -> { where approved: true }
-
-  # Scope all bookings that occur between the two given dates. Note that
-  # end_date should be midnight of the day after the last day you'd like
-  # to include in the query.
-  scope :in_range, ->(start_date, end_date) {
-    ordinary_in_range(start_date, end_date) +
-      daily_repeat_in_range(start_date, end_date) +
-      weekly_repeat_in_range(start_date, end_date)
-  }
-
-  # Scope non-repeating bookings that occur between the two given dates.
-  # Note that end_date should be midnight of the day after the last day
-  # you'd like to include in the query.
-  scope :ordinary_in_range, ->(start_date, end_date) {
-    where(repeat_mode: :none).where(start_time: start_date..end_date)
-  }
-
-  # Scope bookings that repeat daily and which occur between the two given
-  # dates. Note that end_date should be midnight of the day after the last
-  # day you'd like to include in the query.
-  scope :daily_repeat_in_range, ->(start_date, end_date) {
-    where(repeat_mode: :daily)
-    .where(start_time: Time.at(0)..end_date)
-    .where(repeat_until: start_date..DateTime::Infinity.new)
-  }
-
-  # Scope bookings that repeat weekly and which occur between the two given
-  # dates. Note that end_date should be midnight of the day after the last
-  # day you'd like to include in the query.
-  scope :weekly_repeat_in_range, ->(start_date, end_date) {
-    where(repeat_mode: :weekly)
-    .where(start_time: Time.at(0)..end_date)
-    .where(repeat_until: start_date..DateTime::Infinity.new)
-    .where(%{
-EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
-AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :start) +
-DATE_PART('day', timestamp :end - timestamp :start) },
-      { start: start_date, end: end_date })
-  }
-
+  # Converts the booking to an event.
   def to_event(offset = 0)
     Event.create_from_booking(self, offset)
   end
 
+  # Iterates over each day that the booking occupies.
   def repeat_iterator
     if self.repeat_mode == 'none'
       yield(self.start_time, self.end_time)
@@ -289,6 +278,8 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     end
   end
 
+  # True if the booking overlaps at all with the other booking that's
+  # passed as a parameter, false otherwise.
   def overlaps?(booking)
     return false if self.room != booking.room
     self.repeat_iterator do |st1, et1|
