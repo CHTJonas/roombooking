@@ -1,11 +1,11 @@
 <% if flash[:alert] %>
   <% alert = flash[:alert] %>
   <% if alert.is_a?(Hash) %>
-    <% message = alert['message'] %>
-    <% classes = "alert alert-dismissible alert-#{alert['class']}" %>
-    <div class="<%= classes %>">
+    <%= content_tag :div, class: "alert alert-dismissible alert-#{alert['class']}" do %>
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= content_tag :div, message, :id => "flash_#{alert['class']}" %>
-    </div>
+      <%= content_tag :div, id: "flash_#{alert['class']}" do %>
+        <%= Roombooking::Markdown.render_without_wrap(alert['message']) %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
