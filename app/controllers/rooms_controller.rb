@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class RoomsController < ApplicationController
-  helper_method :events_for
-
   def index
-    @rooms = Room
-      .then { |_| request.format == :ics ? _.eager_load(approved_bookings: [:room, :user])
-        .preload(approved_bookings: :camdram_model) : _ }
-      .accessible_by(current_ability, :read).order(:id)
+    if request.format == :html
+      @rooms = Room.accessible_by(current_ability, :read).order(:id)
+    elsif request.format == :ics
+      @rooms = Room.eager_load(approved_bookings: [:room, :user])
+        .preload(approved_bookings: :camdram_model)
+        .accessible_by(current_ability, :read).order(:id)
+    end
     respond_to do |format|
       format.html
       format.ics
@@ -53,15 +54,17 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.then { |_| request.format == :ics ? _.eager_load(approved_bookings: [:room, :user])
-      .preload(approved_bookings: :camdram_model) : _ }
-      .find(params[:id])
-    authorize! :read, @room
-    unless request.format == :ics
+    if request.format == :html
+      @room = Room.find(params[:id])
       @start_date = (params[:start_date] ? Date.parse(params[:start_date]) : Date.today).beginning_of_week
       @end_date = @start_date + 7.days
       @events = @room.events_in_range(@start_date, @end_date)
+    elsif request.format == :ics
+      @room = Room.eager_load(approved_bookings: [:room, :user])
+        .preload(approved_bookings: :camdram_model)
+        .find(params[:id])
     end
+    authorize! :read, @room
     respond_to do |format|
       format.html
       format.ics
