@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,14 +12,14 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
   </head>
-  <body>
+  <body class="d-flex flex-column h-100">
     <header>
       <%= render 'peek/bar' %>
       <%= render 'layouts/navbar' %>
     </header>
     <%= render 'cookies_eu/consent_banner', link: '/cookies' %>
     <%= render 'layouts/modal' %>
-    <main role="main" class="container mt-3">
+    <main role="main" class="container flex-shrink-0 mt-3 mb-4">
       <div class="d-flex flex-column flex-md-row">
         <div class="mr-auto">
           <% if content_for?(:heading) %>
@@ -40,5 +40,8 @@
       <%= render 'layouts/alert' %>
       <%= yield %>
     </main>
+    <footer class="mt-auto py-3  border-top bg-light">
+      <%= render 'layouts/footer' %>
+    </footer>
   </body>
 </html>

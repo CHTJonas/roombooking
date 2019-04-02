@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <img src="/logo-long-black.svg" alt="ADC Theatre" width="160">
+      <small class="d-block mt-1 mb-3 text-muted">ADC Theatre &copy; All rights reserved 2018&ndash;<%= Date.today.year %></small>
+    </div>
+    <div class="col-6 col-md-3">
+      <h5>Site Map</h5>
+      <ul class="list-unstyled text-small">
+        <li><%= link_to 'Home', root_path, class: 'text-muted' %></li>
+        <li><%= link_to 'Bookings', bookings_path, class: 'text-muted' %></li>
+        <li><%= link_to 'Rooms', rooms_path, class: 'text-muted' %></li>
+        <li>
+          <% if user_logged_in? %>
+            <%= link_to 'Log Out', logout_path, class: 'text-muted' %>
+          <% else %>
+            <%= link_to 'Log In', login_path, class: 'text-muted' %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+    <div class="col-6 col-md-3">
+      <h5>About</h5>
+      <ul class="list-unstyled text-small">
+        <li><%= link_to 'About', page_path('about'), class: 'text-muted' %></li>
+        <li><%= link_to 'FAQ', page_path('faq'), class: 'text-muted' %></li>
+        <li><%= link_to 'Privacy', page_path('privacy'), class: 'text-muted' %></li>
+        <li><%= link_to 'Contact', page_path('contact'), class: 'text-muted' %></li>
+      </ul>
+    </div>
+    <div class="col-6 col-md-2">
+      <h5>Quick Links</h5>
+      <%= link_to 'New Booking', new_booking_path, class: 'btn btn-outline-dark btn-sm mb-1' %>
+      <%= link_to 'Stage This Week', room_path(1), class: 'btn btn-outline-dark btn-sm mb-1' %>
+      <%= link_to 'Playroom This Week', room_path(6), class: 'btn btn-outline-dark btn-sm mb-1' %>
+    </div>
+  </div>
+</div>
