@@ -1,16 +1,21 @@
 # frozen_string_literal: true
 
-# Objects of this class are instantiated dynamically from a collection of
-# bookings and are not stored in the database.
 class Event
   attr_accessor :start_time, :end_time, :booking
 
-  def self.create_from_booking(booking, offset = 0)
-    evt = Event.new
-    evt.start_time = booking.start_time + offset.days
-    evt.end_time = booking.end_time + offset.days
-    evt.booking = booking
-    return evt
+  # Converts each booking to an event and returns an array of such events.
+  def self.from_bookings(bookings)
+    events = LinkedList::List.new
+    bookings.each do |booking|
+      booking.repeat_iterator do |st, et|
+        evt = Event.new
+        evt.start_time = st
+        evt.end_time = et
+        evt.booking = booking
+        events.push(evt)
+      end
+    end
+    events.to_a
   end
 
   # Returns the duration of the event.

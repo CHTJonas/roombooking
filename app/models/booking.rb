@@ -248,11 +248,6 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     self.camdram_model.try(:camdram_object)
   end
 
-  # Converts the booking to an event.
-  def to_event(offset = 0)
-    Event.create_from_booking(self, offset)
-  end
-
   # Iterates over each day that the booking occupies.
   def repeat_iterator
     if self.repeat_mode == 'none'

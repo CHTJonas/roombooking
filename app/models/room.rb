@@ -53,22 +53,6 @@ class Room < ApplicationRecord
   end
 
   def events_in_range(start_date, end_date)
-    events = LinkedList::List.new
-    bookings = approved_bookings.in_range(start_date, end_date)
-    bookings.each do |booking|
-      if booking.repeat_mode == 'none'
-        events.push booking.to_event
-      elsif booking.repeat_mode == 'daily'
-        (booking.start_time.to_date..booking.repeat_until.to_date).each do |date|
-          break if date > end_date
-          offset = date - booking.start_time.to_date
-          events.push booking.to_event(offset)
-        end
-      elsif booking.repeat_mode == 'weekly'
-        offset = start_date - booking.start_time.to_date.beginning_of_week
-        events.push booking.to_event(offset)
-      end
-    end
-    events.to_a
+    Event.from_bookings approved_bookings.in_range(start_date, end_date)
   end
 end
