@@ -51,5 +51,5 @@ Booking System from scratch? (type uppercase YES): }).yellow
   end
 
   Rake::Task['roombooking:install'].enhance ['roombooking:protect', 'db:drop', 'db:create', 'db:schema:load', 'db:seed', 'assets:clobber', 'assets:precompile', 'search:setup']
-  Rake::Task['roombooking:upgrade'].enhance ['db:migrate', 'assets:clobber', 'assets:precompile']
+  Rake::Task['roombooking:upgrade'].enhance ['db:migrate', 'assets:precompile']
 end
