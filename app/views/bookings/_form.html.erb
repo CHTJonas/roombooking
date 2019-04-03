@@ -46,6 +46,10 @@
       <%= form.text_field :repeat_until, class: 'form-control flatdatepickr form-control-enabled',
         value: british_date(@booking.repeat_until) %>
     </div>
+    <div class="col-sm-auto">
+      <%= form.label :excluded_dates %>
+      <%= form.text_field :excluded_repeat_dates, class: 'form-control flatdaterangepickr form-control-enabled' %>
+    </div>
   </div>
   <div class="form-group row">
     <%= form.label :purpose, class: 'col-sm-2 col-form-label' %>

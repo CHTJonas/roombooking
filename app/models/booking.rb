@@ -1,24 +1,24 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: bookings
 #
-#  id                 :bigint(8)        not null, primary key
-#  name               :string           not null
-#  notes              :text
-#  start_time         :datetime         not null
-#  end_time           :datetime         not null
-#  repeat_until       :date
-#  repeat_mode        :integer          default("none"), not null
-#  purpose            :integer          not null
-#  approved           :boolean          default(FALSE), not null
-#  room_id            :bigint(8)        not null
-#  user_id            :bigint(8)        not null
-#  camdram_model_type :string
-#  camdram_model_id   :bigint(8)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                    :bigint(8)        not null, primary key
+#  name                  :string           not null
+#  notes                 :text
+#  start_time            :datetime         not null
+#  end_time              :datetime         not null
+#  repeat_until          :date
+#  repeat_mode           :integer          default("none"), not null
+#  purpose               :integer          not null
+#  approved              :boolean          default(FALSE), not null
+#  room_id               :bigint(8)        not null
+#  user_id               :bigint(8)        not null
+#  camdram_model_type    :string
+#  camdram_model_id      :bigint(8)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  excluded_repeat_dates :string
 #
 
 class Booking < ApplicationRecord
@@ -233,6 +233,11 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
   end
 
+  def excluded_dates_array
+    return [] unless self.excluded_repeat_dates.present?
+    self.excluded_repeat_dates.split(',').map(&:to_date)
+  end
+
   # Returns a human-friendly string describing the booking's purpose.
   def purpose_string
     string = self.purpose.humanize
@@ -250,6 +255,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
 
   # Iterates over each day that the booking occupies.
   def repeat_iterator
+    excludes = excluded_dates_array
     if self.repeat_mode == 'none'
       yield(self.start_time, self.end_time)
     elsif self.repeat_mode == 'daily'
@@ -257,7 +263,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       st = self.start_time
       et = self.end_time
       begin
-        yield(st, et)
+        yield(st, et) unless excludes.include?(st.to_date)
         st += 1.day
         et += 1.day
       end until st > end_point
@@ -266,7 +272,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       st = self.start_time
       et = self.end_time
       begin
-        yield(st, et)
+        yield(st, et) unless excludes.include?(st.to_date)
         st += 1.week
         et += 1.week
       end until st > end_point

@@ -15,9 +15,9 @@ module Bookings
 
     def booking_params
       if @user.admin?
-        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :approved)
+        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :excluded_repeat_dates, :approved)
       else
-        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until)
+        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :excluded_repeat_dates)
       end
     end
 

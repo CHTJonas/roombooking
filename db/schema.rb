@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 2019_04_03_213216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.bigint "camdram_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "excluded_repeat_dates"
     t.index ["approved"], name: "index_bookings_on_approved", where: "(approved = false)"
     t.index ["camdram_model_type", "camdram_model_id"], name: "index_bookings_on_camdram_model_type_and_camdram_model_id"
     t.index ["created_at"], name: "index_bookings_on_created_at", order: :desc
