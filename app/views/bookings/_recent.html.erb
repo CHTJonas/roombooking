@@ -1,0 +1,10 @@
+<% if @bookings.count > 0 %>
+  <div id="recent-bookings" class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">All Recent Bookings</h6>
+    <% @bookings.each do |booking| %>
+      <%= render 'booking_strip', booking: booking %>
+    <% end %>
+  </div>
+<% else %>
+  <p>No bookings have been made yet!</p>
+<% end %>

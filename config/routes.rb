@@ -30,7 +30,9 @@ Rails.application.routes.draw do
   end
 
   # RESTful Entities
-  resources :bookings
+  resources :bookings do
+    post 'favourites', on: :collection
+  end
   resources :camdram_shows, only: [:show, :edit, :update]
   resources :camdram_societies, only: [:show, :edit, :update]
   resources :rooms
