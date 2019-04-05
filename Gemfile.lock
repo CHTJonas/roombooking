@@ -120,9 +120,9 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.4)
-    concurrent-ruby-ext (1.1.4)
-      concurrent-ruby (= 1.1.4)
+    concurrent-ruby (1.1.5)
+    concurrent-ruby-ext (1.1.5)
+      concurrent-ruby (= 1.1.5)
     connection_pool (2.2.2)
     cookies_eu (1.7.5)
       js_cookie_rails (~> 2.2.0)
