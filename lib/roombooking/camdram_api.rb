@@ -18,7 +18,7 @@ module Roombooking
       def with(&block)
         client_pool.with do |client|
           block.call(client)
-        rescue Exception => e
+        rescue => e
           raise CamdramError.new, e
         end
       end
