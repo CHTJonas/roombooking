@@ -356,7 +356,7 @@ GEM
     ruby_multiton (0.1.1)
       extensible (~> 0.1)
     rubyzip (1.2.2)
-    sass (3.7.3)
+    sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
