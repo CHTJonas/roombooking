@@ -13,7 +13,7 @@ gem 'redis', '~> 4.0'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.1'
-gem 'paper_trail-association_tracking', '~> 1.0'
+gem 'paper_trail-association_tracking', '~> 2.0'
 # Administrator interface
 gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
