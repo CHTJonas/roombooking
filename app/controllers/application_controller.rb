@@ -158,7 +158,10 @@ Errors are tracked automatically but do get in touch if you continue having prob
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
       end
-      unless current_camdram_token.present? || user_is_imposter?
+      if user_is_imposter?
+        return
+      end
+      unless current_camdram_token.present?
         # The user is logged in and not an imposter, but we can't find a
         # Camdram API token for them. Maybe it was purged from the database?
         log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current Camdram token was found"
