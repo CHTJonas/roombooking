@@ -95,8 +95,14 @@ Rails.application.configure do
     }
   end
   config.lograge.custom_options = lambda do |event|
+    correlation = Datadog.tracer.active_correlation
     exceptions = %w(controller action format id)
     {
+      :dd => {
+        :trace_id => correlation.trace_id,
+        :span_id => correlation.span_id
+      },
+      :ddsource => ["ruby"],
       params: event.payload[:params].except(*exceptions)
     }
   end
