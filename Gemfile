@@ -12,7 +12,7 @@ gem 'linked-list', '~> 0.0.13'
 gem 'redis', '~> 4.0'
 
 # Audit model changes
-gem 'paper_trail', '~> 10.1'
+gem 'paper_trail', '~> 10.2'
 gem 'paper_trail-association_tracking', '~> 2.0'
 # Administrator interface
 gem 'rails_admin', '~> 1.3'
