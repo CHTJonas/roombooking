@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.6.1'
 
 gem 'rails', '~> 5.2.2'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'rack-timeout', '~> 0.5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -12,8 +12,8 @@ gem 'linked-list', '~> 0.0.13'
 gem 'redis', '~> 4.0'
 
 # Audit model changes
-gem 'paper_trail', '~> 10.1'
-gem 'paper_trail-association_tracking', '~> 1.0'
+gem 'paper_trail', '~> 10.2'
+gem 'paper_trail-association_tracking', '~> 2.0'
 # Administrator interface
 gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
@@ -95,7 +95,7 @@ gem 'peek-rblineprof', '~> 0.2.0'
 gem 'health_check', '~> 3.0'
 
 # Metrics & Logging
-gem 'ddtrace', '~> 0.18.3'
+gem 'ddtrace', '~> 0.21.1'
 gem 'yell', '~> 2.0'
 gem 'lograge', '~> 0.10.0'
 
@@ -105,7 +105,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Performance improvements using native extensions
 gem 'escape_utils', '~> 1.2', '>= 1.2.1'
 gem 'fast_blank', '~> 1.0'
-gem 'oj', '~> 3.7', '>= 3.7.7'
+gem 'oj', '~> 3.7'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -131,9 +131,8 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  gem 'selenium-webdriver', '~> 3.141'
+  gem 'webdrivers', '~> 3.7'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -25,12 +25,22 @@ class ApplicationController < ActionController::Base
   def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found, formats: :html
+    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found, formats: :html and return
+  end
+
+  def render_504
+    render file: Rails.root.join('public', '504.html'), layout: false and return
   end
 
   # Render a nice page when the user browses to a URL that doesn't route.
   def route_not_found
     render_404
+  end
+
+  # Render a nice(ish) page when a request times out.
+  rescue_from Rack::Timeout::RequestTimeoutException do |exception|
+    Raven.capture_exception(exception)
+    render_504
   end
 
   # Render a nice page when the user attempts to view a record that doesn't exist.
@@ -41,6 +51,15 @@ class ApplicationController < ActionController::Base
   # Render a nice page when the user requests a format that isn't recognised.
   rescue_from ActionController::UnknownFormat do
     render_404
+  end
+
+  # Recue exceptions raised due to cross-site request forgery.
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    log_abuse "Possible CSRF attack detected at #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'}"
+    invalidate_session
+    alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
+    flash.now[:alert] = alert
+    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden, formats: :html
   end
 
   # Rescue exceptions raised by user access violations from CanCan.
@@ -56,15 +75,6 @@ class ApplicationController < ActionController::Base
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
     end
-  end
-
-  # Recue exceptions raised due to cross-site request forgery.
-  rescue_from ActionController::InvalidAuthenticityToken do |exception|
-    log_abuse "Possible CSRF attack detected at #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'}"
-    invalidate_session
-    alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
-    flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden, formats: :html
   end
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
@@ -148,7 +158,10 @@ Errors are tracked automatically but do get in touch if you continue having prob
         flash.now[:alert] = alert
         render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
       end
-      unless current_camdram_token.present? || user_is_imposter?
+      if user_is_imposter?
+        return
+      end
+      unless current_camdram_token.present?
         # The user is logged in and not an imposter, but we can't find a
         # Camdram API token for them. Maybe it was purged from the database?
         log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current Camdram token was found"
