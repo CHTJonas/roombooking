@@ -254,7 +254,7 @@ GEM
     paper_trail (10.2.0)
       activerecord (>= 4.2, < 6.1)
       request_store (~> 1.1)
-    paper_trail-association_tracking (1.1.1)
+    paper_trail-association_tracking (2.0.0)
     patron (0.13.1)
     peek (1.0.1)
       concurrent-ruby (>= 0.9.0)
@@ -482,7 +482,7 @@ DEPENDENCIES
   omniauth
   omniauth-camdram
   paper_trail (~> 10.1)
-  paper_trail-association_tracking (~> 1.0)
+  paper_trail-association_tracking (~> 2.0)
   patron (~> 0.13.1)
   peek (~> 1.0, >= 1.0.1)
   peek-gc (~> 0.0.2)
