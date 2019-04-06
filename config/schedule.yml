@@ -1,14 +1,19 @@
-Approval reminder generator:
+Approval reminder email job:
   cron: '0 10 * * *'
   class: 'ApprovalReminderJob'
   queue: 'jobs'
 
-Sitemap generator:
+Sitemap generation job:
   cron: '0 4 * * *'
   class: 'SitemapGenerationJob'
   queue: 'jobs'
 
-Camdram API access token housekeeping:
+Camdram API access token refresh job:
   cron: '*/5 * * * *'
-  class: 'HousekeepingJob'
+  class: 'CamdramTokenRefreshJob'
+  queue: 'jobs'
+
+Camdram API cache refresh job:
+  cron: '*/15 * * * *'
+  class: 'CamdramEntityRefreshJob'
   queue: 'jobs'
