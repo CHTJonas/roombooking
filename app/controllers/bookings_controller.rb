@@ -97,6 +97,7 @@ class BookingsController < ApplicationController
     @bookings = Booking.where(id: ids)
       .eager_load(:user, :room)
       .accessible_by(current_ability, :read)
+      .sort_by { |booking| ids.index(booking.id.to_s) }
     render 'favourites', layout: false
   end
 
