@@ -92,6 +92,15 @@ class BookingsController < ApplicationController
     end
   end
 
+  def favourites
+    ids = JSON.parse(params[:ids]).to_a.first(9)
+    @bookings = Booking.where(id: ids)
+      .eager_load(:user, :room)
+      .accessible_by(current_ability, :read)
+      .sort_by { |booking| ids.index(booking.id.to_s) }
+    render 'favourites', layout: false
+  end
+
   private
 
   def populate_camdram_entities
