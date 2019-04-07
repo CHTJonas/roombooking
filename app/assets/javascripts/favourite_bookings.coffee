@@ -21,7 +21,7 @@ idToObj = (model_id, number_of_visits=1) ->
 
 getFavourites = (ids) ->
   $.post("bookings/favourites",
-    { ids: ids },
+    { ids: ids.slice(0, 9) },
     (data) ->
       # $(data).appendTo("#bookings-favourite")
       $('#favourite-bookings-container').replaceWith(data)
