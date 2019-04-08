@@ -79,7 +79,7 @@ gem 'sitemap_generator', '~> 6.0', '>= 6.0.2'
 
 # Database persistence
 gem 'pg'
-gem 'pg_search', '~> 2.1', '>= 2.1.3'
+gem 'pg_search', '~> 2.1'
 
 # Performance profiling bar
 gem 'peek', '~> 1.0', '>= 1.0.1'
