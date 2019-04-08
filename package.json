@@ -2,6 +2,7 @@
   "name": "roombooking",
   "private": true,
   "dependencies": {
-    "@github/hotkey": "^1.2.0"
+    "@github/hotkey": "^1.2.0",
+    "@sentry/browser": "5.0.6"
   }
 }
