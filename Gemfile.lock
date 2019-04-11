@@ -129,7 +129,7 @@ GEM
     crass (1.0.4)
     dalli (2.7.10)
     datey (1.1.0)
-    ddtrace (0.21.1)
+    ddtrace (0.21.2)
       msgpack
       opentracing (>= 0.4.1)
     debug_inspector (0.0.3)
@@ -458,7 +458,7 @@ DEPENDENCIES
   connection_pool (~> 2.2, >= 2.2.2)
   cookies_eu
   datey
-  ddtrace (~> 0.21.1)
+  ddtrace (~> 0.21.2)
   escape_utils (~> 1.2, >= 1.2.1)
   faraday_middleware (~> 0.13.0)
   fast_blank (~> 1.0)
