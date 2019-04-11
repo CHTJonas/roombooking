@@ -4,20 +4,25 @@
 #
 # Table name: camdram_tokens
 #
-#  id            :bigint(8)        not null, primary key
-#  access_token  :string           not null
-#  refresh_token :string           not null
-#  expires_at    :datetime         not null
-#  user_id       :bigint(8)        not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id                         :bigint(8)        not null, primary key
+#  expires_at                 :datetime         not null
+#  user_id                    :bigint(8)        not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  encrypted_access_token     :binary           not null
+#  encrypted_access_token_iv  :binary           not null
+#  encrypted_refresh_token    :binary           not null
+#  encrypted_refresh_token_iv :binary           not null
 #
 
 class CamdramToken < ApplicationRecord
   belongs_to :user
 
-  validates :access_token, presence: true, uniqueness: true
-  validates :refresh_token, presence: true, uniqueness: true
+  attr_encrypted_options.merge!(encode: false, encode_iv: false,
+    encode_salt: false, key: Roombooking::Crypto.secret_key)
+  attr_encrypted :access_token
+  attr_encrypted :refresh_token
+
   validates :expires_at, presence: true
 
   # These are tokens that have expired so long ago that they can't be renewed.

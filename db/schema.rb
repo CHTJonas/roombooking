@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_03_213216) do
+ActiveRecord::Schema.define(version: 2019_04_11_185229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -75,15 +75,17 @@ ActiveRecord::Schema.define(version: 2019_04_03_213216) do
   end
 
   create_table "camdram_tokens", force: :cascade do |t|
-    t.string "access_token", null: false
-    t.string "refresh_token", null: false
     t.datetime "expires_at", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["access_token"], name: "index_camdram_tokens_on_access_token", unique: true
+    t.binary "encrypted_access_token", null: false
+    t.binary "encrypted_access_token_iv", null: false
+    t.binary "encrypted_refresh_token", null: false
+    t.binary "encrypted_refresh_token_iv", null: false
     t.index ["created_at"], name: "index_camdram_tokens_on_created_at", order: :desc
-    t.index ["refresh_token"], name: "index_camdram_tokens_on_refresh_token", unique: true
+    t.index ["encrypted_access_token_iv"], name: "index_camdram_tokens_on_encrypted_access_token_iv", unique: true
+    t.index ["encrypted_refresh_token_iv"], name: "index_camdram_tokens_on_encrypted_refresh_token_iv", unique: true
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
   end
 
