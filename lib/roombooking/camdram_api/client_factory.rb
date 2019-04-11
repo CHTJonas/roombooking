@@ -36,9 +36,8 @@ module Roombooking
             end
             # Patron is a native extension wrapper around libcurl and is
             # fater that Ruby's built in Net::HTTP, but it doesn't work
-            # well on macOS. For that reason we only use the Patron adapter
-            # if there is the appropriate environmental variable.
-            if ENV['PATRON']
+            # well on macOS.
+            unless OS.mac?
               faraday.adapter :patron do |session|
                 session.connect_timeout   = socket_timeout
                 session.timeout           = http_timeout

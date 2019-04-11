@@ -9,6 +9,10 @@ class CamdramEntitiesService < ApplicationService
   end
 
   def perform
+    if @user.nil?
+      @shows = @societies = []
+      return
+    end
     if @impersonator.present?
       # User is also an administrator so we don't need to care about their
       # peronal Camdram token as this will use the application token.
