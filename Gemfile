@@ -62,7 +62,7 @@ gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
 gem 'patron', '~> 0.13.1'
 gem 'faraday_middleware', '~> 0.13.0'
 # Authorisation library
-gem 'cancancan', '~> 2.0'
+gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
 gem 'sentry-raven'
 # Markdown for emails
