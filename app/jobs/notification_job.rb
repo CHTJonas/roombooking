@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-class NotificationJob < ApplicationJob
-  throttle threshold: 150, period: 30.minutes
+class NotificationJob
+  include Sidekiq::Worker
+  sidekiq_options queue: 'roombooking_jobs'
+
+  # throttle threshold: 150, period: 30.minutes
 
   def perform(booking_id)
     @booking = Booking.find(booking_id)
@@ -24,7 +27,7 @@ class NotificationJob < ApplicationJob
 
   def notify_admins
     User.where(admin: true).each do |admin|
-      ApprovalsMailer.notify(admin, @booking).deliver_later
+      MailDeliveryJob.perform_async(ApprovalsMailer, :notify, admin.id, @booking.id)
     end
   end
 

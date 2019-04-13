@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-class ApprovalReminderJob < ApplicationJob
-  concurrency 1, drop: false
+class ApprovalReminderJob
+  include Sidekiq::Worker
+  sidekiq_options queue: 'roombooking_jobs'
 
-  def perform(*args)
+  # concurrency 1, drop: false
+
+  def perform
     Booking.where(approved: false).find_each(batch_size: 5) do |booking|
       User.where(admin: true).each do |admin|
-        ApprovalsMailer.remind(admin, booking).deliver_later
+        MailDeliveryJob.perform_async(ApprovalsMailer, :remind, admin.id, booking.id)
       end
     end
   end

@@ -9,7 +9,7 @@ Raven.configure do |config|
   config.processors -= [Raven::Processor::Cookies] # Do this to send cookies
   config.release = Roombooking::VERSION
   config.silence_ready = true
-  config.async = lambda { |event|
-    SentryJob.perform_later(event)
-  }
+  config.async = lambda do |event|
+    SentryJob.perform_async(event)
+  end
 end

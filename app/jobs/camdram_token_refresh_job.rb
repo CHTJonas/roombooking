@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-class CamdramTokenRefreshJob < ApplicationJob
-  concurrency 1, drop: true
+class CamdramTokenRefreshJob
+  include Sidekiq::Worker
+  sidekiq_options queue: 'roombooking_jobs'
 
-  def perform(*args)
+  # concurrency 1, drop: true
+
+  def perform
     User.find_each(batch_size: 10) do |user|
       # Remove all OAuth2 access tokens that can't be refreshed.
       user.camdram_token.dead.destroy_all

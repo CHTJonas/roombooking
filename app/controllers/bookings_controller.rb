@@ -32,7 +32,7 @@ class BookingsController < ApplicationController
     end
     authorize! :create, @booking
     if @booking.save
-      NotificationJob.perform_later(@booking.id)
+      NotificationJob.perform_async(@booking.id)
       msg = "Added #{@booking.name}!"
       msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless @booking.approved?
       alert = { 'class' => 'success', 'message' =>  msg}
@@ -85,7 +85,7 @@ class BookingsController < ApplicationController
     authorize! :approve, @booking
     @booking.approved = true
     if @booking.save
-      ApprovalsMailer.approve(@booking.user, @booking).deliver_later
+      MailDeliveryJob.perform_async(ApprovalsMailer, :approve, @booking.user.id, @booking.id)
       alert = { 'class' => 'success', 'message' => "Approved #{@booking.name}!" }
       flash[:alert] = alert
       redirect_to @booking

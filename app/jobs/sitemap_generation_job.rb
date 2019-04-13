@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-class SitemapGenerationJob < ApplicationJob
-  throttle threshold: 5, period: 1.day, drop: true
-  concurrency 1, drop: true
+class SitemapGenerationJob
+  include Sidekiq::Worker
+  sidekiq_options queue: 'roombooking_jobs'
+
+  # throttle threshold: 5, period: 1.day, drop: true
+  # concurrency 1, drop: true
 
   def perform
     SitemapGenerator::Interpreter.run

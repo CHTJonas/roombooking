@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-class BatchImportJob < ApplicationJob
-  concurrency 1, drop: true
+class BatchImportJob
+  include Sidekiq::Worker
+  sidekiq_options queue: 'roombooking_jobs'
+
+  # concurrency 1, drop: true
 
   def perform(user_id)
     shows = ShowEnumerationService.perform
