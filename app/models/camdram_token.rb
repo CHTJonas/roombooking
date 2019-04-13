@@ -59,8 +59,8 @@ class CamdramToken < ApplicationRecord
       token_hash = { access_token: self.access_token.to_s,
         refresh_token: self.refresh_token.to_s,
         expires_at: self.expires_at.to_i }
-      app_id = Rails.application.credentials.dig(:camdram, :app_id)
-      app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
+      app_id = ENV['CAMDRAM_APP_ID']
+      app_secret = ENV['CAMDRAM_APP_SECRET']
       config.auth_code(token_hash, app_id, app_secret)
       config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
       config.base_url = "https://www.camdram.net"

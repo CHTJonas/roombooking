@@ -8,7 +8,7 @@ module Roombooking
       # from Rails' secret key base. This is suitable for use with the
       # aes-256-gcm encryption algorithm of the attr_encrypted gem.
       def secret_key
-        key = Rails.application.credentials.dig(:secret_key_base)
+        key = ENV['SECRET_KEY_BASE']
         arr = [key]
         bytes = arr.pack("H*")
         bytes[0..31]

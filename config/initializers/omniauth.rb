@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  id = Rails.application.credentials.dig(:camdram, :app_id)
-  secret = Rails.application.credentials.dig(:camdram, :app_secret)
-  provider :camdram, id, secret, scope: "user_shows user_orgs user_email"
+  id = ENV['CAMDRAM_APP_ID']
+  secret = ENV['CAMDRAM_APP_SECRET']
+  provider :camdram, id, secret, scope: 'user_shows user_orgs user_email'
 end
 
 OmniAuth.config.on_failure = Proc.new { |env|

@@ -13,11 +13,9 @@ module Roombooking
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
-    # Use Redis for caching.
+    # Use Redis for caching and report exceptions to Sentry as warnings.
     config.cache_store = :redis_cache_store, {
-      url: Rails.application.credentials.dig(:redis, :cache_url),
-      error_handler: -> (method:, returning:, exception:) {
-        # Report errors to Sentry as warnings
+      url: ENV['REDIS_CACHE'], error_handler: -> (method, returning, exception) {
         Raven.capture_exception exception, level: 'warning',
           tags: { method: method, returning: returning }
       }

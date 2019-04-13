@@ -6,8 +6,8 @@ module Roombooking
       class << self
         def new(token_hash = nil)
           Camdram::Client.new do |config|
-            app_id     = Rails.application.credentials.dig(:camdram, :app_id)
-            app_secret = Rails.application.credentials.dig(:camdram, :app_secret)
+            app_id     = ENV['CAMDRAM_APP_ID']
+            app_secret = ENV['CAMDRAM_APP_SECRET']
             if token_hash
               config.auth_code(token_hash, app_id, app_secret) do |faraday|
                 faraday_connection_builder.call(faraday)

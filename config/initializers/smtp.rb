@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-if Rails.application.credentials.dig(:smtp, :host)
+if ENV['SMTP_HOST'].nil?
+  ActionMailer::Base.delivery_method = :sendmail
+else
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :address                => Rails.application.credentials.dig(:smtp, :host),
-    :port                   => Rails.application.credentials.dig(:smtp, :port),
-    :user_name              => Rails.application.credentials.dig(:smtp, :username),
-    :password               => Rails.application.credentials.dig(:smtp, :password),
-    :authentication         => Rails.application.credentials.dig(:smtp, :auth),
-    :enable_starttls_auto   => Rails.application.credentials.dig(:smtp, :starttls) == '1'
+    :address                => ENV['SMTP_HOST'],
+    :port                   => ENV['SMTP_PORT'],
+    :user_name              => ENV['SMTP_USER'],
+    :password               => ENV['SMTP_PASS'],
+    :authentication         => ENV['SMTP_AUTH'],
+    :enable_starttls_auto   => ENV['SMTP_STARTTLS'] == '1'
   }
-else
-  ActionMailer::Base.delivery_method = :sendmail
 end

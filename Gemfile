@@ -80,6 +80,9 @@ gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Sitemaps
 gem 'sitemap_generator', '~> 6.0', '>= 6.0.2'
 
+# Application config
+gem 'dotenv-rails', '~> 2.7'
+
 # Database persistence
 gem 'pg'
 gem 'pg_search', '~> 2.1'

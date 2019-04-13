@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
-sidekiq_url = case ENV['REDIS_URL'].present?
-when true
-  sidekiq_url = ENV['REDIS_URL']
-else
-  sidekiq_url = Rails.application.credentials.dig(:redis, :persistent_url)
-end
+sidekiq_url = ENV['REDIS_STORE']
 
 Sidekiq.configure_server do |config|
   config.redis = { url: sidekiq_url }

@@ -24,7 +24,7 @@ window.rbAjaxFail = ->
 
 $ ->
   Sentry.init
-    dsn: '<%= Rails.application.credentials.dig(:sentry, :dsn) %>',
+    dsn: '<%= ENV['SENTRY_DSN'] %>',
     release: '<%= Roombooking::VERSION %>',
     environment: '<%= Rails.env %>'
   $("a").on "ajax:error", rbAjaxFail

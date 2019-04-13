@@ -22,7 +22,7 @@ Your machine needs to be running Postgres and Redis locally, and your user accou
 
 1. `git clone https://github.com/CHTJonas/roombooking.git && cd roombooking`
 2. `bundle install`
-3. `rm -f config/credentials.yml.enc && rails credentials:edit`
+3. `cp .env.local.example .env.local && nano .env.local`
 4. `rails roombooking:install`
 5. `rails server`
 
