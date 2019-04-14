@@ -17,3 +17,5 @@ end
 Sidekiq.configure_client do |config|
   config.redis = { url: sidekiq_url }
 end
+
+Sidekiq::Throttled.setup!

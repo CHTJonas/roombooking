@@ -2,6 +2,7 @@
 
 class SentryJob
   include Sidekiq::Worker
+
   sidekiq_options queue: 'roombooking_jobs'
 
   def perform(event)

@@ -2,9 +2,10 @@
 
 class BatchImportJob
   include Sidekiq::Worker
-  sidekiq_options queue: 'roombooking_jobs'
+  include Sidekiq::Throttled::Worker
 
-  # concurrency 1, drop: true
+  sidekiq_options queue: 'roombooking_jobs'
+  sidekiq_throttle concurrency: { limit: 1 }
 
   def perform(user_id)
     shows = ShowEnumerationService.perform

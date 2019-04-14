@@ -2,10 +2,11 @@
 
 class SitemapGenerationJob
   include Sidekiq::Worker
-  sidekiq_options queue: 'roombooking_jobs'
+  include Sidekiq::Throttled::Worker
 
-  # throttle threshold: 5, period: 1.day, drop: true
-  # concurrency 1, drop: true
+  sidekiq_options queue: 'roombooking_jobs'
+  sidekiq_throttle concurrency: { limit: 1 },
+    threshold: { limit: 5, period: 1.day }
 
   def perform
     SitemapGenerator::Interpreter.run

@@ -22,7 +22,7 @@ gem 'rails_admin_history_rollback', '~> 1.0', '>= 1.0.1'
 # Background job processing
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.1'
-
+gem 'sidekiq-throttled', '~> 0.9.0'
 # Static page serving
 gem 'high_voltage'
 # OAuth login for Camdram

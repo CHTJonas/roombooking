@@ -2,9 +2,10 @@
 
 class MailDeliveryJob
   include Sidekiq::Worker
-  sidekiq_options queue: 'roombooking_mail'
+  include Sidekiq::Throttled::Worker
 
-  # throttle threshold: 60, period: 1.hour
+  sidekiq_options queue: 'roombooking_mail'
+  sidekiq_throttle threshold: { limit: 60, period: 1.hour }
 
   def perform(mailer, method, *args)
     klass = mailer.constantize

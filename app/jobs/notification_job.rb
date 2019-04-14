@@ -2,9 +2,10 @@
 
 class NotificationJob
   include Sidekiq::Worker
-  sidekiq_options queue: 'roombooking_jobs'
+  include Sidekiq::Throttled::Worker
 
-  # throttle threshold: 150, period: 30.minutes
+  sidekiq_options queue: 'roombooking_jobs'
+  sidekiq_throttle threshold: { limit: 150, period: 30.minutes }
 
   def perform(booking_id)
     @booking = Booking.find(booking_id)

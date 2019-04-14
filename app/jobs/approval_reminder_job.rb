@@ -2,9 +2,10 @@
 
 class ApprovalReminderJob
   include Sidekiq::Worker
-  sidekiq_options queue: 'roombooking_jobs'
+  include Sidekiq::Throttled::Worker
 
-  # concurrency 1, drop: false
+  sidekiq_options queue: 'roombooking_jobs'
+  sidekiq_throttle concurrency: { limit: 1 }
 
   def perform
     Booking.where(approved: false).find_each(batch_size: 5) do |booking|

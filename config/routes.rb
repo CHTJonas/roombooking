@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   # Backend Admin Interfaces
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
+  require 'sidekiq/throttled/web'
+  Sidekiq::Throttled::Web.enhance_queues_tab!
   mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin
   mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin', constraints: must_be_admin
 
