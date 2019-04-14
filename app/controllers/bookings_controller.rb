@@ -32,7 +32,7 @@ class BookingsController < ApplicationController
     end
     authorize! :create, @booking
     if @booking.save
-      NotificationJob.perform_async(@booking.id)
+      NotificationJob.perform_async(@booking.id, @booking.camdram_model.to_global_id.to_s)
       msg = "Added #{@booking.name}!"
       msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless @booking.approved?
       alert = { 'class' => 'success', 'message' =>  msg}

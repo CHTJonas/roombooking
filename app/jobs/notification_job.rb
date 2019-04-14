@@ -5,14 +5,15 @@ class NotificationJob
   include Sidekiq::Throttled::Worker
 
   sidekiq_options queue: 'roombooking_jobs'
-  sidekiq_throttle threshold: { limit: 150, period: 30.minutes }
+  sidekiq_throttle threshold: { limit: 10, period: 1.hour,
+    key_suffix: -> (booking_id, camdram_model_global_id) { camdram_model_global_id } }
 
-  def perform(booking_id)
+  def perform(booking_id, camdram_model_global_id)
     @booking = Booking.find(booking_id)
-    @entity = @booking.camdram_model
+    @camdram_model = GlobalID::Locator.locate camdram_model_global_id
     notify_admins unless @booking.approved
-    if @entity.present?
-      notify_slack_webhook if @entity.slack_webhook.present?
+    if @camdram_model.present?
+      notify_slack_webhook if @camdram_model.slack_webhook.present?
     end
   end
 
@@ -33,7 +34,7 @@ class NotificationJob
   end
 
   def notify_slack_webhook
-    notifier = Slack::Notifier.new(@entity.slack_webhook, username: 'Room Booking Bot')
+    notifier = Slack::Notifier.new(@camdram_model.slack_webhook, username: 'Room Booking Bot')
     # FIXME use a better icon asset once deployed.
     notifier.post(text: message, icon_url: "https://roombooking-dev.adctheatre.com/logo-square.png")
   end
