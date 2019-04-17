@@ -5,7 +5,7 @@
   <% query_string = (controller.controller_name != 'users') ? params['q'] : nil %>
   <%= search_field_tag :q, query_string, placeholder: 'Search bookings', class: 'form-control mx-1 my-1', data: { hotkey: 's,/' } %>
   <%= submit_tag 'Search', class: 'btn btn-outline-light mx-1 my-1'  %>
-  <% if user_logged_in? %>
+  <% if user_signed_in? %>
     <%= link_to gravatar_image_tag(current_user.email, alt: current_user.name, class: 'rounded mx-1 my-1', gravatar: { size: 38, secure: true }), user_path(current_user) %>
   <% end %>
 <% end %>

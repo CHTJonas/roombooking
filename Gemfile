@@ -61,6 +61,9 @@ gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
 gem 'patron', '~> 0.13.1'
 gem 'faraday_middleware', '~> 0.13.0'
+# Authentication
+gem 'devise', '~> 4.6'
+gem 'pretender', '~> 0.3.4'
 # Authorisation library
 gem 'cancancan', '~> 3.0'
 # Error tracking and reporting

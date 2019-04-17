@@ -90,7 +90,6 @@ Rails.application.configure do
     {
       host: controller.request.host,
       client: controller.request.ip,
-      session_id: controller.try(:current_session).try(:id),
       user_id: controller.try(:current_user).try(:id)
     }
   end

@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  require 'roombooking/route_constraints'
-  must_be_admin = Roombooking::AdminConstraint.new
 
   # Admin Dashboard
-  namespace :admin, constraints: must_be_admin do
-    root to: 'dashboard#index', as: 'dashboard'
-    get '/backup' => 'dashboard#backup'
-    get '/info' => 'dashboard#info'
-    resources :camdram_shows, only: [:index, :create, :update] do
-      post 'new_term', on: :collection
-      post 'batch_import', on: :collection
-      post 'manual_import', on: :collection
+  authenticate :user, lambda { |u| u.admin? } do
+    namespace :admin do
+      root to: 'dashboard#index', as: 'dashboard'
+      get 'backup' => 'dashboard#backup'
+      get 'info' => 'dashboard#info'
+      resources :camdram_shows, only: [:index, :create, :update] do
+        post 'new_term', on: :collection
+        post 'batch_import', on: :collection
+        post 'manual_import', on: :collection
+      end
+      resources :camdram_societies, only: [:index, :create, :update]
     end
-    resources :camdram_societies, only: [:index, :create, :update]
   end
 
   # Backend Admin Interfaces
@@ -22,13 +22,15 @@ Rails.application.routes.draw do
   require 'sidekiq/cron/web'
   require 'sidekiq/throttled/web'
   Sidekiq::Throttled::Web.enhance_queues_tab!
-  mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin
-  mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin', constraints: must_be_admin
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq'
+    mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin'
+  end
 
   # Searching
   namespace :search do
-    get '/bookings' => 'bookings#search', as: 'bookings'
-    get '/users' => 'users#search', as: 'users', constraints: must_be_admin
+    get 'bookings' => 'bookings#search', as: 'bookings'
+    get 'users' => 'users#search', as: 'users'
   end
 
   # RESTful Entities
@@ -39,16 +41,21 @@ Rails.application.routes.draw do
   resources :camdram_societies, only: [:show, :edit, :update]
   resources :rooms
   resources :users do
-    post 'impersonate', on: :member, constraints: must_be_admin
+    post 'impersonate', on: :member
     post 'discontinue_impersonation', on: :collection,
       as: 'discontinue_impersonation_of'
   end
 
   # Authentication
-  get '/auth/:provider/callback' => 'sessions#create'
-  get '/login' => 'sessions#new', as: :login
-  get '/logout' => 'sessions#destroy', as: :logout
-  get '/auth/failure' => 'sessions#failure'
+  devise_for :users, controllers: {
+    sessions: 'sessions',
+    omniauth_callbacks: 'omniauth_callbacks'
+  }
+
+  devise_scope :user do
+    match 'login'  => 'sessions#new', as: :new_user_session, via: :get
+    match 'logout' => 'sessions#destroy', as: :destroy_user_session, via: [:get, :delete]
+  end
 
   # Health & Performance
   mount Peek::Railtie => '/peek'

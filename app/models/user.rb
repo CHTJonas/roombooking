@@ -15,8 +15,11 @@
 #
 
 class User < ApplicationRecord
-  has_paper_trail
   include PgSearch
+
+  has_paper_trail
+  # devise :confirmable, :lockable, :rememberable, :trackable, :timeoutable
+  devise :omniauthable, omniauth_providers: [:camdram]
   pg_search_scope :search_by_name_and_email, against: [:name, :email],
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }

@@ -2,8 +2,9 @@
 
 module Admin
   class DashboardController < ApplicationController
-    # This method should never be needed as routes are constrained by
-    # Roombooking::AdminConstraint however it's included just to be safe.
+    # This method should never be needed as this controller's routes are
+    # constrained by the authenticate :user lambda however it's included
+    # just to be safe.
     before_action :must_be_admin!
 
     def backup

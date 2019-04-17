@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 RailsAdmin.config do |config|
+  config.parent_controller = 'ApplicationController'
+
+  config.authenticate_with do
+    warden.authenticate! scope: :user
+  end
+  config.authorize_with :cancancan
+  config.current_user_method(&:current_user)
 
   config.main_app_name = ["Room Booking Back Office", ""]
   config.audit_with :paper_trail, 'User', 'PaperTrail::Version'
