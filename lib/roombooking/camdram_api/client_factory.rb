@@ -34,21 +34,9 @@ module Roombooking
             faraday.response :logger, Yell['camdram'] do |logger|
               logger.filter(/Bearer[^"]*/m, '[FILTERED]')
             end
-            # Patron is a native extension wrapper around libcurl and is
-            # fater that Ruby's built in Net::HTTP, but it doesn't work
-            # well on macOS.
-            unless OS.mac?
-              faraday.adapter :patron do |session|
-                session.connect_timeout   = socket_timeout
-                session.timeout           = http_timeout
-                session.dns_cache_timeout = 300
-                session.max_redirects     = 1
-              end
-            else
-              faraday.adapter :net_http do |http|
-                http.open_timeout = socket_timeout
-                http.read_timeout = http_timeout
-              end
+            faraday.adapter :net_http do |http|
+              http.open_timeout = socket_timeout
+              http.read_timeout = http_timeout
             end
           end
         end
@@ -57,9 +45,9 @@ module Roombooking
 
         def socket_timeout
           if Sidekiq.server?
-            3
+            5
           else
-            1
+            1.5
           end
         end
 
