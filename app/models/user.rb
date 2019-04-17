@@ -4,22 +4,26 @@
 #
 # Table name: users
 #
-#  id         :bigint(8)        not null, primary key
-#  name       :string           not null
-#  email      :string           not null
-#  admin      :boolean          default(FALSE), not null
-#  sysadmin   :boolean          default(FALSE), not null
-#  blocked    :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                   :bigint(8)        not null, primary key
+#  name                 :string           not null
+#  email                :string           not null
+#  admin                :boolean          default(FALSE), not null
+#  sysadmin             :boolean          default(FALSE), not null
+#  blocked              :boolean          default(FALSE), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  confirmation_token   :string
+#  confirmed_at         :datetime
+#  confirmation_sent_at :datetime
+#  unconfirmed_email    :string
 #
 
 class User < ApplicationRecord
   include PgSearch
 
   has_paper_trail
-  # devise :confirmable, :lockable, :rememberable, :trackable, :timeoutable
-  devise :omniauthable, omniauth_providers: [:camdram]
+  # devise :confirmable, :lockable, :trackable, :timeoutable
+  devise :confirmable, :omniauthable, omniauth_providers: [:camdram]
   pg_search_scope :search_by_name_and_email, against: [:name, :email],
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }

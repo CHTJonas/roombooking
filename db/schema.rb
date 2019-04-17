@@ -124,6 +124,10 @@ ActiveRecord::Schema.define(version: 2019_04_15_154047) do
     t.boolean "blocked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["admin"], name: "index_users_on_admin", where: "(admin = true)"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

@@ -2,6 +2,17 @@
 
 Rails.application.routes.draw do
 
+  # Authentication
+  devise_for :users, controllers: {
+    confirmations: 'auth/confirmations',
+    omniauth_callbacks: 'auth/omniauth_callbacks',
+    sessions: 'auth/sessions'
+  }
+  devise_scope :user do
+    match 'login'  => 'auth/sessions#new', as: :new_session, via: :get
+    match 'logout' => 'auth/sessions#destroy', as: :destroy_session, via: [:get, :delete]
+  end
+
   # Admin Dashboard
   authenticate :user, lambda { |u| u.admin? } do
     namespace :admin do
@@ -44,17 +55,6 @@ Rails.application.routes.draw do
     post 'impersonate', on: :member
     post 'discontinue_impersonation', on: :collection,
       as: 'discontinue_impersonation_of'
-  end
-
-  # Authentication
-  devise_for :users, controllers: {
-    sessions: 'sessions',
-    omniauth_callbacks: 'omniauth_callbacks'
-  }
-
-  devise_scope :user do
-    match 'login'  => 'sessions#new', as: :new_user_session, via: :get
-    match 'logout' => 'sessions#destroy', as: :destroy_user_session, via: [:get, :delete]
   end
 
   # Health & Performance

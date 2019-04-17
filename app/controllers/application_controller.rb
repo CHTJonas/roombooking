@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
 
   impersonates :user
 
-  def new_session_path(scope)
-    new_user_session_path
-  end
-
   # Set a custom header containing the application version.
   def render(*args)
     super.tap do
