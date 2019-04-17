@@ -19,16 +19,11 @@ Devise.setup do |config|
   config.reconfirmable = true
   config.confirmation_keys = [:email]
 
-  # Configuration for :lockable
-  # config.unlock_keys = [:email]
-  # config.lock_strategy = :none
-  # config.unlock_strategy = :none
-
   # Configuration for :omniauthable
   config.omniauth :camdram, ENV['CAMDRAM_APP_ID'], ENV['CAMDRAM_APP_SECRET'], scope: 'user_shows user_orgs user_email'
 
   # Configuration for :timeoutable
-  # config.timeout_in = 2.weeks
+  config.timeout_in = 2.weeks
 
   # The HTTP method used to sign out a resource.
   config.sign_out_via = :delete

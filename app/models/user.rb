@@ -16,14 +16,19 @@
 #  confirmed_at         :datetime
 #  confirmation_sent_at :datetime
 #  unconfirmed_email    :string
+#  sign_in_count        :integer          default(0), not null
+#  current_sign_in_at   :datetime
+#  last_sign_in_at      :datetime
+#  current_sign_in_ip   :inet
+#  last_sign_in_ip      :inet
 #
 
 class User < ApplicationRecord
   include PgSearch
 
   has_paper_trail
-  # devise :confirmable, :lockable, :trackable, :timeoutable
-  devise :confirmable, :omniauthable, omniauth_providers: [:camdram]
+  devise :confirmable, :trackable, :timeoutable,
+    :omniauthable, omniauth_providers: [:camdram]
   pg_search_scope :search_by_name_and_email, against: [:name, :email],
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }

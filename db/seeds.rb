@@ -8,5 +8,5 @@ Room.create(name: 'Bar', camdram_venues: ['adc-theatre', 'adc-theatre-larkum-stu
 Room.create(name: 'Playroom Auditorium', camdram_venues: ['corpus-playroom'])
 Room.create(name: 'Playroom Dressing Room 1', camdram_venues: ['corpus-playroom'])
 Room.create(name: 'Playroom Dressing Room 2', camdram_venues: ['corpus-playroom'])
-User.create(name: "Charlie Jonas", email: "charlie@charliejonas.co.uk", admin: true, sysadmin: true, blocked: false)
+User.create(name: "Charlie Jonas", email: "charlie@charliejonas.co.uk", admin: true, sysadmin: true, blocked: false, confirmed_at: DateTime.now)
 ProviderAccount.create(provider: "camdram", uid: "3807", user_id: 1)
