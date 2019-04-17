@@ -33,6 +33,11 @@ module Roombooking
         def cache_namespace
           'rbCamdramApiResponses'
         end
+
+        def perform_caching?
+          key = "#{cache_namespace}/perform_caching"
+          Rails.cache.fetch(key) { true }
+        end
       end
     end
   end
