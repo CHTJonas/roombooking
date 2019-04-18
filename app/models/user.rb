@@ -27,12 +27,13 @@ class User < ApplicationRecord
   include PgSearch
 
   has_paper_trail
-  devise :confirmable, :trackable, :timeoutable,
+  devise :confirmable, :trackable, :timeoutable, :invalidatable,
     :omniauthable, omniauth_providers: [:camdram]
   pg_search_scope :search_by_name_and_email, against: [:name, :email],
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
+  has_many :user_sessions, dependent: :destroy
   has_many :booking, dependent: :destroy
   has_many :provider_account, dependent: :delete_all
   has_one :camdram_account, -> { where(provider: 'camdram') }, class_name: 'ProviderAccount'
@@ -73,15 +74,19 @@ class User < ApplicationRecord
     self.update(admin: false)
   end
 
-  # Blocks the user and invalidates all their sessions.
+  # Blocks the user.
   def block!
     self.update(blocked: true)
-    Session.where(user_id: self.id).each(&:invalidate!)
   end
 
   # Unblocks the user.
   def unblock!
     self.update(blocked: false)
+  end
+
+  # Invalidates all the user's existing login sessions.
+  def logout_everywhere!
+    user_sessions.destroy_all
   end
 
   # Returns the user's Camdram uid.

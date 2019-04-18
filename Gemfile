@@ -25,9 +25,6 @@ gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq-throttled', '~> 0.9.0'
 # Static page serving
 gem 'high_voltage'
-# OAuth login for Camdram
-gem 'omniauth'
-gem 'omniauth-camdram'
 # Date/time handling
 gem 'chronic'
 gem 'chronic_duration'
@@ -63,8 +60,10 @@ gem 'patron', '~> 0.13.1'
 gem 'faraday_middleware', '~> 0.13.0'
 # Authentication
 gem 'devise', '~> 4.6'
+gem 'devise_invalidatable', '~> 0.1.0'
 gem 'pretender', '~> 0.3.4'
-# Authorisation library
+gem 'omniauth-camdram', '~> 1.0'
+# Authorisation
 gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
 gem 'sentry-raven'

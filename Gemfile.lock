@@ -132,6 +132,9 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    devise_invalidatable (0.1.0)
+      devise
+      rails
     dotenv (2.7.2)
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
@@ -473,6 +476,7 @@ DEPENDENCIES
   datey
   ddtrace (~> 0.21.2)
   devise (~> 4.6)
+  devise_invalidatable (~> 0.1.0)
   dotenv-rails (~> 2.7)
   escape_utils (~> 1.2, >= 1.2.1)
   faraday_middleware (~> 0.13.0)
@@ -493,8 +497,7 @@ DEPENDENCIES
   lograge (~> 0.10.0)
   maildown
   oj (~> 3.7)
-  omniauth
-  omniauth-camdram
+  omniauth-camdram (~> 1.0)
   os (~> 1.0)
   paper_trail (~> 10.3)
   paper_trail-association_tracking (~> 2.0)
