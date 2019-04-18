@@ -7,7 +7,8 @@ class NewTermJob
   sidekiq_options queue: 'roombooking_jobs'
   sidekiq_throttle concurrency: { limit: 1 }
 
-  def perform
+  def perform(user_id)
+    PaperTrail.request.whodunnit = user_id
     CamdramShow.all.each do |show|
       show.update(dormant: true)
     end

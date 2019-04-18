@@ -8,6 +8,7 @@ class BatchImportJob
   sidekiq_throttle concurrency: { limit: 1 }
 
   def perform(user_id)
+    PaperTrail.request.whodunnit = user_id
     shows = ShowEnumerationService.perform
     shows.each do |camdram_show|
       begin

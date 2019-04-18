@@ -39,7 +39,7 @@ module Admin
     end
 
     def new_term
-      NewTermJob.perform_async
+      NewTermJob.perform_async(current_user.id)
       head :no_content
     end
 
