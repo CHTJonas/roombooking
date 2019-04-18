@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :check_user!
   before_action :set_paper_trail_whodunnit
   helper_method :current_user
-  helper_method :impersonator
+  helper_method :true_user
   helper_method :user_logged_in?
   helper_method :user_is_admin?
   helper_method :user_is_imposter?
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    alert = { 'class' => 'dark', 'message' => "Sorry! The page you're looking for either doesn't exist or you don't have permission to view it." }
+    alert = { 'class' => 'dark', 'message' => "Sorry, but the page you're looking for doesn't exist!" }
     flash.now[:alert] = alert
     render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found, formats: :html and return
   end
@@ -66,12 +66,12 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     if user_logged_in?
       log_abuse "Blocked access to #{request.fullpath} by #{current_user.name.possessive} session with id #{current_session.id} as the CanCan authorisation check failed"
-      alert = { 'class' => 'danger', 'message' => 'Access denied.' }
+      alert = { 'class' => 'danger', 'message' => "Sorry, but you don't have permission to access this page!" }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
     else
       log_abuse "Blocked access to #{request.fullpath} as no valid login session was present"
-      alert = { 'class' => 'danger', 'message' => 'You need to login to access this page.' }
+      alert = { 'class' => 'danger', 'message' => 'Sorry, but you need to login to access this page!' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
     end
@@ -79,17 +79,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
     Raven.capture_exception(exception)
-    alert = { 'class' => 'danger', 'message' => %{
-Sorry, but an error occurred when making a request to the Camdram API!
-This is probably a temporary error - try refreshing the page after a minute or two.
-Errors are tracked automatically but do get in touch if you continue having problems.} }
+    alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! "\
+      "This is probably a temporary error — try refreshing the page after a minute or two. "\
+      "Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
     flash.now[:alert] = alert
     render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error, formats: :html
   end
 
-  # Finds the Session model object with the ID that is stored in the Rails
-  # session store. Logging in sets this session value and logging out
-  # removes it.
+  # Returns the current session.
   def current_session
     begin
       @current_session ||= Session
@@ -100,15 +97,15 @@ Errors are tracked automatically but do get in touch if you continue having prob
     end
   end
 
-  # Returns the User associated with the current session.
+  # Returns the user associated with the current session.
   def current_user
     @current_user ||= current_session.try(:user)
   end
 
-  # Returns the User who is impersonating the User returned by current_user.
-  def impersonator
+  # Returns the true user if that user is impersonating another, or nil otherwise.
+  def true_user
     begin
-      @impersonator ||= User.find(session[:impersonator_id]) if session[:impersonator_id]
+      @true_user ||= User.find(session[:true_user_id]) if session[:true_user_id]
     rescue Exception => e
       nil
     end
@@ -131,7 +128,7 @@ Errors are tracked automatically but do get in touch if you continue having prob
 
   # True if the user is being impersonated, false otherwise.
   def user_is_imposter?
-    user_logged_in? && impersonator.present?
+    user_logged_in? && true_user.present?
   end
 
   # Ensure that a user has a valid session, account and Camdram API token.
@@ -178,25 +175,20 @@ Errors are tracked automatically but do get in touch if you continue having prob
           invalidate_session
           alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
           flash.now[:alert] = alert
-          render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
+          render 'layouts/blank', locals: {reason: 'unrefreshable expired camdram token'}, status: :unauthorized and return
         end
       end
     end
   end
 
-  # Used by certain controllers/methods which specify this as their
-  # before_action to ensures the user is an administrator.
+  # Used by certain controllers to ensures the user is an administrator.
   def must_be_admin!
-    unless user_is_admin?
-      log_abuse "Blocked access to #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'} as they are not an administrator"
-      alert = { 'class' => 'danger', 'message' => "Acess denied — you don't appear to be an administrator!" }
-      flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'user not admin'}, status: :forbidden and return
-    end
+    raise CanCan::AccessDenied, 'user is not an administrator' unless user_is_admin?
   end
 
   # Method to simulate/force a user logoff.
   def invalidate_session
+    current_session.try(:invalidate!)
     reset_session
     @current_session = nil
     @current_user = nil

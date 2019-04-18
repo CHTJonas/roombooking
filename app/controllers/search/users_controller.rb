@@ -2,6 +2,8 @@
 
 module Search
   class UsersController < ApplicationController
+    before_action :must_be_admin!
+
     def search
       query = params['q']
       page = params['page']

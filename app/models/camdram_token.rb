@@ -31,14 +31,14 @@ class CamdramToken < ApplicationRecord
   # These are tokens that have expired or are expiring soon, but can be renewed.
   scope :expiring_soon, -> { where expires_at: (DateTime.now - 1.hour)..(DateTime.now + 5.minutes) }
 
-  # Create a CamdramToken from an OmniAuth::AuthHash and a User.
-  def self.create_with_credentials(creds, user)
-    create! do |cdtkn|
-      cdtkn.access_token = creds[:token]
-      cdtkn.refresh_token = creds[:refresh_token]
-      cdtkn.expires_at = Time.at(creds[:expires_at])
-      cdtkn.user = user
-    end
+  # Returns a CamdramToken from an OmniAuth::AuthHash and a user.
+  def self.from_omniauth_and_user(auth_hash, user)
+    credentials = auth_hash['credentials']
+    access_token = credentials[:token]
+    refresh_token = credentials[:refresh_token]
+    expires_at = Time.at(credentials[:expires_at])
+    create!(access_token: access_token, refresh_token: refresh_token,
+      expires_at: expires_at, user: user)
   end
 
   # True if the Camdram API token has expired, false otherwise.

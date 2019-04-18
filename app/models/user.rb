@@ -30,25 +30,23 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
 
-  # Create a User model object from an omniauth authentication object.
-  def self.from_provider(auth)
-    name = auth['info']['name'] || ''
-    email = auth['info']['email'] || ''
-    user = User.find_by(email: email)
-    ActiveRecord::Base.transaction do
-      unless user.present?
-        user = User.new
-        user.name = name
-        user.email = email
-        user.save
+  # Returns a user from an OmniAuth::AuthHash.
+  def self.from_omniauth(auth_hash)
+    provider = auth_hash['provider']
+    uid = auth_hash['uid'].to_s
+    account = ProviderAccount.find_by(provider: provider, uid: uid)
+    if account.present?
+      account.user
+    else
+      name = auth['info']['name'] || ''
+      email = auth['info']['email'] || ''
+      user = User.find_by(email: email)
+      ActiveRecord::Base.transaction do
+        user = User.create!(name: name, email: email) unless user.present?
+        ProviderAccount.create!(provider: provider, uid: uid, user: user)
       end
-      provider_account = ProviderAccount.new
-      provider_account.provider = auth['provider']
-      provider_account.uid = auth['uid']
-      provider_account.user_id = user.id
-      provider_account.save
+      user
     end
-    user
   end
 
   # Grants administrator privileges to the user.

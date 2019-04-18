@@ -4,8 +4,16 @@ Rails.application.routes.draw do
   require 'roombooking/route_constraints'
   must_be_admin = Roombooking::AdminConstraint.new
 
+  # Backend Admin Interfaces
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
+  require 'sidekiq/throttled/web'
+  Sidekiq::Throttled::Web.enhance_queues_tab!
+  mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin
+  mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin', constraints: must_be_admin
+
   # Admin Dashboard
-  namespace :admin, constraints: must_be_admin do
+  namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
     get '/backup' => 'dashboard#backup'
     get '/info' => 'dashboard#info'
@@ -17,18 +25,10 @@ Rails.application.routes.draw do
     resources :camdram_societies, only: [:index, :create, :update]
   end
 
-  # Backend Admin Interfaces
-  require 'sidekiq/web'
-  require 'sidekiq/cron/web'
-  require 'sidekiq/throttled/web'
-  Sidekiq::Throttled::Web.enhance_queues_tab!
-  mount Sidekiq::Web => '/admin/sidekiq', as: 'sidekiq', constraints: must_be_admin
-  mount RailsAdmin::Engine => '/admin/back-office', as: 'rails_admin', constraints: must_be_admin
-
   # Searching
   namespace :search do
     get '/bookings' => 'bookings#search', as: 'bookings'
-    get '/users' => 'users#search', as: 'users', constraints: must_be_admin
+    get '/users' => 'users#search', as: 'users'
   end
 
   # RESTful Entities
@@ -39,15 +39,15 @@ Rails.application.routes.draw do
   resources :camdram_societies, only: [:show, :edit, :update]
   resources :rooms
   resources :users do
-    post 'impersonate', on: :member, constraints: must_be_admin
+    post 'impersonate', on: :member
     post 'discontinue_impersonation', on: :collection,
       as: 'discontinue_impersonation_of'
   end
 
   # Authentication
+  get '/login' => 'sessions#new'
+  get '/logout' => 'sessions#destroy'
   get '/auth/:provider/callback' => 'sessions#create'
-  get '/login' => 'sessions#new', as: :login
-  get '/logout' => 'sessions#destroy', as: :logout
   get '/auth/failure' => 'sessions#failure'
 
   # Health & Performance

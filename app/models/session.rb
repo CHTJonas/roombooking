@@ -21,6 +21,14 @@ class Session < ApplicationRecord
   validates :ip, presence: true
   validates :user_agent, presence: true
 
+  def self.from_user_and_request(user, request)
+    login_at = DateTime.now
+    expires_at = login_at + 60.days
+    ip = request.remote_ip
+    user_agent = request.user_agent
+    create!(user: user, login_at: login_at, expires_at: expires_at, ip: ip, user_agent: user_agent)
+  end
+
   # True if the Session has expired, false otherwise.
   def expired?
     Time.now >= self.expires_at
