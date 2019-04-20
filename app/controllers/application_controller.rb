@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_raven_context
   before_action :check_browser_version
   before_action :check_user!
+  before_action :handle_2fa!
   before_action :set_paper_trail_whodunnit
   helper_method :current_user
   helper_method :true_user

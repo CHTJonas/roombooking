@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Roombooking
   module Auth
     # Returns the current session.
@@ -45,6 +47,15 @@ module Roombooking
       user_logged_in? && true_user.present?
     end
 
+    # True if the user has authenticated using 2FA, false otherwise.
+    def two_factor_authenticated?
+      if user_logged_in? && current_user.two_factor_token.present?
+        session[:two_factor_auth]
+      else
+        true
+      end
+    end
+
     # Ensure that a user has a valid session, account and Camdram API token.
     def check_user!
       ensure_user_is_not_blocked!
@@ -53,6 +64,14 @@ module Roombooking
       return if user_is_imposter?
       ensure_camdram_token_is_present!
       ensure_camdram_token_is_valid!
+    end
+
+    def handle_2fa!
+      unless two_factor_authenticated?
+        alert = { 'class' => 'info', 'message' => 'You need to complete two-factor authentication in order to login.' }
+        flash[:alert] = alert
+        redirect_to auth_2fa_path
+      end
     end
 
     # Forces user logout if the user's account has been blocked.

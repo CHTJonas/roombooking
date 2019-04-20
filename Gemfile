@@ -25,9 +25,6 @@ gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq-throttled', '~> 0.9.0'
 # Static page serving
 gem 'high_voltage'
-# OAuth login for Camdram
-gem 'omniauth'
-gem 'omniauth-camdram'
 # Date/time handling
 gem 'chronic'
 gem 'chronic_duration'
@@ -60,7 +57,11 @@ gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 #gem 'camdram', '~> 1.1'
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
 gem 'faraday_middleware', '~> 0.13.0'
-# Authorisation library
+# Authentication
+gem 'omniauth-camdram', '~> 1.0'
+gem 'rotp', '~> 4.1'
+gem 'rqrcode', '~> 0.10.1'
+# Authorisation
 gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
 gem 'sentry-raven'

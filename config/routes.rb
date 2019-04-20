@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#new'
   get '/logout' => 'sessions#destroy'
   delete '/logout' => 'sessions#destroy'
+  get '/auth/2fa' => 'two_factor#new'
+  post '/auth/2fa' => 'two_factor#create'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/auth/failure' => 'sessions#failure'
 
