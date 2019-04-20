@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_134437) do
   create_table "two_factor_tokens", force: :cascade do |t|
     t.binary "encrypted_secret"
     t.binary "encrypted_secret_iv"
+    t.integer "last_otp_at", default: 0, null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
