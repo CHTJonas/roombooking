@@ -37,3 +37,7 @@
 
 # Ignore Procodile configuration settings
 Procfile.local
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+/config/credentials.yml.enc
