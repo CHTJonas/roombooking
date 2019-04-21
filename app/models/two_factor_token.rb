@@ -41,7 +41,11 @@ class TwoFactorToken < ApplicationRecord
   # nil otherwise.
   def verify(code)
     period = totp.verify(code, after: self.last_otp_at, drift_behind: 15)
-    self.last_otp_at = period if period
+    if period
+      self.last_otp_at = period
+      save! if persisted?
+    end
+    period
   end
 
   private
