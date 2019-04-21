@@ -1,0 +1,21 @@
+<% content_for :title, 'Two-factor auth' %>
+<% content_for :heading, '2FA Setup' %>
+<% content_for :controller_links do %>
+  <%= link_to 'Back to User', user_path(@user), class: 'btn btn-outline-secondary' %>
+<% end %>
+
+<%= content_tag :div, class: 'row no-gutters' do %>
+  <%= content_tag :div, class: 'col-md-auto' do %>
+    <%= content_tag :div, class: 'qr container' do %>
+      <%= raw @qr.as_html %>
+    <% end %>
+  <% end %>
+  <%= content_tag :div, class: 'col' do %>
+    <div class="card">
+      <div class="card-body">
+        <%= render 'about' %>
+        <%= render 'form' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

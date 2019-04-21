@@ -49,7 +49,7 @@ module Roombooking
 
     # True if the user has authenticated using 2FA, false otherwise.
     def two_factor_authenticated?
-      if user_logged_in? && current_user.two_factor_token.present?
+      if user_logged_in? && current_user.two_factor_token.try(:verified?)
         session[:two_factor_auth]
       else
         true

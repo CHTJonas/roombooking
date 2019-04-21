@@ -24,7 +24,16 @@ class TwoFactorToken < ApplicationRecord
 
   # Generates a new two-factor record from the passed in user model.
   def self.from_user(user)
-    create!(secret: ROTP::Base32.random_base32, user: user)
+    token = user.two_factor_token
+    if token.present?
+      token
+    else
+      create!(secret: ROTP::Base32.random_base32, user: user)
+    end
+  end
+
+  def verified?
+    self.last_otp_at != 0
   end
 
   # Generates a valid TOTP code for the current period, or the period with the
@@ -35,6 +44,12 @@ class TwoFactorToken < ApplicationRecord
     else
       totp.now
     end
+  end
+
+  # Returns the QR code provisioning URI for the TOTP secret.
+  def provisioning_uri
+    email = self.user.email
+    totp.provisioning_uri(email)
   end
 
   # Returns the timestamp of the current period if the TOTP code is valid, or

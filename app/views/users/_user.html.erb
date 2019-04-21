@@ -26,3 +26,9 @@
   <%= content_tag(:td, 'Account Created:') %>
   <%= content_tag(:td, @user.created_at.rfc2822) %>
 <% end %>
+<%= content_tag :tr do %>
+  <%= content_tag(:td, 'Two-factor authentication:') %>
+  <%= content_tag(:td) do %>
+    <%= link_to 'Setup', user_two_factor_setup_path(@user, :show_qr) %>
+  <% end %>
+<% end %>
