@@ -70,7 +70,7 @@ gem 'sentry-raven'
 # Markdown for emails
 gem 'maildown'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 5.4', '>= 5.4.2'
+gem 'rack-attack', '~> 6.0'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
