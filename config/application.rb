@@ -15,10 +15,13 @@ module Roombooking
 
     # Use Redis for caching and report exceptions to Sentry as warnings.
     config.cache_store = :redis_cache_store, {
-      url: ENV['REDIS_CACHE'], error_handler: -> (method, returning, exception) {
+      url: ENV['REDIS_CACHE'], error_handler: lambda do |params|
+        exception = params[:exception]
+        method = params[:method]
+        returning = params[:returning]
         Raven.capture_exception exception, level: 'warning',
           tags: { method: method, returning: returning }
-      }
+      end
     }
 
     config.time_zone = 'London'
