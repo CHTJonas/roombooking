@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+Rails.application.config.middleware.use Roombooking::Middleware::RateLimiter
 Rails.application.config.middleware.use Rack::Attack
 
 # Blacklist IPs using the cache
