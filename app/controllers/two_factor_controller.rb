@@ -4,10 +4,15 @@ class TwoFactorController < ApplicationController
   skip_before_action :handle_2fa!
 
   def new
-    render 'sessions/two_factor'
+    if two_factor_authenticated?
+      redirect_to root_url
+    else
+      render 'sessions/two_factor'
+    end
   end
 
   def create
+    redirect_to root_url and return if two_factor_authenticated?
     code = params[:totp]
     token = current_user.two_factor_token
     auth = token.verify(code)
