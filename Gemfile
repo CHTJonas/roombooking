@@ -81,6 +81,8 @@ gem 'pry-rails', '~> 0.3.9'
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Sitemaps
 gem 'sitemap_generator', '~> 6.0', '>= 6.0.2'
+# Ruby variables in JS
+gem 'gon', '~> 6.2'
 
 # Application config
 gem 'dotenv-rails', '~> 2.7'

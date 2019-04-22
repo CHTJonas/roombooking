@@ -150,6 +150,10 @@ GEM
       raabro (~> 1.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    gon (6.2.1)
+      actionpack (>= 3.0)
+      multi_json
+      request_store (>= 1.0)
     gravatar_image_tag (1.2.0)
     haml (5.0.4)
       temple (>= 0.8.0)
@@ -465,6 +469,7 @@ DEPENDENCIES
   fast_blank (~> 1.0)
   flatpickr (~> 4.5, >= 4.5.2.0)
   font-awesome-rails
+  gon (~> 6.2)
   gravatar_image_tag (~> 1.2)
   haml (~> 5.0)
   health_check (~> 3.0)

@@ -27,6 +27,10 @@ $ ->
     dsn: '<%= ENV['SENTRY_DSN'] %>',
     release: '<%= Roombooking::VERSION %>',
     environment: '<%= Rails.env %>'
+  user_json = gon.user_json
+  if user_json
+    Sentry.configureScope (scope) ->
+      scope.setUser(user_json)
   $("a").on "ajax:error", rbAjaxFail
   $("form").on "ajax:error", rbAjaxFail
   hotkey.install el for el in document.querySelectorAll '[data-hotkey]'
