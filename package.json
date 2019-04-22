@@ -3,6 +3,6 @@
   "private": true,
   "dependencies": {
     "@github/hotkey": "^1.2.0",
-    "@sentry/browser": "5.0.6"
+    "@sentry/browser": "5.1.0"
   }
 }
