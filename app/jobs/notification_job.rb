@@ -10,7 +10,7 @@ class NotificationJob
 
   def perform(booking_id, camdram_model_global_id)
     @booking = Booking.find(booking_id)
-    @camdram_model = GlobalID::Locator.locate camdram_model_global_id
+    @camdram_model = GlobalID::Locator.locate camdram_model_global_id if camdram_model_global_id
     notify_admins unless @booking.approved
     if @camdram_model.present?
       notify_slack_webhook if @camdram_model.slack_webhook.present?
