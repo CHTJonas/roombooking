@@ -6,6 +6,9 @@
 
 storageKey = 'rb_favourite_bookings'
 
+clearFavourites = ->
+  $('#favourite-bookings-spinner').replaceWith('<p class="mt-4 my-3">None!</p>')
+
 getArray = ->
   arr = JSON.parse localStorage.getItem(storageKey)
   unless arr
@@ -23,8 +26,10 @@ getFavourites = (ids) ->
   $.post("bookings/favourites",
     { ids: ids.slice(0, 9) },
     (data) ->
-      # $(data).appendTo("#bookings-favourite")
-      $('#favourite-bookings-container').replaceWith(data)
+      if data
+        $('#favourite-bookings-container').replaceWith(data)
+      else
+        clearFavourites()
     , 'html')
 
 $ ->
@@ -35,7 +40,7 @@ $ ->
       favouriteBookingIds = arr.map (o) -> o.id
       getFavourites(favouriteBookingIds)
     else
-      $('#favourite-bookings-spinner').replaceWith('<p class="mt-4 my-3">None!</p>')
+      clearFavourites()
   else
     match = window.location.pathname.match(regex)
     if match && match.length == 2

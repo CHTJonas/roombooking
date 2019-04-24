@@ -93,7 +93,8 @@ class BookingsController < ApplicationController
   end
 
   def favourites
-    ids = JSON.parse(params[:ids]).to_a.first(9)
+    json = params[:ids] || '[]'
+    ids = JSON.parse(json).to_a.first(9)
     @bookings = Booking.where(id: ids)
       .eager_load(:user, :room)
       .accessible_by(current_ability, :read)
