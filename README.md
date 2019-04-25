@@ -32,14 +32,15 @@ The [Docker](https://www.docker.com/get-started) installation procedure is somew
 There appears to be a significant performance degradation using Docker when compared to a native installation.
 Contributions with improvements to the process would be warmly welcomed!
 Alternatively please kindly report any issues through the GitHub bug tracker.
-1. `git clone https://github.com/CHTJonas/roombooking.git && cd roombooking`
-2. `docker-compose build`
-3. `docker-compose run --rm web "bundle exec rake db:create db:migrate roombooking:search:setup"`
-4. `docker-compose run --rm web "bundle exec rake db:seed"`
+1. `git clone https://github.com/CHTJonas/roombooking.git`
+2. `cd roombooking`
+3. `docker-compose build`
+4. `docker-compose run --rm web "bin/setup"`
 5. `docker-compose up`
 
-To reset the Docker engine and all containers run `docker-compose down --rmi all -v --remove-orphans && rm -rf tmp/pids/*`.
-
+To reset the Docker engine and all containers run `docker-compose down --rmi all -v --remove-orphans`.
+If you're developing on top of Microsoft Windows then you need to ensure that you checkout and checkin sourcecode with UNIX-style line endings (LF).
+Usually this can be achieved by running `git clone https://github.com/CHTJonas/roombooking.git --config core.autocrlf=input` and working with a modern text editor or IDE.
 
 ## Contributing
 Bug reports, enhancements and pull requests are welcome.

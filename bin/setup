@@ -22,8 +22,10 @@ chdir APP_ROOT do
   puts Rainbow('Configuring environment...').blue
   contents = "RAILS_MAX_THREADS: 1\n"
   contents += "WEB_CONCURRENCY: 1\n"
-  contents += "REDIS_CACHE: redis://127.0.0.1:6379/1\n"
-  contents += "REDIS_STORE: redis://127.0.0.1:6379/1\n"
+  unless ENV['DOCKERIZED']
+    contents += "REDIS_CACHE: redis://127.0.0.1:6379/1\n"
+    contents += "REDIS_STORE: redis://127.0.0.1:6379/1\n"
+  end
   print Rainbow('Enter your Camdram API App ID: ').yellow
   app_id = gets.chomp
   contents += "CAMDRAM_APP_ID: #{app_id}\n"
@@ -37,5 +39,9 @@ chdir APP_ROOT do
   end
   puts ''
 
-  system! 'bin/rails roombooking:install'
+  if ENV['DOCKERIZED']
+    system! 'bin/rails roombooking:docker'
+  else
+    system! 'bin/rails roombooking:install'
+  end
 end

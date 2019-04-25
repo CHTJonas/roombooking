@@ -10,11 +10,11 @@ services:
       - db
       - cache
     environment:
+      DOCKERIZED: 1
       RAILS_ENV: development
-      RAILS_MAX_THREADS: 1
-      WEB_CONCURRENCY: 1
       DATABASE_URL: postgres://postgres:@db:5432
-      REDIS_URL: redis://cache:6379/1
+      REDIS_CACHE: redis://cache:6379/1
+      REDIS_STORE: redis://cache:6379/1
     volumes:
       - .:/usr/src/app
     command: bundle exec rails server -b 0.0.0.0

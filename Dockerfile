@@ -7,14 +7,15 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 # Install dependencies and perform clean-up
 RUN apt-get update -qq
-RUN apt-get install -y build-essential nodejs yarn
+RUN apt-get install -y build-essential nodejs yarn postgresql-client nano vim
 RUN apt-get -q clean
 RUN rm -rf /var/lib/apt/lists
 
 WORKDIR /usr/src/app
 ENV RAILS_ENV development
+ENV DOCKERIZED 1
 
-# Installing Ruby dependencies
+# Install Ruby dependencies
 COPY Gemfile* ./
 RUN gem install bundler
 RUN bundle install --jobs 20 --retry 5
