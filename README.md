@@ -17,13 +17,14 @@ Please [contact me](mailto:charlie@charliejonas.co.uk) if you need help with thi
 
 ## Installation
 ### Native Install
-To install ADC-RBS for development purposes you will need to clone this repository, install dependencies and then setup the environment.
-Your machine needs to be running Postgres and Redis locally, and your user account will need `CREATE/DROP DATABASE` privileges.
-
-1. `git clone https://github.com/CHTJonas/roombooking.git && cd roombooking`
-2. `bundle install`
-3. `cp .env.local.example .env.local && nano .env.local`
-4. `rails roombooking:install`
+Installing from source is relatively easy and should work on anything UNIX-like including the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+You'll need to register for Camdram API credentials [here](https://www.camdram.net/api/apps/new) and also install both Postgres & Redis locally.
+If you're running Debian or Ubuntu you can achieve this by typing `sudo apt install postgresql redis` at a terminal.
+Note that your database user will need `CREATE/DROP DATABASE` privileges for the initial setup but not thereafter.
+1. `git clone https://github.com/CHTJonas/roombooking.git`
+2. `cd roombooking`
+3. `bundle install -j4`
+4. `bin/setup`
 5. `rails server`
 
 ### Docker Install
