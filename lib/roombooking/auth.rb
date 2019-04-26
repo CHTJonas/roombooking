@@ -37,6 +37,11 @@ module Roombooking
       current_user.present?
     end
 
+    # True if the user is fully authenticated, false otherwise.
+    def user_fully_authenticated?
+      user_logged_in? && two_factor_authenticated?
+    end
+
     # True if the user is a site administrator, false otherwise.
     def user_is_admin?
       user_logged_in? && current_user.admin?

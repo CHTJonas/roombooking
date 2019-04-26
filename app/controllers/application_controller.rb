@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :true_user
   helper_method :user_logged_in?
+  helper_method :user_fully_authenticated?
   helper_method :user_is_admin?
   helper_method :user_is_imposter?
 
@@ -147,8 +148,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Enable development bar for sysadmins, or everyone in development.
+  # Enable development bar for authenticated sysadmins, or everyone in development.
   def peek_enabled?
-    current_user.try(:sysadmin?) || Rails.env.development?
+    (user_fully_authenticated? && current_user.sysadmin?) || Rails.env.development?
   end
 end
