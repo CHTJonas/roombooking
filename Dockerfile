@@ -13,7 +13,6 @@ RUN rm -rf /var/lib/apt/lists
 
 WORKDIR /usr/src/app
 ENV RAILS_ENV development
-ENV DOCKERIZED 1
 
 # Install Ruby dependencies
 COPY Gemfile* ./
