@@ -10,8 +10,8 @@
 
   .navbar-nav .nav-link {
     /* Change the link color */
-    color: white;
-
+    color: rgba(255, 255, 255, 0.95);
+transition: background-color 0.15s ease-in-out;
     border-radius: 0.25rem;
 
     &:hover {
