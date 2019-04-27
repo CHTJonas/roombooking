@@ -10,16 +10,18 @@
 
   .navbar-nav .nav-link {
     /* Change the link color */
-    color: rgba(255,255,255,.55);
+    color: rgba(255, 255, 255, 0.95);
+transition: background-color 0.15s ease-in-out;
+    border-radius: 0.25rem;
 
     &:hover {
       /* Change the color of hovered links */
-      color: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     &:active {
       /* Change the color of active links */
-      color: #ffffff;
+      background: rgba(255, 255, 255, 0.3);
     }
   }
 
