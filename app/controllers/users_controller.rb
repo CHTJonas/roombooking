@@ -45,10 +45,10 @@ class UsersController < ApplicationController
   # Allows and administrator to impersonate a user.
   def impersonate
     # An imposter can't be a double agent!
-    @current_user = true_user if user_is_imposter?
+    @current_user = current_imposter if user_is_imposter?
     @user = User.find(params[:id])
     log_abuse "#{@current_user.name.capitalize} started impersonating #{@user.name.capitalize}"
-    session[:true_user_id] = current_user.id
+    session[:imposter_id] = current_user.id
     current_session.invalidate!
     sesh = Session.create(user: @user,
       expires_at: current_session.expires_at,
@@ -60,16 +60,16 @@ class UsersController < ApplicationController
 
   # Stops an impersonation and returns the user to their rightful account.
   def discontinue_impersonation
-    if user_is_imposter? && true_user.admin?
-      log_abuse "#{true_user.name.capitalize} stopped impersonating #{@current_user.name.capitalize}"
-      user = true_user
+    if user_is_imposter? && current_imposter.admin?
+      log_abuse "#{current_imposter.name.capitalize} stopped impersonating #{@current_user.name.capitalize}"
+      user = current_imposter
       current_session.invalidate!
       sesh = Session.create(user: user,
         expires_at: current_session.expires_at,
         login_at: DateTime.now, ip: request.remote_ip,
         user_agent: request.user_agent)
       session[:sesh_id] = sesh.id
-      session.delete(:true_user_id)
+      session.delete(:imposter_id)
       redirect_to user
     else
       redirect_to current_user

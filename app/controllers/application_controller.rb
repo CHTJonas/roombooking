@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :handle_2fa!
   before_action :set_paper_trail_whodunnit
   helper_method :current_user
+  helper_method :current_imposter
   helper_method :true_user
   helper_method :user_logged_in?
   helper_method :user_fully_authenticated?

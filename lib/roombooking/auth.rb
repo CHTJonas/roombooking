@@ -13,18 +13,23 @@ module Roombooking
       end
     end
 
-    # Returns the user associated with the current session.
+    # Returns the user who is currently logged in, or nil otherwise.
     def current_user
       @current_user ||= current_session.try(:user)
     end
 
-    # Returns the true user if that user is impersonating another, or nil otherwise.
-    def true_user
+    # Returns the imposter who is currently logged in, or nil otherwise.
+    def current_imposter
       begin
-        @true_user ||= User.find(session[:true_user_id]) if session[:true_user_id]
+        @current_imposter ||= User.find(session[:imposter_id]) if session[:imposter_id]
       rescue Exception => e
         nil
       end
+    end
+
+    # Returns the true user who is currently logged in, or nil if otherwise.
+    def true_user
+      current_imposter || current_user
     end
 
     # Returns the current user's most recent Camdram OAuth2 token.
@@ -49,13 +54,13 @@ module Roombooking
 
     # True if the user is being impersonated, false otherwise.
     def user_is_imposter?
-      user_logged_in? && true_user.present?
+      user_logged_in? && current_imposter.present?
     end
 
     # True if the user has authenticated using 2FA, false otherwise.
     def two_factor_authenticated?
-      if user_logged_in? && current_user.two_factor_token.try(:verified?)
-        session[:two_factor_auth]
+      if user_logged_in? && true_user.two_factor_token.try(:verified?)
+        session[:two_factor_auth].present?
       else
         true
       end
@@ -81,7 +86,7 @@ module Roombooking
 
     # Forces user logout if the user's account has been blocked.
     def ensure_user_is_not_blocked!
-      if user_logged_in? && current_user.blocked?
+      if user_logged_in? && true_user.blocked?
         log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as their account was blocked"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
@@ -150,6 +155,7 @@ module Roombooking
       reset_session
       @current_session = nil
       @current_user = nil
+      @current_imposter = nil
       @current_camdram_token = nil
     end
   end

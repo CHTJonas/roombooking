@@ -4,10 +4,10 @@ module Bookings
   class BookingService < ApplicationService
     attr_reader :booking, :shows, :societies
 
-    def initialize(params, user, true_user, camdram_entity_service)
+    def initialize(params, user, current_imposter, camdram_entity_service)
       @params = params
       @user = user
-      @true_user = true_user
+      @current_imposter = current_imposter
       @camdram_entity_service = camdram_entity_service
     end
 

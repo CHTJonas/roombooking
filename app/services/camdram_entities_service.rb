@@ -3,9 +3,9 @@
 class CamdramEntitiesService < ApplicationService
   attr_reader :shows, :societies
 
-  def initialize(user, true_user)
+  def initialize(user, current_imposter)
     @user = user
-    @true_user = true_user
+    @current_imposter = current_imposter
   end
 
   def perform
@@ -13,11 +13,11 @@ class CamdramEntitiesService < ApplicationService
       @shows = @societies = []
       return
     end
-    if @true_user.present?
+    if @current_imposter.present?
       # User is also an administrator so we don't need to care about their
       # peronal Camdram token as this will use the application token.
-      @shows = @true_user.authorised_camdram_shows
-      @societies = @true_user.authorised_camdram_societies
+      @shows = @current_imposter.authorised_camdram_shows
+      @societies = @current_imposter.authorised_camdram_societies
     else
       # User is genuine.
       @shows = @user.authorised_camdram_shows
