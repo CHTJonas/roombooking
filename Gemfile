@@ -97,7 +97,7 @@ gem 'peek-git', '~> 1.0', '>= 1.0.2'
 gem 'peek-performance_bar', '~> 1.3', '>= 1.3.1'
 gem 'peek-pg', '~> 1.3'
 gem 'peek-redis', '~> 1.2'
-gem 'peek-sidekiq', '~> 1.0', '>= 1.0.3', git: 'https://github.com/8398a7/peek-sidekiq.git'
+gem 'peek-sidekiq', '~> 1.0'
 gem 'peek-gc', '~> 0.0.2'
 gem 'peek-rblineprof', '~> 0.2.0'
 
