@@ -41,6 +41,18 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  # Forces a logout everywhere the user is currently logged in by invalidating all active sessions.
+  def destroy_all
+    if user_logged_in?
+      log_abuse "#{current_user.name.capitalize} successfully triggered a log out of all their current sessions from the session with id #{current_session.id}"
+      invalidate_session
+      Session.where(user: current_user, invalidated: false).map(&:invalidate!)
+      alert = { 'class' => 'success', 'message' => 'You have successfully been logged out on all your devices.' }
+      flash[:alert] = alert
+    end
+    redirect_to root_url
+  end
+
   # Gracefully handle OAuth failures.
   def failure
     message = params[:message]

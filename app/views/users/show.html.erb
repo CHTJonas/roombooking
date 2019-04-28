@@ -27,6 +27,8 @@
         <%= render @user %>
       </tbody>
     </table>
+    <%= link_to 'Setup 2FA', two_factor_setup_user_path(@user, :show_qr), class: 'btn btn-outline-primary mt-3' %>
+    <%= link_to 'Logout Everywhere', logout_everywhere_path, class: 'btn btn-outline-danger mt-3', method: :delete %>
   <% end %>
 <% end %>
 
