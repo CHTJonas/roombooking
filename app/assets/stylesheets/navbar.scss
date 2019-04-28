@@ -4,14 +4,14 @@
   background-color: $adc-pink;
 
   .navbar-brand {
-     /* Change the branding text color */
-    color: rgba(255,255,255,.8);
+    /* Change the branding text color */
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .navbar-nav .nav-link {
     /* Change the link color */
     color: rgba(255, 255, 255, 0.95);
-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
     border-radius: 0.25rem;
 
     &:hover {

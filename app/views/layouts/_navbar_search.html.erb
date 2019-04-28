@@ -1,10 +1,10 @@
 <%= form_tag search_bookings_path, class: 'd-inline-flex align-items-center justify-content-md-end flex-wrap', method: :get do %>
   <% if user_is_imposter? %>
-    <%= link_to "Impersonating #{current_user.name}!", discontinue_impersonation_of_users_path, method: :post, class: 'badge badge-warning mx-1 my-1' %>
+    <%= link_to "Impersonating #{current_user.name}!", discontinue_impersonation_of_users_path, method: :post, class: 'badge badge-warning mx-md-1 my-1' %>
   <% end %>
   <% query_string = (controller.controller_name != 'users') ? params['q'] : nil %>
-  <%= search_field_tag :q, query_string, placeholder: 'Search bookings', class: 'form-control mx-1 my-1', data: { hotkey: 's,/' } %>
-  <%= submit_tag 'Search', class: 'btn btn-outline-light mx-1 my-1'  %>
+  <%= search_field_tag :q, query_string, placeholder: 'Search bookings', class: 'form-control mx-md-1 my-1', data: { hotkey: 's,/' } %>
+  <%= submit_tag 'Search', class: 'btn btn-outline-light mx-md-1 my-1'  %>
   <% if user_logged_in? %>
     <%= link_to gravatar_image_tag(current_user.email, alt: current_user.name, class: 'rounded mx-1 my-1', gravatar: { size: 38, secure: true }), user_path(current_user) %>
   <% end %>
