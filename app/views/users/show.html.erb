@@ -41,15 +41,15 @@
     <% else %>
       <%= content_tag(:h4, "User's Shows:") %>
     <% end %>
-    <ul>
+    <div class="list-group list-group-flush">
       <% if @camdram_shows.nil? %>
-        <li>Unknown!</li>
+        <div class="list-group-item list-group-item-action">Unknown!</div>
       <% elsif @camdram_shows.count == 0 %>
-        <li>None!</li>
+        <div class="list-group-item list-group-item-action">None!</div>
       <% else %>
         <%= render @camdram_shows %>
       <% end %>
-    </ul>
+    </div>
   <% end %>
   <%= content_tag :div, class: 'col' do %>
     <% if @user == current_user %>
@@ -57,14 +57,14 @@
     <% else %>
       <%= content_tag(:h4, "User's Societies:") %>
     <% end %>
-    <ul>
+    <div class="list-group list-group-flush">
       <% if @camdram_societies.nil? %>
-        <li>Unknown!</li>
+        <div class="list-group-item list-group-item-action">Unknown!</div>
       <% elsif @camdram_societies.count == 0 %>
-        <li>None!</li>
+        <div class="list-group-item list-group-item-action">None!</div>
       <% else %>
         <%= render @camdram_societies %>
       <% end %>
-    </ul>
+    </div>
   <% end %>
 <% end %>

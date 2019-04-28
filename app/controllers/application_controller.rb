@@ -151,6 +151,7 @@ class ApplicationController < ActionController::Base
 
   # Enable development bar for authenticated sysadmins, or everyone in development.
   def peek_enabled?
+    return false
     (user_fully_authenticated? && current_user.sysadmin?) || Rails.env.development?
   end
 end

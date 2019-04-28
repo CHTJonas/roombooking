@@ -6,6 +6,6 @@
     <img src="/logo-wrapped.png" alt="" height="160">
     <h6 class="mb-3 font-weight-normal">To continue log in, please enter your two-factor authentication code.</h6>
     <%= text_field_tag :totp, '', placeholder: 'Two-factor code', class: 'form-control mb-3', required: true, maxlength: 6, minlength: 6, autocomplete: 'off', autofocus: true %>
-    <%= submit_tag 'Sign in', class: 'btn btn-lg btn-primary btn-block' %>
+    <%= submit_tag 'Sign in', class: 'btn btn-lg btn-outline-primary btn-block' %>
   <% end %>
 </div>
