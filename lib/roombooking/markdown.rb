@@ -4,7 +4,9 @@ module Roombooking
   module Markdown
     class << self
       def render(text)
-        markdown.render(text).html_safe
+        markdown_pool.with do |markdown|
+          markdown.render(text).html_safe
+        end
       end
 
       def render_without_wrap(text)
@@ -14,32 +16,16 @@ module Roombooking
         match_data[1].html_safe
       end
 
-      private
-
-      def markdown
-        markdown_pool.checkout
+      def render_like_camdram(text)
+        str = Roombooking::Markdown::CamdramParser.parse(text)
+        render(str)
       end
+
+      private
 
       def markdown_pool
         @markdown_pool ||= ConnectionPool.new(size: ENV.fetch('RAILS_MAX_THREADS') { 5 }, timeout: 3) do
-          # With the hashes in @options and @extensions we try to replicate
-          # the style of the Camdram Markdown parser as closely as possible.
-          @options ||= {
-            filter_html: true,
-            no_images: true,
-            no_styles: true,
-            safe_links_only: true,
-            hard_wrap: true,
-            link_attributes: { rel: 'nofollow', target: "_blank" }
-          }
-          @extensions ||= {
-            no_intra_emphasis: true,
-            fenced_code_blocks: true,
-            autolink: true,
-            strikethrough: true
-          }
-          @renderer ||= Redcarpet::Render::HTML.new(@options)
-          markdown = Redcarpet::Markdown.new(@renderer, @extensions)
+          Roombooking::Markdown::MarkdownFactory.new
         end
       end
     end

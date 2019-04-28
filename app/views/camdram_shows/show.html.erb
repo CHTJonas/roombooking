@@ -43,7 +43,7 @@
 <%= content_tag :div, class: 'row' do %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-8' do %>
     <%= content_tag(:h4, 'Description') %>
-    <%= Roombooking::Markdown.render(@external_show.description) %>
+    <%= Roombooking::Markdown.render_like_camdram(@external_show.description) %>
   <% end %>
   <%= content_tag :div, '', class: 'd-sm-none w-100' %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-4' do %>
