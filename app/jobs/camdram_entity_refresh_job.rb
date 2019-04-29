@@ -14,7 +14,15 @@ class CamdramEntityRefreshJob
 
   def refresh
     @refresh ||= Proc.new do |camdram_entity|
-      camdram_entity.name(true)
+      begin
+        retries ||= 0
+        camdram_entity.name(true)
+      rescue Roombooking::CamdramAPI::CamdramError
+        if (retries += 1) < 5
+          sleep 5 # Sleep for a short while in case Camdram is overloaded.
+          retry
+        end
+      end
       sleep 1 # Avoid hitting Camdram with requests too hard.
     end
   end
