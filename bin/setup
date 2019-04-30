@@ -45,4 +45,11 @@ chdir APP_ROOT do
   else
     system! 'bin/rails roombooking:install'
   end
+
+  puts Rainbow('Creating your user account...').blue
+  print Rainbow('Enter your name: ').yellow
+  name = gets.chomp
+  print Rainbow('Enter your email as it appears on Camdram: ').yellow
+  email = gets.chomp
+  system! "bin/rails runner \"User.create(name: '#{name}', email: '#{email}', admin: true, sysadmin: true)\""
 end
