@@ -24,6 +24,10 @@ module Roombooking
       end
     }
 
+    if OS::Underlying.docker? && Rails.env.development?
+      config.web_console.whitelisted_ips = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
+    end
+
     config.time_zone = 'London'
     config.beginning_of_week = :sunday
     config.eager_load_paths << Rails.root.join('lib')

@@ -50,7 +50,7 @@ gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.4'
 # GDPR
 gem 'cookies_eu'
-# Detection of server OS and client browser
+# Detection of server platofrm and client browser
 gem 'os', '~> 1.0'
 gem 'browser', '~> 2.5', '>= 2.5.3'
 # Connection pooling

@@ -17,6 +17,9 @@ SELECT array_to_string(ARRAY(SELECT dmetaphone(unnest(regexp_split_to_array($1, 
   desc 'Upgrade Roombooking to the latest version'
   task upgrade: :environment do; end
 
+  desc 'Setup the Docker development environment'
+  task docker: :environment do; end
+
   desc 'Prevent accidental database operations'
   task protect: :environment do
     puts Rainbow('WARNING!!!').red
@@ -52,4 +55,5 @@ Booking System from scratch? (type uppercase YES): }).yellow
 
   Rake::Task['roombooking:install'].enhance ['roombooking:protect', 'db:drop', 'db:create', 'db:schema:load', 'db:seed', 'assets:clobber', 'assets:precompile', 'search:setup']
   Rake::Task['roombooking:upgrade'].enhance ['db:migrate', 'assets:precompile']
+  Rake::Task['roombooking:docker'].enhance ['db:create', 'db:migrate', 'db:seed', 'yarn:install', 'search:setup']
 end
