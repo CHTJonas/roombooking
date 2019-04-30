@@ -33,10 +33,11 @@
 .byebug_history
 
 # Ignore application configuration settings
-.env.local
+/.env.local
+/.prod
 
 # Ignore Procodile configuration settings
-Procfile.local
+/Procfile.local
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key

@@ -6,10 +6,13 @@ workers_count = ENV.fetch('WEB_CONCURRENCY') { 1 }
 threads threads_count, threads_count
 workers workers_count
 
+if File.exist? File.expand_path('../.prod', __dir__)
+  ENV['RAILS_ENV'] = 'production'
+end
 environment = ENV.fetch('RAILS_ENV') { 'development' }
 environment environment
 
-if environment == 'production' || ENV['BIND']
+if environment == 'production'
   # If we prune the bundler context in development then we lose Rails' logging to STDOUT.
   prune_bundler
   port 8080
