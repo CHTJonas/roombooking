@@ -19,7 +19,14 @@ module Roombooking
         client_pool.with do |client|
           block.call(client)
         rescue => e
-          raise CamdramError.new, e
+          http_status = e.code['code']
+          if http_status.between?(400, 499)
+            raise Roombooking::CamdramAPI::ClientError.new, e
+          elsif http_status.between?(500, 599)
+            raise Roombooking::CamdramAPI::ServerError.new, e
+          else
+            raise Roombooking::CamdramAPI::CamdramError.new, e
+          end
         end
       end
 

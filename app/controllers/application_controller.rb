@@ -83,9 +83,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
     Raven.capture_exception(exception)
-    alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! "\
-      "This is probably a temporary error — try refreshing the page after a minute or two. "\
-      "Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
+    alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
     flash.now[:alert] = alert
     render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error, formats: :html
   end

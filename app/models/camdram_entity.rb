@@ -26,7 +26,7 @@ class CamdramEntity < ApplicationRecord
   # gets called quite a lot so let's cache the result indefinitely to avoid
   # instantiating a Camdram object each time. The cache can then be refreshed
   # by a background job.
-  def name(refresh_cache=false)
+  def name(refresh_cache: false)
     Rails.cache.fetch("#{cache_key}/name", expires_in: nil, force: refresh_cache) do
       camdram_object.name
     end
@@ -35,6 +35,12 @@ class CamdramEntity < ApplicationRecord
   # Returns the entity's external URL on Camdram.
   def url
     Roombooking::CamdramAPI.url_for(camdram_object)
+  end
+
+  # Queues a background job to refresh the entity's cached data from Camdram.
+  def warm_cache!
+    global_id = self.to_global_id.to_s
+    CamdramEntityCacheWarmupJob.perform_async(global_id)
   end
 
   # Returns an array that counts the entity's currently used quota for the
