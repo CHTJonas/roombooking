@@ -1,4 +1,4 @@
-FROM ruby:2.6.1
+FROM ruby:2.6.3
 
 # Make NodeJS and Yarn
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
