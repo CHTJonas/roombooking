@@ -4,7 +4,7 @@
 #
 # Table name: users
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string           not null
 #  email      :string           not null
 #  admin      :boolean          default(FALSE), not null

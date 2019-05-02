@@ -4,8 +4,8 @@
 #
 # Table name: camdram_shows
 #
-#  id             :bigint(8)        not null, primary key
-#  camdram_id     :bigint(8)        not null
+#  id             :bigint           not null, primary key
+#  camdram_id     :bigint           not null
 #  max_rehearsals :integer          default(0), not null
 #  max_auditions  :integer          default(0), not null
 #  max_meetings   :integer          default(0), not null

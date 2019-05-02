@@ -4,7 +4,7 @@
 #
 # Table name: rooms
 #
-#  id             :bigint(8)        not null, primary key
+#  id             :bigint           not null, primary key
 #  name           :string           not null
 #  camdram_venues :string           is an Array
 #  created_at     :datetime         not null

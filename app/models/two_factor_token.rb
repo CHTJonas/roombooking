@@ -4,11 +4,11 @@
 #
 # Table name: two_factor_tokens
 #
-#  id                  :bigint(8)        not null, primary key
+#  id                  :bigint           not null, primary key
 #  encrypted_secret    :binary
 #  encrypted_secret_iv :binary
 #  last_otp_at         :integer          default(0), not null
-#  user_id             :bigint(8)        not null
+#  user_id             :bigint           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

@@ -3,7 +3,7 @@
 #
 # Table name: bookings
 #
-#  id                    :bigint(8)        not null, primary key
+#  id                    :bigint           not null, primary key
 #  name                  :string           not null
 #  notes                 :text
 #  start_time            :datetime         not null
@@ -12,10 +12,10 @@
 #  repeat_mode           :integer          default("none"), not null
 #  purpose               :integer          not null
 #  approved              :boolean          default(FALSE), not null
-#  room_id               :bigint(8)        not null
-#  user_id               :bigint(8)        not null
+#  room_id               :bigint           not null
+#  user_id               :bigint           not null
 #  camdram_model_type    :string
-#  camdram_model_id      :bigint(8)
+#  camdram_model_id      :bigint
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  excluded_repeat_dates :string

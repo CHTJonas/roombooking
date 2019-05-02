@@ -4,8 +4,8 @@
 #
 # Table name: sessions
 #
-#  id          :bigint(8)        not null, primary key
-#  user_id     :bigint(8)        not null
+#  id          :bigint           not null, primary key
+#  user_id     :bigint           not null
 #  invalidated :boolean          default(FALSE), not null
 #  expires_at  :datetime         not null
 #  login_at    :datetime         not null

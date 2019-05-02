@@ -4,7 +4,7 @@
 #
 # Table name: application_settings
 #
-#  id                    :bigint(8)        not null, primary key
+#  id                    :bigint           not null, primary key
 #  auto_approve_bookings :boolean          default(FALSE), not null
 #
 
