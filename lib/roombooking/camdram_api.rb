@@ -18,7 +18,7 @@ module Roombooking
       def with(&block)
         client_pool.with do |client|
           block.call(client)
-        rescue => e
+        rescue OAuth2::Error => e
           http_status = e.code['code']
           if http_status.between?(400, 499)
             raise Roombooking::CamdramAPI::ClientError.new, e
@@ -27,6 +27,16 @@ module Roombooking
           else
             raise Roombooking::CamdramAPI::CamdramError.new, e
           end
+        rescue Faraday::TimeoutError => e
+          raise Roombooking::CamdramAPI::TimeoutError.new, e
+        rescue Faraday::ConnectionFailed => e
+          if e.wrapped_exception.class == Net::OpenTimeout
+            raise Roombooking::CamdramAPI::TimeoutError.new, e
+          else
+            raise Roombooking::CamdramAPI::CamdramError.new, e
+          end
+        rescue => e
+          raise Roombooking::CamdramAPI::CamdramError.new, e
         end
       end
 

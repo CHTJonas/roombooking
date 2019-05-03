@@ -36,7 +36,7 @@ module Roombooking
             end
             faraday.adapter :net_http do |http|
               http.open_timeout = socket_timeout
-              http.read_timeout = http_timeout
+              http.read_timeout = request_timeout
             end
           end
         end
@@ -51,7 +51,7 @@ module Roombooking
           end
         end
 
-        def http_timeout
+        def request_timeout
           if Sidekiq.server?
             10
           else

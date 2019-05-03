@@ -14,7 +14,7 @@ class CamdramEntityCacheWarmupJob
       camdram_entity.name(refresh_cache: true)
     rescue Roombooking::CamdramAPI::ClientError
       # Preserve cache, do nothing.
-    rescue Roombooking::CamdramAPI::ServerError
+    rescue Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError
       if (retries += 1) < 5
         sleep 5 # Sleep for a short while in case Camdram is overloaded.
         retry
