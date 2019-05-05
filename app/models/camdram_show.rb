@@ -84,7 +84,7 @@ class CamdramShow < CamdramEntity
     # bookings successfully, or none at all.
     ActiveRecord::Base.transaction do
       performances.each do |performance|
-        performance_time = performance.start_at
+        performance_time = performance.start_at.in_time_zone('London')
         performance_date = performance_time.to_date
         if performance.venue.slug == 'adc-theatre'
           if performance_time.hour == 19
