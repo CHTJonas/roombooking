@@ -84,29 +84,30 @@ class CamdramShow < CamdramEntity
     # bookings successfully, or none at all.
     ActiveRecord::Base.transaction do
       performances.each do |performance|
-        performance_time = performance.start_date.to_time + performance.time.to_i
+        performance_time = performance.start_at.in_time_zone('London')
+        performance_date = performance_time.to_date
         if performance.venue.slug == 'adc-theatre'
           if performance_time.hour == 19
             # Mainshow
-            start_time = performance.start_date.to_time + 18.hours
-            end_time = performance.start_date.to_time + 22.hours + 30.minutes
-            repeat_until = performance.end_date
+            start_time = performance_date.to_time + 18.hours
+            end_time = performance_date.to_time + 22.hours + 30.minutes
+            repeat_until = performance.repeat_until
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
               approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 23
             # Lateshow
-            start_time = performance.start_date.to_time + 22.hours + 30.minutes
-            end_time = performance.start_date.to_time + 24.hours
-            repeat_until = performance.end_date
+            start_time = performance_date.to_time + 22.hours + 30.minutes
+            end_time = performance_date.to_time + 24.hours
+            repeat_until = performance.repeat_until
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
               approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 14
             # Matinee
-            start_time = performance.start_date.to_time + 13.hours
-            end_time = performance.start_date.to_time + 18.hours
-            repeat_until = performance.end_date
+            start_time = performance_date.to_time + 13.hours
+            end_time = performance_date.to_time + 18.hours
+            repeat_until = performance.repeat_until
             Booking.create!(name: 'Matinee', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
               approved: true, room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
@@ -114,17 +115,17 @@ class CamdramShow < CamdramEntity
         elsif performance.venue.slug == 'corpus-playroom'
           if performance_time.hour == 19
             # Mainshow
-            start_time = performance.start_date.to_time + 18.hours
-            end_time = performance.start_date.to_time + 21.hours
-            repeat_until = performance.end_date
+            start_time = performance_date.to_time + 18.hours
+            end_time = performance_date.to_time + 21.hours
+            repeat_until = performance.repeat_until
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
               approved: true, room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
           elsif performance_time.hour == 21
             # Lateshow
-            start_time = performance.start_date.to_time + 21.hours
-            end_time = performance.start_date.to_time + 24.hours
-            repeat_until = performance.end_date
+            start_time = performance_date.to_time + 21.hours
+            end_time = performance_date.to_time + 24.hours
+            repeat_until = performance.repeat_until
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
               approved: true, room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
