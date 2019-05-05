@@ -1,9 +1,10 @@
 <% content_for :title, @user.name %>
 <% content_for :heading, 'User Details' %>
 <% content_for :controller_links do %>
-  <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
-  <%= link_to 'Impersonate', impersonate_user_path(@user), method: :post, class: 'btn btn-outline-warning' unless @user == current_user || @user == current_imposter %>
-  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary' if can? :crud, @user %>
+  <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary my-md-1' %>
+  <%= link_to 'Impersonate', impersonate_user_path(@user), method: :post,
+    class: 'btn btn-outline-warning my-md-1' unless @user == current_user || @user == current_imposter %>
+  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary my-md-1' if can? :crud, @user %>
 <% end %>
 
 <p>

@@ -1,8 +1,8 @@
 <% content_for :title, 'Bookings' %>
 <% content_for :heading, 'Bookings' %>
 <% content_for :controller_links do %>
-  <%= link_to_next_page @bookings, 'View more', class: 'btn btn-outline-secondary' %>
-  <%= link_to 'New booking', new_booking_path, class: 'btn btn-outline-success' if can? :create, Booking %>
+  <%= link_to_next_page @bookings, 'View more', class: 'btn btn-outline-secondary my-md-1' %>
+  <%= link_to 'New booking', new_booking_path, class: 'btn btn-outline-success my-md-1' if can? :create, Booking %>
 <% end %>
 
 <p>

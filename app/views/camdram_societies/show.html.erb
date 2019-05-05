@@ -1,10 +1,10 @@
 <% content_for :title, @camdram_society.name %>
 <% content_for :heading, @camdram_society.name %>
 <% content_for :controller_links do %>
-  <%= link_to 'Go Back', :back, class: 'btn btn-outline-secondary' %>
+  <%= link_to 'Go Back', :back, class: 'btn btn-outline-secondary my-md-1' %>
   <%= link_to 'Setup Integrations', edit_camdram_show_path(@camdram_society),
-    class: 'btn btn-outline-primary' if can? :update, @camdram_society %>
-  <%= link_to 'View on Camdram', @camdram_society.url, class: 'btn btn-outline-info' %>
+    class: 'btn btn-outline-primary my-md-1' if can? :update, @camdram_society %>
+  <%= link_to 'View on Camdram', @camdram_society.url, class: 'btn btn-outline-info my-md-1' %>
 <% end %>
 
 <%= content_tag(:h4, 'Booking Quotas for This Week') %>

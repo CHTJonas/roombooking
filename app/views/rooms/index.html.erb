@@ -1,7 +1,7 @@
 <% content_for :title, 'Rooms' %>
 <% content_for :heading, 'Rooms' %>
 <% content_for :controller_links do %>
-  <%= link_to 'New room', new_room_path, class: 'btn btn-outline-success' %>
+  <%= link_to 'New room', new_room_path, class: 'btn btn-outline-success my-md-1' %>
 <% end if can? :create, Room %>
 
 <ul>
