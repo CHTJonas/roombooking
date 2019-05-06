@@ -1,0 +1,26 @@
+language: ruby
+cache: bundler
+services:
+  - postgresql
+  - redis-server
+rvm:
+  - 2.6.3
+before_install:
+  - sudo apt-get update
+  - sudo apt-get remove -y postgresql\*
+  - sudo apt-get install -y postgresql-11 postgresql-client-11
+  - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+  - sudo service postgresql restart 11
+install:
+  - gem update --system
+  - gem install bundler
+  - bundle install --deployment
+  - bin/yarn install
+before_script:
+  - psql -c 'create database roombooking_test;' -U postgres
+  - psql -c 'CREATE ROLE travis SUPERUSER LOGIN CREATEDB;' -U postgres
+  - RAILS_ENV=test bundle exec rake --trace db:schema:load roombooking:search:setup
+script:
+  - RAILS_ENV=test bundle exec rake --trace test
+addons:
+  postgresql: "11.2"
