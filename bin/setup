@@ -6,7 +6,7 @@ require 'fileutils'
 include FileUtils
 
 APP_ROOT = File.expand_path('..', __dir__)
-ENV_FILE = '.env.local'
+ENV_FILE = '.env'
 
 def system!(*args)
   system(*args) || (
