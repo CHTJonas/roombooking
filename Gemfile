@@ -9,7 +9,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'linked-list', '~> 0.0.13'
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.1'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.3'
