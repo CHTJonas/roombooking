@@ -20,6 +20,6 @@ Rails.application.configure do
         @paper_trail_whodunnit_set = true
       end
       @paper_trail_whodunnit
-    }
+    } unless Rails.env.test?
   end
 end
