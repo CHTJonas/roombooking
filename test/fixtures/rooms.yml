@@ -1,19 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  name: MyString
-  notes: MyText
-  when: 2018-08-01 14:40:11
-  duration: MyString
-  room: one
-  user: one
-  deleted_at: 2018-08-01 14:40:11
+  name: ADC Theatre
+  camdram_venues: ['adc-theatre']
 
 two:
-  name: MyString
-  notes: MyText
-  when: 2018-08-01 14:40:11
-  duration: MyString
-  room: two
-  user: two
-  deleted_at: 2018-08-01 14:40:11
+  name: Corpus Playroom
+  camdram_venues: ['corpus-playroom']
