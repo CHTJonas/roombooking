@@ -36,7 +36,7 @@
 <hr class="my-4">
 
 <%= content_tag :div, class: 'row' do %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6 mb-3' do %>
     <% if @user == current_user %>
       <%= content_tag(:h4, 'My Shows:') %>
     <% else %>
@@ -52,7 +52,7 @@
       <% end %>
     </div>
   <% end %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6 mb-3' do %>
     <% if @user == current_user %>
       <%= content_tag(:h4, 'My Societies:') %>
     <% else %>
