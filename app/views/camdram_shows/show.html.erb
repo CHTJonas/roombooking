@@ -26,32 +26,28 @@
 </table>
 
 <%= content_tag(:h4, 'Bookings:') %>
-<ul>
+<div class="d-flex flex-wrap mb-3">
   <% if @camdram_show.approved_bookings.count == 0 %>
-    <li>
-      None!
-    </li>
+    <span class="badge badge-pill badge-light mr-1 mb-1">None!</span>
   <% else %>
     <% @camdram_show.approved_bookings.each do |booking| %>
-      <li>
-        <%= link_to booking.name, booking_path(booking) %>
-      </li>
+      <%= link_to booking.name, booking_path(booking), class: 'badge badge-pill badge-secondary mr-1 mb-1' %>
     <% end %>
   <% end %>
-</ul>
+</div>
 
 <%= content_tag :div, class: 'row' do %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-8' do %>
     <%= content_tag(:h4, 'Description') %>
     <%= Roombooking::Markdown.render_like_camdram(@external_show.description) %>
   <% end %>
-  <%= content_tag :div, '', class: 'd-sm-none w-100' %>
+  <%= content_tag :div, nil, class: 'd-sm-none w-100' %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-4' do %>
     <%= content_tag(:h4, 'Performances:') %>
-    <ul>
+    <ul class="list-group list-group-flush">
       <% @external_show.performances.each do |performance| %>
         <% (performance.start_at.to_date..performance.repeat_until.to_date).each do |date| %>
-          <li>
+          <li class="list-group-item list-group-item-compact">
             <%= performance.start_at.in_time_zone('London').strftime('%R') %> on
             <%= date %> at <%= performance.venue.try(:name) || performance.other_venue %>
           </li>

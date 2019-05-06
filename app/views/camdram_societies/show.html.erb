@@ -18,19 +18,15 @@
 </table>
 
 <%= content_tag(:h4, 'Bookings:') %>
-<ul>
+<div class="d-flex flex-wrap mb-3">
   <% if @camdram_society.approved_bookings.count == 0 %>
-    <li>
-      None!
-    </li>
+    <span class="badge badge-pill badge-light mr-1 mb-1">None!</span>
   <% else %>
     <% @camdram_society.approved_bookings.each do |booking| %>
-      <li>
-        <%= link_to booking.name, booking_path(booking) %>
-      </li>
+      <%= link_to booking.name, booking_path(booking), class: 'badge badge-pill badge-secondary mr-1 mb-1' %>
     <% end %>
   <% end %>
-</ul>
+</div>
 
 <%= content_tag(:h4, 'Description') %>
 <%= Roombooking::Markdown.render_like_camdram(@external_society.description) %>
