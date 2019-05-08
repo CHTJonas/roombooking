@@ -1,4 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
+ENV['QUIET'] = 'true'
+
 require_relative '../config/environment'
 require 'rails/test_help'
 
