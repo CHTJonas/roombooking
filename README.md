@@ -51,6 +51,7 @@ Pressing Ctrl+C will interrupt and shutdown either one of these.
 
 ## Contributing
 Anyone may contribute and bug reports or feature requests are warmly welcomed!
+Please read the [contributing guidelines](https://github.com/CHTJonas/roombooking/blob/master/CONTRIBUTING.md) first.
 If you think this is something you can code yourself:
 1. Fork the repo (https://github.com/CHTJonas/roombooking/fork).
 2. Create your feature branch (`git checkout -b my-new-feature`).
