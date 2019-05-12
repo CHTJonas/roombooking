@@ -143,6 +143,7 @@ group :test do
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'webdrivers', '~> 3.9'
+  gem 'codecov', '~> 0.1.14', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
