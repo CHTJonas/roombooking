@@ -14,7 +14,7 @@ class CamdramApiTest < ActionDispatch::IntegrationTest
       assert_equal 38, society.id
       assert_equal "camdram", society.slug
       assert_equal "Camdram", society.name
-      assert_equal "Camdram's meta-page on Camdram. We don't fund any shows, but we help others to put on shows using this website.\r\n\r\nThe site is maintained by volunteers in their spare time. If you have a question or problem, or you\u2019re interested in helping, contact us at websupport@camdram.net", society.description
+      assert_equal "Camdram's meta-page on Camdram. We don't fund any shows, but we help others to put on shows using this website.\r\n\r\nThe site is maintained by volunteers in their spare time. If you have a question or problem, or you\u2019re interested in helping, contact us at [support@camdram.net](mailto:support@camdram.net).", society.description
     end
   end
 
