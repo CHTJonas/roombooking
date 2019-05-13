@@ -59,6 +59,12 @@ If you think this is something you can code yourself:
 4. Push to the branch (`git push -u origin my-new-feature`).
 5. Create a new Pull Request.
 
+When you add, change or remove any code please try and add appropriate testing.
+Don't worry if you're not too sure about this - if you open a Pull Request we can provide some assistance.
+To run the full test suite, type the following into your terminal (or append to `docker-compose run --rm web`):
+1. `rails test`
+2. `rails test:system`
+
 Management of the project is meritocratic; those who have a reasonable number of accepted contributions will be granted access to commit straight to the `master` branch of this repository.
 
 ## Copyright
