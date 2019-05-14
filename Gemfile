@@ -16,6 +16,8 @@ gem 'paper_trail', '~> 10.3'
 gem 'paper_trail-association_tracking', '~> 2.0'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
+# HTTP security headers
+gem 'secure_headers', '~> 6.1'
 # Administrator interface
 gem 'rails_admin', '~> 1.3'
 gem 'rails_admin_history_rollback', '~> 1.0'
