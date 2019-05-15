@@ -1,0 +1,5 @@
+---
+scripts: {}
+styles:
+  app/views/layouts/mailer.html.erb:
+  - "'sha256-r+DMEHh1kLfHskaQ873xDBRCVRaiUr+RcT0XRcJhb+U='"

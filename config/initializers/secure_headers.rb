@@ -61,6 +61,9 @@ SecureHeaders::Configuration.default do |config|
 
     # Other directives
     block_all_mixed_content: true,
-    upgrade_insecure_requests: true
   }
+
+  config.csp.merge!({
+    upgrade_insecure_requests: true
+  }) if Rails.env.production?
 end

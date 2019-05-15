@@ -8,3 +8,6 @@ $ ->
       now being marked as dormant in the
       background – please refresh the page after
       a few seconds..."
+  $('[id$="max_rehearsals"]').on('change', -> Rails.fire(this.form, "submit"))
+  $('[id$="max_auditions"]').on('change', -> Rails.fire(this.form, "submit"))
+  $('[id$="max_meetings"]').on('change', -> Rails.fire(this.form, "submit"))
