@@ -42,6 +42,19 @@ class UsersController < ApplicationController
     end
   end
 
+  # Show basic information about the current user.
+  def me
+    respond_to do |format|
+      format.json do
+        if user_fully_authenticated?
+          render json: current_user.to_json(only: [:id, :name, :email])
+        else
+          render json: { }
+        end
+      end
+    end
+  end
+
   # Allows and administrator to impersonate a user.
   def impersonate
     # An imposter can't be a double agent!

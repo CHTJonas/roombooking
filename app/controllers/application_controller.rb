@@ -98,7 +98,6 @@ class ApplicationController < ActionController::Base
     Raven.user_context(sentry_user_context)
     Raven.tags_context(sentry_tags_context)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-    gon.user_json = current_user.to_json(only: [:id, :name, :email]) if user_logged_in?
   end
 
   # Params to send as user context along with Sentry errors.
