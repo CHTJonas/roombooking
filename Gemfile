@@ -101,7 +101,7 @@ gem 'peek-gc', '~> 0.0.2'
 gem 'peek-rblineprof', '~> 0.2.0'
 
 # Metrics & Logging
-gem 'ddtrace', '~> 0.23.2'
+gem 'ddtrace', '~> 0.23.3'
 gem 'yell', '~> 2.0'
 gem 'lograge', '~> 0.10.0'
 gem 'health_check', '~> 3.0'

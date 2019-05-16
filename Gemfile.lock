@@ -117,7 +117,7 @@ GEM
       js_cookie_rails (~> 2.2.0)
     crass (1.0.4)
     datey (1.1.0)
-    ddtrace (0.23.2)
+    ddtrace (0.23.3)
       msgpack
     debug_inspector (0.0.3)
     debugger-ruby_core_source (1.3.8)
@@ -468,7 +468,7 @@ DEPENDENCIES
   connection_pool (~> 2.2, >= 2.2.2)
   cookies_eu
   datey (~> 1.1)
-  ddtrace (~> 0.23.2)
+  ddtrace (~> 0.23.3)
   dotenv-rails (~> 2.7)
   escape_utils (~> 1.2)
   faraday_middleware (~> 0.13.0)
