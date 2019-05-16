@@ -7,7 +7,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/application_record.rb",
-      "line": 19,
+      "line": 18,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "connection.select_value(\"SELECT pg_advisory_unlock(#{lock_tuple});\")",
       "render_path": null,
@@ -23,19 +23,62 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
-      "fingerprint": "2f5bffc2d4aceeb8da09940602ac34119c5e05d855dd59e35023086e5a15344f",
+      "fingerprint": "444bfd0b8ff8090dac3632c26f14574eae6c0dedf2491e8632f401971f25a63d",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/camdram_shows/show.html.erb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"View on Camdram\", CamdramShow.eager_load(:bookings).find(params[:id]).url, :class => \"btn btn-outline-info my-md-1\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "CamdramShowsController",
+          "method": "show",
+          "line": 9,
+          "file": "app/controllers/camdram_shows_controller.rb",
+          "rendered": {
+            "name": "camdram_shows/show",
+            "file": "app/views/camdram_shows/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "camdram_shows/show"
+      },
+      "user_input": "CamdramShow.eager_load(:bookings).find(params[:id]).url",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "4be66acddfce0c37dc77a0ba8132420f861b0b98d271054140d7e4660509ecc1",
       "check_name": "LinkToHref",
       "message": "Potentially unsafe model attribute in `link_to` href",
       "file": "app/views/camdram_societies/show.html.erb",
       "line": 7,
       "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"View on Camdram\", CamdramSociety.eager_load(:approved_bookings).find(params[:id]).url, :class => \"btn btn-outline-info\")",
-      "render_path": [{"type":"controller","class":"CamdramSocietiesController","method":"show","line":9,"file":"app/controllers/camdram_societies_controller.rb","rendered":{"name":"camdram_societies/show","file":"/Users/charlie/Development/roombooking/app/views/camdram_societies/show.html.erb"}}],
+      "code": "link_to(\"View on Camdram\", CamdramSociety.eager_load(:bookings).find(params[:id]).url, :class => \"btn btn-outline-info my-md-1\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "CamdramSocietiesController",
+          "method": "show",
+          "line": 9,
+          "file": "app/controllers/camdram_societies_controller.rb",
+          "rendered": {
+            "name": "camdram_societies/show",
+            "file": "app/views/camdram_societies/show.html.erb"
+          }
+        }
+      ],
       "location": {
         "type": "template",
         "template": "camdram_societies/show"
       },
-      "user_input": "CamdramSociety.eager_load(:approved_bookings).find(params[:id]).url",
+      "user_input": "CamdramSociety.eager_load(:bookings).find(params[:id]).url",
       "confidence": "Weak",
       "note": ""
     },
@@ -46,7 +89,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/users_controller.rb",
-      "line": 79,
+      "line": 95,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:name, :email, :admin, :blocked)",
       "render_path": null,
@@ -66,7 +109,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/application_record.rb",
-      "line": 10,
+      "line": 9,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "connection.select_value(\"SELECT pg_try_advisory_lock(#{lock_tuple});\")",
       "render_path": null,
@@ -86,7 +129,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/application_record.rb",
-      "line": 14,
+      "line": 13,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "connection.execute(\"SELECT pg_advisory_lock(#{lock_tuple});\")",
       "render_path": null,
@@ -98,27 +141,8 @@
       "user_input": "lock_tuple",
       "confidence": "Medium",
       "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "fce7ec66abbb96135a791fcfb68c66cc2dcef42b628fac7172ce875e8ae7b91e",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/camdram_shows/show.html.erb",
-      "line": 7,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"View on Camdram\", CamdramShow.eager_load(:approved_bookings).find(params[:id]).url, :class => \"btn btn-outline-info\")",
-      "render_path": [{"type":"controller","class":"CamdramShowsController","method":"show","line":9,"file":"app/controllers/camdram_shows_controller.rb","rendered":{"name":"camdram_shows/show","file":"/Users/charlie/Development/roombooking/app/views/camdram_shows/show.html.erb"}}],
-      "location": {
-        "type": "template",
-        "template": "camdram_shows/show"
-      },
-      "user_input": "CamdramShow.eager_load(:approved_bookings).find(params[:id]).url",
-      "confidence": "Weak",
-      "note": ""
     }
   ],
-  "updated": "2019-03-08 19:20:10 +0000",
-  "brakeman_version": "4.4.0"
+  "updated": "2019-05-16 22:38:07 +0100",
+  "brakeman_version": "4.5.1"
 }

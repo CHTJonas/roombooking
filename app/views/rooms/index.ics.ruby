@@ -1,6 +1,6 @@
 bookings = []
 @rooms.each do |room|
-  bookings += room.approved_bookings
+  bookings += room.bookings
 end
 cal = IcalGenerationService.perform(bookings)
 cal.publish

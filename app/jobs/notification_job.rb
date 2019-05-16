@@ -11,7 +11,6 @@ class NotificationJob
   def perform(booking_id, camdram_model_global_id)
     @booking = Booking.find(booking_id)
     @camdram_model = GlobalID::Locator.locate camdram_model_global_id if camdram_model_global_id
-    notify_admins unless @booking.approved
     if @camdram_model.present?
       notify_slack_webhook if @camdram_model.slack_webhook.present?
     end
@@ -25,12 +24,6 @@ class NotificationJob
       msg += " Description:\n#{@booking.notes}" if @booking.notes.present?
       msg
     )
-  end
-
-  def notify_admins
-    User.where(admin: true).each do |admin|
-      MailDeliveryJob.perform_async(ApprovalsMailer, :notify, admin.id, @booking.id)
-    end
   end
 
   def notify_slack_webhook

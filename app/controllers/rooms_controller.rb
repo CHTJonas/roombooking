@@ -5,8 +5,8 @@ class RoomsController < ApplicationController
     if request.format == :html
       @rooms = Room.accessible_by(current_ability, :read).order(:id)
     elsif request.format == :ics
-      @rooms = Room.eager_load(approved_bookings: [:room, :user])
-        .preload(approved_bookings: :camdram_model)
+      @rooms = Room.eager_load(bookings: [:room, :user])
+        .preload(bookings: :camdram_model)
         .accessible_by(current_ability, :read).order(:id)
     end
     respond_to do |format|
@@ -60,8 +60,8 @@ class RoomsController < ApplicationController
       @end_date = @start_date + 7.days
       @events = @room.events_in_range(@start_date, @end_date)
     elsif request.format == :ics
-      @room = Room.eager_load(approved_bookings: [:room, :user])
-        .preload(approved_bookings: :camdram_model)
+      @room = Room.eager_load(bookings: [:room, :user])
+        .preload(bookings: :camdram_model)
         .find(params[:id])
     end
     authorize! :read, @room

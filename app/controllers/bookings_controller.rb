@@ -34,7 +34,6 @@ class BookingsController < ApplicationController
     if @booking.save
       NotificationJob.perform_async(@booking.id, @booking.camdram_model.try(:to_global_id).try(:to_s))
       msg = "Added #{@booking.name}!"
-      msg << " You will need to wait for this booking to be approved by an admin before it is shown publicly." unless @booking.approved?
       alert = { 'class' => 'success', 'message' =>  msg}
       flash[:alert] = alert
       redirect_to @booking
@@ -78,18 +77,6 @@ class BookingsController < ApplicationController
     alert = { 'class' => 'success', 'message' => "Deleted #{@booking.name}!" }
     flash[:alert] = alert
     redirect_to bookings_path
-  end
-
-  def approve
-    @booking = Booking.find(params[:id])
-    authorize! :approve, @booking
-    @booking.approved = true
-    if @booking.save
-      MailDeliveryJob.perform_async(ApprovalsMailer, :approve, @booking.user.id, @booking.id)
-      alert = { 'class' => 'success', 'message' => "Approved #{@booking.name}!" }
-      flash[:alert] = alert
-      redirect_to @booking
-    end
   end
 
   def favourites

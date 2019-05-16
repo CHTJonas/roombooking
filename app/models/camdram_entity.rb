@@ -5,8 +5,6 @@ class CamdramEntity < ApplicationRecord
   has_paper_trail
 
   has_many :booking, as: :camdram_model, dependent: :destroy
-  has_many :approved_bookings, -> { where(approved: true) },
-    class_name: 'Booking', as: :camdram_model
 
   after_create_commit :warm_cache!
 

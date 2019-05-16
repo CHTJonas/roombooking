@@ -2,16 +2,6 @@
 <% content_for :heading, 'Booking Details' %>
 <% content_for :controller_links do %>
   <%= link_to 'Back to Bookings', bookings_path, class: 'btn btn-outline-secondary my-md-1' %>
-  <% if can?(:approve, @booking) %>
-    <%= form_with model: @booking, local: true do |form| %>
-      <%= form.hidden_field :approved, value: !@booking.approved? %>
-      <% if @booking.approved? %>
-        <%= form.submit 'Unapprove', class: 'btn btn-outline-warning my-md-1' %>
-      <% else %>
-        <%= form.submit 'Approve', class: 'btn btn-outline-warning my-md-1' %>
-      <% end %>
-    <% end %>
-  <% end %>
   <%= link_to 'Edit', edit_booking_path(@booking), class: 'btn btn-outline-primary my-md-1' if can? :crud, @booking %>
   <%= link_to 'Delete', booking_path(@booking), method: :delete,
     data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-md-1' if can? :crud, @booking %>

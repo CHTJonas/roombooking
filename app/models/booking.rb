@@ -11,7 +11,6 @@
 #  repeat_until          :date
 #  repeat_mode           :integer          default("none"), not null
 #  purpose               :integer          not null
-#  approved              :boolean          default(FALSE), not null
 #  room_id               :bigint           not null
 #  user_id               :bigint           not null
 #  camdram_model_type    :string
@@ -66,9 +65,6 @@ class Booking < ApplicationRecord
   validate :camdram_model_must_be_valid
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
-
-  # Scope approved bookings only.
-  scope :approved, -> { where approved: true }
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like

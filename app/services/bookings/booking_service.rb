@@ -14,11 +14,7 @@ module Bookings
     private
 
     def booking_params
-      if @user.admin?
-        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :excluded_repeat_dates, :approved)
-      else
-        @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :excluded_repeat_dates)
-      end
+      @params.require(:booking).permit(:name, :notes, :start_time, :length, :room_id, :purpose, :repeat_mode, :repeat_until, :excluded_repeat_dates)
     end
 
     def populate_camdram_entities

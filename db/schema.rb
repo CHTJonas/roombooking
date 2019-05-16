@@ -10,17 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_134437) do
+ActiveRecord::Schema.define(version: 2019_05_16_213147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "unaccent"
-
-  create_table "application_settings", force: :cascade do |t|
-    t.boolean "auto_approve_bookings", default: false, null: false
-  end
 
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
@@ -30,7 +26,6 @@ ActiveRecord::Schema.define(version: 2019_04_19_134437) do
     t.date "repeat_until"
     t.integer "repeat_mode", default: 0, null: false
     t.integer "purpose", null: false
-    t.boolean "approved", default: false, null: false
     t.bigint "room_id", null: false
     t.bigint "user_id", null: false
     t.string "camdram_model_type"
@@ -38,7 +33,6 @@ ActiveRecord::Schema.define(version: 2019_04_19_134437) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "excluded_repeat_dates"
-    t.index ["approved"], name: "index_bookings_on_approved", where: "(approved = false)"
     t.index ["camdram_model_type", "camdram_model_id"], name: "index_bookings_on_camdram_model_type_and_camdram_model_id"
     t.index ["created_at"], name: "index_bookings_on_created_at", order: :desc
     t.index ["end_time"], name: "index_bookings_on_end_time"
