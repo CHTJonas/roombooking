@@ -190,7 +190,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    lograge (0.11.1)
+    lograge (0.10.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
@@ -486,7 +486,7 @@ DEPENDENCIES
   kramdown
   linked-list (~> 0.0.13)
   listen (>= 3.0.5, < 3.2)
-  lograge (~> 0.11.1)
+  lograge (~> 0.10.0)
   maildown (~> 3.0)
   oj (~> 3.7)
   omniauth-camdram (~> 1.0)
