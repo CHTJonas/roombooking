@@ -103,7 +103,7 @@ gem 'peek-rblineprof', '~> 0.2.0'
 # Metrics & Logging
 gem 'ddtrace', '~> 0.23.3'
 gem 'yell', '~> 2.0'
-gem 'lograge', '~> 0.10.0'
+gem 'lograge', '~> 0.11.1'
 gem 'health_check', '~> 3.0'
 
 # Reduces boot times through caching; required in config/boot.rb
