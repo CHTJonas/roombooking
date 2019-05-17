@@ -6,6 +6,10 @@ services:
       context: .
     ports:
       - "3000:3000"
+    networks:
+        - backend
+    volumes:
+      - .:/usr/src/app
     depends_on:
       - db
       - cache
@@ -13,8 +17,6 @@ services:
       DATABASE_URL: postgres://postgres:@db:5432
       REDIS_CACHE: redis://cache:6379/1
       REDIS_STORE: redis://cache:6379/1
-    volumes:
-      - .:/usr/src/app
     command: bundle exec rails server -b 0.0.0.0
   worker:
     ports: []
@@ -22,12 +24,14 @@ services:
     command: bundle exec sidekiq
   db:
     image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
+    networks:
+        - backend
     environment:
       POSTGRES_DB: roombooking_development
   cache:
     image: redis
-    ports:
-      - "6379:6379"
+    networks:
+        - backend
+networks:
+  backend:
+    driver: bridge
