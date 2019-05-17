@@ -10,7 +10,6 @@ services:
       - db
       - cache
     environment:
-      RAILS_ENV: development
       DATABASE_URL: postgres://postgres:@db:5432
       REDIS_CACHE: redis://cache:6379/1
       REDIS_STORE: redis://cache:6379/1
