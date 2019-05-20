@@ -5,8 +5,10 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'simplecov'
 require 'codecov'
+require 'sidekiq/testing'
 
 Rails.cache.clear
+Sidekiq::Testing.fake!
 SimpleCov.start
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
 

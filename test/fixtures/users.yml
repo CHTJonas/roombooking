@@ -1,0 +1,6 @@
+charlie:
+  name: Charlie Jonas
+  email: charlie@charliejonas.co.uk
+  admin: true
+  sysadmin: true
+  blocked: false
