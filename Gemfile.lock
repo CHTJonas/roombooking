@@ -139,7 +139,7 @@ GEM
       faraday (>= 0.7.4, < 1.0)
     fast_blank (1.0.0)
     ffi (1.11.0)
-    flatpickr (4.5.2.0)
+    flatpickr (4.5.7.0)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     fugit (1.2.1)
