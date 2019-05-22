@@ -14,7 +14,7 @@ SimpleCov.start
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 Minitest::Retry.use!(
-  exceptions_to_retry: [Roombooking::CamdramAPI::CamdramError],
+  exceptions_to_retry: [Roombooking::CamdramAPI::CamdramError, Roombooking::CamdramAPI::ClientError, Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError],
   retry_count: 3,
   verbose: true
 )
