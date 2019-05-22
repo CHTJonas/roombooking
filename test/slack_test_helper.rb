@@ -24,5 +24,9 @@ module SlackTestHelper
       o.slack_webhook = url
       assert o.save
     end
+
+    # We end up creating a CamdramEntity so we need to remove the generated
+    # cache warmup jobs.
+    CamdramEntityCacheWarmupJob.clear
   end
 end

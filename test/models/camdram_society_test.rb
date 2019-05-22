@@ -46,6 +46,9 @@ class CamdramSocietyTest < ActiveSupport::TestCase
         CamdramSociety.create_from_camdram(obj)
       end
     end
+    # We end up creating a CamdramEntity so we need to remove the generated
+    # cache warmup jobs.
+    CamdramEntityCacheWarmupJob.clear
   end
 
   test "should find society from a Camdram object" do
