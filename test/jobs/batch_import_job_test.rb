@@ -8,5 +8,6 @@ class BatchImportJobTest < ActiveJob::TestCase
     assert_equal 1, BatchImportJob.jobs.size
     BatchImportJob.drain
     assert_equal 0, BatchImportJob.jobs.size
+    CamdramEntityCacheWarmupJob.drain
   end
 end
