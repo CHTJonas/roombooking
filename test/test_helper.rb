@@ -1,18 +1,21 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['QUIET'] = 'true'
 
+require 'simplecov'
+SimpleCov.start 'rails'
+
 require_relative '../config/environment'
 require 'rails/test_help'
-require 'sidekiq/testing'
-require 'minitest/retry'
-require 'simplecov'
-require 'codecov'
-
+Rails.application.eager_load!
 Rails.cache.clear
+
+require 'sidekiq/testing'
 Sidekiq::Testing.fake!
-SimpleCov.start
+
+require 'codecov'
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
+require 'minitest/retry'
 Minitest::Retry.use!(
   exceptions_to_retry: [Roombooking::CamdramAPI::CamdramError, Roombooking::CamdramAPI::ClientError, Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError],
   retry_count: 3,
@@ -20,8 +23,5 @@ Minitest::Retry.use!(
 )
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
-
-  # Add more helper methods to be used by all tests here...
 end
