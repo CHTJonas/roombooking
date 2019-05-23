@@ -52,6 +52,6 @@ class Room < ApplicationRecord
   end
 
   def events_in_range(start_date, end_date)
-    Event.from_bookings(bookings.in_range(start_date, end_date))
+    Event.from_bookings(booking.in_range(start_date, end_date))
   end
 end
