@@ -17,10 +17,15 @@ SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 require 'minitest/retry'
 Minitest::Retry.use!(
-  exceptions_to_retry: [Roombooking::CamdramAPI::CamdramError, Roombooking::CamdramAPI::ClientError, Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError],
+  exceptions_to_retry: [Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError],
   retry_count: 3,
   verbose: true
 )
+
+Minitest::Retry.on_retry do |klass, test_name, retry_count|
+  # Retry with an exponential backoff.
+  sleep 3 ** ((retry_count + 1) / 2.0)
+end
 
 class ActiveSupport::TestCase
   fixtures :all
