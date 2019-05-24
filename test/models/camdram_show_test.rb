@@ -6,7 +6,7 @@ class CamdramShowTest < ActiveSupport::TestCase
 
   test "should not save if max_rehearsals is not an integer" do
     show = camdram_shows(:api_test_1)
-    show.max_rehearsals = 'some string'
+    show.max_rehearsals = "some string"
     assert_not show.save
     show.max_rehearsals = :some_symbol
     assert_not show.save
@@ -22,7 +22,7 @@ class CamdramShowTest < ActiveSupport::TestCase
 
   test "should not save if max_auditions is not an integer" do
     show = camdram_shows(:api_test_1)
-    show.max_auditions = 'some string'
+    show.max_auditions = "some string"
     assert_not show.save
     show.max_auditions = :some_symbol
     assert_not show.save
@@ -38,7 +38,7 @@ class CamdramShowTest < ActiveSupport::TestCase
 
   test "should not save if max_meetings is not an integer" do
     show = camdram_shows(:api_test_1)
-    show.max_meetings = 'some string'
+    show.max_meetings = "some string"
     assert_not show.save
     show.max_meetings = :some_symbol
     assert_not show.save

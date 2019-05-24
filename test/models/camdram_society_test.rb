@@ -6,7 +6,7 @@ class CamdramSocietyTest < ActiveSupport::TestCase
 
   test "should not save if max_meetings is not an integer" do
     soc = camdram_societies(:cuadc)
-    soc.max_meetings = 'some string'
+    soc.max_meetings = "some string"
     assert_not soc.save
     soc.max_meetings = :some_symbol
     assert_not soc.save
