@@ -1,0 +1,9 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 45
+        threshold: 1
+        base: pr
+comment:
+  behavior: new
