@@ -4,3 +4,10 @@ charlie:
   admin: true
   sysadmin: true
   blocked: false
+
+jane:
+  name: Jane Doe
+  email: jane.doe@example.com
+  admin: false
+  sysadmin: false
+  blocked: false
