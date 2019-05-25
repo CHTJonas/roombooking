@@ -36,6 +36,35 @@ class BookingTest < ActiveSupport::TestCase
     assert booking.save
   end
 
+  test "should return ordinary bookings in range" do
+    week_start = Date.today.beginning_of_week
+    week_end = week_start + 6.days
+    bookings = Booking.ordinary_in_range(week_start, week_end)
+    assert_equal 6, bookings.count
+    bookings.each do |booking|
+      assert_equal 'none', booking.repeat_mode
+      assert_match /ordinary_booking_\d/, booking.name
+    end
+  end
+
+  test "should return daily repeat bookings in range" do
+    range_end = Date.today.beginning_of_week + 1.day
+    range_start = Date.today.beginning_of_week - 3.weeks
+    test_daily_repeat_bookings(range_start, range_end)
+  end
+
+  test "should return daily repeat bookings in offset range" do
+    range_end = Date.today.beginning_of_week + 1.day + 3.days
+    range_start = Date.today.beginning_of_week - 3.weeks + 3.days
+    test_daily_repeat_bookings(range_start, range_end)
+  end
+
+  test "should return weekly repeat bookings in range" do
+    range_end = Date.today.beginning_of_week + 1.day
+    range_start = Date.today.beginning_of_week - 2.weeks
+    test_weekly_repeat_bookings(range_start, range_end)
+  end
+
   private
 
   def booking_test_hash
@@ -47,5 +76,23 @@ class BookingTest < ActiveSupport::TestCase
       room: rooms(:two),
       user: users(:jane)
     }
+  end
+
+  def test_daily_repeat_bookings(range_start, range_end)
+    bookings = Booking.daily_repeat_in_range(range_start, range_end)
+    assert_equal 4, bookings.count
+    bookings.each do |booking|
+      assert_equal 'daily', booking.repeat_mode
+      assert_match /daily_repeat_booking_\d/, booking.name
+    end
+  end
+
+  def test_weekly_repeat_bookings(range_start, range_end)
+    bookings = Booking.weekly_repeat_in_range(range_start, range_end)
+    assert_equal 3, bookings.count
+    bookings.each do |booking|
+      assert_equal 'weekly', booking.repeat_mode
+      assert_match /weekly_repeat_booking_\d/, booking.name
+    end
   end
 end

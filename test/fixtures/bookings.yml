@@ -1,0 +1,33 @@
+<% 6.times do |n| %>
+ordinary_booking_<%= n %>:
+  name: ordinary_booking_<%= n %>
+  start_time: <%= DateTime.now.beginning_of_week + 10.hours + n.days %>
+  end_time: <%= DateTime.now.beginning_of_week + 12.hours + n.days %>
+  purpose: other
+  room: one
+  user: charlie
+<% end %>
+
+<% 4.times do |n| %>
+daily_repeat_booking_<%= n %>:
+  name: daily_repeat_booking_<%= n %>
+  start_time: <%= DateTime.now.beginning_of_week + 15.hours - n.weeks %>
+  end_time: <%= DateTime.now.beginning_of_week + 17.hours - n.weeks %>
+  repeat_until: <%= DateTime.now.beginning_of_week - n.weeks + 6.days %>
+  repeat_mode: daily
+  purpose: other
+  room: one
+  user: charlie
+<% end %>
+
+<% 3.times do |n| %>
+weekly_repeat_booking_<%= n %>:
+  name: weekly_repeat_booking_<%= n %>
+  start_time: <%= DateTime.now.beginning_of_week + 9.hours - n.weeks %>
+  end_time: <%= DateTime.now.beginning_of_week + 10.hours - n.weeks %>
+  repeat_until: <%= DateTime.now.beginning_of_week - n.weeks + 4.days %>
+  repeat_mode: weekly
+  purpose: other
+  room: one
+  user: charlie
+<% end %>
