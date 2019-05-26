@@ -88,7 +88,7 @@ gem 'dotenv-rails', '~> 2.7'
 
 # Database persistence
 gem 'pg', '~> 1.1'
-gem 'pg_search', '~> 2.1'
+gem 'pg_search', '~> 2.2'
 
 # Performance profiling bar
 gem 'peek', '~> 1.0'
