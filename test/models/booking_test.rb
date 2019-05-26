@@ -31,9 +31,50 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking in past" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time -= 6.months
+    booking.end_time -= 6.months
+    assert_not booking.save
+  end
+
+  test "should not save booking during quiet hours" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time = DateTime.tomorrow + 4.hours
+    booking.end_time = DateTime.tomorrow + 6.hours
+    assert_not booking.save
+  end
+
+  test "should not save booking unless times align to the half-hour" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time += 15.minutes
+    assert_not booking.save
+    booking = Booking.new(booking_test_hash)
+    booking.end_time += 15.minutes
+    assert_not booking.save
+    booking = Booking.new(booking_test_hash)
+    booking.start_time += 15.minutes
+    booking.end_time += 15.minutes
+    assert_not booking.save
+  end
+
   test "should save booking" do
     booking = Booking.new(booking_test_hash)
     assert booking.save
+  end
+
+  test "should return stringified length" do
+    start_time = DateTime.parse('2019-01-01 12:00')
+    end_time = DateTime.parse('2019-01-01 15:30')
+    booking = Booking.new(start_time: start_time, end_time: end_time)
+    assert_equal "3 hours 30 minutes", booking.length
+  end
+
+  test "should set end time from stringified length" do
+    start_time = DateTime.parse('2019-01-01 12:00')
+    booking = Booking.new(start_time: start_time)
+    booking.length = "1 hour 30 minutes"
+    assert_equal DateTime.parse('2019-01-01 13:30'), booking.end_time
   end
 
   test "should return ordinary bookings in range" do
