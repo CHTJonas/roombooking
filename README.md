@@ -5,6 +5,7 @@
 [![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.3-brightgreen.svg)](https://www.ruby-lang.org/en/)
 [![Rails Version](https://img.shields.io/badge/Rails-v5.2.3-brightgreen.svg)](http://rubyonrails.org/)
 [![Build Status](https://travis-ci.org/CHTJonas/roombooking.svg?branch=master)](https://travis-ci.org/CHTJonas/roombooking)
+[![Test Coverage](https://codecov.io/gh/CHTJonas/roombooking/branch/master/graph/badge.svg)](https://codecov.io/gh/CHTJonas/roombooking)
 [![Security Warnings](https://hakiri.io/github/CHTJonas/roombooking/master.svg)](https://hakiri.io/github/CHTJonas/roombooking/master)
 
 This repository hosts the code for the new Room Booking System for the ADC Theatre in Cambridge.

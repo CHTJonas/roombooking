@@ -5,5 +5,9 @@ coverage:
         target: 45
         threshold: 1
         base: pr
+    patch:
+      default:
+        target: 70
+        base: pr
 comment:
   behavior: new
