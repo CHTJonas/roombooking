@@ -85,9 +85,19 @@ class User < ApplicationRecord
       begin
         # Poll Camdram for future shows that the user has access to.
         shows = camdram_client.user.get_shows
-        shows.reject! { |show| show.performances.last.end_date < Time.now }
+        shows.reject! do |show|
+          performance = show.performances.last
+          unless performance.present?
+            last_datetime = performance.start_at
+            unless performance.repeat_until.present?
+              date_difference = (performance.repeat_until - performance.start_at.to_date)
+              last_datetime += date_difference
+            end
+            last_datetime < Time.now
+          end
+        end
         # Then authorise any such active shows that are not dormant.
-        CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
+        CamdramShow.where(camdram_id: shows.each(&:id), dormant: false, active: true)
       rescue Roombooking::CamdramAPI::NoAccessToken => e
         raise e
       rescue
@@ -105,7 +115,7 @@ class User < ApplicationRecord
         # Poll Camdram for any societies that the user has access to.
         societies = camdram_client.user.get_societies
         # Then authorise any such active societies.
-        CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
+        CamdramSociety.where(camdram_id: societies.each(&:id), active: true)
       rescue Roombooking::CamdramAPI::NoAccessToken => e
         raise e
       rescue
