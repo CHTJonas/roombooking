@@ -28,9 +28,6 @@ class Booking < ApplicationRecord
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
-  enum repeat_mode: [ :none, :daily, :weekly ], _prefix: :repeat_mode
-  enum purpose: [ :audition_for, :meeting_for, :meeting_of, :performance_of, :rehearsal_for, :get_in_for, :theatre_closed, :training, :other ], _prefix: :purpose
-
   def self.admin_purposes
     [ :performance_of, :get_in_for, :theatre_closed, :training, :other ]
   end
@@ -43,6 +40,9 @@ class Booking < ApplicationRecord
   def self.purposes_with_none
     [ :theatre_closed, :training, :other ]
   end
+
+  enum repeat_mode: [ :none, :daily, :weekly ], _prefix: :repeat_mode
+  enum purpose: purposes_with_shows + purposes_with_societies + purposes_with_none, _prefix: :purpose
 
   belongs_to :room, touch: true
   belongs_to :user
