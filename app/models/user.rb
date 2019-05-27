@@ -39,8 +39,8 @@ class User < ApplicationRecord
     if account.present?
       account.user
     else
-      name = auth['info']['name'] || ''
-      email = auth['info']['email'] || ''
+      name = auth_hash['info']['name'] || ''
+      email = auth_hash['info']['email'] || ''
       user = User.find_by(email: email)
       ActiveRecord::Base.transaction do
         user = User.create!(name: name, email: email) unless user.present?
