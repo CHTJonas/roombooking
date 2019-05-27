@@ -3,3 +3,9 @@ api_test_1:
 
 api_test_2:
   camdram_id: 6515
+
+spring_awakening:
+  camdram_id: 5309
+  max_rehearsals: 8
+  max_auditions: 4
+  max_meetings: 2

@@ -58,6 +58,31 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "must not save repeating booking without a repeat until date" do
+    booking = Booking.new(booking_test_hash)
+    booking.repeat_mode = :daily
+    assert_not booking.save
+    booking.repeat_mode = :weekly
+    assert_not booking.save
+    booking.repeat_mode = :none
+    assert booking.save
+  end
+
+  test "should not save booking if Camdram venue is not permitted" do
+    booking = Booking.new(booking_test_hash)
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    assert_not booking.save
+  end
+
+  test "should save booking if Camdram venue is permitted" do
+    booking = Booking.new(booking_test_hash)
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    assert booking.save
+  end
+
   test "should save booking" do
     booking = Booking.new(booking_test_hash)
     assert booking.save
@@ -75,6 +100,22 @@ class BookingTest < ActiveSupport::TestCase
     booking = Booking.new(start_time: start_time)
     booking.length = "1 hour 30 minutes"
     assert_equal DateTime.parse('2019-01-01 13:30'), booking.end_time
+    booking.length = "7200"
+    assert_equal DateTime.parse('2019-01-01 14:00'), booking.end_time
+  end
+
+  test "should return human-friendly purpose string" do
+    booking = Booking.new(booking_test_hash)
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    assert_equal 'Rehearsal for "Spring Awakening"', booking.purpose_string
+  end
+
+  test "should return Camdram object" do
+    booking = Booking.new(booking_test_hash)
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    assert_equal camdram_shows(:spring_awakening).camdram_object, booking.camdram_object
   end
 
   test "should return ordinary bookings in range" do
