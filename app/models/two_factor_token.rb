@@ -28,7 +28,7 @@ class TwoFactorToken < ApplicationRecord
     if token.present?
       token
     else
-      create!(secret: ROTP::Base32.random_base32, user: user)
+      create!(secret: ROTP::Base32.random, user: user)
     end
   end
 
