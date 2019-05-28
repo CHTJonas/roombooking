@@ -152,8 +152,8 @@ class BookingTest < ActiveSupport::TestCase
   def booking_test_hash
     {
       name: 'Test Booking',
-      start_time: DateTime.tomorrow + 14.hours,
-      end_time: DateTime.tomorrow + 16.hours,
+      start_time: DateTime.tomorrow + 14.hours + 2.weeks,
+      end_time: DateTime.tomorrow + 16.hours + 2.weeks,
       purpose: 'other',
       room: rooms(:two),
       user: users(:jane)

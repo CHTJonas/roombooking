@@ -5,7 +5,6 @@ module Roombooking
     class << self
       def each(&block)
         venues.each(&block)
-        nil
       end
 
       def contains?(o)
@@ -13,14 +12,13 @@ module Roombooking
       end
 
       def regenerate
-        Rails.cache.write(cache_key, set_of_venues.to_a)
-        nil
+        venues(force: true)
       end
 
       private
 
-      def venues
-        Rails.cache.fetch(cache_key) do
+      def venues(force: false)
+        Rails.cache.fetch(cache_key, force: force) do
           set_of_venues.to_a
         end
       end
