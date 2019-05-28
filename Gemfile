@@ -62,7 +62,7 @@ gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git'
 gem 'faraday_middleware', '~> 0.13.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
-gem 'rotp', '~> 4.1'
+gem 'rotp', '~> 5.0'
 gem 'rqrcode', '~> 0.10.1'
 # Authorisation
 gem 'cancancan', '~> 3.0'
