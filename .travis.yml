@@ -24,3 +24,6 @@ script:
   - RAILS_ENV=test bundle exec rake --trace test
 addons:
   postgresql: "11.2"
+branches:
+  only:
+  - master
