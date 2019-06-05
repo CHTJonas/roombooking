@@ -53,7 +53,7 @@ SecureHeaders::Configuration.default do |config|
     sandbox: false,
 
     # Navigation directives
-    form_action: %w('self'),
+    form_action: %w('self' https://www.camdram.net),
     frame_ancestors: %w('none'),
 
     # Reporting directives
