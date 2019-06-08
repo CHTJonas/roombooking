@@ -1,4 +1,4 @@
-<%= form_tag next_wizard_path, class: 'form-inline', method: :post do %>
+<%= form_tag validate_2fa_code_user_path, class: 'form-inline', method: :post do %>
   <%= text_field_tag :totp, '', placeholder: 'Two-factor code', class: 'form-control mb-2 mr-sm-2', required: true, maxlength: 6, minlength: 6, autocomplete: 'off', autofocus: true %>
   <%= submit_tag 'Verify code', class: 'btn btn-outline-primary mb-2'  %>
 <% end %>

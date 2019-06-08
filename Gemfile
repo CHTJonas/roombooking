@@ -36,8 +36,6 @@ gem 'humanize_boolean', '~> 0.0.2'
 gem 'possessive', '~> 1.0'
 # Pagination
 gem 'kaminari', '~> 1.1'
-# Controller wizzards
-gem 'wicked', '~> 1.3'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
 gem 'icalendar', '~> 2.5'

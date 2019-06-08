@@ -40,7 +40,8 @@ Rails.application.routes.draw do
   resources :rooms
   resources :users do
     get 'me', on: :collection
-    match 'two_factor_setup/:id', to: 'two_factor_setup#show', via: [:get, :post], as: 'two_factor_setup', on: :member
+    get '2fa', to: 'two_factor_setup#show', as: 'show_2fa_qr', on: :member
+    post '2fa', to: 'two_factor_setup#validate', as: 'validate_2fa_code', on: :member
     post 'impersonate', on: :member
     post 'discontinue_impersonation', on: :collection,
       as: 'discontinue_impersonation_of'
