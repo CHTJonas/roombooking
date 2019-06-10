@@ -80,7 +80,7 @@ module Roombooking
       unless two_factor_authenticated?
         alert = { 'class' => 'info', 'message' => 'You need to complete two-factor authentication in order to login.' }
         flash[:alert] = alert
-        redirect_to auth_2fa_path
+        redirect_to "#{auth_2fa_path}?origin=#{ERB::Util.url_encode(request.path)}"
       end
     end
 

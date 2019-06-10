@@ -5,14 +5,15 @@ class TwoFactorController < ApplicationController
 
   def new
     if two_factor_authenticated?
-      redirect_to root_url
+      redirect_to params[:origin] || root_url
     else
       render 'sessions/two_factor'
     end
   end
 
   def create
-    redirect_to root_url and return if two_factor_authenticated?
+    url = params[:origin] || root_url
+    redirect_to url and return if two_factor_authenticated?
     code = params[:totp]
     token = current_user.two_factor_token
     auth = token.verify(code)
@@ -20,7 +21,7 @@ class TwoFactorController < ApplicationController
       session[:two_factor_auth] = auth
       alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
       flash[:alert] = alert
-      redirect_to root_path
+      redirect_to url
     else
       alert = { 'class' => 'warning', 'message' => 'Invalid two-factor authentication code.' }
       flash.now[:alert] = alert

@@ -7,4 +7,4 @@
   If you need to make a booking for something other than a meeting or rehearsal, or are otherwise not authorised to make bookings, please speak to a member of ADC Management.
 </p>
 
-<%= link_to 'Login with Camdram', '/auth/camdram', class: 'btn btn-outline-primary', method: :post %>
+<%= link_to 'Login with Camdram', "/auth/camdram?origin=#{u @referer_path}", class: 'btn btn-outline-primary', method: :post %>

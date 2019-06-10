@@ -3,9 +3,11 @@
 # Note that in this controller we often call reset_session to issue new
 # session identifiers in order to protect against session fixation.
 class SessionsController < ApplicationController
+  skip_before_action :handle_2fa!
 
   # Displays the login instructions page.
   def new
+    @referer_path = URI(request.referer).path if request.referer
     reset_session
   end
 
@@ -26,7 +28,7 @@ class SessionsController < ApplicationController
       session[:sesh_id] = sesh.id
       alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
       flash[:alert] = alert
-      redirect_to root_url
+      redirect_to request.env['omniauth.origin'] || root_url
     end
   end
 
