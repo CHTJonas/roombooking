@@ -1,27 +1,28 @@
 # frozen_string_literal: true
 
-# Be sure to restart your server when you modify this file.
+Rails.application.config.content_security_policy do |policy|
+  policy.default_src     :none
+  policy.img_src         :self, "https://secure.gravatar.com"
+  policy.script_src      :self
+  policy.style_src       :self, :unsafe_inline
+  policy.font_src        :self
+  policy.connect_src     :self
+  policy.form_action     :self, "https://www.camdram.net"
+  policy.frame_ancestors :none
+  policy.base_uri        :none
+  policy.block_all_mixed_content
 
-# Define an application-wide content security policy
-# For further information see the following documentation
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+  if ENV['CSP_REPORT_URI'].present?
+    policy.report_uri      ENV['CSP_REPORT_URI']
+  end
 
-# Rails.application.config.content_security_policy do |policy|
-#   policy.default_src :self, :https
-#   policy.font_src    :self, :https, :data
-#   policy.img_src     :self, :https, :data
-#   policy.object_src  :none
-#   policy.script_src  :self, :https
-#   policy.style_src   :self, :https
+  if Rails.env.production?
+    policy.upgrade_insecure_requests
+  end
+end
 
-#   # Specify URI for violation reports
-#   # policy.report_uri "/csp-violation-report-endpoint"
-# end
+# Enable automatic crytographic nonce generation for UJS.
+Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
 
-# If you are using UJS then enable automatic nonce generation
-# Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
-
-# Report CSP violations to a specified URI
-# For further information see the following documentation:
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
-# Rails.application.config.content_security_policy_report_only = true
+# Don't enforce CSP but report violations instead.
+Rails.application.config.content_security_policy_report_only = true
