@@ -9,6 +9,7 @@ module Admin
 
     def create
       @roombooking_society = CamdramSociety.new(create_camdram_society_params)
+      @roombooking_society.active = true
       @camdram_society = @roombooking_society.camdram_object
       respond_to do |format|
         if @roombooking_society.save
