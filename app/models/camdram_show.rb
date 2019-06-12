@@ -92,24 +92,27 @@ class CamdramShow < CamdramEntity
             start_time = performance_date.to_time + 18.hours
             end_time = performance_date.to_time + 22.hours + 30.minutes
             repeat_until = performance.repeat_until
+            repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 23
             # Lateshow
             start_time = performance_date.to_time + 22.hours + 30.minutes
             end_time = performance_date.to_time + 24.hours
             repeat_until = performance.repeat_until
+            repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 14
             # Matinee
             start_time = performance_date.to_time + 13.hours
             end_time = performance_date.to_time + 18.hours
             repeat_until = performance.repeat_until
+            repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Matinee', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           end
         elsif performance.venue.slug == 'corpus-playroom'
@@ -118,16 +121,18 @@ class CamdramShow < CamdramEntity
             start_time = performance_date.to_time + 18.hours
             end_time = performance_date.to_time + 21.hours
             repeat_until = performance.repeat_until
+            repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
           elsif performance_time.hour == 21
             # Lateshow
             start_time = performance_date.to_time + 21.hours
             end_time = performance_date.to_time + 24.hours
             repeat_until = performance.repeat_until
+            repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: :daily, purpose: :performance_of,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
           end
         end
