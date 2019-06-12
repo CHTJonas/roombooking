@@ -185,7 +185,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       end
       weeks_to_check.each do |start_of_week|
         end_of_week = start_of_week + 1.week
-        bookings = self.camdram_model.booking
+        bookings = self.camdram_model.bookings
           .where.not(id: self.id)
           .in_range(start_of_week, end_of_week)
         bookings << self

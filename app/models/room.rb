@@ -14,7 +14,7 @@
 class Room < ApplicationRecord
   has_paper_trail
 
-  has_many :booking, dependent: :destroy
+  has_many :bookings, dependent: :destroy
 
   validates :name, presence: true
 
@@ -30,16 +30,16 @@ class Room < ApplicationRecord
   end
 
   def get_booking_at(date)
-    query = self.booking.find_by(repeat_mode: :none, start_time: Time.at(0)..date, end_time: date..DateTime::Infinity.new)
+    query = self.bookings.find_by(repeat_mode: :none, start_time: Time.at(0)..date, end_time: date..DateTime::Infinity.new)
     return query unless query.nil?
-    self.booking.where(repeat_mode: :daily, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
+    self.bookings.where(repeat_mode: :daily, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
       if bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
         if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight
           return bkg
         end
       end
     end
-    self.booking.where(repeat_mode: :weekly, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
+    self.bookings.where(repeat_mode: :weekly, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
       if bkg.start_time.wday == date.wday
         if bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
           if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight
@@ -52,6 +52,6 @@ class Room < ApplicationRecord
   end
 
   def events_in_range(start_date, end_date)
-    Event.from_bookings(booking.in_range(start_date, end_date))
+    Event.from_bookings(self.bookings.in_range(start_date, end_date))
   end
 end

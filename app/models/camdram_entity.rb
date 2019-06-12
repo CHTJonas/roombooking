@@ -4,7 +4,7 @@ class CamdramEntity < ApplicationRecord
   self.abstract_class = true
   has_paper_trail
 
-  has_many :booking, as: :camdram_model, dependent: :destroy
+  has_many :bookings, as: :camdram_model, dependent: :destroy
 
   after_create_commit :warm_cache!
 
@@ -47,7 +47,7 @@ class CamdramEntity < ApplicationRecord
   # week beginning on the given date.
   def weekly_quota(start_of_week)
     end_of_week = start_of_week + 1.week
-    bookings = self.booking.in_range(start_of_week, end_of_week)
+    bookings = self.bookings.in_range(start_of_week, end_of_week)
     calculate_weekly_quota(start_of_week, bookings)
   end
 end

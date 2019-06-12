@@ -21,10 +21,10 @@ class User < ApplicationRecord
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
-  has_many :booking, dependent: :destroy
-  has_many :provider_account, dependent: :delete_all
+  has_many :bookings, dependent: :destroy
+  has_many :provider_accounts, dependent: :delete_all
   has_one :camdram_account, -> { where(provider: 'camdram') }, class_name: 'ProviderAccount'
-  has_many :camdram_token, dependent: :delete_all
+  has_many :camdram_tokens, dependent: :delete_all
   has_one :latest_camdram_token, -> { order(created_at: :desc) }, class_name: 'CamdramToken'
   has_one :two_factor_token, dependent: :delete
 

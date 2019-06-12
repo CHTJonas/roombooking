@@ -14,7 +14,7 @@ RailsAdmin.config do |config|
   audited_models = ['Booking', 'CamdramShow', 'CamdramSociety', 'Room', 'User']
 
   config.model 'User' do
-    exclude_fields :provider_account, :camdram_account, :camdram_token, :latest_camdram_token
+    exclude_fields :provider_accounts, :camdram_account, :camdram_tokens, :latest_camdram_token
   end
 
   config.actions do
