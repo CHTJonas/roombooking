@@ -1,7 +1,4 @@
-bookings = []
-@rooms.each do |room|
-  bookings += room.bookings
-end
+bookings = Booking.all
 cal = IcalGenerationService.perform(bookings)
 cal.publish
 cal.to_ical

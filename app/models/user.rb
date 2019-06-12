@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
   # Returns a user from an OmniAuth::AuthHash.
   def self.from_omniauth(auth_hash)
-    provider = auth_hash['provider']
+    provider = auth_hash['provider'].to_s
     uid = auth_hash['uid'].to_s
     account = ProviderAccount.find_by(provider: provider, uid: uid)
     if account.present?
