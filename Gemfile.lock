@@ -120,7 +120,7 @@ GEM
       msgpack
     debug_inspector (0.0.3)
     debugger-ruby_core_source (1.3.8)
-    docile (1.3.1)
+    docile (1.3.2)
     dotenv (2.7.2)
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
