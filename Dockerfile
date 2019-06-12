@@ -21,6 +21,7 @@ RUN apt-get -q clean
 RUN rm -rf /var/lib/apt/lists
 
 WORKDIR /usr/src/app
+ENV DISABLE_SPRING 1
 
 # Install Ruby dependencies
 COPY Gemfile* ./
