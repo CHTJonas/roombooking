@@ -1,54 +1,65 @@
-# Favourite bookings are stored in browser local storage and not on the
-# server. This is for privacy reasons. Bookings are stored as objects
-# inside an array in the following format:
-#
-#    [ { id: model_id, visits: number_of_visits }, etc... ]
-
-storageKey = 'rb_favourite_bookings'
+# Favourite bookings are stored in an indexed database locally in the user's
+# browser. This provides a level of isolation for privacy reasons.
 
 clearFavourites = ->
   $('#favourite-bookings-spinner').replaceWith('<p class="mt-4 my-3">None!</p>')
 
-getArray = ->
-  arr = JSON.parse localStorage.getItem(storageKey)
-  unless arr
-    arr = []
-  arr.sort (a, b) ->
-    b.visits - a.visits
+showErrorFavourites = ->
+  $('#favourite-bookings-spinner').replaceWith('<p class="mt-4 my-3">An error occurred retrieving favourite bookings!</p>')
 
-setArray = (arr) ->
-  localStorage.setItem(storageKey, JSON.stringify(arr))
+appendFavourites = (data) ->
+  if data
+    $('#favourite-bookings-container').replaceWith(data)
+  else
+    clearFavourites()
 
-idToObj = (model_id, number_of_visits=1) ->
-  { id: model_id, visits: number_of_visits }
+setupIDB = ->
+  DBOpenRequest = indexedDB.open("roombooking", 1)
+  DBOpenRequest.onupgradeneeded = (event) ->
+    db = event.target.result
+    db.onerror = (event) ->
+      console.error(event)
+      throw "An error occurred"
+    objectStore = db.createObjectStore("favouriteShows", { keyPath: "bookingId" })
+    objectStore.createIndex("numberOfVisits", "numberOfVisits", { unique: false })
+    objectStore.createIndex("lastVisitDate", "lastVisitDate", { unique: false })
+  DBOpenRequest
 
-getFavourites = (ids) ->
-  $.post("bookings/favourites",
-    { ids: ids.slice(0, 9) },
-    (data) ->
-      if data
-        $('#favourite-bookings-container').replaceWith(data)
+addBookingToFavourites = (id) ->
+  DBOpenRequest = setupIDB()
+  DBOpenRequest.onsuccess = (event) ->
+    db = DBOpenRequest.result
+    transaction = db.transaction("favouriteShows", "readwrite")
+    objectStore = transaction.objectStore("favouriteShows")
+    now = new Date()
+    obj = { bookingId: id,  numberOfVisits: 1, lastVisitDate: now.toUTCString() }
+    objectStoreRequest = objectStore.add(obj)
+
+showFavouriteBookings = ->
+  ids = []
+  DBOpenRequest = setupIDB()
+  DBOpenRequest.onerror = (event) ->
+    showErrorFavourites()
+  DBOpenRequest.onsuccess = (event) ->
+    db = DBOpenRequest.result
+    transaction = db.transaction("favouriteShows")
+    objectStore = transaction.objectStore("favouriteShows")
+    request = objectStore.openCursor()
+    request.onsuccess = (event) ->
+      cursor = event.target.result
+      if cursor
+        data = cursor.value.bookingId
+        ids.push(data)
+        cursor.continue()
       else
-        clearFavourites()
-    , 'html')
+        params = { ids: ids.slice(0, 9) }
+        $.post("bookings/favourites", params, appendFavourites, "html")
 
 $ ->
   regex = /^\/bookings\/([0-9]+)$/i
-  if window.location.pathname == "/bookings"
-    arr = getArray()
-    if arr && arr.length > 0
-      favouriteBookingIds = arr.map (o) -> o.id
-      getFavourites(favouriteBookingIds)
-    else
-      clearFavourites()
-  else
-    match = window.location.pathname.match(regex)
-    if match && match.length == 2
-      booking_id = Number(match[1])
-      arr = getArray()
-      obj = arr.find (x) -> x.id == booking_id
-      if obj
-        obj.visits += 1
-      else
-        arr.push(idToObj(booking_id))
-      setArray(arr)
+  match = window.location.pathname.match(regex)
+  if match && match.length == 2
+    bookingId = Number(match[1])
+    addBookingToFavourites(bookingId)
+  else if window.location.pathname == "/bookings"
+    showFavouriteBookings()
