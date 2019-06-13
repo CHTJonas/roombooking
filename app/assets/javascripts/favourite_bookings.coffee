@@ -33,10 +33,15 @@ addBookingToFavourites = (id) ->
     objectStore = transaction.objectStore("favouriteShows")
     now = new Date()
     obj = { bookingId: id,  numberOfVisits: 1, lastVisitDate: now.toUTCString() }
-    objectStoreRequest = objectStore.add(obj)
+    objectStoreRequest = objectStore.get(id)
+    objectStoreRequest.onsuccess = (event) ->
+      record = objectStoreRequest.result
+      if record
+        obj.numberOfVisits += record.numberOfVisits
+      objectStore.put(obj)
 
 showFavouriteBookings = ->
-  ids = []
+  objs = []
   DBOpenRequest = setupIDB()
   DBOpenRequest.onerror = (event) ->
     showErrorFavourites()
@@ -48,11 +53,16 @@ showFavouriteBookings = ->
     request.onsuccess = (event) ->
       cursor = event.target.result
       if cursor
-        data = cursor.value.bookingId
-        ids.push(data)
+        obj = cursor.value
+        objs.push(obj)
         cursor.continue()
       else
-        params = { ids: ids.slice(0, 9) }
+        objs.sort (a, b) ->
+          b.numberOfVisits - a.numberOfVisits
+        params = {
+          ids: objs.slice(0, 9).map (obj) ->
+            obj.bookingId
+        }
         $.post("bookings/favourites", params, appendFavourites, "html")
 
 $ ->
