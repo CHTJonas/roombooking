@@ -39,7 +39,6 @@ Rails.application.routes.draw do
   resources :camdram_societies, only: [:show, :edit, :update]
   resources :rooms
   resources :users do
-    get 'me', on: :collection
     get '2fa', to: 'two_factor_setup#show', as: 'show_2fa_qr', on: :member
     post '2fa', to: 'two_factor_setup#validate', as: 'validate_2fa_code', on: :member
     post 'impersonate', on: :member

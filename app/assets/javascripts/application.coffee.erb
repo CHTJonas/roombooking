@@ -27,10 +27,13 @@ $ ->
     dsn: '<%= ENV['SENTRY_DSN'] %>',
     release: '<%= Roombooking::VERSION %>',
     environment: '<%= Rails.env %>'
-  $.getJSON("/users/me.json", (data) ->
-    Sentry.configureScope (scope) ->
-      scope.setUser(data)
-  )
+  Sentry.configureScope (scope) ->
+    node = $("#rb-user-gravatar-link")[0]
+    if node
+      dataset = node.dataset
+      id = Number(dataset.userId)
+      user = { id: id }
+      scope.setUser(user)
   $("a").on "ajax:error", rbAjaxFail
   $("form").on "ajax:error", rbAjaxFail
   hotkey.install el for el in document.querySelectorAll '[data-hotkey]'
