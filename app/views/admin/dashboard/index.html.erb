@@ -7,35 +7,35 @@
 </p>
 
 <%= content_tag :div, class: 'row my-3' do %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12' do %>
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'Setup Booking Entities', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Configure shows and societies from Camdram to allow them to make bookings within limits you define.', class: 'card-text' %>
-        <%= link_to 'Configure Shows', admin_camdram_shows_path, class: 'btn btn-primary' %>
-        <%= link_to 'Configure Societies', admin_camdram_societies_path, class: 'btn btn-primary' %>
+        <%= content_tag :p, 'Configure shows and societies from Camdram to allow them to make bookings within limits you define.', class: 'card-text mb-3' %>
+        <%= link_to 'Configure Shows', admin_camdram_shows_path, class: 'btn btn-primary mt-1' %>
+        <%= link_to 'Configure Societies', admin_camdram_societies_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
 <% end %>
 
 <%= content_tag :div, class: 'row my-3' do %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6' do %>
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'Configure Site', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Set things up in exactly the way that you want.', class: 'card-text' %>
-        <%= link_to 'TODO!', '#', class: 'btn btn-primary' %>
-        <%= link_to 'Site Info', admin_info_path, class: 'btn btn-primary' %>
+        <%= content_tag :p, 'Set things up in exactly the way that you want.', class: 'card-text mb-3' %>
+        <%= link_to 'TODO!', '#', class: 'btn btn-primary mt-1' %>
+        <%= link_to 'Site Info', admin_info_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6 mt-3 mt-md-0' do %>
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'Backup Site', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Download a machine-readable copy of all data stored on the system.', class: 'card-text' %>
-        <%= link_to 'Download Backup', admin_backup_path, class: 'btn btn-primary' %>
+        <%= content_tag :p, 'Download a machine-readable copy of all data stored on the system.', class: 'card-text mb-3' %>
+        <%= link_to 'Download Backup', admin_backup_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
@@ -52,21 +52,21 @@
 </p>
 
 <%= content_tag :div, class: 'row my-3' do %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6' do %>
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'Sidekiq Jobs', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'View the background job queue and worker/mailer statuses.', class: 'card-text' %>
-        <%= link_to 'Go to Sidekiq', sidekiq_path, class: 'btn btn-primary' %>
+        <%= content_tag :p, 'View the background job queue and worker/mailer statuses.', class: 'card-text mb-3' %>
+        <%= link_to 'Go to Sidekiq', sidekiq_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
-  <%= content_tag :div, class: 'col' do %>
+  <%= content_tag :div, class: 'col-12 col-md-6 mt-3 mt-md-0' do %>
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'Back Office', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Access the site back end and edit model data manually.', class: 'card-text' %>
-        <%= link_to 'Go to Back Office', rails_admin_path, class: 'btn btn-primary' %>
+        <%= content_tag :p, 'Access the site back end and edit model data manually.', class: 'card-text mb-3' %>
+        <%= link_to 'Go to Back Office', rails_admin_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
