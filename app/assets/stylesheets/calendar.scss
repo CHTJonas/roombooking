@@ -6,6 +6,14 @@ table.calendar {
   padding: 0;
   margin: 0;
 
+  thead {
+    tr {
+      th {
+        min-width: 15ch;
+      }
+    }
+  }
+
   h3 {
     text-align: center;
     width: 100%;
