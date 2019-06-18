@@ -2,9 +2,16 @@
 <% content_for :heading, 'Room Booking Log In' %>
 
 <p>
-  The ADC Room Booking System doesn't use usernames and passwords — instead you will need to login with your <%= link_to 'Camdram', 'https://www.camdram.net' %> account in order to make bookings.
-  This will then allow you to book rehearsal spaces on behalf of shows and societies that you manage.
-  If you need to make a booking for something other than a meeting or rehearsal, or are otherwise not authorised to make bookings, please speak to a member of ADC Management.
+  The ADC Room Booking System doesn't use usernames and passwords — instead you need to login with your <%= link_to 'Camdram', 'https://www.camdram.net' %> account.
+  This will allow you to book rooms and other spaces on behalf of shows and societies that you have admin rights to on Camdram.
+  If you need to make a booking for something other than a meeting, audition or rehearsal, or are otherwise unable to make bookings, please speak to a member of ADC Management.
+</p>
+
+<p>
+  When you login, your name and email address will be copied across from Camdram to the Room Booking System.
+  The connection with Camdram will also be used to obtain an up-to-date list of shows and societies that you administer.
+  By continuing, you acknowledge that you are happy for this to happen.
+  For more details please see Room Booking's <%= link_to 'Privacy Policy', page_path('privacy') %>.
 </p>
 
 <%= link_to 'Login with Camdram', "/auth/camdram?origin=#{u @referer_path}", class: 'btn btn-outline-primary', method: :post %>
