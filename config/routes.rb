@@ -46,6 +46,10 @@ Rails.application.routes.draw do
       as: 'discontinue_impersonation_of'
   end
 
+  # Contact form
+  get '/contact' => 'contact_form#new'
+  post '/contact' => 'contact_form#create'
+
   # Authentication
   get '/login' => 'sessions#new'
   get '/logout' => 'sessions#destroy'
