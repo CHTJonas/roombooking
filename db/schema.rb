@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_16_213147) do
+ActiveRecord::Schema.define(version: 2019_06_19_201103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 2019_05_16_213147) do
     t.index ["encrypted_access_token_iv"], name: "index_camdram_tokens_on_encrypted_access_token_iv", unique: true
     t.index ["encrypted_refresh_token_iv"], name: "index_camdram_tokens_on_encrypted_refresh_token_iv", unique: true
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
+  end
+
+  create_table "emails", force: :cascade do |t|
+    t.string "from", null: false
+    t.string "to", null: false
+    t.string "subject", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "provider_accounts", force: :cascade do |t|

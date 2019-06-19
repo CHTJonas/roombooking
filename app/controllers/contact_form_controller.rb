@@ -7,7 +7,7 @@ class ContactFormController < ApplicationController
   def create
     @email = Email.new(email_params)
     @email.to = 'production@adctheatre.com'
-    if @email.valid?
+    if @email.save
       # Send email here
       alert = { 'class' => 'success', 'message' => 'Your message has been sent!' }
       flash[:alert] = alert
