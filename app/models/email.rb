@@ -16,4 +16,13 @@ class Email < ApplicationRecord
   validates :to, presence: true, email: true
   validates :subject, presence: true
   validates :body, presence: true
+
+  def send!
+    MailDeliveryJob.perform_async(nil, nil,
+      from: from,
+      to: to,
+      subject: subject,
+      body: body
+    )
+  end
 end

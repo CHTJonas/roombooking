@@ -8,7 +8,7 @@ class ContactFormController < ApplicationController
     @email = Email.new(email_params)
     @email.to = 'production@adctheatre.com'
     if @email.save
-      # Send email here
+      @email.send!
       alert = { 'class' => 'success', 'message' => 'Your message has been sent!' }
       flash[:alert] = alert
       redirect_to contact_path
