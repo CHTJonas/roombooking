@@ -15,7 +15,7 @@
   <div class="form-group row">
     <%= form.label :from, 'Your Email', class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-10">
-      <%= form.text_field :from, class: 'form-control' %>
+      <%= form.text_field :from, value: @email.from || current_user.try(:email), class: 'form-control' %>
     </div>
   </div>
   <div class="form-group row">
