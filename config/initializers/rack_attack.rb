@@ -21,3 +21,12 @@ Rack::Attack.throttle('logins by ip', limit: 5, period: 20.seconds) do |request|
     request.ip
   end
 end
+
+ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, req|
+  request = req[:request]
+  match = request.env['rack.attack.matched']
+  ip = request.ip
+  ua = request.user_agent
+  str = %Q(Throttled client due to match "#{match}" : [#{ip} - #{ua}])
+  Yell['abuse'].info(str)
+end
