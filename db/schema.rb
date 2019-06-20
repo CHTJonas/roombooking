@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_201103) do
+ActiveRecord::Schema.define(version: 2019_06_20_221451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -83,6 +83,20 @@ ActiveRecord::Schema.define(version: 2019_06_19_201103) do
     t.index ["user_id"], name: "index_camdram_tokens_on_user_id"
   end
 
+  create_table "camdram_venues", force: :cascade do |t|
+    t.bigint "camdram_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["camdram_id"], name: "index_camdram_venues_on_camdram_id", unique: true
+  end
+
+  create_table "camdram_venues_rooms", id: false, force: :cascade do |t|
+    t.bigint "camdram_venue_id"
+    t.bigint "room_id"
+    t.index ["camdram_venue_id"], name: "index_camdram_venues_rooms_on_camdram_venue_id"
+    t.index ["room_id"], name: "index_camdram_venues_rooms_on_room_id"
+  end
+
   create_table "emails", force: :cascade do |t|
     t.string "from", null: false
     t.string "to", null: false
@@ -104,7 +118,6 @@ ActiveRecord::Schema.define(version: 2019_06_19_201103) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name", null: false
-    t.string "camdram_venues", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

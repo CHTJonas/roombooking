@@ -4,21 +4,19 @@
 #
 # Table name: rooms
 #
-#  id             :bigint           not null, primary key
-#  name           :string           not null
-#  camdram_venues :string           is an Array
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Room < ApplicationRecord
   has_paper_trail
 
   has_many :bookings, dependent: :destroy
+  has_and_belongs_to_many :camdram_venues
 
   validates :name, presence: true
-
-  after_commit { Roombooking::VenueCache.regenerate }
 
   def currently_booked?
     current_booking.present?

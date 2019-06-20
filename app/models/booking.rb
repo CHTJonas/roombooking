@@ -200,7 +200,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   # The booking's selected room must allow a show's camdram venue.
   def room_must_allow_camdram_venue
     if self.room.present? && self.camdram_model.instance_of?(CamdramShow)
-      unless self.room.camdram_venues.include?(self.camdram_model.camdram_object.venue.slug)
+      unless self.room.camdram_venues.map(&:camdram_id).include?(self.camdram_model.camdram_object.venue.id)
         errors.add(:base, "Your show may not make bookings for this room.")
       end
     end
