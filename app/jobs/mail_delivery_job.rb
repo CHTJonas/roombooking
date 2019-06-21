@@ -14,7 +14,7 @@ class MailDeliveryJob
     else
       headers = args.first
       ActionMailer::Base.mail(
-        from: 'noreply@adctheatre.com',
+        from: 'roombooking@adctheatre.com',
         to: headers['to'],
         reply_to: headers['from'],
         subject: headers['subject'],
