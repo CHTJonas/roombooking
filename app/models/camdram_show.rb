@@ -16,7 +16,12 @@
 #  updated_at     :datetime         not null
 #
 
-class CamdramShow < CamdramEntity
+class CamdramShow < ApplicationRecord
+  include CamdramInteroperability
+  include CamdramBookingHandling
+
+  has_paper_trail
+
   validates :max_rehearsals, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0

@@ -1,22 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Roombooking::Auth
-
   protect_from_forgery with: :exception
 
   before_action :set_sentry!
   before_action :check_browser_version
-  before_action :check_user!
-  before_action :handle_2fa!
+  include Roombooking::Auth
   before_action :set_paper_trail_whodunnit
-  helper_method :current_user
-  helper_method :current_imposter
-  helper_method :true_user
-  helper_method :user_logged_in?
-  helper_method :user_fully_authenticated?
-  helper_method :user_is_admin?
-  helper_method :user_is_imposter?
 
   # Set a custom header containing the application version.
   def render(*args)

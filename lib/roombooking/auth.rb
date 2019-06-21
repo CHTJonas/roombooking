@@ -2,6 +2,20 @@
 
 module Roombooking
   module Auth
+    extend ActiveSupport::Concern
+
+    included do
+      before_action :check_user!
+      before_action :handle_2fa!
+      helper_method :current_user
+      helper_method :current_imposter
+      helper_method :true_user
+      helper_method :user_logged_in?
+      helper_method :user_fully_authenticated?
+      helper_method :user_is_admin?
+      helper_method :user_is_imposter?
+    end
+
     # Returns the current session.
     def current_session
       begin

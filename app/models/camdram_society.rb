@@ -13,7 +13,12 @@
 #  updated_at    :datetime         not null
 #
 
-class CamdramSociety < CamdramEntity
+class CamdramSociety < ApplicationRecord
+  include CamdramInteroperability
+  include CamdramBookingHandling
+
+  has_paper_trail
+
   validates :max_meetings, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
