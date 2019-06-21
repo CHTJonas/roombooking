@@ -62,7 +62,7 @@ class CamdramShowTest < ActiveSupport::TestCase
     assert_not show.save
   end
 
-  test "should return showiety's camdram object" do
+  test "should return show's camdram object" do
     show = camdram_shows(:api_test_1)
     obj = show.camdram_object
     assert_equal 6514, obj.id
