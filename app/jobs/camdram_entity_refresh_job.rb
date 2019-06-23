@@ -8,8 +8,8 @@ class CamdramEntityRefreshJob
   sidekiq_throttle concurrency: { limit: 1 }
 
   def perform
-    CamdramShow.find_each(batch_size: 10).map(&:warm_cache!)
-    CamdramSociety.find_each(batch_size: 10).map(&:warm_cache!)
-    CamdramVenue.find_each(batch_size: 10).map(&:warm_cache!)
+    CamdramShow.find_each(batch_size: 10).each(&:warm_cache!)
+    CamdramSociety.find_each(batch_size: 10).each(&:warm_cache!)
+    CamdramVenue.find_each(batch_size: 10).each(&:warm_cache!)
   end
 end
