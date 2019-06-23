@@ -15,5 +15,8 @@ class RoomTest < ActiveSupport::TestCase
     venue = CamdramVenue.create(camdram_id: 99)
     room = Room.new(name: "The Minack", camdram_venues: [venue])
     assert room.save
+    # We end up creating a Camdram entity so we need to remove the generated
+    # cache warmup jobs.
+    CamdramEntityCacheWarmupJob.clear
   end
 end

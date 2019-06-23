@@ -10,12 +10,12 @@ module CamdramInteroperability
   end
 
   module ClassMethods
-    # Creates a CamdramEntity model from a Camdram::Base object.
+    # Creates a Camdram entity model from a Camdram::Base object.
     def create_from_camdram(camdram_base)
       create_from_id(camdram_base.id)
     end
 
-    # Find a CamdramEntity model from a Camdram::Base object.
+    # Find a Camdram entity model from a Camdram::Base object.
     def find_from_camdram(camdram_base)
       find_by(camdram_id: camdram_base.id)
     end

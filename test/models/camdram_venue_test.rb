@@ -22,7 +22,7 @@ class CamdramVenueTest < ActiveSupport::TestCase
         CamdramVenue.create_from_camdram(obj)
       end
     end
-    # We end up creating a CamdramEntity so we need to remove the generated
+    # We end up creating a Camdram entity so we need to remove the generated
     # cache warmup jobs.
     CamdramEntityCacheWarmupJob.clear
   end
