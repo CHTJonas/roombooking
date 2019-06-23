@@ -10,5 +10,6 @@ class CamdramEntityRefreshJob
   def perform
     CamdramShow.find_each(batch_size: 10).map(&:warm_cache!)
     CamdramSociety.find_each(batch_size: 10).map(&:warm_cache!)
+    CamdramVenue.find_each(batch_size: 10).map(&:warm_cache!)
   end
 end

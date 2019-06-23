@@ -26,4 +26,17 @@ class CamdramEntityCacheWarmupJobTest < ActiveJob::TestCase
     assert_equal 0, CamdramEntityCacheWarmupJob.jobs.size
     assert_equal "Camdram", Rails.cache.read(cache_key)
   end
+
+  test "should warmup cache of a Camdram venue" do
+    camdram_venue = camdram_venues(:west_road)
+    global_id = camdram_venue.to_global_id.to_s
+    cache_key = "#{camdram_venue.cache_key}/name"
+    assert_equal 0, CamdramEntityCacheWarmupJob.jobs.size
+    Rails.cache.delete(cache_key)
+    CamdramEntityCacheWarmupJob.perform_async(global_id)
+    assert_equal 1, CamdramEntityCacheWarmupJob.jobs.size
+    CamdramEntityCacheWarmupJob.drain
+    assert_equal 0, CamdramEntityCacheWarmupJob.jobs.size
+    assert_equal "West Road Concert Hall", Rails.cache.read(cache_key)
+  end
 end
