@@ -1,8 +1,3 @@
-Approval reminder email job:
-  cron: '0 10 * * *'
-  class: 'ApprovalReminderJob'
-  queue: 'roombooking_jobs'
-
 Sitemap generation job:
   cron: '0 4 * * *'
   class: 'SitemapGenerationJob'
