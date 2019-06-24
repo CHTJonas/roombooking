@@ -36,7 +36,10 @@ class CamdramSociety < ApplicationRecord
   # Returns the Camdram::Organisation object that the record references by
   # querying the Camdram API.
   def camdram_object
-    @camdram_object ||= Roombooking::CamdramAPI.with { |client| client.get_society(self.camdram_id).make_orphan }
+    return nil unless self.camdram_id.present?
+    @camdram_object ||= Roombooking::CamdramAPI.with do |client|
+      client.get_society(self.camdram_id).make_orphan
+    end
   end
 
   # Abstraction to allow vallidation of new bookings. Returns the society's

@@ -22,6 +22,7 @@ class CamdramVenue < ApplicationRecord
   # Returns the Camdram::Venue object that the record references by
   # querying the Camdram API.
   def camdram_object
+    return nil unless self.camdram_id.present?
     @camdram_object ||= Roombooking::CamdramAPI.with do |client|
       client.get_venue(self.camdram_id).make_orphan
     end

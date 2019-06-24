@@ -21,13 +21,19 @@ module CamdramInteroperability
     end
   end
 
+  # Clears the cached value of the entity's name when its Camdram ID is updated.
+  def camdram_id=(cid)
+    Rails.cache.delete("#{cache_key}/name") if cid != self.camdram_id
+    super(cid)
+  end
+
   # Returns the name of the entity by querying the Camdram API. This method
   # gets called quite a lot so let's cache the result indefinitely to avoid
   # instantiating a Camdram object each time. The cache can then be refreshed
   # by a background job.
   def name(refresh_cache: false)
     Rails.cache.fetch("#{cache_key}/name", expires_in: nil, force: refresh_cache) do
-      camdram_object.name
+      camdram_object.try(:name)
     end
   end
 
