@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_221451) do
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.date "repeat_until"
+    t.string "excluded_repeat_dates"
     t.integer "repeat_mode", default: 0, null: false
     t.integer "purpose", null: false
     t.bigint "room_id", null: false
@@ -32,7 +33,6 @@ ActiveRecord::Schema.define(version: 2019_06_20_221451) do
     t.bigint "camdram_model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "excluded_repeat_dates"
     t.index ["camdram_model_type", "camdram_model_id"], name: "index_bookings_on_camdram_model_type_and_camdram_model_id"
     t.index ["created_at"], name: "index_bookings_on_created_at", order: :desc
     t.index ["end_time"], name: "index_bookings_on_end_time"
@@ -69,14 +69,14 @@ ActiveRecord::Schema.define(version: 2019_06_20_221451) do
   end
 
   create_table "camdram_tokens", force: :cascade do |t|
-    t.datetime "expires_at", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.binary "encrypted_access_token", null: false
     t.binary "encrypted_access_token_iv", null: false
     t.binary "encrypted_refresh_token", null: false
     t.binary "encrypted_refresh_token_iv", null: false
+    t.datetime "expires_at", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_camdram_tokens_on_created_at", order: :desc
     t.index ["encrypted_access_token_iv"], name: "index_camdram_tokens_on_encrypted_access_token_iv", unique: true
     t.index ["encrypted_refresh_token_iv"], name: "index_camdram_tokens_on_encrypted_refresh_token_iv", unique: true
