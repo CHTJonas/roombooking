@@ -7,6 +7,15 @@ GIT
       oauth2 (~> 1.4)
       ruby_multiton (~> 0.1)
 
+GIT
+  remote: https://github.com/omniauth/omniauth-rails.git
+  revision: 9001e185f913c54952aa2c4a9f95c8e68eedac07
+  branch: CVE-2015-9284
+  specs:
+    omniauth-rails (1.0.0)
+      omniauth (~> 1.0)
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -490,6 +499,7 @@ DEPENDENCIES
   minitest-retry (~> 0.1.9)
   oj (~> 3.7)
   omniauth-camdram (~> 1.0)
+  omniauth-rails!
   os (~> 1.0)
   paper_trail (~> 10.3)
   paper_trail-association_tracking (~> 2.0)
