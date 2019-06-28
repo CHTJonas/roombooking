@@ -7,7 +7,7 @@ class ContactFormController < ApplicationController
   def create
     @email = Email.new(email_params)
     @email.to = 'production@adctheatre.com'
-    if @email.save
+    if verify_recaptcha(model: @email) && @email.save
       @email.send!
       alert = { 'class' => 'success', 'message' => 'Your message has been sent!' }
       flash[:alert] = alert

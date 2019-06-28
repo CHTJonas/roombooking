@@ -63,6 +63,7 @@ gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails', git: 'https://github.com/omniauth/omniauth-rails.git', branch: 'CVE-2015-9284'
 gem 'rotp', '~> 5.1'
 gem 'rqrcode', '~> 0.10.1'
+gem 'recaptcha', '~> 5.0'
 # Authorisation
 gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
