@@ -57,8 +57,8 @@ Rails.application.routes.draw do
   delete '/logout_everywhere' => 'sessions#destroy_all'
   get '/auth/2fa' => 'two_factor#new'
   post '/auth/2fa' => 'two_factor#create'
-  get '/auth/:provider/callback' => 'sessions#create'
-  get '/auth/failure' => 'sessions#failure'
+  get '/auth/:provider/callback' => 'sessions#create', as: :auth_callback
+  get '/auth/failure' => 'sessions#failure', as: :auth_failure
 
   # Health & Performance
   mount Peek::Railtie => '/peek'

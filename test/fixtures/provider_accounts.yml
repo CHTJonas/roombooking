@@ -1,0 +1,9 @@
+charlie:
+  provider: camdram
+  uid: 3807
+  user: charlie
+
+jane:
+  provider: camdram
+  uid: 1234
+  user: jane
