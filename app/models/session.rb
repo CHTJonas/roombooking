@@ -10,7 +10,7 @@
 #  expires_at  :datetime         not null
 #  login_at    :datetime         not null
 #  ip          :inet             not null
-#  user_agent  :string           not null
+#  user_agent  :string
 #
 
 class Session < ApplicationRecord
@@ -19,7 +19,6 @@ class Session < ApplicationRecord
   validates :expires_at, presence: true
   validates :login_at, presence: true
   validates :ip, presence: true
-  validates :user_agent, presence: true
 
   def self.from_user_and_request(user, request)
     login_at = DateTime.now
