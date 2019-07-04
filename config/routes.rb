@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :users do
     get '2fa', to: 'two_factor_setup#show', as: 'show_2fa_qr', on: :member
     post '2fa', to: 'two_factor_setup#validate', as: 'validate_2fa_code', on: :member
+    get 'validate', on: :member
     post 'impersonate', on: :member
     post 'discontinue_impersonation', on: :collection,
       as: 'discontinue_impersonation_of'

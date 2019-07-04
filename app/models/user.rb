@@ -4,14 +4,16 @@
 #
 # Table name: users
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  email      :string           not null
-#  admin      :boolean          default(FALSE), not null
-#  sysadmin   :boolean          default(FALSE), not null
-#  blocked    :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :bigint           not null, primary key
+#  name             :string           not null
+#  email            :string           not null
+#  admin            :boolean          default(FALSE), not null
+#  sysadmin         :boolean          default(FALSE), not null
+#  blocked          :boolean          default(FALSE), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  validated_at     :datetime
+#  validation_token :string
 #
 
 class User < ApplicationRecord
@@ -30,6 +32,10 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+
+  before_create do |user|
+    user.validation_token = SecureRandom.alphanumeric(48)
+  end
 
   # Returns a user from an OmniAuth::AuthHash.
   def self.from_omniauth(auth_hash)
@@ -69,6 +75,15 @@ class User < ApplicationRecord
   # Unblocks the user.
   def unblock!
     self.update(blocked: false)
+  end
+
+  # Validates the user's account.
+  def validate(token)
+    if token == self.validation_token
+      update(validation_token: nil, validated_at: DateTime.now)
+    else
+      return false
+    end
   end
 
   # Returns the user's Camdram uid.

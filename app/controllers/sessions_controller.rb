@@ -21,6 +21,11 @@ class SessionsController < ApplicationController
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'user blocked'}, status: :forbidden
+    elsif user.validated_at.nil?
+      log_abuse "#{user.name} attempted to login but their account has not been validated yet"
+      alert = { 'class' => 'warning', 'message' => 'Please check your emails for the link to validate your account.' }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'user not validated'}, status: :forbidden
     else
       camdram_token = CamdramToken.from_omniauth_and_user(auth, user)
       sesh = Session.from_user_and_request(user, request)

@@ -42,6 +42,22 @@ class UsersController < ApplicationController
     end
   end
 
+  # Validates a user's account fro the first time when created.
+  def validate
+    @user = User.find(params[:id])
+    if @user.validate(params[:token])
+      log_abuse "#{@user.name} validated their account"
+      alert = { 'class' => 'success', 'message' => 'You have successfully validated your user account! Please now login.' }
+      flash[:alert] = alert
+      redirect_to root_path
+    else
+      log_abuse "#{@user.name} attempted to validated their account but failed"
+      alert = { 'class' => 'danger', 'message' => 'Something went wrong when validating your user account.' }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'user validation failed'}, status: :forbidden
+    end
+  end
+
   # Allows and administrator to impersonate a user.
   def impersonate
     # An imposter can't be a double agent!
