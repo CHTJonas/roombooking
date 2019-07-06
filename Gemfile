@@ -68,8 +68,6 @@ gem 'recaptcha', '~> 5.0'
 gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
 gem 'sentry-raven', '~> 2.9'
-# Markdown for emails
-gem 'maildown', '~> 3.0'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.0'
 # User Gravatar profile pictures

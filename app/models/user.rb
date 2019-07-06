@@ -38,7 +38,7 @@ class User < ApplicationRecord
   end
 
   after_create_commit do |user|
-    mailer = 'AccountValidationMailer'
+    mailer = 'EmailVerificationMailer'
     method = 'notify'
     user_id = user.id
     MailDeliveryJob.perform_async(mailer, method, user_id)
