@@ -37,6 +37,13 @@ class User < ApplicationRecord
     user.validation_token = SecureRandom.alphanumeric(48)
   end
 
+  after_create_commit do |user|
+    mailer = 'AccountValidationMailer'
+    method = 'notify'
+    user_id = user.id
+    MailDeliveryJob.perform_async(mailer, method, user_id)
+  end
+
   # Returns a user from an OmniAuth::AuthHash.
   def self.from_omniauth(auth_hash)
     provider = auth_hash['provider'].to_s

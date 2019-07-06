@@ -1,0 +1,14 @@
+## Verify your email address
+
+Dear <%= @user.name.split.first %>,
+
+Thank you for creating a new account on the ADC Room Booking System!
+
+To complete the sign-up process please follow the link below to verify your email address.
+Alternatively you may copy the URL into the address box of your internet browser.
+
+<<%= validate_user_url(@user, token: @user.validation_token) %>>
+
+Thank you,
+
+The ADC Room Booking System.
