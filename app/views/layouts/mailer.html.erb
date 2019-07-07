@@ -3,14 +3,60 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-      /* Email styles need to be inline */
+      body {
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      }
+      header, main, footer div.container {
+        margin: auto;
+        padding-left: 12px;
+        padding-right: 12px;
+        max-width: 1000px;
+      }
+      main {
+        padding-top: 8px;
+        padding-bottom: 30px;
+      }
+      footer {
+        padding-top: 16px;
+        padding-bottom: 16px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+      }
+      footer div.container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      footer div.container div.right {
+        margin-left: auto;
+      }
+      footer a {
+        color: #6c757d;
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
-
   <body>
     <% if content_for?(:heading) %>
-      <h2><%= yield(:heading) %></h2>
+      <header><h2><%= yield(:heading) %></h2></header>
     <% end %>
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="left">
+          <img src="/logo-long-black.svg" alt="ADC Theatre" width="160">
+        </div>
+        <div class="right">
+          <%= link_to 'Room Bookings System', root_url %>
+          &nbsp;&nbsp;&#124;&nbsp;&nbsp;
+          <%= link_to 'ADC Main Site', 'https://www.adctheatre.com' %>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
