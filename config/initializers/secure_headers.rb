@@ -18,10 +18,14 @@ SecureHeaders::Configuration.default do |config|
 
   # Attempt to prevent cross-site request forgery attacks as best we can.
   config.x_xss_protection = "1; mode=block"
-  config.x_frame_options = "deny"
   config.x_content_type_options = "nosniff"
   config.x_download_options = "noopen"
   config.x_permitted_cross_domain_policies = "none"
+
+  # Mailer previews work using XFrames.
+  unless Rails.env.development? && Rails.application.config.action_mailer.show_previews
+    config.x_frame_options = "deny"
+  end
 
   # Prevent leaking excessive information to third-parties via the refer header.
   config.referrer_policy = "strict-origin-when-cross-origin"
