@@ -48,6 +48,8 @@ gem 'font-awesome-rails', '~> 4.7'
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.4'
+# Inline email styles
+gem 'premailer-rails', '~> 1.10'
 # GDPR
 gem 'cookies_eu'
 # Detection of server platofrm and client browser

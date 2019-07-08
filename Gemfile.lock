@@ -124,6 +124,8 @@ GEM
     cookies_eu (1.7.5)
       js_cookie_rails (~> 2.2.0)
     crass (1.0.4)
+    css_parser (1.7.0)
+      addressable
     datey (1.1.0)
     ddtrace (0.25.0)
       msgpack
@@ -163,6 +165,7 @@ GEM
     health_check (3.0.0)
       railties (>= 5.0)
     high_voltage (3.1.2)
+    htmlentities (4.3.4)
     humanize_boolean (0.0.2)
       i18n
     i18n (1.6.0)
@@ -282,6 +285,13 @@ GEM
       activesupport (>= 4.2)
     popper_js (1.14.5)
     possessive (1.0.1)
+    premailer (1.11.1)
+      addressable
+      css_parser (>= 1.6.0)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.10.2)
+      actionmailer (>= 3, < 6)
+      premailer (~> 1.7, >= 1.7.9)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -512,6 +522,7 @@ DEPENDENCIES
   pg (~> 1.1)
   pg_search (~> 2.2)
   possessive (~> 1.0)
+  premailer-rails (~> 1.10)
   pry-rails (~> 0.3.9)
   puma (~> 4.0)
   rack-attack (~> 6.0)
@@ -547,4 +558,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
