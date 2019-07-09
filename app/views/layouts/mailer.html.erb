@@ -5,23 +5,23 @@
     <%= stylesheet_link_tag 'mail' %>
   </head>
   <body>
-    <% if content_for?(:heading) %>
-      <header><h2><%= yield(:heading) %></h2></header>
-    <% end %>
-    <main>
-      <%= yield %>
-    </main>
-    <footer>
-      <div class="container">
-        <div class="left">
-          <img src="/logo-long-black.svg" alt="ADC Theatre" width="160">
-        </div>
-        <div class="right">
-          <%= link_to 'Room Bookings System', root_url %>
-          &nbsp;&nbsp;&#124;&nbsp;&nbsp;
-          <%= link_to 'ADC Main Site', 'https://www.adctheatre.com' %>
-        </div>
-      </div>
-    </footer>
+    <div class="container">
+      <header>
+        <%= link_to root_url do %>
+          <img src="https://roombooking-dev.adctheatre.com/logo-long-white.svg" alt="ADC Theatre" width="240" height="50">
+        <% end %>
+      </header>
+      <main>
+        <% if content_for?(:heading) %>
+          <h2 class="heading"><%= yield(:heading) %></h2>
+        <% end %>
+        <%= yield %>
+      </main>
+      <footer>
+        <%= link_to 'Room Bookings System', root_url %>
+        &nbsp;&nbsp;&#124;&nbsp;&nbsp;
+        <%= link_to 'ADC Main Site', 'https://www.adctheatre.com' %>
+      </footer>
+    </div>
   </body>
 </html>

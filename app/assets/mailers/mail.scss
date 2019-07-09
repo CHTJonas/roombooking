@@ -4,36 +4,53 @@
  */
 
 body {
- font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
-header, main, footer div.container {
- margin: auto;
- padding-left: 12px;
- padding-right: 12px;
- max-width: 1000px;
+
+div.container {
+  margin: auto;
+  max-width: 660px;
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
 }
+
+header, main, footer {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+  background-color: rgb(218, 0, 116);
+}
+
 main {
- padding-top: 8px;
- padding-bottom: 30px;
+  padding-top: 2em;
+  padding-bottom: 3em;
+
+  h2.heading {
+    margin-top: 0em;
+    padding-bottom: 0.5em;
+  }
 }
+
 footer {
- padding-top: 16px;
- padding-bottom: 16px;
- background-color: #f8f9fa;
- border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-top: 1px solid #dee2e6;
 }
-footer div.container {
- display: flex;
- flex-wrap: wrap;
- align-items: center;
-}
-footer div.container div.right {
- margin-left: auto;
-}
+
 footer a {
- color: #6c757d;
- text-decoration: none;
+  color: #6c757d;
+  text-decoration: none;
 }
+
 footer a:hover {
- text-decoration: underline;
+  text-decoration: underline;
 }
