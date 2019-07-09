@@ -1,1 +1,5 @@
+<% if content_for?(:heading) %>
+<%= yield(:heading) %>
+===============================================
+<% end %>
 <%= yield %>
