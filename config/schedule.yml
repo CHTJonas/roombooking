@@ -1,3 +1,8 @@
+Email verification reminder job:
+  cron: '0 3 * * *'
+  class: 'EmailVerificationReminderJob'
+  queue: 'roombooking_jobs'
+
 Sitemap generation job:
   cron: '0 4 * * *'
   class: 'SitemapGenerationJob'

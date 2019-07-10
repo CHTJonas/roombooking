@@ -1,0 +1,19 @@
+<% content_for :heading, 'You have yet to verify your email address' %>
+
+<p>Dear <%= @user.name.split.first %>,</p>
+
+<p>
+  You have yet to verify the email address associated with your account on the Room Booking System.
+  You will need to do this before you can login and make bookings.
+</p>
+
+<p>
+  To complete the sign-up process, please follow the link below.
+  Alternatively you may copy the URL into the address box of your web browser.
+</p>
+
+<%= link_to nil, validate_user_url(@user, token: @user.validation_token) %>
+
+<p>Thank you,</p>
+
+<p>The ADC Room Booking System.</p>
