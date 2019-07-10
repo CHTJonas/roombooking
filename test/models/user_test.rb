@@ -14,6 +14,7 @@ class UserTest < ActiveSupport::TestCase
   test "should save user with name and email" do
     user = User.new(name: "Joe Bloggs", email: "joe.bloggs@example.com")
     assert user.save
+    MailDeliveryJob.jobs.clear
   end
 
   test "should not save user with duplicate email" do

@@ -13,3 +13,11 @@ jane:
   sysadmin: false
   blocked: false
   validated_at: <%= DateTime.now %>
+
+bob:
+  name: Bob The Builder
+  email: bob.builder@example.com
+  admin: false
+  sysadmin: false
+  blocked: false
+  validation_token: KTsbFf4QQ6wCxmWUHPVplAZMWhrQpoWI1QB3AejVmu0ViJaC

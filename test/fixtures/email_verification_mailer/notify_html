@@ -1,0 +1,14 @@
+<p>Dear Bob,</p>
+
+<p>Thank you for creating an account on the ADC Room Booking System!</p>
+
+<p>
+  To complete the sign-up process please follow the link below to verify your email address.
+  Alternatively you may copy the URL into the address box of your web browser.
+</p>
+
+<a href="http://roombooking-dev.adctheatre.com/users/902541635/validate?token=KTsbFf4QQ6wCxmWUHPVplAZMWhrQpoWI1QB3AejVmu0ViJaC">http://roombooking-dev.adctheatre.com/users/902541635/validate?token=KTsbFf4QQ6wCxmWUHPVplAZMWhrQpoWI1QB3AejVmu0ViJaC</a>
+
+<p>Thank you,</p>
+
+<p>The ADC Room Booking System.</p>
