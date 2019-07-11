@@ -28,6 +28,7 @@ module Roombooking
             headers['X-RateLimit-Limit'] = limit.to_s
             headers['X-RateLimit-Remaining'] = requests_remaining.to_s
             headers['X-RateLimit-Reset'] = next_period.to_s
+            headers['X-RateLimit-Discriminator'] = per_ip_throttle_data[:discriminator]
             headers['Retry-After'] = time_remaining.to_s if count >= limit
           end
         end
