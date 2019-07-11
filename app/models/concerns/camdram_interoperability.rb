@@ -19,6 +19,17 @@ module CamdramInteroperability
     def find_from_camdram(camdram_base)
       find_by(camdram_id: camdram_base.id)
     end
+
+    # Defines a method that, when called, will return the Camdram API object
+    # that the entity references.
+    def uses_camdram_client_method(method)
+      define_method(:camdram_object) do
+        return nil unless self.camdram_id.present?
+        @camdram_object ||= Roombooking::CamdramAPI.with do |client|
+          client.send(method, self.camdram_id).make_orphan
+        end
+      end
+    end
   end
 
   # Clears the cached value of the entity's name when its Camdram ID is updated.

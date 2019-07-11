@@ -21,6 +21,7 @@ class CamdramShow < ApplicationRecord
   include CamdramBookingHandling
 
   has_paper_trail
+  uses_camdram_client_method :get_show
 
   validates :max_rehearsals, numericality: {
     only_integer: true,
@@ -43,15 +44,6 @@ class CamdramShow < ApplicationRecord
       roombooking_show.max_auditions = 10
       roombooking_show.max_meetings = 4
       roombooking_show.active = true
-    end
-  end
-
-  # Returns the Camdram::Show object that the record references by querying
-  # the Camdram API.
-  def camdram_object
-    return nil unless self.camdram_id.present?
-    @camdram_object ||= Roombooking::CamdramAPI.with do |client|
-      client.get_show(self.camdram_id).make_orphan
     end
   end
 

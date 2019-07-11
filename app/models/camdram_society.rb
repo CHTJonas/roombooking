@@ -18,6 +18,7 @@ class CamdramSociety < ApplicationRecord
   include CamdramBookingHandling
 
   has_paper_trail
+  uses_camdram_client_method :get_society
 
   validates :max_meetings, numericality: {
     only_integer: true,
@@ -30,15 +31,6 @@ class CamdramSociety < ApplicationRecord
       roombooking_society.camdram_id = id
       roombooking_society.max_meetings = 14
       roombooking_society.active = false
-    end
-  end
-
-  # Returns the Camdram::Organisation object that the record references by
-  # querying the Camdram API.
-  def camdram_object
-    return nil unless self.camdram_id.present?
-    @camdram_object ||= Roombooking::CamdramAPI.with do |client|
-      client.get_society(self.camdram_id).make_orphan
     end
   end
 
