@@ -5,6 +5,11 @@ class CamdramSocietiesController < ApplicationController
     @camdram_society = CamdramSociety.eager_load(:bookings).find(params[:id])
     authorize! :read, @camdram_society
     @external_society = @camdram_society.camdram_object
+    if @external_society.nil?
+      alert = { 'class' => 'warning', 'message' => 'This society appears to have been deleted from Camdram.' }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
+    end
     @quota = @camdram_society.weekly_quota Date.today.beginning_of_week
   end
 

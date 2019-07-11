@@ -165,6 +165,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       self.camdram_model = nil
     else
       errors.add(:purpose, 'needs to be a valid selection.') if self.camdram_model.nil?
+      errors.add(:base, 'Your show or society appears to have been deleted from Camdram. Please contact support.') if self.camdram_model.camdram_object.nil?
     end
   end
 
@@ -200,6 +201,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   # The booking's selected room must allow a show's camdram venue.
   def room_must_allow_camdram_venue
     if self.room.present? && self.camdram_model.instance_of?(CamdramShow)
+      return if self.camdram_model.camdram_object.nil?
       unless self.room.camdram_venues.map(&:camdram_id).include?(self.camdram_model.camdram_object.venue.id)
         errors.add(:base, "Your show may not make bookings for this room.")
       end

@@ -25,8 +25,17 @@ module CamdramInteroperability
     def uses_camdram_client_method(method)
       define_method(:camdram_object) do
         return nil unless self.camdram_id.present?
-        @camdram_object ||= Roombooking::CamdramAPI.with do |client|
-          client.send(method, self.camdram_id).make_orphan
+        begin
+          @camdram_object ||= Roombooking::CamdramAPI.with do |client|
+            client.send(method, self.camdram_id).make_orphan
+          end
+        rescue Roombooking::CamdramAPI::ClientError => e
+          response_code = e.cause.code['code']
+          if response_code == 404
+            return nil
+          else
+            raise e
+          end
         end
       end
     end

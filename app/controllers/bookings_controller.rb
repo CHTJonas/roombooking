@@ -93,7 +93,7 @@ class BookingsController < ApplicationController
 
   def populate_camdram_entities
     @camdram_entity_service = CamdramEntitiesService.create(current_user, current_imposter)
-    @shows = @camdram_entity_service.shows
-    @societies = @camdram_entity_service.societies
+    @shows = @camdram_entity_service.shows.reject { |s| s.camdram_object.nil? }
+    @societies = @camdram_entity_service.societies.reject { |s| s.camdram_object.nil? }
   end
 end

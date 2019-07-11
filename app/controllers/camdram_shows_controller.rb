@@ -5,6 +5,11 @@ class CamdramShowsController < ApplicationController
     @camdram_show = CamdramShow.eager_load(:bookings).find(params[:id])
     authorize! :read, @camdram_show
     @external_show = @camdram_show.camdram_object
+    if @external_show.nil?
+      alert = { 'class' => 'warning', 'message' => 'This show appears to have been deleted from Camdram.' }
+      flash.now[:alert] = alert
+      render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
+    end
     @quota = @camdram_show.weekly_quota Date.today.beginning_of_week
   end
 
