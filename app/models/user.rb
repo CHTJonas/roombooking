@@ -34,15 +34,16 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validate :email_verification_state_must_be_valid
 
-  before_create do |user|
-    user.validation_token = SecureRandom.alphanumeric(48)
-  end
-
+  before_validation :generate_validation_token, on: :create
   after_create_commit do |user|
     mailer = 'EmailVerificationMailer'
     method = 'notify'
     user_id = user.id
     MailDeliveryJob.perform_async(mailer, method, user_id)
+  end
+
+  def generate_validation_token
+    self.validation_token = SecureRandom.alphanumeric(48)
   end
 
   # Returns a user from an OmniAuth::AuthHash.
