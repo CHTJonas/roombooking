@@ -32,6 +32,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+  validate :email_verification_state_must_be_valid
 
   before_create do |user|
     user.validation_token = SecureRandom.alphanumeric(48)
@@ -143,6 +144,17 @@ class User < ApplicationRecord
       rescue
         raise Roombooking::CamdramAPI::CamdramError
       end
+    end
+  end
+
+  # Either the user's email has been verified, in which case there should be no
+  # token, or we are waiting for validation and the datetime field should be blank.
+  def email_verification_state_must_be_valid
+    if self.validated_at.nil? && self.validation_token.nil?
+      errors.add(:validation_token, 'should be present if email is not validated.')
+    end
+    if self.validated_at.present? && self.validation_token.present?
+      errors.add(:validation_token, 'should be blank if email is validated.')
     end
   end
 

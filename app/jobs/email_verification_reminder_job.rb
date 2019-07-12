@@ -9,10 +9,15 @@ class EmailVerificationReminderJob
 
   def perform
     User.where(validated_at: nil).each do |user|
-      mailer = 'EmailVerificationMailer'
-      method = 'remind'
-      user_id = user.id
-      MailDeliveryJob.perform_async(mailer, method, user_id)
+      if user.validation_token.present?
+        mailer = 'EmailVerificationMailer'
+        method = 'remind'
+        user_id = user.id
+        MailDeliveryJob.perform_async(mailer, method, user_id)
+      else
+        e = Roombooking::InvalidStateError.new("Detected user (id: #{user.id}) with unverified email but no verification token")
+        Raven.capture_exception(e)
+      end
     end
   end
 end
