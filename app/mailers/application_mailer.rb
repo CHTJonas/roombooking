@@ -12,8 +12,21 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   # Allow emails to be delivered asynchronously using Sidekiq.
-  def self.deliver_async(method, *args)
-    mailer_klass = self.to_s
-    MailDeliveryJob.perform_async(mailer_klass, method, *args)
+  def self.deliver_async
+    klass = self
+    wrapper = Class.new do
+      def initialize(klass)
+        @klass = klass
+      end
+
+      def respond_to_missing?(*args)
+        true
+      end
+
+      def method_missing(method_name, *args)
+        MailDeliveryJob.perform_async(@klass, method_name, *args)
+      end
+    end
+    wrapper.new(klass)
   end
 end

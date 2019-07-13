@@ -9,7 +9,7 @@ class EmailVerificationReminderJob
 
   def perform
     User.where(validated_at: nil).each do |user|
-      EmailVerificationMailer.deliver_async(:remind, user.id)
+      EmailVerificationMailer.deliver_async.remind(user.id)
     end
   end
 end

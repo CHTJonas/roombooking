@@ -22,6 +22,6 @@ class ContactFormSubmission
   def self._reflect_on_association(*args); end
 
   def send!
-    ContactFormMailer.deliver_async(:send_to_management, from, subject, message)
+    ContactFormMailer.deliver_async.send_to_management(from, subject, message)
   end
 end
