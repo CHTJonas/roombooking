@@ -43,7 +43,9 @@ class User < ApplicationRecord
   end
 
   def generate_validation_token
-    self.validation_token = SecureRandom.alphanumeric(48)
+    unless self.validated_at.present?
+      self.validation_token = SecureRandom.alphanumeric(48)
+    end
   end
 
   # Returns a user from an OmniAuth::AuthHash.
