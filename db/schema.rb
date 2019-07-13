@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_04_211338) do
+ActiveRecord::Schema.define(version: 2019_07_13_163011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -98,12 +98,8 @@ ActiveRecord::Schema.define(version: 2019_07_04_211338) do
   end
 
   create_table "emails", force: :cascade do |t|
-    t.string "from", null: false
-    t.string "to", null: false
-    t.string "subject", null: false
-    t.text "body", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.jsonb "message", null: false
+    t.datetime "created_at"
   end
 
   create_table "provider_accounts", force: :cascade do |t|

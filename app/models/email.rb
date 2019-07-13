@@ -3,26 +3,16 @@
 # Table name: emails
 #
 #  id         :bigint           not null, primary key
-#  from       :string           not null
-#  to         :string           not null
-#  subject    :string           not null
-#  body       :text             not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  message    :jsonb            not null
+#  created_at :datetime
 #
 
 class Email < ApplicationRecord
-  validates :from, presence: true, email: true
-  validates :to, presence: true, email: true
-  validates :subject, presence: true
-  validates :body, presence: true
+  validates :message, presence: true
 
-  def send!
-    MailDeliveryJob.perform_async(nil, nil,
-      from: from,
-      to: to,
-      subject: subject,
-      body: body
-    )
+  # Creates an Email record from a Mail:Message object.
+  def self.create_from_message(msg)
+    json = msg.to_json
+    create!(message: json)
   end
 end
