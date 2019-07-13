@@ -23,7 +23,7 @@
 class Booking < ApplicationRecord
   has_paper_trail
   paginates_per 9
-  include PgSearch
+  include PgSearch::Model
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
