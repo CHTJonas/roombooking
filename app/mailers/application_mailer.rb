@@ -10,4 +10,10 @@ class ApplicationMailer < ActionMailer::Base
     Email.create_from_message(msg)
     msg
   end
+
+  # Allow emails to be delivered asynchronously using Sidekiq.
+  def self.deliver_async(method, *args)
+    mailer_klass = self.to_s
+    MailDeliveryJob.perform_async(mailer_klass, method, *args)
+  end
 end

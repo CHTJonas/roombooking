@@ -22,8 +22,6 @@ class ContactFormSubmission
   def self._reflect_on_association(*args); end
 
   def send!
-    mailer = 'ContactFormMailer'
-    method = 'send_to_management'
-    MailDeliveryJob.perform_async(mailer, method, from, subject, message)
+    ContactFormMailer.deliver_async(:send_to_management, from, subject, message)
   end
 end

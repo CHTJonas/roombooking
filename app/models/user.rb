@@ -36,10 +36,7 @@ class User < ApplicationRecord
 
   before_validation :generate_validation_token, on: :create
   after_create_commit do |user|
-    mailer = 'EmailVerificationMailer'
-    method = 'notify'
-    user_id = user.id
-    MailDeliveryJob.perform_async(mailer, method, user_id)
+    EmailVerificationMailer.deliver_async(:notify, user.id)
   end
 
   def generate_validation_token
