@@ -4,8 +4,8 @@ require_relative 'boot'
 
 require 'rails/all'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# Require the gems listed in Gemfile, including any gems limited to the test,
+# development, or production groups.
 Bundler.require(*Rails.groups)
 
 module Roombooking
@@ -33,9 +33,10 @@ module Roombooking
     config.eager_load_paths << Rails.root.join('lib')
     config.action_mailer.default_url_options = { host: 'roombooking-dev.adctheatre.com' }
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    mail_log_file = Rails.root.join('log', "roombooking_#{Rails.env}_mail.log")
+    Yell['mail'] = Yell.new do |l|
+      l.adapter(:datefile, mail_log_file, keep: 31, level: 'gte.info')
+    end
+    config.action_mailer.logger = Yell['mail']
   end
 end
