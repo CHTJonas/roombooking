@@ -19,12 +19,16 @@ class ApplicationMailer < ActionMailer::Base
         @klass = klass
       end
 
-      def respond_to_missing?(*args)
-        true
+      def respond_to_missing?(method, *args)
+        @klass.action_methods.include? method.to_s || super
       end
 
-      def method_missing(method_name, *args)
-        MailDeliveryJob.perform_async(@klass, method_name, *args)
+      def method_missing(method, *args)
+        if @klass.action_methods.include? method.to_s
+          MailDeliveryJob.perform_async(@klass, method.to_s, *args)
+        else
+          super
+        end
       end
     end
     wrapper.new(klass)
