@@ -6,7 +6,7 @@ class ContactFormController < ApplicationController
 
   def create
     @email = ContactFormSubmission.new(email_params)
-    if verify_recaptcha(model: @email) && @email.valid?
+    if @email.valid? && verify_recaptcha(model: @email)
       @email.send!
       alert = { 'class' => 'success', 'message' => 'Your message has been sent!' }
       flash[:alert] = alert
@@ -21,6 +21,6 @@ class ContactFormController < ApplicationController
   private
 
   def email_params
-    params.require(:contact_form_entry).permit(:from, :subject, :message)
+    params.require(:contact_form_submission).permit(:from, :subject, :message)
   end
 end
