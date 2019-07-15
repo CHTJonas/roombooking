@@ -31,12 +31,5 @@ module Roombooking
     config.time_zone = 'London'
     config.beginning_of_week = :sunday
     config.eager_load_paths << Rails.root.join('lib')
-    config.action_mailer.default_url_options = { host: 'roombooking-dev.adctheatre.com' }
-
-    mail_log_file = Rails.root.join('log', "roombooking_#{Rails.env}_mail.log")
-    Yell['mail'] = Yell.new do |l|
-      l.adapter(:datefile, mail_log_file, keep: 31, level: 'gte.info')
-    end
-    config.action_mailer.logger = Yell['mail']
   end
 end

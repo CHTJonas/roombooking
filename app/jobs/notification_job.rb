@@ -29,6 +29,6 @@ class NotificationJob
   def notify_slack_webhook
     notifier = Slack::Notifier.new(@camdram_model.slack_webhook, username: 'Room Booking Bot')
     # FIXME use a better icon asset once deployed.
-    notifier.post(text: message, icon_url: "https://roombooking-dev.adctheatre.com/logo-square.png")
+    notifier.post(text: message, icon_url: Roombooking::Host.url("logo-square.png"))
   end
 end

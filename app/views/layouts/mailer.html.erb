@@ -8,7 +8,7 @@
     <div class="container">
       <header>
         <%= link_to root_url do %>
-          <img src="https://roombooking-dev.adctheatre.com/logo-long-white.svg" alt="ADC Theatre" width="240" height="50">
+          <img src="<%= Roombooking::Host.url("logo-long-white.svg") %>" alt="ADC Theatre" width="240" height="50">
         <% end %>
       </header>
       <main>
