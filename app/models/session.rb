@@ -25,6 +25,7 @@ class Session < ApplicationRecord
     expires_at = login_at + 60.days
     ip = request.remote_ip
     user_agent = request.user_agent
+    user.update!(last_login: DateTime.now)
     create!(user: user, login_at: login_at, expires_at: expires_at, ip: ip, user_agent: user_agent)
   end
 

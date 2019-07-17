@@ -14,6 +14,7 @@
 #  updated_at       :datetime         not null
 #  validated_at     :datetime
 #  validation_token :string
+#  last_login       :datetime
 #
 
 class User < ApplicationRecord
