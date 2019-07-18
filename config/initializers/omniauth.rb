@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'omniauth-rails/request_forgery_protection'
-
 Rails.application.config.middleware.use OmniAuth::Builder do
   id = ENV['CAMDRAM_APP_ID']
   secret = ENV['CAMDRAM_APP_SECRET']
