@@ -46,11 +46,12 @@
     <%= content_tag(:h4, 'Performances:') %>
     <ul class="list-group list-group-flush">
       <% @external_show.performances.each do |performance| %>
-        <% (performance.start_at.to_date..performance.repeat_until.to_date).each do |date| %>
-          <li class="list-group-item list-group-item-compact">
-            <%= performance.start_at.in_time_zone('London').strftime('%R') %> on
-            <%= date %> at <%= performance.venue.try(:name) || performance.other_venue %>
-          </li>
+        <% if performance.repeat_until.present? %>
+          <% (performance.start_at.to_date..performance.repeat_until.try(:to_date)).each do |date| %>
+            <%= render 'performance', performance: performance, date: date %>
+          <% end %>
+        <% else %>
+          <%= render 'performance', performance: performance, date: performance.start_at.to_date %>
         <% end %>
       <% end %>
     </ul>
