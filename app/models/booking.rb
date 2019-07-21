@@ -231,6 +231,24 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
   end
 
+  # Sets the dates that are excluded from the booking repeat cycle.
+  def excluded_repeat_dates=(string)
+    return super(nil) if self.repeat_mode == 'none'
+    start = self.start_time.to_date
+    finish = self.repeat_until
+    arr = Array.new
+    (start..finish).each do |date|
+      if self.repeat_mode == 'daily' ||
+        (self.repeat_mode == 'weekly' && date.wday == start.wday)
+        arr << date
+      end
+    end
+    super string.split(',').select { |s|
+      arr.include? s.to_date
+    }.join
+  end
+
+  # Returns an array of dates that are excluded from the booking repeat cycle.
   def excluded_dates_array
     return [] unless self.excluded_repeat_dates.present?
     self.excluded_repeat_dates.split(',').map(&:to_date)
