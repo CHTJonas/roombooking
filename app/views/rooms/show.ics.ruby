@@ -1,3 +1,1 @@
-cal = IcalGenerationService.perform(@room.bookings)
-cal.publish
-cal.to_ical
+IcalGenerationService.perform(@room.bookings, @room.cache_key)

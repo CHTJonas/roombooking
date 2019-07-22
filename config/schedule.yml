@@ -17,3 +17,8 @@ Camdram API cache refresh job:
   cron: '*/15 * * * *'
   class: 'CamdramEntityRefreshJob'
   queue: 'roombooking_jobs'
+
+iCal generation job:
+  cron: '*/20 * * * *'
+  class: 'IcalGenerationJob'
+  queue: 'roombooking_jobs'
