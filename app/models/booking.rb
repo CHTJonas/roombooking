@@ -62,6 +62,7 @@ class Booking < ApplicationRecord
   validate :must_fill_half_hour_slot
   validate :must_not_overlap
   validate :repeat_until_must_be_valid
+  validate :excluded_repeat_dates_must_be_valid
   validate :camdram_model_must_be_valid
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
@@ -160,6 +161,18 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     end
   end
 
+  # Ensures that the excluded date string contains parsable Ruby dates.
+  def excluded_repeat_dates_must_be_valid
+    return if self.excluded_repeat_dates.blank?
+    self.excluded_repeat_dates.split(',').each do |date_string|
+      begin
+        date_string.to_date
+      rescue
+        errors.add(:excluded_repeat_dates, "is invalid - \"#{date_string}\" cannot be converted to a date.")
+      end
+    end
+  end
+
   # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
     return if self.purpose.nil?
@@ -246,7 +259,11 @@ DATE_PART('day', timestamp :end - timestamp :start) },
       end
     end
     super string.split(',').select { |s|
-      arr.include? s.to_date
+      begin
+        arr.include? s.to_date
+      rescue
+        true
+      end
     }.join
   end
 
