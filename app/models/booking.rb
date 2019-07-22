@@ -163,14 +163,29 @@ DATE_PART('day', timestamp :end - timestamp :start) },
 
   # Ensures that the excluded date string contains parsable Ruby dates.
   def excluded_repeat_dates_must_be_valid
+    if self.repeat_mode == 'none'
+      self.excluded_repeat_dates = nil
+      return
+    end
     return if self.excluded_repeat_dates.blank?
-    self.excluded_repeat_dates.split(',').each do |date_string|
+    return if self.repeat_until.nil?
+    start = self.start_time.to_date
+    finish = self.repeat_until
+    arr = Array.new
+    (start..finish).each do |date|
+      if self.repeat_mode == 'daily' ||
+        (self.repeat_mode == 'weekly' && date.wday == start.wday)
+        arr << date
+      end
+    end
+    str = self.excluded_repeat_dates.split(',').select { |date_string|
       begin
-        date_string.to_date
+        arr.include? date_string.to_date
       rescue
         errors.add(:excluded_repeat_dates, "is invalid - \"#{date_string}\" cannot be converted to a date.")
       end
-    end
+    }.join(',')
+    self.excluded_repeat_dates = str
   end
 
   # A booking must have an associated Camdram model if required by its purpose.
@@ -244,27 +259,6 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   # Returns the duration of the booking.
   def duration
     @duration ||= self.end_time && self.start_time ? self.end_time - self.start_time : nil
-  end
-
-  # Sets the dates that are excluded from the booking repeat cycle.
-  def excluded_repeat_dates=(string)
-    return super(nil) if self.repeat_mode == 'none'
-    start = self.start_time.to_date
-    finish = self.repeat_until
-    arr = Array.new
-    (start..finish).each do |date|
-      if self.repeat_mode == 'daily' ||
-        (self.repeat_mode == 'weekly' && date.wday == start.wday)
-        arr << date
-      end
-    end
-    super string.split(',').select { |s|
-      begin
-        arr.include? s.to_date
-      rescue
-        true
-      end
-    }.join
   end
 
   # Returns an array of dates that are excluded from the booking repeat cycle.
