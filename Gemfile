@@ -25,6 +25,7 @@ gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'sidekiq', '~> 5.2'
 gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq-throttled', '~> 0.10.0'
+gem 'sidekiq_queue_metrics', '~> 2.1', git: 'https://github.com/CHTJonas/sidekiq_queue_metrics.git', branch: 'relative-urls'
 # Static page serving
 gem 'high_voltage', '~> 3.1'
 # Date/time handling

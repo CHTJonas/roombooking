@@ -7,6 +7,15 @@ GIT
       oauth2 (~> 1.4)
       ruby_multiton (~> 0.1)
 
+GIT
+  remote: https://github.com/CHTJonas/sidekiq_queue_metrics.git
+  revision: a0b4a1c638e7ba89048d3e06323a186e69cf9521
+  branch: relative-urls
+  specs:
+    sidekiq_queue_metrics (2.1.1)
+      eldritch
+      sidekiq (>= 5.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -127,6 +136,8 @@ GEM
     dotenv-rails (2.7.4)
       dotenv (= 2.7.4)
       railties (>= 3.2, < 6.1)
+    eldritch (1.1.3)
+      reentrant_mutex (~> 1.1.0)
     encryptor (3.0.0)
     erubi (1.8.0)
     escape_utils (1.2.1)
@@ -359,6 +370,7 @@ GEM
     redcarpet (3.4.0)
     redis (4.1.2)
     redis-prescription (1.0.0)
+    reentrant_mutex (1.1.1)
     regexp_parser (1.6.0)
     remotipart (1.4.3)
     request_store (1.4.1)
@@ -537,6 +549,7 @@ DEPENDENCIES
   sidekiq (~> 5.2)
   sidekiq-cron (~> 1.1)
   sidekiq-throttled (~> 0.10.0)
+  sidekiq_queue_metrics (~> 2.1)!
   simple_calendar (~> 2.0)
   sitemap_generator (~> 6.0)
   slack-notifier (~> 2.3)
