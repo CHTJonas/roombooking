@@ -8,9 +8,9 @@ GIT
       ruby_multiton (~> 0.1)
 
 GIT
-  remote: https://github.com/CHTJonas/sidekiq_queue_metrics.git
-  revision: a0b4a1c638e7ba89048d3e06323a186e69cf9521
-  branch: relative-urls
+  remote: https://github.com/ajitsing/sidekiq_queue_metrics.git
+  revision: 71ca49b96885f1d861b1494feccc0c7c8bcdc2e7
+  ref: 71ca49b96885f1d861b1494feccc0c7c8bcdc2e7
   specs:
     sidekiq_queue_metrics (2.1.1)
       eldritch
