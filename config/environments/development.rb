@@ -58,6 +58,7 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  # Don't timeout requests in development (useful for in-depth debugging with byebug)
-  ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'] = '0'
+  # Don't timeout requests in development unless the timeout is explicitely set.
+  # This is useful for in-depth debugging with byebug.
+  ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'] ||= '0'
 end

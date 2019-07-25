@@ -76,9 +76,6 @@ Rails.application.configure do
   # Log everything at or above this level.
   config.log_level = :info
 
-  # Don't log Rack::Timeout changes in state during the lifetime of a request.
-  Rack::Timeout::Logger.disable
-
   # Use Lograge to tame logging to a single line and include some extra info.
   config.lograge.enabled = true
   config.lograge.custom_payload do |controller|
