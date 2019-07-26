@@ -270,7 +270,7 @@ DATE_PART('day', timestamp :end - timestamp :start) },
   # Returns a human-friendly string describing the booking's purpose.
   def purpose_string
     string = self.purpose.humanize
-    string += %Q[ "#{camdram_object.name}"] unless camdram_object.nil?
+    string += %Q[ "#{self.camdram_model.name}"] unless self.camdram_model.nil?
     string
   end
 
