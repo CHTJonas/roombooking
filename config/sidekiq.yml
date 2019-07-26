@@ -1,5 +1,10 @@
 ---
-:concurrency: 2
+<%
+require 'dotenv'
+Dotenv.load
+%>
+
+:concurrency: <%= (ENV['RAILS_ENV'] == 'production' && 2) || ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
 :queues:
   - [roombooking_jobs, 2]
   - [roombooking_mail, 1]
