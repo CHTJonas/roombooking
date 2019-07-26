@@ -40,6 +40,24 @@ module Roombooking
         end
       end
 
+      def with_retry(count: 5, wait_time: 5, &block)
+        begin
+          retries ||= 0
+          if block.arity == 0
+            block.call
+          else
+            with(&block)
+          end
+        rescue CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError => e
+          if (retries += 1) < count
+            sleep wait_time # Sleep for a short while in case Camdram is overloaded.
+            retry
+          else
+            raise e
+          end
+        end
+      end
+
       private
 
       def client_pool

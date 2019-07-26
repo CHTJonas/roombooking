@@ -9,16 +9,10 @@ class CamdramEntityCacheWarmupJob
 
   def perform(global_id)
     camdram_entity = GlobalID::Locator.locate global_id
-    begin
-      retries ||= 0
+    Roombooking::CamdramAPI.with_retry do
       camdram_entity.name(refresh_cache: true)
-    rescue Roombooking::CamdramAPI::ClientError
+    rescue Roombooking::CamdramAPI::CamdramError
       # Preserve cache, do nothing.
-    rescue Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError
-      if (retries += 1) < 5
-        sleep 5 # Sleep for a short while in case Camdram is overloaded.
-        retry
-      end
     end
   end
 end
