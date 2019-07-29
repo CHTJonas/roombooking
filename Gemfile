@@ -48,7 +48,7 @@ gem 'font-awesome-rails', '~> 4.7'
 # View rendering
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false
-gem 'redcarpet', '~> 3.4'
+gem 'redcarpet', '~> 3.5'
 # Inline email styles
 gem 'premailer-rails', '~> 1.10'
 # GDPR
