@@ -21,20 +21,20 @@ chdir APP_ROOT do
   # environment of the ADC Room Booking System.
 
   puts Rainbow('Configuring environment...').blue
-  contents = "RAILS_MAX_THREADS: 1\n"
-  contents += "WEB_CONCURRENCY: 1\n"
+  contents = "RAILS_MAX_THREADS=1\n"
+  contents += "WEB_CONCURRENCY=1\n"
   unless OS::Underlying.docker?
-    contents += "REDIS_CACHE: redis://127.0.0.1:6379/1\n"
-    contents += "REDIS_STORE: redis://127.0.0.1:6379/1\n"
+    contents += "REDIS_CACHE=redis://127.0.0.1:6379/1\n"
+    contents += "REDIS_STORE=redis://127.0.0.1:6379/1\n"
   end
   print Rainbow('Enter your Camdram API App ID: ').yellow
   app_id = gets.chomp
-  contents += "CAMDRAM_APP_ID: #{app_id}\n"
+  contents += "CAMDRAM_APP_ID=#{app_id}\n"
   print Rainbow('Enter your Camdram API App Secret: ').yellow
   app_secret = gets.chomp
-  contents += "CAMDRAM_APP_SECRET: #{app_secret}\n"
+  contents += "CAMDRAM_APP_SECRET=#{app_secret}\n"
   secret_key_base = SecureRandom.hex(64)
-  contents += "SECRET_KEY_BASE: #{secret_key_base}\n"
+  contents += "SECRET_KEY_BASE=#{secret_key_base}\n"
   File.open(ENV_FILE, 'w') do |f|
     f.write(contents)
   end
