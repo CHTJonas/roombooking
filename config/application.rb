@@ -21,7 +21,7 @@ module Roombooking
         returning = params[:returning]
         Raven.capture_exception exception, level: 'warning',
           tags: { method: method, returning: returning }
-      end
+      end, driver: :hiredis
     }
 
     if OS::Underlying.docker? && Rails.env.development?

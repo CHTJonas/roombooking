@@ -9,7 +9,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'linked-list', '~> 0.0.13'
-gem 'redis', '~> 4.1'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.3'
@@ -84,12 +83,13 @@ gem 'slack-notifier', '~> 2.3'
 # Sitemaps
 gem 'sitemap_generator', '~> 6.0'
 
-# Application config
-gem 'dotenv-rails', '~> 2.7'
-
 # Database persistence
 gem 'pg', '~> 1.1'
 gem 'pg_search', '~> 2.3'
+
+# Key/value caching
+gem 'redis', '~> 4.1'
+gem 'hiredis', '~> 0.6.3'
 
 # Performance profiling bar
 gem 'peek', '~> 1.0'
