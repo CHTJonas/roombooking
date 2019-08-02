@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 ruby '2.6.3'
 
+# Application config
+gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
+
+# Rails
 gem 'rails', '~> 5.2.2'
 gem 'puma', '~> 4.0'
 gem 'rack-timeout', '~> 0.5.1'
