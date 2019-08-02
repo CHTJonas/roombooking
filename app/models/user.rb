@@ -37,7 +37,9 @@ class User < ApplicationRecord
 
   before_validation :generate_validation_token, on: :create
   after_create_commit do |user|
-    EmailVerificationMailer.deliver_async.notify(user.id)
+    unless user.validated_at.present?
+      EmailVerificationMailer.deliver_async.notify(user.id)
+    end
   end
 
   def generate_validation_token

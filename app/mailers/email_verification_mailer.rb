@@ -6,6 +6,7 @@ class EmailVerificationMailer < ApplicationMailer
   # their newly-created account.
   def notify(user_id)
     @user = User.find(user_id)
+    return if @user.validated_at.present?
     if @user.validation_token.present?
       mail(to: @user.email, subject: 'Verify your email address')
     else
