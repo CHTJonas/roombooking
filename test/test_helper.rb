@@ -18,13 +18,22 @@ SimpleCov.formatter = SimpleCov::Formatter::Codecov
 require 'minitest/retry'
 Minitest::Retry.use!(
   exceptions_to_retry: [Roombooking::CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError],
-  retry_count: 3,
+  retry_count: 5,
   verbose: true
 )
 
+if ENV['TRAVIS'] == 'true'
+  puts ""
+  puts "=====   Detected application is running in Travis CI environment   ====="
+  puts ""
+end
+
 Minitest::Retry.on_retry do |klass, test_name, retry_count|
   # Retry with an exponential backoff.
-  sleep 3 ** ((retry_count + 1) / 2.0)
+  timer = (3 ** ((retry_count + 1) / 2.0) + 2).ceil
+  puts ""
+  puts "Retrying after #{timer} seconds"
+  sleep timer
 end
 
 class ActiveSupport::TestCase
