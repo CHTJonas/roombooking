@@ -51,20 +51,27 @@ To optionally start Sidekiq to process background jobs you can run `bundle exec 
 Pressing Ctrl+C will interrupt and shutdown either one of these.
 
 ## Contributing
-Anyone may contribute and bug reports or feature requests are warmly welcomed!
-Please read the [contributing guidelines](https://github.com/CHTJonas/roombooking/blob/master/CONTRIBUTING.md) first.
-If you think this is something you can code yourself:
+Anyone may contribute to the project and bug reports or feature requests are warmly welcomed!
+Please familiarise yourself with the [contributing guidelines](https://github.com/CHTJonas/roombooking/blob/master/CONTRIBUTING.md) before you get started.
+If you decide you want to write some code yourself:
 1. Fork the repo (https://github.com/CHTJonas/roombooking/fork).
-2. Create your feature branch (`git checkout -b my-new-feature`).
+2. Create a feature branch (`git checkout -b my-new-feature`).
 3. Commit your changes (`git commit -am 'Add some feature'`).
 4. Push to the branch (`git push -u origin my-new-feature`).
 5. Create a new Pull Request.
 
-When you add, change or remove any code please try and add appropriate testing.
+When coding, please try to update any tests your code affects or, even better, add new tests where none currently exist!
 Don't worry if you're not too sure about this - if you open a Pull Request we can provide some assistance.
 To run the full test suite, type the following into your terminal (or append to `docker-compose run --rm web`):
 1. `rails test`
 2. `rails test:system`
+
+Please ensure your code adheres to the following basic style rules.
+You should be able to do this automatically by installing an [EditorConfig compatible](https://editorconfig.org/#download) text editor/IDE, or a plugin.
+* Use UNIX-style (LF) line endings.
+* End every file with a single blank line.
+* Use the UTF-8 character set.
+* Indent code blocks using two spaces (please don't use tabs).
 
 Management of the project is meritocratic; those who have a reasonable number of accepted contributions will be granted access to commit straight to the `master` branch of this repository.
 
