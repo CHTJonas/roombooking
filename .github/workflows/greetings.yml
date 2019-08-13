@@ -1,0 +1,12 @@
+name: Greet first-time contributors
+
+on: pull_request
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-message: 'It seems that this is your first pull request - thank you for your contribution! To make things easier for code review, please make sure you have thoroughly read the [contributing guidelines](https://github.com/CHTJonas/roombooking/blob/master/CONTRIBUTING.md) and that your code conforms to the requested standards as best possible.'

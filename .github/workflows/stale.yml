@@ -1,0 +1,19 @@
+name: Mark stale pull requests
+
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/stale@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-pr-message: 'This pull request has been marked as stale because there was no activity for a period of thirty days.'
+        stale-pr-label: 'stale'
+        days-before-stale: 30
+        days-before-close: 1825
