@@ -1,8 +1,12 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['QUIET'] = 'true'
 
-require 'simplecov'
-SimpleCov.start 'rails'
+if ENV['TRAVIS'] == 'true'
+  require 'simplecov'
+  require 'codecov'
+  SimpleCov.start 'rails'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
 
 require_relative '../config/environment'
 require 'rails/test_help'
@@ -11,9 +15,6 @@ Rails.cache.clear
 
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!
-
-require 'codecov'
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 require 'minitest/retry'
 Minitest::Retry.use!(
