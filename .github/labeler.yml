@@ -1,28 +1,28 @@
 css:
-- **/*.css
-- **/*.scss
-- **/*.sass
+- "**/*.css"
+- "**/*.scss"
+- "**/*.sass"
 
 dependencies:
-- Gemfile
-- Gemfile.lock
-- yarn.lock
+- "Gemfile"
+- "Gemfile.lock"
+- "yarn.lock"
 
 docker:
-- **/Dockerfile
-- **/docker-compose.yml
+- "**/Dockerfile"
+- "**/docker-compose.yml"
 
 html:
-- **/*.html
-- **/*.html.erb
+- "**/*.html"
+- "**/*.html.erb"
 
 javascript:
-- **/*.js
-- **/*.coffee
-- yarn.lock
+- "**/*.js"
+- "**/*.coffee"
+- "yarn.lock"
 
 ruby:
-- **/*.rb
-- **/*.ruby
-- Gemfile
-- Gemfile.lock
+- "**/*.rb"
+- "**/*.ruby"
+- "Gemfile"
+- "Gemfile.lock"
