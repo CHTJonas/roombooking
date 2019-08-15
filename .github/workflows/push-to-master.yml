@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@master
     - name: Build application stack
       run: docker-compose build
-    - name: Configure environment 
+    - name: Configure environment
       run: |
         rm -f .env
         echo "RAILS_ENV=test" >> .env
@@ -29,11 +29,13 @@ jobs:
   deploy:
     name: Deploy
     needs: test
-    if: github.branch == 'master'
     runs-on: ubuntu-latest
     steps:
     - name: SSH to server
+      if: github.ref == 'refs/heads/master'
       run: |
+        umask 0077
         mkdir -p $HOME/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" >> $HOME/.ssh/id_rsa
+        echo "${{ secrets.SSH_HOST_KEY }}" >> $HOME/.ssh/known_hosts
         ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /opt/roombooking && bin/update && procodile restart"
