@@ -1,13 +1,10 @@
-name: Continuous integration and deployment
+name: CI CD
 
-on:
-  push:
-    branches:
-    - master
+on: push
 
 jobs:
   test:
-    name: CI Tests
+    name: Test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -29,3 +26,14 @@ jobs:
         docker-compose run --rm web "bundle exec rails roombooking:docker"
     - name: Run tests
       run: docker-compose run --rm web "bundle exec rails test"
+  deploy:
+    name: Deploy
+    needs: test
+    if: github.branch == 'master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH to server
+      run: |
+        mkdir -p $HOME/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" >> $HOME/.ssh/id_rsa
+        ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /opt/roombooking && bin/update && procodile restart"
