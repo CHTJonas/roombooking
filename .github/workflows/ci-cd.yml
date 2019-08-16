@@ -3,7 +3,7 @@ name: CI CD
 on: push
 
 jobs:
-  brakeman:
+  static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
     steps:
@@ -44,7 +44,7 @@ jobs:
       run: docker-compose run --rm web "bundle exec rails test"
   deploy:
     name: Deploy
-    needs: test
+    needs: [static-analysis, test]
     runs-on: ubuntu-latest
     steps:
     - name: SSH to server
