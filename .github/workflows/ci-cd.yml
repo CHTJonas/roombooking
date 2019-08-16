@@ -14,9 +14,11 @@ jobs:
       with:
         ruby-version: 2.6.x
     - name: Install dependencies
-      run: gem install brakeman
+      run: gem install brakeman bundler-audit
     - name: Perform Brakeman vulnerability scan
       run: brakeman
+    - name: Perform Bundler audit
+      run: bundle audit check --update --ignore $(while read line; do echo -n "$line "; done <config/bundler-audit.ignore)
   test:
     name: Test
     runs-on: ubuntu-latest
