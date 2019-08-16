@@ -22,84 +22,33 @@
     },
     {
       "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "444bfd0b8ff8090dac3632c26f14574eae6c0dedf2491e8632f401971f25a63d",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/camdram_shows/show.html.erb",
-      "line": 7,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"View on Camdram\", CamdramShow.eager_load(:bookings).find(params[:id]).url, :class => \"btn btn-outline-info my-md-1\")",
+      "warning_code": 2,
+      "fingerprint": "d243ba18a4eda86812edc2e159bbf440eeaf42764506b39359920ab562511951",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/two_factor_setup/show.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "RQRCode::QRCode.new(TwoFactorToken.from_user(current_user).provisioning_uri, :size => 12, :level => :h).as_html",
       "render_path": [
         {
           "type": "controller",
-          "class": "CamdramShowsController",
+          "class": "TwoFactorSetupController",
           "method": "show",
-          "line": 9,
-          "file": "app/controllers/camdram_shows_controller.rb",
+          "line": 8,
+          "file": "app/controllers/two_factor_setup_controller.rb",
           "rendered": {
-            "name": "camdram_shows/show",
-            "file": "app/views/camdram_shows/show.html.erb"
+            "name": "two_factor_setup/show",
+            "file": "app/views/two_factor_setup/show.html.erb"
           }
         }
       ],
       "location": {
         "type": "template",
-        "template": "camdram_shows/show"
+        "template": "two_factor_setup/show"
       },
-      "user_input": "CamdramShow.eager_load(:bookings).find(params[:id]).url",
+      "user_input": "TwoFactorToken.from_user(current_user).provisioning_uri",
       "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "4be66acddfce0c37dc77a0ba8132420f861b0b98d271054140d7e4660509ecc1",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/camdram_societies/show.html.erb",
-      "line": 7,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"View on Camdram\", CamdramSociety.eager_load(:bookings).find(params[:id]).url, :class => \"btn btn-outline-info my-md-1\")",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "CamdramSocietiesController",
-          "method": "show",
-          "line": 9,
-          "file": "app/controllers/camdram_societies_controller.rb",
-          "rendered": {
-            "name": "camdram_societies/show",
-            "file": "app/views/camdram_societies/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "camdram_societies/show"
-      },
-      "user_input": "CamdramSociety.eager_load(:bookings).find(params[:id]).url",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Mass Assignment",
-      "warning_code": 105,
-      "fingerprint": "750a47b366c889a09f1abd2cb9ef8bee48c74df7e37a85a6bccc4c7b48db2471",
-      "check_name": "PermitAttributes",
-      "message": "Potentially dangerous key allowed for mass assignment",
-      "file": "app/controllers/users_controller.rb",
-      "line": 95,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params.require(:user).permit(:name, :email, :admin, :blocked)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "UsersController",
-        "method": "user_params"
-      },
-      "user_input": ":admin",
-      "confidence": "High",
       "note": ""
     },
     {
@@ -143,6 +92,6 @@
       "note": ""
     }
   ],
-  "updated": "2019-05-16 22:38:07 +0100",
+  "updated": "2019-08-16 21:12:35 +0100",
   "brakeman_version": "4.5.1"
 }
