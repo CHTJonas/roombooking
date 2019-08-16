@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@github/hotkey@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.2.3.tgz#3ecc6ba1bbcd4cf724c65716ec783d5a309718a1"
-  integrity sha512-9bAR/ai4S2E+3bo+bzrAtR0Gm9+67+bPHyHb+wW2CUcfkauafMu/FJyKmvUpPJWjKRk04CfhtntDJ4r2E3YCvg==
+"@github/hotkey@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.2.4.tgz#18c20560c8e2b7f192c7076d65c95798df4ba626"
+  integrity sha512-QWkTbykOktjsrjlykcBWY07iZ8/vHeVuUPrBfuHD5czZX2zn3zYR2sxmVhJhnh8UoRSL1g5x3AQR0xbPFkif+w==
 
 "@sentry/browser@5.6.1":
   version "5.6.1"
