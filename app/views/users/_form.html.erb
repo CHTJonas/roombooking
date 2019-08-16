@@ -12,18 +12,20 @@
       <%= form.text_field :email, class: 'form-control' %>
     </div>
   </div>
-  <div class="form-group row">
-    <%= form.label :admin, class: 'col-sm-2 col-form-label' %>
-    <div class="col-sm-10">
-      <%= form.check_box :admin, class: 'form-control' %>
+  <% if user_is_admin? %>
+    <div class="form-group row">
+      <%= form.label :admin, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.check_box :admin, class: 'form-control' %>
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <%= form.label :blocked, class: 'col-sm-2 col-form-label' %>
-    <div class="col-sm-10">
-      <%= form.check_box :blocked, class: 'form-control' %>
+    <div class="form-group row">
+      <%= form.label :blocked, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.check_box :blocked, class: 'form-control' %>
+      </div>
     </div>
-  </div>
+  <% end %>
   <div class="form-group row mt-2">
     <div class="col-sm-10">
       <%= form.submit class: 'btn btn-outline-primary' %>

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :edit, @user
     if @user.update(user_params)
-      alert = { 'class' => 'success', 'message' => "Updated user account #{@user.id}!"}
+      alert = { 'class' => 'success', 'message' => "Account updated!"}
       flash[:alert] = alert
       redirect_to @user
     else
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
       @camdram_shows = @user.authorised_camdram_shows
       @camdram_societies = @user.authorised_camdram_societies
     rescue Roombooking::CamdramAPI::NoAccessToken, Roombooking::CamdramAPI::CamdramError
-      alert = { 'class' => 'warning', 'message' => "The was a problem retrieving this user's data from Camdram." }
+      alert = { 'class' => 'warning', 'message' => "A problem occurred retrieving this data from Camdram." }
       flash.now[:alert] = alert
     end
   end
@@ -95,6 +95,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :admin, :blocked)
+    if user_is_admin?
+      params.require(:user).permit(:name, :email, :admin, :blocked)
+    else
+      params.require(:user).permit(:name, :email)
+    end
   end
 end

@@ -21,6 +21,26 @@
       "note": ""
     },
     {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "750a47b366c889a09f1abd2cb9ef8bee48c74df7e37a85a6bccc4c7b48db2471",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 99,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:name, :email, :admin, :blocked)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":admin",
+      "confidence": "High",
+      "note": ""
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
       "fingerprint": "d243ba18a4eda86812edc2e159bbf440eeaf42764506b39359920ab562511951",
@@ -92,6 +112,6 @@
       "note": ""
     }
   ],
-  "updated": "2019-08-16 21:12:35 +0100",
+  "updated": "2019-08-16 22:53:58 +0100",
   "brakeman_version": "4.5.1"
 }
