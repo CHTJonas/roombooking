@@ -53,7 +53,7 @@ Rails.application.configure do
   # Detect N+1 query situations
   config.after_initialize do
     Bullet.enable = true
-    Bullet.alert = true
+    Bullet.sentry = true
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
