@@ -332,6 +332,8 @@ GEM
       rack (>= 1.1)
     rack-protection (2.0.5)
       rack
+    rack-proxy (0.6.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack-timeout (0.5.1)
@@ -458,8 +460,6 @@ GEM
     tilt (2.0.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.20)
-      execjs (>= 0.3.0, < 3)
     uniform_notifier (1.12.1)
     url (0.3.2)
     web-console (3.7.0)
@@ -471,6 +471,10 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (~> 1.0)
       selenium-webdriver (>= 3.0, < 4.0)
+    webpacker (4.0.7)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -568,9 +572,9 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
-  uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   webdrivers (~> 4.1)
+  webpacker (~> 4.0)
   yell (~> 2.2)
 
 RUBY VERSION

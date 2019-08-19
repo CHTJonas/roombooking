@@ -3,6 +3,14 @@
   "private": true,
   "dependencies": {
     "@github/hotkey": "^1.2.4",
-    "@sentry/browser": "5.6.1"
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "^4.0.7",
+    "@sentry/browser": "5.6.1",
+    "jquery": "^3.4.1",
+    "rails-erb-loader": "^5.5.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.8.0"
   }
 }

@@ -19,9 +19,13 @@
 # Ignore uploaded files in development
 /storage/*
 
-# Ignore Node.js artifacts
-/vendor/assets/node_modules
+# Ignore JavaScript artifacts
+/public/packs
+/public/packs-test
+/node_modules
 /yarn-error.log
+yarn-debug.log*
+.yarn-integrity
 
 /public/assets
 /public/sitemaps
