@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 module Roombooking
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.0
 
     # Use Redis for caching and report exceptions to Sentry as warnings.
     config.cache_store = :redis_cache_store, {
