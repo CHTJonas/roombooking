@@ -72,7 +72,7 @@ class CamdramShowTest < ActiveSupport::TestCase
   end
 
   test "should create show from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_show(5471)
       assert_nothing_raised do
         CamdramShow.create_from_camdram(obj)
@@ -84,7 +84,7 @@ class CamdramShowTest < ActiveSupport::TestCase
   end
 
   test "should find show from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_show(6514)
       show = camdram_shows(:api_test_1)
       assert show == CamdramShow.find_from_camdram(obj)

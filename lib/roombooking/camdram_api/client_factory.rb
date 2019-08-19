@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     module ClientFactory
       class << self
         def new(token_hash = nil)
@@ -17,8 +17,8 @@ module Roombooking
                 faraday_connection_builder(true).call(faraday)
               end
             end
-            config.user_agent = Roombooking::CamdramAPI.user_agent
-            config.base_url = Roombooking::CamdramAPI.base_url
+            config.user_agent = Roombooking::CamdramApi.user_agent
+            config.base_url = Roombooking::CamdramApi.base_url
           end
         end
 
@@ -29,7 +29,7 @@ module Roombooking
             faraday.use(:ddtrace) if ENV['ENABLE_DATADOG_APM']
             faraday.request  :url_encoded
             faraday.response :caching do
-              Roombooking::CamdramAPI::ResponseCacheStore
+              Roombooking::CamdramApi::ResponseCacheStore
             end if cache_responses && Rails.application.config.action_controller.perform_caching
             faraday.response :logger, Yell['camdram'] do |logger|
               logger.filter(/Bearer[^"]*/m, '[FILTERED]')

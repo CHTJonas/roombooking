@@ -3,7 +3,7 @@
 module Admin
   class SocietyRetrievalService < ApplicationService
     def perform
-      camdram_societies = Roombooking::CamdramAPI.with { |client| client.get_societies.sort_by(&:name).map(&:make_orphan) }
+      camdram_societies = Roombooking::CamdramApi.with { |client| client.get_societies.sort_by(&:name).map(&:make_orphan) }
       society_tuples = Array.new(camdram_societies.length)
       camdram_societies.each_with_index do |camdram_society, i|
         roombooking_society = CamdramSociety.find_from_camdram(camdram_society)

@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # Set a custom header containing the application version.
   def render(*args)
     super.tap do
-      response.headers['X-Roombooking-Version'] = Roombooking::VERSION
+      response.headers['X-Roombooking-Version'] = Roombooking::Version
       response.headers['X-Camdram-Client-Version'] = Camdram::VERSION
     end
   end
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from Roombooking::CamdramAPI::CamdramError do |exception|
+  rescue_from Roombooking::CamdramApi::CamdramError do |exception|
     Raven.capture_exception(exception)
     alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
     flash.now[:alert] = alert

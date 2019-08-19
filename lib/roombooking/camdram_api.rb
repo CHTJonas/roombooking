@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     class << self
       def user_agent
-        @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::VERSION}".freeze
+        @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::Version}".freeze
       end
 
       def base_url
@@ -21,22 +21,22 @@ module Roombooking
         rescue OAuth2::Error => e
           http_status = e.code['code']
           if http_status.between?(400, 499)
-            raise Roombooking::CamdramAPI::ClientError.new, e
+            raise Roombooking::CamdramApi::ClientError.new, e
           elsif http_status.between?(500, 599)
-            raise Roombooking::CamdramAPI::ServerError.new, e
+            raise Roombooking::CamdramApi::ServerError.new, e
           else
-            raise Roombooking::CamdramAPI::CamdramError.new, e
+            raise Roombooking::CamdramApi::CamdramError.new, e
           end
         rescue Faraday::TimeoutError => e
-          raise Roombooking::CamdramAPI::TimeoutError.new, e
+          raise Roombooking::CamdramApi::TimeoutError.new, e
         rescue Faraday::ConnectionFailed => e
           if e.wrapped_exception.class == Net::OpenTimeout
-            raise Roombooking::CamdramAPI::TimeoutError.new, e
+            raise Roombooking::CamdramApi::TimeoutError.new, e
           else
-            raise Roombooking::CamdramAPI::CamdramError.new, e
+            raise Roombooking::CamdramApi::CamdramError.new, e
           end
         rescue => e
-          raise Roombooking::CamdramAPI::CamdramError.new, e
+          raise Roombooking::CamdramApi::CamdramError.new, e
         end
       end
 
@@ -48,7 +48,7 @@ module Roombooking
           else
             with(&block)
           end
-        rescue CamdramAPI::ServerError, Roombooking::CamdramAPI::TimeoutError => e
+        rescue CamdramAPI::ServerError, Roombooking::CamdramApi::TimeoutError => e
           if (retries += 1) < count
             sleep wait_time # Sleep for a short while in case Camdram is overloaded.
             retry
@@ -62,7 +62,7 @@ module Roombooking
 
       def client_pool
         @client_pool ||= ConnectionPool.new(size: ENV.fetch('RAILS_MAX_THREADS') { 5 }, timeout: wait_timeout) do
-          Roombooking::CamdramAPI::ClientFactory.new
+          Roombooking::CamdramApi::ClientFactory.new
         end
       end
 

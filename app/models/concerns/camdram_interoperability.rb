@@ -26,10 +26,10 @@ module CamdramInteroperability
       define_method(:camdram_object) do
         return nil unless self.camdram_id.present?
         begin
-          @camdram_object ||= Roombooking::CamdramAPI.with do |client|
+          @camdram_object ||= Roombooking::CamdramApi.with do |client|
             client.send(method, self.camdram_id).make_orphan
           end
-        rescue Roombooking::CamdramAPI::ClientError => e
+        rescue Roombooking::CamdramApi::ClientError => e
           response_code = e.cause.code['code']
           if response_code == 404
             return nil
@@ -59,7 +59,7 @@ module CamdramInteroperability
 
   # Returns the entity's external URL on Camdram.
   def url
-    Roombooking::CamdramAPI.url_for(camdram_object)
+    Roombooking::CamdramApi.url_for(camdram_object)
   end
 
   # Queues a background job to refresh the entity's cached data from Camdram.

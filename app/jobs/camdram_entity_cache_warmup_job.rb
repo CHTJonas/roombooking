@@ -9,9 +9,9 @@ class CamdramEntityCacheWarmupJob
 
   def perform(global_id)
     camdram_entity = GlobalID::Locator.locate global_id
-    Roombooking::CamdramAPI.with_retry do
+    Roombooking::CamdramApi.with_retry do
       camdram_entity.name(refresh_cache: true)
-    rescue Roombooking::CamdramAPI::CamdramError
+    rescue Roombooking::CamdramApi::CamdramError
       # Preserve cache, do nothing.
     end
   end

@@ -1,5 +1,5 @@
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     class CamdramError < StandardError; end
   end
 end
