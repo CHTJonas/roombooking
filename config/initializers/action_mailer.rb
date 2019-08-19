@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'roombooking/host'
+
 config = Rails.application.config
 
 mail_log_file = Rails.root.join('log', "roombooking_#{Rails.env}_mail.log")
