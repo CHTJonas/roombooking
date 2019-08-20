@@ -1,15 +1,17 @@
 import $ from "jquery";
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/themes/light.css'
 
 $(() => {
-    $(".flatdatetimepickr").flatpickr({
+    flatpickr(".flatdatetimepickr", {
         enableTime: true,
         dateFormat: "d/m/Y H:i"
     });
-    $(".flatdatepickr").flatpickr({
+    flatpickr(".flatdatepickr", {
         enableTime: false,
         dateFormat: "d/m/Y"
     });
-    $(".flatdaterangepickr").flatpickr({
+    flatpickr(".flatdaterangepickr", {
         enableTime: false,
         mode: "multiple",
         dateFormat: "d/m/Y"

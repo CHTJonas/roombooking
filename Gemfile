@@ -46,7 +46,6 @@ gem 'icalendar', '~> 2.5'
 # Asset pipeline
 gem 'bootstrap', '~> 4.3'
 gem 'jquery-rails', '~> 4.3'
-gem 'flatpickr', '~> 4.5'
 gem 'font-awesome-rails', '~> 4.7'
 # View rendering
 gem 'haml', '~> 5.1'
