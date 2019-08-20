@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 $(() => {
     $("a#batch-import").on("ajax:success", (event) => {
         rbModal("Batch Import", "The batch import job is now running in the background – please refresh the page after a few seconds...");

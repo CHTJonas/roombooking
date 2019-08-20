@@ -1,8 +1,10 @@
-import $ from "jquery";
+import 'bootstrap/dist/js/bootstrap';
 import * as Sentry from '@sentry/browser';
-import {install} from '@github/hotkey'
+import {install} from '@github/hotkey';
 
-import '../styles'
+import '../src/javascripts/admin.js';
+import '../src/javascripts/favourites.js';
+import '../src/javascripts/flatpickr.js';
 
 require("@rails/ujs").start()
 require("@rails/activestorage").start()

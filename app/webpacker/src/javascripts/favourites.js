@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 // Favourite bookings are stored in an indexed database locally in the user's browser.
 // This provides a level of isolation for privacy reasons.
 
