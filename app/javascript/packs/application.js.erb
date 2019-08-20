@@ -6,40 +6,42 @@ require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
 
-window.rbModal = (title, message) => {
+const rbModal = (title, message) => {
     $('#roombookingModalTitle').text(title);
     $('#roombookingModalContent').text(message);
     $('#roombookingModal').modal('show');
 };
   
-window.rbAjaxFail = () => {
-    rbModal("AJAX Error", "Oops something's gone wrong! Please try again after a few seconds and contact support if you continue experiencing issues.");
+const rbAjaxFail = () => {
+    rbModal("AJAX Error", "Something has gone wrong! Please try again after a few seconds and contact support if you continue experiencing issues.");
 };
   
 $(() => {
-    window['$'] = $;
-    var el, i, len, ref;
+    window['rbModal'] = rbModal;
+    window['rbAjaxFail'] = rbAjaxFail;
+
     Sentry.init({
-      dsn: '<%= ENV['SENTRY_DSN'] %>',
+      dsn: "<%= ENV['SENTRY_DSN'] %>",
       release: '<%= Roombooking::Version %>',
       environment: '<%= Rails.env %>'
     });
+
     Sentry.configureScope((scope) => {
-        var dataset, id, node, user;
-        node = $("#rb-user-gravatar-link")[0];
+        const node = $("#rb-user-gravatar-link")[0];
         if (node) {
-            dataset = node.dataset;
-            id = Number(dataset.userId);
-            user = { id: id };
+            const dataset = node.dataset;
+            const id = Number(dataset.userId);
+            const user = { id: id };
             scope.setUser(user);
         }
     });
+
     $("a").on("ajax:error", rbAjaxFail);
     $("form").on("ajax:error", rbAjaxFail);
-    ref = document.querySelectorAll('[data-hotkey]');
-    for (i = 0, len = ref.length; i < len; i++) {
-      el = ref[i];
-      install(el);
+
+    const ref = document.querySelectorAll('[data-hotkey]');
+    for (let i = 0; i < ref.length; i++) {
+        install(ref[i]);
     }
   });
   
