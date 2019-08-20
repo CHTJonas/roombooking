@@ -1,0 +1,13 @@
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+@import "~bootstrap/dist/css/bootstrap";
+@import "~flatpickr/dist/themes/light";
+
+@import "../src/stylesheets/adc_house_colours.scss";
+@import "../src/stylesheets/admin.scss";
+@import "../src/stylesheets/booking.scss";
+@import "../src/stylesheets/calendar.scss";
+@import "../src/stylesheets/navbar.scss";
+@import "../src/stylesheets/qr.scss";
+@import "../src/stylesheets/spinner.scss";
+@import "../src/stylesheets/two_factor.scss";

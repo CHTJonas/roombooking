@@ -124,10 +124,10 @@ class User < ApplicationRecord
         end
         # Then authorise any such active shows that are not dormant.
         CamdramShow.where(camdram_id: shows.each(&:id), dormant: false, active: true)
-      rescue Roombooking::CamdramAPI::NoAccessToken => e
+      rescue Roombooking::CamdramApi::NoAccessToken => e
         raise e
       rescue
-        raise Roombooking::CamdramAPI::CamdramError
+        raise Roombooking::CamdramApi::CamdramError
       end
     end
   end
@@ -142,10 +142,10 @@ class User < ApplicationRecord
         societies = camdram_client.user.get_societies
         # Then authorise any such active societies.
         CamdramSociety.where(camdram_id: societies.each(&:id), active: true)
-      rescue Roombooking::CamdramAPI::NoAccessToken => e
+      rescue Roombooking::CamdramApi::NoAccessToken => e
         raise e
       rescue
-        raise Roombooking::CamdramAPI::CamdramError
+        raise Roombooking::CamdramApi::CamdramError
       end
     end
   end
@@ -168,10 +168,10 @@ class User < ApplicationRecord
   # shows and societies the user administers.
   def camdram_client
     token = latest_camdram_token
-    raise Roombooking::CamdramAPI::NoAccessToken, 'No Camdram tokens found for the user' unless token.present?
+    raise Roombooking::CamdramApi::NoAccessToken, 'No Camdram tokens found for the user' unless token.present?
     token_hash = { access_token: token.access_token,
       refresh_token: token.refresh_token, expires_at: token.expires_at }
-    Roombooking::CamdramAPI::ClientFactory.new(token_hash)
+    Roombooking::CamdramApi::ClientFactory.new(token_hash)
   end
 
 end

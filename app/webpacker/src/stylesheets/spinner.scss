@@ -1,4 +1,4 @@
-@import 'bootstrap';
+@import 'adc_house_colours';
 
 @keyframes donut-spin {
     0% {
@@ -13,8 +13,7 @@
 .donutSpinner {
     display: inline-block;
     border: 4px solid rgba(0, 0, 0, 0.1);
-    // border-left-color: #5778F3;
-    border-left-color: $primary;
+    border-left-color: $adc-blue;
     border-radius: 50%;
     width: 30px;
     height: 30px;

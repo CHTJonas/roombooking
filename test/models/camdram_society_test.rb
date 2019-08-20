@@ -40,7 +40,7 @@ class CamdramSocietyTest < ActiveSupport::TestCase
   end
 
   test "should create society from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_society(7)
       assert_nothing_raised do
         CamdramSociety.create_from_camdram(obj)
@@ -52,7 +52,7 @@ class CamdramSocietyTest < ActiveSupport::TestCase
   end
 
   test "should find society from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_society(38)
       soc = camdram_societies(:camdram)
       assert soc == CamdramSociety.find_from_camdram(obj)

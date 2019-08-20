@@ -1,5 +1,4 @@
 /*
- *= require flatpickr
  *= require peek
  *= require peek/views/performance_bar
  *= require peek/views/rblineprof
@@ -7,8 +6,6 @@
  *= require_self
  */
 
-@import 'bootstrap';
-@import 'font-awesome';
 @import 'cookies_eu';
 
 .controller-links {
@@ -24,4 +21,8 @@
 
 #peek {
   overflow: hidden;
+}
+
+.cookies-eu-content-holder {
+  line-height: 20px;
 }

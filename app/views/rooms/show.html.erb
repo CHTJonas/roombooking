@@ -7,10 +7,12 @@
     class: 'btn btn-outline-danger my-md-1' if can? :manage, @room %>
 <% end %>
 
-<% cache @room, virtual_path: @start_date.to_s do %>
+<% cache "#{@room.cache_key}?#{@start_date}" do %>
   <%= render 'calendar' %>
 <% end %>
 
 <%= content_tag :div, class: 'float-right mt-1' do %>
-  <%= link_to fa_icon('calendar', text: 'Subscribe to iCal'), room_path(@room, format: :ics), class: 'btn btn-link' %>
+  <%= link_to room_path(@room, format: :ics), class: 'btn btn-link' do %>
+    <i class="fa fa-calendar"></i> Subscribe to iCal
+  <% end %>
 <% end %>

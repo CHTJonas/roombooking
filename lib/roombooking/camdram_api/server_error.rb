@@ -1,5 +1,5 @@
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     class ServerError < CamdramError; end
   end
 end

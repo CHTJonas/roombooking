@@ -2,14 +2,14 @@ require 'test_helper'
 
 class CamdramApiTest < ActionDispatch::IntegrationTest
   test "Camdram API client" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       assert_equal "https://www.camdram.net", client.base_url
-      assert_equal "ADC Room Booking System/Git SHA #{Roombooking::VERSION}", client.user_agent
+      assert_equal "ADC Room Booking System/Git SHA #{Roombooking::Version}", client.user_agent
     end
   end
 
   test "fetch a user's societies from Camdram API" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       society = client.user.get_societies.first
       assert_equal 38, society.id
       assert_equal "camdram", society.slug
@@ -19,7 +19,7 @@ class CamdramApiTest < ActionDispatch::IntegrationTest
   end
 
   test "fetch a user's shows from Camdram API" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       show = client.user.get_shows.first
       assert_equal 6514, show.id
       assert_equal "1997-api-test-1", show.slug

@@ -1,0 +1,51 @@
+import 'bootstrap/dist/js/bootstrap';
+import * as Sentry from '@sentry/browser';
+import {install} from '@github/hotkey';
+
+import '../src/javascripts/admin.js';
+import '../src/javascripts/favourites.js';
+import '../src/javascripts/flatpickr.js';
+
+require("@rails/ujs").start()
+require("@rails/activestorage").start()
+require("channels")
+
+const rbModal = (title, message) => {
+    $('#roombookingModalTitle').text(title);
+    $('#roombookingModalContent').text(message);
+    $('#roombookingModal').modal('show');
+};
+  
+const rbAjaxFail = () => {
+    rbModal("AJAX Error", "Something has gone wrong! Please try again after a few seconds and contact support if you continue experiencing issues.");
+};
+  
+$(() => {
+    window['rbModal'] = rbModal;
+    window['rbAjaxFail'] = rbAjaxFail;
+
+    Sentry.init({
+      dsn: "<%= ENV['SENTRY_DSN'] %>",
+      release: '<%= Roombooking::Version %>',
+      environment: '<%= Rails.env %>'
+    });
+
+    Sentry.configureScope((scope) => {
+        const node = $("#rb-user-gravatar-link")[0];
+        if (node) {
+            const dataset = node.dataset;
+            const id = Number(dataset.userId);
+            const user = { id: id };
+            scope.setUser(user);
+        }
+    });
+
+    $("a").on("ajax:error", rbAjaxFail);
+    $("form").on("ajax:error", rbAjaxFail);
+
+    const ref = document.querySelectorAll('[data-hotkey]');
+    for (let i = 0; i < ref.length; i++) {
+        install(ref[i]);
+    }
+  });
+  

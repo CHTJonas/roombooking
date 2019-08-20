@@ -62,7 +62,7 @@ class CamdramToken < ApplicationRecord
       app_id = ENV['CAMDRAM_APP_ID']
       app_secret = ENV['CAMDRAM_APP_SECRET']
       config.auth_code(token_hash, app_id, app_secret)
-      config.user_agent = "ADC Room Booking System/#{Roombooking::VERSION}"
+      config.user_agent = "ADC Room Booking System/#{Roombooking::Version}"
       config.base_url = "https://www.camdram.net"
     end
 
@@ -74,7 +74,7 @@ class CamdramToken < ApplicationRecord
     begin
       new_token = client.refresh_access_token!
     rescue Exception => e
-      raise Roombooking::CamdramAPI::CamdramError.new, e
+      raise Roombooking::CamdramApi::CamdramError.new, e
     ensure
       self.destroy
     end

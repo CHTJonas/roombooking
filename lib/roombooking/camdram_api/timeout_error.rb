@@ -1,5 +1,5 @@
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     class TimeoutError < CamdramError; end
   end
 end

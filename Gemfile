@@ -6,12 +6,12 @@ ruby '2.6.3'
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
 # Rails
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 6.0.0'
 gem 'puma', '~> 4.1'
 gem 'rack-timeout', '~> 0.5.1'
-gem 'sass-rails', '~> 5.1'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.2'
+gem 'sass-rails', '~> 6.0'
+gem 'webpacker', '~> 4.0'
+gem 'coffee-rails', '~> 5.0'
 gem 'linked-list', '~> 0.0.13'
 
 # Audit model changes
@@ -43,11 +43,6 @@ gem 'kaminari', '~> 1.1'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
 gem 'icalendar', '~> 2.5'
-# Asset pipeline
-gem 'bootstrap', '~> 4.3'
-gem 'jquery-rails', '~> 4.3'
-gem 'flatpickr', '~> 4.5'
-gem 'font-awesome-rails', '~> 4.7'
 # View rendering
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false

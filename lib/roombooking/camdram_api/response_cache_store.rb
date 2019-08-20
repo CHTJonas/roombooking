@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Roombooking
-  module CamdramAPI
+  module CamdramApi
     module ResponseCacheStore
       class << self
         # Support for the bare minimum of methods specified

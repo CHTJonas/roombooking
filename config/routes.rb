@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  require 'roombooking/route_constraints'
-  must_be_admin = Roombooking::AdminConstraint.new
+  must_be_admin = Roombooking::RouteConstraints::AdminConstraint.new
 
   # Backend Admin Interfaces
   require 'sidekiq/web'

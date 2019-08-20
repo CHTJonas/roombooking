@@ -11,5 +11,7 @@
 </ul>
 
 <%= content_tag :div, class: 'float-right mt-1' do %>
-  <%= link_to fa_icon('calendar', text: 'Subscribe to iCal'), rooms_path(format: :ics), class: 'btn btn-link' %>
+  <%= link_to rooms_path(format: :ics), class: 'btn btn-link' do %>
+    <i class="fa fa-calendar"></i> Subscribe to iCal
+  <% end %>
 <% end %>

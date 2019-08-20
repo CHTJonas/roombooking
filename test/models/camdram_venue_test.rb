@@ -16,7 +16,7 @@ class CamdramVenueTest < ActiveSupport::TestCase
   end
 
   test "should create venue from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_venue(45)
       assert_nothing_raised do
         CamdramVenue.create_from_camdram(obj)
@@ -28,7 +28,7 @@ class CamdramVenueTest < ActiveSupport::TestCase
   end
 
   test "should find venue from a Camdram object" do
-    Roombooking::CamdramAPI.with do |client|
+    Roombooking::CamdramApi.with do |client|
       obj = client.get_venue(30)
       venue = camdram_venues(:playroom)
       assert venue == CamdramVenue.find_from_camdram(obj)
