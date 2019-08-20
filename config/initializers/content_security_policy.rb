@@ -7,18 +7,23 @@ Rails.application.config.content_security_policy do |policy|
   policy.frame_src       "https://www.google.com/recaptcha/"
   policy.style_src       :self, :unsafe_inline
   policy.font_src        :self
-  policy.connect_src     :self, "https://sentry.io"
   policy.form_action     :self, "https://www.camdram.net"
   policy.frame_ancestors :none
   policy.base_uri        :none
   policy.block_all_mixed_content
 
-  if ENV['CSP_REPORT_URI'].present?
-    policy.report_uri      ENV['CSP_REPORT_URI']
+  if Rails.env.development?
+    policy.connect_src   :self, "http://localhost:3035", "ws://localhost:3035", "https://sentry.io"
+  else
+    policy.connect_src   :self, "https://sentry.io"
   end
 
   if Rails.env.production?
     policy.upgrade_insecure_requests
+  end
+
+  if ENV['CSP_REPORT_URI'].present?
+    policy.report_uri    ENV['CSP_REPORT_URI']
   end
 end
 
