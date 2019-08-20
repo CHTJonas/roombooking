@@ -9,6 +9,8 @@
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "ADC Roombooking System" %>">
     <title>ADC Room Booking<%= ": #{yield(:title)}" if content_for?(:title) %></title>
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'application', 'admin', 'favourites', 'flatpicker' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

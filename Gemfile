@@ -44,8 +44,6 @@ gem 'kaminari', '~> 1.1'
 gem 'simple_calendar', '~> 2.0'
 gem 'icalendar', '~> 2.5'
 # Asset pipeline
-gem 'bootstrap', '~> 4.3'
-gem 'jquery-rails', '~> 4.3'
 gem 'font-awesome-rails', '~> 4.7'
 # View rendering
 gem 'haml', '~> 5.1'

@@ -86,8 +86,6 @@ GEM
     atomic (1.1.101)
     attr_encrypted (3.1.0)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (9.6.1)
-      execjs
     better_errors (2.5.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -97,10 +95,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
-    bootstrap (4.3.1)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
     browser (2.6.1)
     builder (3.2.3)
     bullet (6.0.1)
@@ -305,7 +299,6 @@ GEM
     pg_search (2.3.0)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
-    popper_js (1.14.5)
     possessive (1.0.1)
     premailer (1.11.1)
       addressable
@@ -491,7 +484,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)
-  bootstrap (~> 4.3)
   browser (~> 2.6)
   bullet
   byebug
@@ -518,7 +510,6 @@ DEPENDENCIES
   hiredis (~> 0.6.3)
   humanize_boolean (~> 0.0.2)
   icalendar (~> 2.5)
-  jquery-rails (~> 4.3)
   kaminari (~> 1.1)
   kramdown
   linked-list (~> 0.0.13)

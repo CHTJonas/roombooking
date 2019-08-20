@@ -1,6 +1,5 @@
 import $ from "jquery";
 import flatpickr from "flatpickr";
-import 'flatpickr/dist/themes/light.css'
 
 $(() => {
     flatpickr(".flatdatetimepickr", {
