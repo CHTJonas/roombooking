@@ -21,6 +21,8 @@ const rbAjaxFail = () => {
 };
   
 $(() => {
+    window['$'] = $;
+    window['Rails'] = Rails;
     window['rbModal'] = rbModal;
     window['rbAjaxFail'] = rbAjaxFail;
 
