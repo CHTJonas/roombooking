@@ -22,7 +22,11 @@ chdir APP_ROOT do
 
   puts Rainbow('Pulling latest changes from git...').blue
   system! 'git fetch origin master'
-  system! 'git merge --ff-only FETCH_HEAD'
+  if ARGV.length == 0
+    system! 'git merge --ff-only FETCH_HEAD'
+  else
+    system! "git merge --ff-only #{ARGV[0]}"
+  end
 
   puts Rainbow('Installing dependencies...').blue
   system! 'bundle'
