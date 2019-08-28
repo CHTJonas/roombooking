@@ -1,5 +1,5 @@
 Contact: mailto:charlie@charliejonas.co.uk
 Encryption: https://keybase.io/CHTJonas/key.asc
 Preferred-Languages: en
-Canonical: https://roombooking-dev.adctheatre.com/.well-known/security.txt
+Canonical: https://roombooking.adctheatre.com/.well-known/security.txt
 Hiring: https://github.com/CHTJonas/roombooking

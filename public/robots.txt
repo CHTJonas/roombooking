@@ -1,6 +1,4 @@
-# As we're deploying to a dev site disallow search engine indexing
+# Remove the lines below and uncomment the sitemap directive once the privacy implications are well understood.
 User-agent: *
 Disallow: /
-
-# Enable this when we deploy proper
 # Sitemap: https://roombooking.adctheatre.com/sitemaps/sitemap.xml.gz

@@ -23,7 +23,7 @@ chdir APP_ROOT do
   puts Rainbow('Configuring environment...').blue
   contents = "RAILS_MAX_THREADS=1\n"
   contents += "WEB_CONCURRENCY=1\n"
-  contents += "SITE_HOSTNAME=roombooking-dev.adctheatre.com\n"
+  contents += "SITE_HOSTNAME=roombooking.adctheatre.com\n"
   unless OS::Underlying.docker?
     contents += "REDIS_CACHE=redis://127.0.0.1:6379/1\n"
     contents += "REDIS_STORE=redis://127.0.0.1:6379/1\n"
