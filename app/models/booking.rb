@@ -194,8 +194,11 @@ DATE_PART('day', timestamp :end - timestamp :start) },
     if Booking.purposes_with_none.find_index(self.purpose.to_sym)
       self.camdram_model = nil
     else
-      errors.add(:purpose, 'needs to be a valid selection.') if self.camdram_model.nil?
-      errors.add(:base, 'Your show or society appears to have been deleted from Camdram. Please contact support.') if self.camdram_model.camdram_object.nil?
+      if self.camdram_model.nil?
+        errors.add(:purpose, 'needs to be a valid selection.')
+      elsif self.camdram_model.camdram_object.nil?
+        errors.add(:base, 'Your show or society appears to have been deleted from Camdram. Please contact support.')
+      end
     end
   end
 
