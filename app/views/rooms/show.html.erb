@@ -7,7 +7,7 @@
     class: 'btn btn-outline-danger my-md-1' if can? :manage, @room %>
 <% end %>
 
-<% cache "#{@room.cache_key}?#{@start_date}" do %>
+<% cache "#{@room.updated_at.utc.to_s(:usec)}?#{@start_date}" do %>
   <%= render 'calendar' %>
 <% end %>
 
