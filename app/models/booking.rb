@@ -99,11 +99,11 @@ class Booking < ApplicationRecord
     where(repeat_mode: :weekly)
     .where(start_time: Time.at(0)..end_date)
     .where(repeat_until: start_date..DateTime::Infinity.new)
-    .where(%{
-EXTRACT(dow FROM timestamp :start) <= EXTRACT(dow FROM start_time)
-AND EXTRACT(dow FROM start_time) < EXTRACT(dow FROM timestamp :start) +
-DATE_PART('day', timestamp :end - timestamp :start) },
-      { start: start_date, end: end_date })
+    .where(%{ date_part('dow', start_time) IN (
+      SELECT date_part('dow', d) FROM (
+        SELECT generate_series(:start, :end, '1 day'::interval) AS d
+      ) AS _)
+    }, { start: start_date, end: end_date })
   }
 
   # Users should not be able to make ex post facto bookings, unless they
