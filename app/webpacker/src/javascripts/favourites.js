@@ -52,7 +52,8 @@ const addBookingToFavourites = (id) => {
         };
         const objectStoreRequest = objectStore.get(id);
         objectStoreRequest.onsuccess = (objectStoreEvent) => {
-            if (objectStoreRequest.result) {
+            const record = objectStoreRequest.result;
+            if (record) {
                 obj.numberOfVisits += record.numberOfVisits;
             }
             objectStore.put(obj);
