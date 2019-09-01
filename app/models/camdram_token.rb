@@ -62,7 +62,7 @@ class CamdramToken < ApplicationRecord
       app_id = ENV['CAMDRAM_APP_ID']
       app_secret = ENV['CAMDRAM_APP_SECRET']
       config.auth_code(token_hash, app_id, app_secret)
-      config.user_agent = "ADC Room Booking System/#{Roombooking::Version}"
+      config.user_agent = "ADC Room Booking System/#{Roombooking::Version.to_s}"
       config.base_url = "https://www.camdram.net"
     end
 

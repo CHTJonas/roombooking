@@ -1,5 +1,9 @@
-# frozen_string_literal: true
-
 module Roombooking
-  Version = @version ||= `git rev-parse --short HEAD`.chomp.freeze
+  module Version
+    class << self
+      def to_s
+        @version ||= `git rev-parse --short HEAD`.chomp.freeze
+      end
+    end
+  end
 end

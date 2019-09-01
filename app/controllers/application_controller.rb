@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # Set a custom header containing the application version.
   def render(*args)
     super.tap do
-      response.headers['X-Roombooking-Version'] = Roombooking::Version
+      response.headers['X-Roombooking-Version'] = Roombooking::Version.to_s
       response.headers['X-Camdram-Client-Version'] = Camdram::VERSION
     end
   end

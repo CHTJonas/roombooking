@@ -4,7 +4,7 @@ module Roombooking
   module CamdramApi
     class << self
       def user_agent
-        @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::Version}".freeze
+        @user_agent ||= "ADC Room Booking System/Git SHA #{Roombooking::Version.to_s}".freeze
       end
 
       def base_url
