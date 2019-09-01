@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   def render(*args)
     super.tap do
       response.headers['X-Roombooking-Version'] = Roombooking::Version.to_s
-      response.headers['X-Camdram-Client-Version'] = Camdram::VERSION
+      response.headers['X-Camdram-Client-Version'] = Camdram::Version.to_s
     end
   end
 
@@ -103,7 +103,7 @@ class ApplicationController < ActionController::Base
   def sentry_tags_context
     {
       program: sentry_program_context,
-      camdram_version: Camdram::VERSION
+      camdram_version: Camdram::Version.to_s
     }
   end
 

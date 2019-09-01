@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'camdram/client'
+
 module Roombooking
   module CamdramApi
     module ClientFactory
@@ -12,6 +14,7 @@ module Roombooking
               config.auth_code(token_hash, app_id, app_secret) do |faraday|
                 faraday_connection_builder.call(faraday)
               end
+              config.disable_auto_token_renewal
             else
               config.client_credentials(app_id, app_secret) do |faraday|
                 faraday_connection_builder(true).call(faraday)
