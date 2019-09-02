@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'camdram/client'
-
 module Roombooking
   module CamdramApi
     module ClientFactory
