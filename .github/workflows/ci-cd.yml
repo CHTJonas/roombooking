@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
+      if: contains(github.event.head_commit.message, 'skip ci') == false
       uses: actions/checkout@v1
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@v1
@@ -24,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
+      if: contains(github.event.head_commit.message, 'skip ci') == false
       uses: actions/checkout@master
     - name: Build application stack
       run: docker-compose build
@@ -48,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: SSH to server
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'skip ci') == false
       run: |
         umask 0077
         mkdir -p $HOME/.ssh
