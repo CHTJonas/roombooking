@@ -123,7 +123,7 @@ class User < ApplicationRecord
           end
         end
         # Then authorise any such active shows that are not dormant.
-        CamdramShow.where(camdram_id: shows.each(&:id), dormant: false, active: true)
+        CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
       rescue Roombooking::CamdramApi::NoAccessToken => e
         raise e
       rescue
@@ -141,7 +141,7 @@ class User < ApplicationRecord
         # Poll Camdram for any societies that the user has access to.
         societies = camdram_client.user.get_societies
         # Then authorise any such active societies.
-        CamdramSociety.where(camdram_id: societies.each(&:id), active: true)
+        CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
       rescue Roombooking::CamdramApi::NoAccessToken => e
         raise e
       rescue
