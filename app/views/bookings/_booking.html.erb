@@ -21,7 +21,7 @@
 <%= content_tag :tr do %>
   <%= content_tag(:td, 'Room:') %>
   <%= content_tag :td do %>
-    <%= link_to @booking.room.name, room_path(@booking.room) %>
+    <%= link_to @booking.room.name, room_path(@booking.room, start_date: @booking.start_time.strftime("%Y-%m-%d")) %>
   <% end %>
 <% end %>
 <%= content_tag :tr do %>
