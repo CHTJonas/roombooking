@@ -33,6 +33,7 @@ table.calendar {
     border-top-width: 1px;
     border-top-color: #dee2e6;
     z-index: 3;
+    word-wrap: break-word;
     overflow: hidden;
 
     &:last-child {
