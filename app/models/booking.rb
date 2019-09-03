@@ -134,14 +134,14 @@ class Booking < ApplicationRecord
   # A booking cannot overlap with any other booking.
   def must_not_overlap
     # Needs to have start and end time to validate overlap.
-    return if (self.start_time.nil? || self.end_time.nil?)
+    return if (self.start_time.nil? || self.end_time.nil? || self.room.nil?)
     st = self.start_time
     et = case self.repeat_mode
     when 'none' then self.end_time
     else self.repeat_until || return
     end
-    overlapping_bookings = Booking.where.not(id: self.id)
-      .in_range(st, et)
+    overlapping_bookings = self.room.bookings.where.not(id: self.id)
+      .in_range(st.to_date, et.to_date + 1.day)
       .select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
