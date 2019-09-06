@@ -4,9 +4,8 @@
 
 [![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.3-brightgreen.svg)](https://www.ruby-lang.org/en/)
 [![Rails Version](https://img.shields.io/badge/Rails-v6.0.0-brightgreen.svg)](http://rubyonrails.org/)
-[![Build Status](https://travis-ci.org/CHTJonas/roombooking.svg?branch=master)](https://travis-ci.org/CHTJonas/roombooking)
+[![Build Status](https://github.com/CHTJonas/roombooking/workflows/CI%20CD/badge.svg)](https://launch-editor.github.com/actions?workflowID=CI%20CD&event=push&nwo=CHTJonas%2Froombooking)
 [![Test Coverage](https://codecov.io/gh/CHTJonas/roombooking/branch/master/graph/badge.svg)](https://codecov.io/gh/CHTJonas/roombooking)
-[![Security Warnings](https://hakiri.io/github/CHTJonas/roombooking/master.svg)](https://hakiri.io/github/CHTJonas/roombooking/master)
 
 This repository hosts the code for the [ADC Theatre's](https://www.adctheatre.com) new Room Booking System.
 The site runs as a [Ruby on Rails](https://rubyonrails.org/) application with background job processing handled by [Sidekiq](https://sidekiq.org/).
