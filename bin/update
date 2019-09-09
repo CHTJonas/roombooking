@@ -20,6 +20,8 @@ chdir APP_ROOT do
   # This script is an easy way to automatically update your development
   # environment of the ADC Room Booking System.
 
+  puts Rainbow('Rolling back any local working changes...').blue
+  system! 'git reset --hard && git clean -df'
   puts Rainbow('Pulling latest changes from git...').blue
   system! 'git fetch origin master'
   if ARGV.length == 0
