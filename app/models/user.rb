@@ -18,7 +18,7 @@
 #
 
 class User < ApplicationRecord
-  has_paper_trail
+  has_paper_trail ignore: [:last_login]
   include PgSearch::Model
   pg_search_scope :search_by_name_and_email, against: [:name, :email],
     ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
