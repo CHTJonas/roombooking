@@ -19,8 +19,9 @@ module Roombooking
         client_pool.with do |client|
           block.call(client)
         rescue OAuth2::Error => e
-          raise Roombooking::CamdramApi::CamdramError.new, e unless e.code.is_a? Integer
+          raise Roombooking::CamdramApi::CamdramError.new, e unless e.code.is_a? Hash
           http_status = e.code['code']
+          raise Roombooking::CamdramApi::CamdramError.new, e unless http_status.is_a? Integer
           if http_status.between?(400, 499)
             raise Roombooking::CamdramApi::ClientError.new, e
           elsif http_status.between?(500, 599)
