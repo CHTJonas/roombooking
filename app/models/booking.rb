@@ -133,7 +133,7 @@ class Booking < ApplicationRecord
 
   # A booking cannot overlap with any other booking.
   def must_not_overlap
-    # Needs to have start and end time to validate overlap.
+    # Needs to have start & end time and a venue to validate overlap.
     return if (self.start_time.nil? || self.end_time.nil? || self.room.nil?)
     st = self.start_time
     et = case self.repeat_mode

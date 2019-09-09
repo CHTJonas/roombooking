@@ -15,7 +15,7 @@ module Admin
       end
     end
 
-    def info
+    def site_info
       render html: Rails::Info.to_html.html_safe
     end
   end
