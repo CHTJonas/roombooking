@@ -60,7 +60,10 @@ class User < ApplicationRecord
       email = auth_hash['info']['email'] || ''
       user = User.find_by(email: email)
       ActiveRecord::Base.transaction do
-        user = User.create!(name: name, email: email) unless user.present?
+        unless user.present?
+          PaperTrail.request.whodunnit = email
+          user = User.create!(name: name, email: email)
+        end
         ProviderAccount.create!(provider: provider, uid: uid, user: user)
       end
       user
@@ -91,6 +94,7 @@ class User < ApplicationRecord
   # Validates the user's account.
   def validate(token)
     if token == self.validation_token
+      PaperTrail.request.whodunnit = self.id
       update(validation_token: nil, validated_at: DateTime.now)
     else
       return false
