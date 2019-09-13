@@ -112,27 +112,21 @@ class User < ApplicationRecord
       # as dormant (which happens at the start of each new term).
       CamdramShow.where(dormant: false, active: true)
     else
-      begin
-        # Poll Camdram for future shows that the user has access to.
-        shows = camdram_client.user.get_shows
-        shows.reject! do |show|
-          performance = show.performances.last
-          unless performance.present?
-            last_datetime = performance.start_at
-            unless performance.repeat_until.present?
-              date_difference = (performance.repeat_until - performance.start_at.to_date)
-              last_datetime += date_difference
-            end
-            last_datetime < Time.now
+      # Poll Camdram for future shows that the user has access to.
+      shows = camdram_client.user.get_shows
+      shows.reject! do |show|
+        performance = show.performances.last
+        unless performance.present?
+          last_datetime = performance.start_at
+          unless performance.repeat_until.present?
+            date_difference = (performance.repeat_until - performance.start_at.to_date)
+            last_datetime += date_difference
           end
+          last_datetime < Time.now
         end
-        # Then authorise any such active shows that are not dormant.
-        CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
-      rescue Roombooking::CamdramApi::NoAccessToken => e
-        raise e
-      rescue
-        raise Roombooking::CamdramApi::CamdramError
       end
+      # Then authorise any such active shows that are not dormant.
+      CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
     end
   end
 
@@ -141,16 +135,10 @@ class User < ApplicationRecord
       # Admins are authorised for all active societies.
       CamdramSociety.where(active: true)
     else
-      begin
-        # Poll Camdram for any societies that the user has access to.
-        societies = camdram_client.user.get_societies
-        # Then authorise any such active societies.
-        CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
-      rescue Roombooking::CamdramApi::NoAccessToken => e
-        raise e
-      rescue
-        raise Roombooking::CamdramApi::CamdramError
-      end
+      # Poll Camdram for any societies that the user has access to.
+      societies = camdram_client.user.get_societies
+      # Then authorise any such active societies.
+      CamdramSociety.where(camdram_id: societies.map(&:id), active: true)
     end
   end
 
