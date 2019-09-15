@@ -38,6 +38,13 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking too far in the future" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time += 6.months
+    booking.end_time += 6.months
+    assert_not booking.save
+  end
+
   test "should not save booking during quiet hours" do
     booking = Booking.new(booking_test_hash)
     booking.start_time = DateTime.tomorrow + 5.hours

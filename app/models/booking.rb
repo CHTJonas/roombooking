@@ -58,6 +58,7 @@ class Booking < ApplicationRecord
   validates :purpose, presence: true
 
   validate :cannot_be_in_the_past
+  validate :cannot_be_too_far_in_future
   validate :cannot_be_during_quiet_hours
   validate :must_end_on_same_day
   validate :must_fill_half_hour_slot
@@ -112,6 +113,12 @@ class Booking < ApplicationRecord
   def cannot_be_in_the_past
     if self.start_time.present? && self.start_time < DateTime.now
       errors.add(:start_time, "can't be in the past.") unless self.user.admin?
+    end
+  end
+
+  def cannot_be_too_far_in_future
+    if self.start_time.present? && self.start_time > DateTime.now + 4.months
+      errors.add(:start_time, "is too far in the future.") unless self.user.admin?
     end
   end
 
