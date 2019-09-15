@@ -59,6 +59,7 @@ class Booking < ApplicationRecord
 
   validate :cannot_be_in_the_past
   validate :cannot_be_during_quiet_hours
+  validate :must_end_on_same_day
   validate :must_fill_half_hour_slot
   validate :must_not_overlap
   validate :repeat_until_must_be_valid
@@ -121,6 +122,14 @@ class Booking < ApplicationRecord
     end
     if self.end_time.present? && self.end_time.hour < 8 && self.end_time != self.end_time.midnight
       errors.add(:end_time, "can't be between midnight and 8am.")
+    end
+  end
+
+  def must_end_on_same_day
+    if self.start_time.present? && self.end_time.present? && self.end_time.to_date != self.start_time.to_date
+      unless self.end_time == self.start_time.midnight + 1.day
+        errors.add(:end_time, "is on a different day to the booking start time.")
+      end
     end
   end
 

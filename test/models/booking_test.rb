@@ -49,6 +49,19 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking unless the end time is on the same day as the start time" do
+    # Bookings ending the following day at midnight are okay.
+    booking = Booking.new(booking_test_hash)
+    booking.start_time = DateTime.tomorrow + 19.hours
+    booking.end_time = DateTime.tomorrow + 24.hours
+    assert booking.save
+    # But anything after that is not!
+    booking = Booking.new(booking_test_hash)
+    booking.start_time = DateTime.tomorrow + 19.hours
+    booking.end_time = DateTime.tomorrow + 34.hours
+    assert_not booking.save
+  end
+
   test "should not save booking unless times align to the half-hour" do
     booking = Booking.new(booking_test_hash)
     booking.start_time += 15.minutes
