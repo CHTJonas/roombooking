@@ -119,6 +119,9 @@ class Booking < ApplicationRecord
     if self.start_time.present? && self.start_time.hour < 8
       errors.add(:start_time, "can't be between midnight and 8am.")
     end
+    if self.end_time.present? && self.end_time.hour < 8 && self.end_time != self.end_time.midnight
+      errors.add(:end_time, "can't be between midnight and 8am.")
+    end
   end
 
   # Bookings should fit into 30 minute time slots.

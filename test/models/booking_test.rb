@@ -40,8 +40,12 @@ class BookingTest < ActiveSupport::TestCase
 
   test "should not save booking during quiet hours" do
     booking = Booking.new(booking_test_hash)
-    booking.start_time = DateTime.tomorrow + 4.hours
-    booking.end_time = DateTime.tomorrow + 6.hours
+    booking.start_time = DateTime.tomorrow + 5.hours
+    booking.end_time = DateTime.tomorrow + 10.hours
+    assert_not booking.save
+    booking = Booking.new(booking_test_hash)
+    booking.start_time = DateTime.tomorrow + 23.hours
+    booking.end_time = DateTime.tomorrow + 25.hours
     assert_not booking.save
   end
 
