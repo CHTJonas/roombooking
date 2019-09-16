@@ -41,6 +41,7 @@ jobs:
         echo "CAMDRAM_APP_ID=${{ secrets.CAMDRAM_APP_ID }}" >> .env
         echo "CAMDRAM_APP_SECRET=${{ secrets.CAMDRAM_APP_SECRET }}" >> .env
         echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
+        echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
         docker-compose run --rm web "bundle exec rails roombooking:docker"
     - name: Run tests
       run: docker-compose run --rm web "bundle exec rails test"

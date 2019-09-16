@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['QUIET'] = 'true'
 
-if ENV['TRAVIS'] == 'true'
+if ENV['TRAVIS'] == 'true' || ENV['CODECOV_TOKEN'].present?
   require 'simplecov'
   require 'codecov'
   SimpleCov.start 'rails'
