@@ -1,6 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['QUIET'] = 'true'
 
+require 'dotenv/load'
+
 if ENV['CODECOV_TOKEN'].present?
   require 'simplecov'
   require 'codecov'
