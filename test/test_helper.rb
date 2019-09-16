@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['QUIET'] = 'true'
 
-if ENV['TRAVIS'] == 'true' || ENV['CODECOV_TOKEN'].present?
+if ENV['CODECOV_TOKEN'].present?
   require 'simplecov'
   require 'codecov'
   SimpleCov.start 'rails'
@@ -22,12 +22,6 @@ Minitest::Retry.use!(
   retry_count: 5,
   verbose: true
 )
-
-if ENV['TRAVIS'] == 'true'
-  puts ""
-  puts "=====   Detected application is running in Travis CI environment   ====="
-  puts ""
-end
 
 Minitest::Retry.on_retry do |klass, test_name, retry_count|
   # Retry with an exponential backoff.

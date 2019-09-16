@@ -45,10 +45,7 @@ module Roombooking
         private
 
         def socket_timeout
-          if ENV['TRAVIS'] == 'true'
-            # In the cloud, wild latencies are par for the course...
-            20
-          elsif Sidekiq.server?
+          if Sidekiq.server?
             5
           else
             1.5
@@ -56,10 +53,7 @@ module Roombooking
         end
 
         def request_timeout
-          if ENV['TRAVIS'] == 'true'
-            # In the cloud, wild latencies are par for the course...
-            20
-          elsif Sidekiq.server?
+          if Sidekiq.server?
             10
           else
             3.5
