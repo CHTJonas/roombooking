@@ -44,7 +44,6 @@ jobs:
         echo "RAILS_MAX_THREADS=1" >> .env
         echo "WEB_CONCURRENCY=1" >> .env
         echo "SITE_HOSTNAME=roombooking.adctheatre.com" >> .env
-        echo "DATABASE_URL=postgresql://postgres:@127.0.0.1:${{ job.services.postgres.ports['5432'] }}" >> .env
         echo "REDIS_CACHE=redis://127.0.0.1:${{ job.services.redis.ports['6379'] }}/1" >> .env
         echo "REDIS_STORE=redis://127.0.0.1:${{ job.services.redis.ports['6379'] }}/1" >> .env
         echo "CAMDRAM_APP_ID=${{ secrets.CAMDRAM_APP_ID }}" >> .env
@@ -52,9 +51,9 @@ jobs:
         echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
         echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
     - name: Setup database
-      run: bin/rails db:schema:load roombooking:search:setup
+      run: DATABASE_URL="postgresql://postgres:@127.0.0.1:${{ job.services.postgres.ports['5432'] }}" bin/rails db:schema:load roombooking:search:setup
     - name: Run tests
-      run: bin/rails test
+      run: DATABASE_URL="postgresql://postgres:@127.0.0.1:${{ job.services.postgres.ports['5432'] }}" bin/rails test
     services:
       postgres:
         image: postgres
