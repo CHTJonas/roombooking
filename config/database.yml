@@ -7,6 +7,11 @@ test:
   <% unless ENV['DATABASE_URL'].present? %>
   database: roombooking_test
   <% end %>
+  <% if ENV['GITHUB_WORKFLOW'].present? %>
+  username: postgres
+  host: 127.0.0.1
+  port: <%= ENV['DATABASE_PORT'] %>
+  <% end %>
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
   timeout: 3000
 

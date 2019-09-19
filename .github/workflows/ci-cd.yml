@@ -51,9 +51,17 @@ jobs:
         echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
         echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
     - name: Setup database
-      run: DATABASE_URL="postgresql://postgres:@127.0.0.1:${{ job.services.postgres.ports['5432'] }}" bin/rails db:schema:load roombooking:search:setup
+      run: bin/rails db:schema:load roombooking:search:setup
+      env:
+        RAILS_ENV: test
+        DISABLE_SPRING: 1
+        DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
     - name: Run tests
-      run: DATABASE_URL="postgresql://postgres:@127.0.0.1:${{ job.services.postgres.ports['5432'] }}" bin/rails test
+      run: bin/rails test
+      env:
+        RAILS_ENV: test
+        DISABLE_SPRING: 1
+        DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
     services:
       postgres:
         image: postgres
