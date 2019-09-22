@@ -62,6 +62,12 @@ jobs:
         RAILS_ENV: test
         DISABLE_SPRING: 1
         DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
+    - name: Upload build artefacts
+      run: |
+        sudo pip install --upgrade b2
+        b2 authorize-account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APP_KEY }}
+        b2 sync --noProgress vendor b2://chtjonas-build-artefacts/roombooking/$(git rev-parse --abbrev-ref HEAD)
+        b2 clear-account
     services:
       postgres:
         image: postgres
