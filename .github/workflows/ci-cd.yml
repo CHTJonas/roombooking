@@ -31,6 +31,11 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6.3'
+    - name: Download build artefacts
+      run: |
+        sudo pip install --upgrade b2
+        b2 authorize-account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APP_KEY }}
+        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF || true
     - name: Install dependencies
       run: |
         sudo apt-get -y install libpq-dev
@@ -62,6 +67,10 @@ jobs:
         RAILS_ENV: test
         DISABLE_SPRING: 1
         DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
+    - name: Upload build artefacts
+      run: |
+        b2 sync --noProgress --replaceNewer vendor b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF
+        b2 clear-account
     services:
       postgres:
         image: postgres
