@@ -35,7 +35,7 @@ jobs:
       run: |
         sudo pip install --upgrade b2
         b2 authorize-account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APP_KEY }}
-        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF || true
+        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF vendor || true
     - name: Install dependencies
       run: |
         sudo apt-get -y install libpq-dev
