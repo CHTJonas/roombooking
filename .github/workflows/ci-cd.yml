@@ -35,11 +35,12 @@ jobs:
       run: |
         sudo pip install --upgrade b2
         b2 authorize-account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APP_KEY }}
-        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF vendor || true
+        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/CHTJonas/roombooking/$GITHUB_REF vendor || \
+        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/CHTJonas/roombooking/refs/heads/master vendor || true
+        rm -rf vendor/bundle/ruby/2.6.0/cache/bundler/git
     - name: Install dependencies
       run: |
         sudo apt-get -y install libpq-dev
-        rm -rf vendor/bundle/ruby/2.6.0/cache/bundler/git
         gem install bundler
         bundle install --deployment --jobs 4 --retry 3
         bin/yarn install --non-interactive --network-concurrency 4 --network-timeout 5000
