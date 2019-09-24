@@ -39,6 +39,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get -y install libpq-dev
+        rm -rf vendor/bundle/ruby/2.6.0/cache/bundler/git
         gem install bundler
         bundle install --deployment --jobs 4 --retry 3
         bin/yarn install --non-interactive --network-concurrency 4 --network-timeout 5000
