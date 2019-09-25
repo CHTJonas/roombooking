@@ -388,8 +388,9 @@ GEM
     rubyzip (1.2.4)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
-    sassc (2.2.1)
+    sassc (2.0.1)
       ffi (~> 1.9)
+      rake
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
       sassc (>= 2.0)
@@ -535,6 +536,7 @@ DEPENDENCIES
   rotp (~> 5.1)
   rqrcode (~> 0.10.1)
   sass-rails (~> 6.0)
+  sassc (= 2.0.1)
   secure_headers (~> 6.1)
   selenium-webdriver (~> 3.142)
   sentry-raven (~> 2.11)
