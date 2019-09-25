@@ -1,10 +1,13 @@
 api_test_1:
+  active: true
   camdram_id: 6514
 
 api_test_2:
+  active: true
   camdram_id: 6515
 
 spring_awakening:
+  active: true
   camdram_id: 5309
   max_rehearsals: 8
   max_auditions: 4

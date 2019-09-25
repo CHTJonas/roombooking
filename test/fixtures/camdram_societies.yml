@@ -1,5 +1,7 @@
 cuadc:
+  active: true
   camdram_id: 1
 
 camdram:
+  active: true
   camdram_id: 38
