@@ -223,7 +223,8 @@ class Booking < ApplicationRecord
 
   # A booking with an associated Camdram model must not go over it's weekly quota.
   def must_not_exceed_quota
-    unless self.purpose.nil? || Booking.purposes_with_none.find_index(self.purpose.to_sym) || self.camdram_model.nil?
+    return if self.purpose.nil? || self.camdram_model.nil? || self.duration.nil?
+    unless Booking.purposes_with_none.find_index(self.purpose.to_sym)
       start = self.start_time.to_date.beginning_of_week
       weeks_to_check = []
       if self.repeat_mode == 'none'
