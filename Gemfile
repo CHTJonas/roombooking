@@ -6,7 +6,7 @@ ruby '2.6.3'
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
 # Pin version of sassc because there seems to be a bug on macOS
-gem 'sassc', '= 2.0.1'
+gem 'sassc', '2.2.1'
 
 # Rails
 gem 'rails', '~> 6.0.0'
