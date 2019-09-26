@@ -8,14 +8,6 @@ class ApplicationController < ActionController::Base
   include Roombooking::Auth
   before_action :set_paper_trail_whodunnit
 
-  # Set a custom header containing the application version.
-  def render(*args)
-    super.tap do
-      response.headers['X-Roombooking-Version'] = Roombooking::Version.to_s
-      response.headers['X-Camdram-Client-Version'] = Camdram::Version.to_s
-    end
-  end
-
   def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry, but the page you're looking for doesn't exist!" }
     flash.now[:alert] = alert

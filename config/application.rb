@@ -33,5 +33,8 @@ module Roombooking
 
     config.autoloader = :zeitwerk
     config.autoload_paths << Rails.root.join('lib')
+
+    require 'roombooking/middleware/header_inserter'
+    config.middleware.insert_after Rack::Sendfile, Roombooking::Middleware::HeaderInserter
   end
 end
