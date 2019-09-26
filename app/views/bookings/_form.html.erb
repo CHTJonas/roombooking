@@ -55,13 +55,13 @@
     <%= form.label :purpose, class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-10">
       <% Booking.purposes.keys.each do |purpose| %>
-        <% next if Booking.admin_purposes.find_index(purpose.to_sym) && !user_is_admin? %>
+        <% next if Booking.admin_purposes.include?(purpose.to_sym) && !user_is_admin? %>
         <%= content_tag :div do %>
           <%= form.radio_button :purpose, purpose %>
           <%= form.label purpose.to_sym %>
           <% @items = nil %>
-          <% @items = @shows if Booking.purposes_with_shows.find_index(purpose.to_sym) %>
-          <% @items = @societies if Booking.purposes_with_societies.find_index(purpose.to_sym) %>
+          <% @items = @shows if Booking.purposes_with_shows.include?(purpose.to_sym) %>
+          <% @items = @societies if Booking.purposes_with_societies.include?(purpose.to_sym) %>
           <%= form.collection_select("camdram_id_#{purpose}".to_sym, @items, :id, :name,
             class: 'form-control', selected: (@booking.camdram_model.id if @booking.camdram_model)) if @items %>
         <% end %>
