@@ -18,5 +18,14 @@ module Admin
     def site_info
       render html: Rails::Info.to_html.html_safe
     end
+
+    def gem_info
+      report_path = "tmp/gemsurance_report.html"
+      if File.exist?(report_path)
+        render file: report_path, layout: false
+      else
+        render plain: "Gemsurance report file not found!"
+      end
+    end
   end
 end

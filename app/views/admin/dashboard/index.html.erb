@@ -22,10 +22,11 @@
 <%= content_tag :div, class: 'row my-3' do %>
   <%= content_tag :div, class: 'col-12 col-md-6' do %>
     <%= content_tag :div, class: 'card' do %>
-      <%= content_tag :div, 'Configure Site', class: 'card-header' %>
+      <%= content_tag :div, 'Site Information', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Set things up in exactly the way that you want.', class: 'card-text mb-3' %>
+        <%= content_tag :p, 'Information about system settings and configuration.', class: 'card-text mb-3' %>
         <%= link_to 'Site Info', admin_site_info_path, class: 'btn btn-primary mt-1' %>
+        <%= link_to 'Gem Info', admin_gem_info_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>

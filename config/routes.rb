@@ -14,8 +14,9 @@ Rails.application.routes.draw do
   # Admin Dashboard
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
-    get 'backup' => 'dashboard#backup'
     get 'site_info' => 'dashboard#site_info'
+    get 'gem_info' => 'dashboard#gem_info'
+    get 'backup' => 'dashboard#backup'
     resources :camdram_shows, only: [:index, :create, :update] do
       post 'new_term', on: :collection
       post 'batch_import', on: :collection
