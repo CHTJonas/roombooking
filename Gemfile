@@ -94,7 +94,7 @@ gem 'redis', '~> 4.1'
 gem 'hiredis', '~> 0.6.3'
 
 # Performance profiling bar
-gem 'peek', '~> 1.0'
+gem 'peek', '~> 1.1'
 gem 'peek-git', '~> 1.0'
 gem 'peek-performance_bar', '~> 1.3'
 gem 'peek-pg', '~> 1.3'
