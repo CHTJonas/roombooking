@@ -54,7 +54,11 @@ class RoomsController < ApplicationController
   end
 
   def show
-    if request.format == :html
+    if request.format == :ics
+      @room = Room.eager_load(bookings: [:room, :user])
+        .preload(bookings: :camdram_model)
+        .find(params[:id])
+    else
       @room = Room.find(params[:id])
       if params[:start_date]
         begin
@@ -67,10 +71,6 @@ class RoomsController < ApplicationController
       end
       @end_date = @start_date + 7.days
       @events = @room.events_in_range(@start_date, @end_date)
-    elsif request.format == :ics
-      @room = Room.eager_load(bookings: [:room, :user])
-        .preload(bookings: :camdram_model)
-        .find(params[:id])
     end
     authorize! :read, @room
     respond_to do |format|
