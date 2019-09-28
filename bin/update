@@ -37,5 +37,5 @@ chdir APP_ROOT do
   system! 'bin/rails roombooking:upgrade'
 
   puts Rainbow('Generating gemsurance report...').blue
-  system! 'bundle exec gemsurance --output tmp/gemsurance_report.html'
+  system! 'bin/bundle exec gemsurance --output tmp/gemsurance_report.html || true'
 end
