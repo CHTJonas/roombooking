@@ -8,12 +8,19 @@ module Admin
     end
 
     def create
-      @roombooking_society = CamdramSociety.new(create_camdram_society_params)
-      @roombooking_society.active = true
-      @camdram_society = @roombooking_society.camdram_object
       respond_to do |format|
-        if @roombooking_society.save
-          format.js
+        begin
+          @roombooking_society = CamdramSociety.new(create_camdram_society_params)
+          @roombooking_society.active = true
+          @camdram_society = @roombooking_society.camdram_object
+          if @roombooking_society.save
+            format.js
+          else
+            format.js { head :bad_request }
+          end
+        rescue Exception => e
+          Raven.capture_exception(e)
+          format.js { head :internal_server_error }
         end
       end
     end
