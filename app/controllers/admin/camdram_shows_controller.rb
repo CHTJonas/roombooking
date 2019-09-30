@@ -17,9 +17,8 @@ module Admin
             @camdram_show = @roombooking_show.camdram_object
           end
           format.js
-        rescue Exception => e
-          Raven.capture_exception(e)
-          format.js { head :internal_server_error }
+        rescue ActiveRecord::RecordInvalid => e
+          format.js { render js: "rbModal('Import Error', 'Failed to import the specified show! #{e.message}');" }
         end
       end
     end

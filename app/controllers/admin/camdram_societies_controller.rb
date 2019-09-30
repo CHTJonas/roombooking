@@ -9,18 +9,13 @@ module Admin
 
     def create
       respond_to do |format|
-        begin
-          @roombooking_society = CamdramSociety.new(create_camdram_society_params)
-          @roombooking_society.active = true
-          @camdram_society = @roombooking_society.camdram_object
-          if @roombooking_society.save
-            format.js
-          else
-            format.js { head :bad_request }
-          end
-        rescue Exception => e
-          Raven.capture_exception(e)
-          format.js { head :internal_server_error }
+        @roombooking_society = CamdramSociety.new(create_camdram_society_params)
+        @roombooking_society.active = true
+        @camdram_society = @roombooking_society.camdram_object
+        if @roombooking_society.save
+          format.js
+        else
+          format.js { render js: "rbModal('Import Error', 'Failed to import the specified society! #{@roombooking_society.errors.full_messages.first}.');" }
         end
       end
     end
