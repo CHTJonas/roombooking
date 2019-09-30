@@ -99,6 +99,18 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking if name is not descriptive" do
+    booking = Booking.new(booking_test_hash)
+    booking.name = 'jane doe'
+    assert_not booking.save
+    booking.name = 'Jane Doe'
+    assert_not booking.save
+    booking.name = 'jANEdOE'
+    assert_not booking.save
+    booking.name = 'Jåné dÖe'
+    assert_not booking.save
+  end
+
   test "should save booking if Camdram venue is permitted" do
     booking = Booking.new(booking_test_hash)
     booking.purpose = :rehearsal_for

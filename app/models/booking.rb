@@ -68,6 +68,7 @@ class Booking < ApplicationRecord
   validate :camdram_model_must_be_valid
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
+  validate :name_must_be_descriptive
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -257,6 +258,17 @@ class Booking < ApplicationRecord
       return if self.camdram_model.camdram_object.nil?
       unless self.room.camdram_venues.map(&:camdram_id).include?(self.camdram_model.camdram_object.venue.id)
         errors.add(:base, "Your show may not make bookings for this room.")
+      end
+    end
+  end
+
+  # Ensure the booking as a descriptive title, as much as is possible.
+  def name_must_be_descriptive
+    if self.name.present? && self.user.present?
+      test_name = I18n.transliterate(self.name.downcase).gsub(/[^a-z]/, '')
+      test_user_name = I18n.transliterate(self.user.name.downcase).gsub(/[^a-z]/, '')
+      if test_name == test_user_name
+        errors.add(:name, "needs to be more descriptive.")
       end
     end
   end
