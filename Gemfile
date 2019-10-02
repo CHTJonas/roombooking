@@ -66,7 +66,7 @@ gem 'faraday_middleware', '~> 0.13.0'
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 5.1'
-gem 'rqrcode', '~> 0.10.1'
+gem 'rqrcode', '~> 1.1.1'
 gem 'recaptcha', '~> 5.1'
 # Authorisation
 gem 'cancancan', '~> 3.0'
