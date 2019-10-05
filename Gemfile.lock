@@ -443,7 +443,7 @@ GEM
     tilt (2.0.10)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uniform_notifier (1.12.1)
+    uniform_notifier (1.13.0)
     url (0.3.2)
     web-console (4.0.1)
       actionview (>= 6.0.0)
