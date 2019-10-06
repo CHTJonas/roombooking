@@ -5,12 +5,16 @@ $(() => {
     const length_hint = $('#booking_length_management_hours_hint')[0];
     const warn_text = "Keyholder warning! This booking falls outside Management office hours (11am to 6pm).";
 
-    start_time_input_box.onchange = () => {
-        check_if_keyholder_needed();
+    if (start_time_input_box) {
+        start_time_input_box.onchange = () => {
+            check_if_keyholder_needed();
+        }
     }
 
-    length_input_box.onchange = () => {
-        check_if_keyholder_needed();
+    if (length_input_box) {
+        length_input_box.onchange = () => {
+            check_if_keyholder_needed();
+        }
     }
 
     check_if_keyholder_needed = () => {
