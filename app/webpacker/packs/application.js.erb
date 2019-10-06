@@ -5,6 +5,7 @@ import {install} from '@github/hotkey';
 import '../src/javascripts/admin.js';
 import '../src/javascripts/favourites.js';
 import '../src/javascripts/flatpickr.js';
+import '../src/javascripts/keyhold.js';
 
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
@@ -15,11 +16,11 @@ const rbModal = (title, message) => {
     $('#roombookingModalContent').text(message);
     $('#roombookingModal').modal('show');
 };
-  
+
 const rbAjaxFail = () => {
     rbModal("AJAX Error", "Something has gone wrong! Please try again after a few seconds and contact support if you continue experiencing issues.");
 };
-  
+
 $(() => {
     window['$'] = $;
     window['Rails'] = Rails;
@@ -50,4 +51,3 @@ $(() => {
         install(ref[i]);
     }
   });
-  
