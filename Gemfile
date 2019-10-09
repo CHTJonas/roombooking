@@ -31,7 +31,7 @@ gem 'gemsurance', '~> 0.10.0'
 gem 'sidekiq', '~> 6.0'
 gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq-throttled', '~> 0.11.0'
-gem 'sidekiq_queue_metrics', '~> 2.1', git: 'https://github.com/ajitsing/sidekiq_queue_metrics.git', ref: '71ca49b96885f1d861b1494feccc0c7c8bcdc2e7'
+gem 'sidekiq_queue_metrics', '~> 2.1', git: 'https://github.com/ajitsing/sidekiq_queue_metrics.git', ref: '876da923fc65067a51c37f5b1aa1931d6b2d98c3'
 # Static page serving
 gem 'high_voltage', '~> 3.1'
 # Date/time handling
