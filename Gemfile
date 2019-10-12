@@ -77,7 +77,7 @@ gem 'cancancan', '~> 3.0'
 # Error tracking and reporting
 gem 'sentry-raven', '~> 2.11'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 6.1'
+gem 'rack-attack', '~> 6.2'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
