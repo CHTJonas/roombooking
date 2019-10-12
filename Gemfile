@@ -5,8 +5,12 @@ ruby '2.6.3'
 # Application config
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
-# Pin version of sassc because there seems to be a bug on macOS
-gem 'sassc', '= 2.0.1'
+# A portability issue in the sassc gem exists on several platforms.
+# If this causes you issues (LoadErrors) then run the following commands:
+#   1) gem uninstall sassc
+#   2) gem install sassc -- --disable-march-tune-native
+#   3) bundle install
+gem 'sassc', '~> 2.2'
 
 # Rails
 gem 'rails', '~> 6.0.0'
