@@ -32,7 +32,7 @@ class Room < ApplicationRecord
     return query unless query.nil?
     self.bookings.where(repeat_mode: :daily, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
       if bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
-        if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight
+        if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight || bkg.end_time.seconds_since_midnight == 0
           return bkg
         end
       end
@@ -40,7 +40,7 @@ class Room < ApplicationRecord
     self.bookings.where(repeat_mode: :weekly, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
       if bkg.start_time.wday == date.wday
         if bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
-          if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight
+          if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight || bkg.end_time.seconds_since_midnight == 0
             return bkg
           end
         end
