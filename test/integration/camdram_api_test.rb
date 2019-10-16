@@ -25,8 +25,8 @@ class CamdramApiTest < ActionDispatch::IntegrationTest
       assert_equal "1997-api-test-1", show.slug
       assert_equal "API Test 1", show.name
       assert_equal "This show is a dummy used by Camdram for testing purposes only.", show.description
-      assert_equal "ADC Theatre", show.other_venue
       assert_equal 29, show.performances.first.venue.id
+      assert_equal "ADC Theatre", show.performances.first.venue.name
       assert_equal "adc-theatre", show.performances.first.venue.slug
       assert_equal 38, show.society.id
       assert_equal "Camdram", show.society.name
