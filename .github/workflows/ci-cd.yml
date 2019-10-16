@@ -33,10 +33,9 @@ jobs:
         ruby-version: '2.6.3'
     - name: Download build artefacts
       run: |
-        sudo pip install --upgrade b2
-        b2 authorize-account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APP_KEY }}
-        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/CHTJonas/roombooking/$GITHUB_REF vendor || \
-        b2 sync --noProgress --replaceNewer b2://chtjonas-build-artefacts/CHTJonas/roombooking/refs/heads/master vendor || true
+        curl https://rclone.org/install.sh | sudo bash
+        rclone config create store azureblob account ${{ secrets.AZURE_BLOB_ACCOUNT }} key ${{ secrets.AZURE_BLOB_KEY }}
+        rclone sync store:bundler-artefacts vendor/bundle -v
         rm -rf vendor/bundle/ruby/2.6.0/cache/bundler/git
     - name: Install dependencies
       run: |
@@ -71,8 +70,8 @@ jobs:
         DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
     - name: Upload build artefacts
       run: |
-        b2 sync --noProgress --replaceNewer vendor b2://chtjonas-build-artefacts/$GITHUB_REPOSITORY/$GITHUB_REF
-        b2 clear-account
+        rclone sync vendor/bundle store:bundler-artefacts -v
+        rm -rf ~/.config/rclone
     services:
       postgres:
         image: postgres
