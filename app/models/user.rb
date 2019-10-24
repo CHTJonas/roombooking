@@ -56,8 +56,8 @@ class User < ApplicationRecord
     if account.present?
       account.user
     else
-      name = auth_hash['info']['name'] || ''
-      email = auth_hash['info']['email'] || ''
+      name = auth_hash['info']['name']
+      email = auth_hash['info']['email'].downcase
       user = User.find_by(email: email)
       ActiveRecord::Base.transaction do
         unless user.present?
