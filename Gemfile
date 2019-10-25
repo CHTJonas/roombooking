@@ -15,7 +15,7 @@ gem 'sassc', '~> 2.2'
 # Rails
 gem 'rails', '~> 6.0.0'
 gem 'puma', '~> 4.2'
-gem 'rack-timeout', '~> 0.5.1'
+gem 'rack-timeout', '~> 0.5.2'
 gem 'sass-rails', '~> 6.0'
 gem 'webpacker', '~> 4.0'
 gem 'linked-list', '~> 0.0.13'
