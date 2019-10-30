@@ -28,8 +28,8 @@ class CamdramApiTest < ActionDispatch::IntegrationTest
       assert_equal 29, show.performances.first.venue.id
       assert_equal "ADC Theatre", show.performances.first.venue.name
       assert_equal "adc-theatre", show.performances.first.venue.slug
-      assert_equal 38, show.society.id
-      assert_equal "Camdram", show.society.name
+      assert_equal 38, show.societies.first.id
+      assert_equal "Camdram", show.societies.first.name
     end
   end
 end
