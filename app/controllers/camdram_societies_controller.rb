@@ -2,7 +2,7 @@
 
 class CamdramSocietiesController < ApplicationController
   def show
-    @camdram_society = CamdramSociety.eager_load(:bookings).find(params[:id])
+    @camdram_society = CamdramSociety.find(params[:id])
     authorize! :read, @camdram_society
     @external_society = @camdram_society.camdram_object
     if @external_society.nil?
@@ -11,6 +11,7 @@ class CamdramSocietiesController < ApplicationController
       render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
     end
     @quota = @camdram_society.weekly_quota Date.today.beginning_of_week
+    @bookings = @camdram_society.bookings.where(purpose: :meeting_of)
   end
 
   def edit

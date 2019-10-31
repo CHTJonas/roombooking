@@ -19,10 +19,10 @@
 
 <%= content_tag(:h4, 'Bookings:') %>
 <div class="d-flex flex-wrap mb-3">
-  <% if @camdram_society.bookings.count == 0 %>
+  <% if @bookings.count == 0 %>
     <span class="badge badge-pill badge-light mr-1 mb-1">None!</span>
   <% else %>
-    <% @camdram_society.bookings.each do |booking| %>
+    <% @bookings.each do |booking| %>
       <%= link_to booking.name, booking_path(booking), class: 'badge badge-pill badge-secondary mr-1 mb-1' %>
     <% end %>
   <% end %>

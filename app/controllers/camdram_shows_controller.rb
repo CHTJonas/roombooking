@@ -2,7 +2,7 @@
 
 class CamdramShowsController < ApplicationController
   def show
-    @camdram_show = CamdramShow.eager_load(:bookings).find(params[:id])
+    @camdram_show = CamdramShow.find(params[:id])
     authorize! :read, @camdram_show
     @external_show = @camdram_show.camdram_object
     if @external_show.nil?
@@ -11,6 +11,7 @@ class CamdramShowsController < ApplicationController
       render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
     end
     @quota = @camdram_show.weekly_quota Date.today.beginning_of_week
+    @bookings = @camdram_show.bookings.where(purpose: [:audition_for, :meeting_for, :rehearsal_for])
   end
 
   def edit
