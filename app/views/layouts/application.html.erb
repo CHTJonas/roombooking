@@ -7,7 +7,11 @@
     <meta name="author" content="ADC Theatre">
     <meta name="title" content="<%= content_for?(:title) ? yield(:title) : "Roombooking" %>">
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "ADC Roombooking System" %>">
-    <title>ADC Room Booking<%= ": #{yield(:title)}" if content_for?(:title) %></title>
+    <% if content_for?(:title) %>
+      <title>ADC Room Booking: <%= yield(:title) %></title>
+    <% else %>
+      <title>ADC Room Booking</title>
+    <% end %>
     <!-- Asset Pipeline -->
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
