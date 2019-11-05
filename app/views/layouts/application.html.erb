@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100" prefix="og: http://ogp.me/ns#">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +12,16 @@
     <% else %>
       <title>ADC Room Booking</title>
     <% end %>
+    <!-- Open Graph Attributes -->
+    <% if content_for?(:title) %>
+      <meta property="og:title" content="<%= yield(:title) %>" />
+    <% else %>
+      <meta property="og:title" content="ADC Room Booking" />
+    <% end %>
+    <meta property="og:site_name" content="ADC Room Booking" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo-long-black.svg" />
+    <meta property="og:locale" content="en_GB" />
     <!-- Asset Pipeline -->
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
