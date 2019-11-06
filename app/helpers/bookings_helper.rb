@@ -16,14 +16,4 @@ module BookingsHelper
     end
     string.html_safe
   end
-
-  def british_date(date)
-    return nil if date.nil?
-    date.strftime("%d/%m/%Y")
-  end
-
-  def british_date_with_time(datetime)
-    return nil if datetime.nil?
-    datetime.strftime("%d/%m/%Y %R")
-  end
 end
