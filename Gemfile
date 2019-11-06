@@ -28,7 +28,7 @@ gem 'attr_encrypted', '~> 3.1'
 # HTTP security headers
 gem 'secure_headers', '~> 6.1'
 # Administrator interface
-gem 'rails_admin', '~> 2.0'
+gem 'rails_admin', '~> 2.0', git: 'https://github.com/sferik/rails_admin.git', ref: '03baf7281cfbe1ca9aeef9648a7d763107dc8f30'
 gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
