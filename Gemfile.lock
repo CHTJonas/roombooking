@@ -549,7 +549,7 @@ DEPENDENCIES
   sidekiq (~> 5.2)
   sidekiq-cron (~> 1.1)
   sidekiq-throttled (~> 0.11.0)
-  sidekiq_queue_metrics (~> 2.1)
+  sidekiq_queue_metrics (~> 3.0)
   simple_calendar (~> 2.0)
   sitemap_generator (~> 6.0)
   slack-notifier (~> 2.3)
