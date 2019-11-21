@@ -266,11 +266,15 @@ class Booking < ApplicationRecord
 
   # Ensure the booking as a descriptive title, as much as is possible.
   def name_must_be_descriptive
-    if self.name.present? && self.user.present?
+    if self.name.present?
       test_name = I18n.transliterate(self.name.downcase).gsub(/[^a-z]/, '')
-      test_user_name = I18n.transliterate(self.user.name.downcase).gsub(/[^a-z]/, '')
-      if test_name == test_user_name
-        errors.add(:name, "needs to be more descriptive.")
+      if self.user.present?
+        test_user_name = I18n.transliterate(self.user.name.downcase).gsub(/[^a-z]/, '')
+        errors.add(:name, "needs to be more descriptive.") if test_name == test_user_name
+      end
+      if self.camdram_model.present?
+        test_camdram_name = I18n.transliterate(self.camdram_model.name.downcase).gsub(/[^a-z]/, '')
+        errors.add(:name, "needs to be more descriptive.") if test_name == test_camdram_name
       end
     end
   end
