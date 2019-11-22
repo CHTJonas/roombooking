@@ -99,7 +99,7 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
-  test "should not save booking if name is not descriptive" do
+  test "should not save booking if name is similar to user's name" do
     booking = Booking.new(booking_test_hash)
     booking.name = 'jane doe'
     assert_not booking.save
@@ -108,6 +108,20 @@ class BookingTest < ActiveSupport::TestCase
     booking.name = 'jANEdOE'
     assert_not booking.save
     booking.name = 'Jåné dÖe'
+    assert_not booking.save
+  end
+
+  test "should not save booking if name is similar to Camdram entity's name" do
+    booking = Booking.new(booking_test_hash)
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.name = 'spring awakening'
+    assert_not booking.save
+    booking.name = 'Spring Awakening'
+    assert_not booking.save
+    booking.name = 'sPrInG aWaKeNiNg'
+    assert_not booking.save
+    booking.name = 'Sprïng Awákênīng'
     assert_not booking.save
   end
 
