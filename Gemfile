@@ -49,7 +49,7 @@ gem 'possessive', '~> 1.0'
 gem 'kaminari', '~> 1.1'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
-gem 'icalendar', '~> 2.5'
+gem 'icalendar', '~> 2.5', git: 'https://github.com/icalendar/icalendar.git', ref: '072caceafd50939955cbe6febd66c2459e12df53'
 # View rendering
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false
