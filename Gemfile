@@ -25,6 +25,8 @@ gem 'paper_trail', '~> 10.3'
 gem 'paper_trail-association_tracking', '~> 2.0'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
+# Remove whitespace from model attributes
+gem 'strip_attributes', '~> 1.9'
 # HTTP security headers
 gem 'secure_headers', '~> 6.1'
 # Administrator interface

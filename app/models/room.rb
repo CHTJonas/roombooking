@@ -12,6 +12,7 @@
 
 class Room < ApplicationRecord
   has_paper_trail
+  strip_attributes only: [:name]
 
   has_many :bookings, dependent: :destroy
   has_and_belongs_to_many :camdram_venues

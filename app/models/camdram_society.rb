@@ -18,6 +18,7 @@ class CamdramSociety < ApplicationRecord
   include CamdramBookingHandling
 
   has_paper_trail
+  strip_attributes only: [:slack_webhook]
   uses_camdram_client_method :get_society
 
   validates :max_meetings, numericality: {

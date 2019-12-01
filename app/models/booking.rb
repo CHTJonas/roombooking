@@ -22,6 +22,7 @@
 
 class Booking < ApplicationRecord
   has_paper_trail
+  strip_attributes only: [:name, :notes, :excluded_repeat_dates]
   paginates_per 9
   include PgSearch::Model
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
