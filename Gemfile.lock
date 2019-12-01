@@ -136,7 +136,7 @@ GEM
     cookies_eu (1.7.6)
       js_cookie_rails (~> 2.2.0)
     crass (1.0.5)
-    css_parser (1.7.0)
+    css_parser (1.7.1)
       addressable
     datey (1.1.0)
     ddtrace (0.29.1)
