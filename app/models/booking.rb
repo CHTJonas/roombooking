@@ -259,6 +259,7 @@ class Booking < ApplicationRecord
       return if self.camdram_model.camdram_object.nil?
       permitted_ids = self.room.camdram_venues.map(&:camdram_id)
       self.camdram_model.camdram_object.performances.each do |performance|
+        next if performance.venue.nil?
         return if permitted_ids.include?(performance.venue.id)
       end
       errors.add(:base, "Your show may not make bookings for this room.")
