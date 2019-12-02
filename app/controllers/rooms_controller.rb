@@ -2,12 +2,12 @@
 
 class RoomsController < ApplicationController
   def index
-    if request.format == :html
-      @rooms = Room.accessible_by(current_ability, :read).order(:id)
-    elsif request.format == :ics
+    if request.format == :ics
       @rooms = Room.eager_load(bookings: [:room, :user])
         .preload(bookings: :camdram_model)
         .accessible_by(current_ability, :read).order(:id)
+    else
+      @rooms = Room.accessible_by(current_ability, :read).order(:id)
     end
     respond_to do |format|
       format.html
