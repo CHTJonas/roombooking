@@ -1,4 +1,4 @@
-# Remove the lines below and uncomment the sitemap directive once the privacy implications are well understood.
 User-agent: *
-Disallow: /
-# Sitemap: https://roombooking.adctheatre.com/sitemaps/sitemap.xml.gz
+Disallow: /users
+Disallow: /admin
+Sitemap: https://roombooking.adctheatre.com/sitemaps/sitemap.xml.gz
