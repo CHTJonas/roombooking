@@ -10,7 +10,6 @@ class SitemapGenerationJob
 
   def perform
     SitemapGenerator::Interpreter.run
-    # Re-enable this once the privacy implications are well understood.
-    # SitemapGenerator::Sitemap.ping_search_engines if Rails.env.production?
+    SitemapGenerator::Sitemap.ping_search_engines if Rails.env.production?
   end
 end
