@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: /users
-Disallow: /admin
 Sitemap: https://roombooking.adctheatre.com/sitemaps/sitemap.xml.gz
