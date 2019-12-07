@@ -51,7 +51,7 @@ gem 'possessive', '~> 1.0'
 gem 'kaminari', '~> 1.1'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
-gem 'icalendar', '~> 2.5'
+gem 'icalendar', '~> 2.6'
 # View rendering
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false
