@@ -3,9 +3,6 @@
   <%= content_tag :div, class: 'card-body' do %>
   <%= content_tag :p, "Quickly and easily import shows using the options in this pane. Note that any shows you import here are automatically activated.", class: 'card-text' %>
     <%= content_tag :div, class: 'd-flex flex-row justify-content-end mb-2' do %>
-      <%= link_to 'Start New Term', new_term_admin_camdram_shows_path,
-        data: { confirm: 'Are you sure you want to mark all existing shows as dormant and start a new term?' },
-        id: 'new-term', remote: true, class: 'btn btn-primary import-tools-fixed-width ml-1', method: :post %>
       <%= link_to 'Batch Import', batch_import_admin_camdram_shows_path,
         data: { confirm: 'Are you sure you wish to import all upcoming shows?' },
         id: 'batch-import', remote: true, class: 'btn btn-primary import-tools-fixed-width ml-1', method: :post %>
