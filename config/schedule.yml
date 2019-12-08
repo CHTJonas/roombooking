@@ -8,6 +8,11 @@ Sitemap generation job:
   class: 'SitemapGenerationJob'
   queue: 'roombooking_jobs'
 
+Show expiry job:
+  cron: '0 1 * * *'
+  class: 'ShowExpiryJob'
+  queue: 'roombooking_jobs'
+
 Camdram API access token refresh job:
   cron: '*/5 * * * *'
   class: 'CamdramTokenRefreshJob'
