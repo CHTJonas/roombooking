@@ -3,11 +3,14 @@
 <% content_for :heading, 'Configure Shows' %>
 
 <p>
-  Here you can import shows from Camdram that aren't yet known to the internals of Room Booking.
-  Once they're imported you can activate and deactivate them, as well as set limits on the total booking hours they're allowed per week.
-  You can choose to either import a batch of upcoming shows all at once, or manually import a specific show using the interface below.
-  Shows are populated based on upcoming shows as defined by Camdram. If the show you're after isn't listed, you can manually import it by URL.
-  Starting a new term will preserve old shows and their bookings for historic record, but otherwise disable them from the system.
+  Here you can import shows from Camdram that aren't yet known to the internals of
+  Room Booking. Once they're imported you can activate and deactivate them, as
+  well as set limits on the total number of hours that they may make bookings for
+  in a single week. Shows here are populated based on the upcoming shows listed on
+  Camdram. If the show you're after isn't listed, you can manually import it using
+  its URL. To import all upcoming shows you can perform a batch import. Old shows
+  will automatically be disabled and new bookings will not be accepted, but old
+  bookings will otherwise be preserved for historic record.
 </p>
 
 <%= render 'import_tools' %>

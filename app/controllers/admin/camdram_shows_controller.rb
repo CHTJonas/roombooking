@@ -37,11 +37,6 @@ module Admin
       end
     end
 
-    def new_term
-      NewTermJob.perform_async(current_user.id)
-      head :no_content
-    end
-
     def batch_import
       BatchImportJob.perform_async(current_user.id)
       head :no_content
