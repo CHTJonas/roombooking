@@ -13,7 +13,7 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
     "rails-erb-loader": "^5.5.2",
-    "serialize-javascript": "^2.1.1"
+    "serialize-javascript": "^2.1.2"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.9.0"
