@@ -92,7 +92,7 @@ gem 'slack-notifier', '~> 2.3'
 gem 'sitemap_generator', '~> 6.0'
 
 # Database persistence
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.2'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
