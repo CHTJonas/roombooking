@@ -36,6 +36,8 @@ chdir APP_ROOT do
   puts Rainbow('Upgrading Rails...').blue
   system! 'bin/rails roombooking:upgrade'
 
-  puts Rainbow('Generating gemsurance report...').blue
-  system! 'bin/bundle exec gemsurance --output tmp/gemsurance_report.html || true'
+  puts Rainbow('Executing Gemsurance report generator in background...').blue
+  system! 'nohup bin/bundle exec gemsurance --output tmp/gemsurance_report.html > /dev/null 2>&1 &'
+
+  puts Rainbow('Everything is fine.').green
 end
