@@ -106,7 +106,7 @@ GEM
       msgpack (~> 1.0)
     browser (2.7.1)
     builder (3.2.4)
-    bullet (6.0.2)
+    bullet (6.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
