@@ -80,6 +80,6 @@ You should be able to do this automatically by installing an [EditorConfig compa
 Management of the project is meritocratic; those who have a reasonable number of accepted contributions will be granted access to commit straight to the `master` branch of this repository.
 
 ## Copyright
-Copyright (c) 2018-2019 Charlie Jonas.
+Copyright (c) 2018–2020 Charlie Jonas.
 The ADC Room Booking System software is released under Version 3 of the GNU General Public License.
 See the LICENSE file for full details.
