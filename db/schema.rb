@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_174349) do
+ActiveRecord::Schema.define(version: 2020_01_06_221541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(version: 2019_07_17_174349) do
     t.index ["camdram_id"], name: "index_camdram_shows_on_camdram_id", unique: true
   end
 
+  create_table "camdram_shows_users", id: false, force: :cascade do |t|
+    t.bigint "camdram_show_id"
+    t.bigint "user_id"
+    t.index ["camdram_show_id"], name: "index_camdram_shows_users_on_camdram_show_id"
+    t.index ["user_id"], name: "index_camdram_shows_users_on_user_id"
+  end
+
   create_table "camdram_societies", force: :cascade do |t|
     t.bigint "camdram_id", null: false
     t.integer "max_meetings", default: 0, null: false
@@ -66,6 +73,13 @@ ActiveRecord::Schema.define(version: 2019_07_17_174349) do
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_camdram_societies_on_active", where: "(active = true)"
     t.index ["camdram_id"], name: "index_camdram_societies_on_camdram_id", unique: true
+  end
+
+  create_table "camdram_societies_users", id: false, force: :cascade do |t|
+    t.bigint "camdram_society_id"
+    t.bigint "user_id"
+    t.index ["camdram_society_id"], name: "index_camdram_societies_users_on_camdram_society_id"
+    t.index ["user_id"], name: "index_camdram_societies_users_on_user_id"
   end
 
   create_table "camdram_tokens", force: :cascade do |t|

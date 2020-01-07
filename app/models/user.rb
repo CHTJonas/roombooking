@@ -28,6 +28,8 @@ class User < ApplicationRecord
 
   has_many :bookings, dependent: :destroy
   has_many :provider_accounts, dependent: :delete_all
+  has_and_belongs_to_many :camdram_shows
+  has_and_belongs_to_many :camdram_societies
   has_one :camdram_account, -> { where(provider: 'camdram') }, class_name: 'ProviderAccount'
   has_many :camdram_tokens, dependent: :delete_all
   has_one :latest_camdram_token, -> { order(created_at: :desc) }, class_name: 'CamdramToken'
@@ -91,6 +93,13 @@ class User < ApplicationRecord
   # Unblocks the user.
   def unblock!
     self.update(blocked: false)
+  end
+
+  def refresh_permissions!
+    ActiveRecord::Base.transaction do
+      self.update(camdram_shows: authorised_camdram_shows)
+      self.update(camdram_societies: authorised_camdram_societies)
+    end
   end
 
   # Validates the user's account.

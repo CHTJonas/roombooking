@@ -21,6 +21,8 @@ class CamdramSociety < ApplicationRecord
   strip_attributes only: [:slack_webhook]
   uses_camdram_client_method :get_society
 
+  has_and_belongs_to_many :users
+
   validates :max_meetings, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
