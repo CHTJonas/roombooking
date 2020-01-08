@@ -8,6 +8,8 @@ class UserPermissionRefreshJob
   sidekiq_throttle concurrency: { limit: 1 }
 
   def perform
-    User.find_each.each(&:refresh_permissions!)
+    User.find_each do |user|
+      user.refresh_permissions! if user.latest_camdram_token.present?
+    end
   end
 end
