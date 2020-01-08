@@ -9,7 +9,12 @@ class UserPermissionRefreshJob
 
   def perform
     User.joins(:latest_camdram_token).includes(:latest_camdram_token).find_each do |user|
-      user.refresh_permissions!
+      begin
+        user.refresh_permissions!
+      rescue => e
+        Raven.capture_exception(e)
+        next
+      end
     end
   end
 end
