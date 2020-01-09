@@ -8,9 +8,11 @@ class UserPermissionRefreshJob
   sidekiq_throttle concurrency: { limit: 1 }
 
   def perform
-    User.joins(:latest_camdram_token).includes(:latest_camdram_token).find_each do |user|
+    User.eager_load(:latest_camdram_token).find_each do |user|
       begin
-        user.refresh_permissions!
+        if user.admin? || user.latest_camdram_token.present?
+          user.refresh_permissions!
+        end
       rescue => e
         Raven.capture_exception(e)
         next
