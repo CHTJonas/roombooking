@@ -44,12 +44,12 @@
       <%= content_tag(:h4, "User's Shows:") %>
     <% end %>
     <div class="list-group list-group-flush">
-      <% if @camdram_shows.nil? %>
+      <% if @user.camdram_shows.nil? %>
         <div class="list-group-item list-group-item-action">Unknown!</div>
-      <% elsif @camdram_shows.count == 0 %>
+      <% elsif @user.camdram_shows.count == 0 %>
         <div class="list-group-item list-group-item-action">None!</div>
       <% else %>
-        <%= render @camdram_shows %>
+        <%= render @user.camdram_shows %>
       <% end %>
     </div>
   <% end %>
@@ -60,12 +60,12 @@
       <%= content_tag(:h4, "User's Societies:") %>
     <% end %>
     <div class="list-group list-group-flush">
-      <% if @camdram_societies.nil? %>
+      <% if @user.camdram_societies.nil? %>
         <div class="list-group-item list-group-item-action">Unknown!</div>
-      <% elsif @camdram_societies.count == 0 %>
+      <% elsif @user.camdram_societies.count == 0 %>
         <div class="list-group-item list-group-item-action">None!</div>
       <% else %>
-        <%= render @camdram_societies %>
+        <%= render @user.camdram_societies %>
       <% end %>
     </div>
   <% end %>

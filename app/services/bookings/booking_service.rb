@@ -55,9 +55,9 @@ module Bookings
       id = @params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
       return true if id.nil?
       if Booking.purposes_with_shows.include?(@booking.purpose.to_sym)
-        return @user.authorised_camdram_shows.include? @booking.camdram_model
+        return @user.camdram_shows.include? @booking.camdram_model
       elsif Booking.purposes_with_societies.include?(@booking.purpose.to_sym)
-        return @user.authorised_camdram_societies.include? @booking.camdram_model
+        return @user.camdram_societies.include? @booking.camdram_model
       else
         return false
       end

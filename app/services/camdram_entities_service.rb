@@ -14,14 +14,11 @@ class CamdramEntitiesService < ApplicationService
       return
     end
     if @current_imposter.present?
-      # The imposter must be an administrator so we don't need to care about
-      # their personal Camdram token as this will use the application token.
-      @shows = @current_imposter.authorised_camdram_shows
-      @societies = @current_imposter.authorised_camdram_societies
+      @shows = @current_imposter.camdram_shows
+      @societies = @current_imposter.camdram_societies
     else
-      # The user is genuine so we'll use their personal Camdram API token.
-      @shows = @user.authorised_camdram_shows
-      @societies = @user.authorised_camdram_societies
+      @shows = @user.camdram_shows
+      @societies = @user.camdram_societies
     end
   end
 end

@@ -31,15 +31,8 @@ class UsersController < ApplicationController
 
   # Show all information stored about a single user.
   def show
-    @user = User.eager_load(:camdram_account).find(params[:id])
+    @user = User.includes(:camdram_account).includes(:camdram_shows).includes(:camdram_societies).find(params[:id])
     authorize! :read, @user
-    begin
-      @camdram_shows = @user.authorised_camdram_shows
-      @camdram_societies = @user.authorised_camdram_societies
-    rescue Roombooking::CamdramApi::NoAccessToken, Roombooking::CamdramApi::CamdramError
-      alert = { 'class' => 'warning', 'message' => "A problem occurred retrieving this data from Camdram." }
-      flash.now[:alert] = alert
-    end
   end
 
   # Validates a user's account fro the first time when created.
