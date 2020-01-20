@@ -55,26 +55,20 @@ class CamdramToken < ApplicationRecord
   # returns the new token. Note that there's no point in caching data here as
   # the only requests made are for new access tokens.
   def refresh
-    client = Camdram::Client.new do |config|
-      token_hash = { access_token: self.access_token.to_s,
-        refresh_token: self.refresh_token.to_s,
-        expires_at: self.expires_at.to_i }
-      app_id = ENV['CAMDRAM_APP_ID']
-      app_secret = ENV['CAMDRAM_APP_SECRET']
-      config.auth_code(token_hash, app_id, app_secret)
-      config.user_agent = "ADC Room Booking System/#{Roombooking::Version.to_s}"
-      config.base_url = "https://www.camdram.net"
-    end
+    token_hash = {
+      access_token: self.access_token.to_s,
+      refresh_token: self.refresh_token.to_s,
+      expires_at: self.expires_at.to_i
+    }
+    client = Roombooking::CamdramApi::ClientFactory.new(token_hash)
 
-    # As soon as we call Camdram::Client.refresh_access_token! the OAuth API
-    # request to Camdram is made. This invalidates the previous token which
-    # we must now delete, so there's no advantage in using a single database
-    # transaction here.
+    # As soon as we call the refresh_access_token! method a request is made to
+    # the Camdram API. This invalidates the previous token which must now be
+    # deleted from the system regardless of whether the new token can be inserted
+    # or not. As such, we cannot use a single database transaction here.
 
     begin
       new_token = client.refresh_access_token!
-    rescue Exception => e
-      raise Roombooking::CamdramApi::CamdramError.new, e
     ensure
       self.destroy
     end
