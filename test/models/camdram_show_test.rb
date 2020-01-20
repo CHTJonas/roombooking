@@ -67,7 +67,7 @@ class CamdramShowTest < ActiveSupport::TestCase
     obj = show.camdram_object
     assert_equal 6514, obj.id
     assert_equal "1997-api-test-1", obj.slug
-    assert_equal "API Test 1", obj.name
+    assert_equal "ÁPÏ Test 1", obj.name
     assert_equal "This show is a dummy used by Camdram for testing purposes only.", obj.description
   end
 
@@ -93,7 +93,7 @@ class CamdramShowTest < ActiveSupport::TestCase
 
   test "should return camdram object name" do
     show = camdram_shows(:api_test_1)
-    assert_equal "API Test 1", show.name
+    assert_equal "ÁPÏ Test 1", show.name
   end
 
   test "should return camdram object url" do
