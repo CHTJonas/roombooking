@@ -28,7 +28,7 @@ gem 'attr_encrypted', '~> 3.1'
 # Remove whitespace from model attributes
 gem 'strip_attributes', '~> 1.9'
 # HTTP security headers
-gem 'secure_headers', '~> 6.1'
+gem 'secure_headers', '~> 6.2'
 # Administrator interface
 gem 'rails_admin', '~> 2.0'
 gem 'rails_admin_history_rollback', '~> 1.0'
