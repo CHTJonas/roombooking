@@ -174,7 +174,7 @@ class Booking < ApplicationRecord
     if self.repeat_mode != 'none'
       if repeat_until.blank?
         errors.add(:repeat_until, 'must be set')
-      elsif repeat_until < self.start_time.to_date
+      elsif self.start_time.present? && repeat_until < self.start_time.to_date
         errors.add(:repeat_until, "must be after the booking's start time.")
       end
     else
