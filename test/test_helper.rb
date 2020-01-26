@@ -25,10 +25,11 @@ Minitest::Retry.use!(
   verbose: true
 )
 
-Minitest::Retry.on_retry do |klass, test_name, retry_count|
+Minitest::Retry.on_retry do |klass, test_name, retry_count, result|
   # Retry with an exponential backoff.
   timer = (3 ** ((retry_count + 1) / 2.0) + 2).ceil
   puts ""
+  puts "Encountered #{klass} during #{test_name} for the #{retry_count.ordinalize} time"
   puts "Retrying after #{timer} seconds"
   sleep timer
 end
