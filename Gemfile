@@ -149,7 +149,7 @@ group :test do
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'webdrivers', '~> 4.2'
-  gem 'minitest-retry', '~> 0.1.9', require: false
+  gem 'minitest-retry', '~> 0.2.0', require: false
   gem 'codecov', '~> 0.1.16', require: false
 end
 
