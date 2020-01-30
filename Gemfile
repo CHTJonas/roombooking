@@ -48,7 +48,7 @@ gem 'datey', '~> 1.1'
 gem 'humanize_boolean', '~> 0.0.2'
 gem 'possessive', '~> 1.0'
 # Pagination
-gem 'kaminari', '~> 1.1'
+gem 'kaminari', '~> 1.2'
 # Calendar
 gem 'simple_calendar', '~> 2.0'
 gem 'icalendar', '~> 2.6'
