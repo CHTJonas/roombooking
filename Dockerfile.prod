@@ -1,9 +1,9 @@
 FROM ruby:2.6.5
 
-WORKDIR /usr/src/roombooking
 ENV DISABLE_SPRING 1
 ENV RAILS_ENV production
-COPY * ./
+ADD . /usr/src/roombooking
+WORKDIR /usr/src/roombooking
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
