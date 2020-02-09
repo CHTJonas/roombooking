@@ -1,0 +1,25 @@
+FROM ruby:2.6.5
+
+WORKDIR /usr/src/roombooking
+ENV DISABLE_SPRING 1
+ENV RAILS_ENV production
+COPY * ./
+
+RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
+    curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+    echo "deb https://deb.nodesource.com/node_8.x stretch main" > /etc/apt/sources.list.d/node.list  && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list  && \
+    apt-get update && \
+    apt-get install -y nodejs yarn postgresql-client nano && \
+    apt-get -q clean && \
+    rm -rf /var/lib/apt/lists && \
+    gem install bundler && \
+    bundle install --jobs 4 --retry 5 && \
+    yarn install && \
+    yarn check --integrity
+
+ENTRYPOINT ["bundle", "exec"]
+
+CMD ["rails", "server", "-b", "0.0.0.0"]
