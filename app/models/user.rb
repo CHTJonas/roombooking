@@ -172,8 +172,11 @@ class User < ApplicationRecord
   def camdram_client
     token = latest_camdram_token
     raise Roombooking::CamdramApi::NoAccessToken, 'No Camdram tokens found for the user' unless token.present?
-    token_hash = { access_token: token.access_token,
-      refresh_token: token.refresh_token, expires_at: token.expires_at }
+    token_hash = {
+      access_token: token.access_token,
+      refresh_token: token.refresh_token,
+      expires_at: token.expires_at
+    }
     Roombooking::CamdramApi::ClientFactory.new(token_hash)
   end
 

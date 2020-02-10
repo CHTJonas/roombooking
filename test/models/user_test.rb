@@ -49,4 +49,22 @@ class UserTest < ActiveSupport::TestCase
     user.unblock!
     assert_not user.blocked
   end
+
+  test "should validate a user's account" do
+    user = User.create!(name: "Jean-Luc Picard", email: "noreply@example.com")
+    assert user.validation_token.present?
+    assert user.validated_at.nil?
+    token = user.validation_token
+    user.validate(token)
+    assert user.validation_token.nil?
+    assert user.validated_at.present?
+    assert user.validated_at.to_date == Date.today
+  end
+
+  test "should not save with both a validation token and validation date present" do
+    user = User.new(name: "Jean-Luc Picard", email: "noreply@example.com")
+    user.validated_at = DateTime.now
+    user.validation_token = SecureRandom.alphanumeric(48)
+    assert_not user.save
+  end
 end
