@@ -10,7 +10,7 @@ class UserPermissionRefreshJob
   def perform
     User.eager_load(:latest_camdram_token).find_each do |user|
       begin
-        if user.admin? || user.latest_camdram_token.present?
+        if user.admin? || (user.latest_camdram_token.present? && !user.latest_camdram_token.expired?)
           user.refresh_permissions!
         end
       rescue => e
