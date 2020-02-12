@@ -1,7 +1,11 @@
 module Roombooking
   module Version
     class << self
-      def to_s
+      def release
+        "Helium".freeze
+      end
+
+      def git_sha
         @version ||= `git rev-parse --short HEAD`.chomp.freeze
       end
     end
