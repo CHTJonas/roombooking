@@ -1,5 +1,4 @@
 name: CI CD
-
 on: push
 
 jobs:
@@ -7,89 +6,91 @@ jobs:
     name: Static Analysis
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      if: contains(github.event.head_commit.message, 'skip ci') == false
-      uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.6.5
-    - name: Install dependencies
-      run: gem install brakeman bundler-audit
-    - name: Perform Brakeman vulnerability scan
-      run: brakeman
-    - name: Perform Bundler audit
-      run: bundle audit check --update --ignore $(while read line; do echo -n "$line "; done <config/bundler-audit.ignore)
+      - name: Checkout code
+        if: contains(github.event.head_commit.message, 'skip ci') == false
+        uses: actions/checkout@v1
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+      - name: Install dependencies
+        run: gem install brakeman bundler-audit
+      - name: Perform Brakeman vulnerability scan
+        run: brakeman
+      - name: Perform Bundler audit
+        run: bundle audit check --update --ignore $(while read line; do echo -n "$line "; done <config/bundler-audit.ignore)
+
   test:
     name: Test
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      if: contains(github.event.head_commit.message, 'skip ci') == false
-      uses: actions/checkout@master
-    - name: Setup Ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.6.5
-    - name: Cache build artefacts
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gem-
-    - name: Install dependencies
-      run: |
-        sudo apt-get -y install libpq-dev
-        gem install bundler
-        bundle install --deployment --jobs 4 --retry 3
-        bin/yarn install --non-interactive --network-concurrency 4 --network-timeout 5000
-    - name: Configure environment
-      run: |
-        rm -f .env
-        echo "RAILS_ENV=test" >> .env
-        echo "RAILS_MAX_THREADS=1" >> .env
-        echo "WEB_CONCURRENCY=1" >> .env
-        echo "SITE_HOSTNAME=roombooking.adctheatre.com" >> .env
-        echo "REDIS_CACHE=redis://127.0.0.1:${{ job.services.redis.ports['6379'] }}/1" >> .env
-        echo "REDIS_STORE=redis://127.0.0.1:${{ job.services.redis.ports['6379'] }}/1" >> .env
-        echo "CAMDRAM_APP_ID=${{ secrets.CAMDRAM_APP_ID }}" >> .env
-        echo "CAMDRAM_APP_SECRET=${{ secrets.CAMDRAM_APP_SECRET }}" >> .env
-        echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
-        echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
-    - name: Setup database
-      run: bin/rails db:schema:load roombooking:search:setup
-      env:
-        RAILS_ENV: test
-        DISABLE_SPRING: 1
-        DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
-    - name: Run tests
-      run: bin/rails test
-      env:
-        RAILS_ENV: test
-        DISABLE_SPRING: 1
-        DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
     services:
       postgres:
         image: postgres
         ports:
-          - 5432/tcp
+          - 5432:5432
         env:
           POSTGRES_DB: roombooking_test
       redis:
         image: redis
         ports:
-          - 6379/tcp
+          - 6379:6379
+    steps:
+      - name: Checkout code
+        if: contains(github.event.head_commit.message, 'skip ci') == false
+        uses: actions/checkout@master
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+      - name: Cache build artefacts
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      - name: Install dependencies
+        run: |
+          sudo apt-get -y install libpq-dev
+          gem install bundler
+          bundle install --deployment --jobs 4 --retry 3
+          bin/yarn install --non-interactive --network-concurrency 4 --network-timeout 5000
+      - name: Configure environment
+        run: |
+          rm -f .env && touch .env
+          echo "RAILS_ENV=test" >> .env
+          echo "RAILS_MAX_THREADS=1" >> .env
+          echo "WEB_CONCURRENCY=1" >> .env
+          echo "SITE_HOSTNAME=roombooking.adctheatre.com" >> .env
+          echo "REDIS_CACHE=redis://127.0.0.1:6379/1" >> .env
+          echo "REDIS_STORE=redis://127.0.0.1:6379/1" >> .env
+          echo "CAMDRAM_APP_ID=${{ secrets.CAMDRAM_APP_ID }}" >> .env
+          echo "CAMDRAM_APP_SECRET=${{ secrets.CAMDRAM_APP_SECRET }}" >> .env
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
+          echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
+      - name: Setup database
+        run: bin/rails db:schema:load roombooking:search:setup
+        env:
+          RAILS_ENV: test
+          DISABLE_SPRING: 1
+          DATABASE_PORT: 5432
+      - name: Run tests
+        run: bin/rails test
+        env:
+          RAILS_ENV: test
+          DISABLE_SPRING: 1
+          DATABASE_PORT: 5432
+
   deploy:
     name: Deploy
     needs: [static-analysis, test]
     runs-on: ubuntu-latest
     steps:
-    - name: SSH to server
-      if: github.ref == 'refs/heads/release'
-      run: |
-        umask 0077
-        mkdir -p $HOME/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" >> $HOME/.ssh/id_rsa
-        echo "${{ secrets.SSH_HOST_KEY }}" >> $HOME/.ssh/known_hosts
-        ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /opt/roombooking && bin/update && sudo systemctl reload roombooking"
+      - name: SSH to server
+        if: github.ref == 'refs/heads/release'
+        run: |
+          umask 0077
+          mkdir -p $HOME/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> $HOME/.ssh/id_rsa
+          echo "${{ secrets.SSH_HOST_KEY }}" >> $HOME/.ssh/known_hosts
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /opt/roombooking && bin/update && sudo systemctl reload roombooking"
