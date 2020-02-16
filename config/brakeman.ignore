@@ -32,26 +32,6 @@
       "note": ""
     },
     {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "25eab97400d7879c8f4e111d071ace6d5d75e560880a6bf4865e3e6aae7caa39",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/application_record.rb",
-      "line": 18,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connection.select_value(\"SELECT pg_advisory_unlock(#{lock_tuple});\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ApplicationRecord",
-        "method": "release_pg_lock"
-      },
-      "user_input": "lock_tuple",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "52c18f2db502ca26bf65bab5112be1f84bf403b4a3160ef07fdd72809abef762",
@@ -163,48 +143,8 @@
       "user_input": "TwoFactorToken.from_user(current_user).provisioning_uri",
       "confidence": "Weak",
       "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "d3794ecacc388a635d02f3b7769d1436fb113c1dc223ccb81a91506d5d5753e5",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/application_record.rb",
-      "line": 9,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connection.select_value(\"SELECT pg_try_advisory_lock(#{lock_tuple});\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ApplicationRecord",
-        "method": "obtain_pg_lock"
-      },
-      "user_input": "lock_tuple",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "f84e52070cbd7b9747bccc14f90db942ade268b00476b6487cec74acc1753269",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/application_record.rb",
-      "line": 13,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connection.execute(\"SELECT pg_advisory_lock(#{lock_tuple});\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ApplicationRecord",
-        "method": "wait_for_pg_lock"
-      },
-      "user_input": "lock_tuple",
-      "confidence": "Medium",
-      "note": ""
     }
   ],
-  "updated": "2020-01-10 00:00:16 +0000",
-  "brakeman_version": "4.5.1"
+  "updated": "2020-02-16 00:34:17 +0000",
+  "brakeman_version": "4.7.2"
 }
