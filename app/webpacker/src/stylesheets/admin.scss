@@ -1,13 +1,11 @@
 $fixed-width-amount: 140px;
 
 #import-tools {
-  // max-width: 41em;
-
   .import-tools-fixed-width {
     width: $fixed-width-amount !important;
   }
 
   .import-tools-width-remaining {
-    width: calc(100% - #{$fixed-width-amount}) !important;
+    min-width: calc(100% - #{$fixed-width-amount}) !important;
   }
 }
