@@ -4,6 +4,8 @@ ENV['QUIET'] = 'true'
 require 'dotenv/load'
 
 if ENV['CODECOV_TOKEN'].present?
+  require 'simplecov'
+  require 'codecov'
   SimpleCov.start 'rails'
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
