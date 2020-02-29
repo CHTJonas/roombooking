@@ -52,6 +52,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "should validate a user's account" do
     user = User.create!(name: "Jean-Luc Picard", email: "noreply@example.com")
+    MailDeliveryJob.jobs.clear
     assert user.validation_token.present?
     assert user.validated_at.nil?
     token = user.validation_token
