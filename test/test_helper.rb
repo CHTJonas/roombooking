@@ -20,7 +20,7 @@ Sidekiq::Testing.fake!
 
 require 'minitest/retry'
 Minitest::Retry.use!(
-  exceptions_to_retry: [Roombooking::CamdramApi::ServerError, Roombooking::CamdramApi::TimeoutError],
+  exceptions_to_retry: [Camdram::Error::ServerError, Camdram::Error::Timeout],
   retry_count: 5,
   verbose: true
 )
