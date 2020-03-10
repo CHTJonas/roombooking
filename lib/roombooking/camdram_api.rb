@@ -29,7 +29,7 @@ module Roombooking
           else
             with(&block)
           end
-        rescue CamdramAPI::ServerError, Roombooking::CamdramApi::TimeoutError => e
+        rescue Camdram::Error::ServerError, Camdram::Error::Timeout => e
           if (retries += 1) < count
             sleep wait_time # Sleep for a short while in case Camdram is overloaded.
             retry

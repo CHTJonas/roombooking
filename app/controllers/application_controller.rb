@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from Roombooking::CamdramApi::CamdramError do |exception|
+  rescue_from Camdram::Error::GenericException do |exception|
     Raven.capture_exception(exception)
     alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
     flash.now[:alert] = alert
