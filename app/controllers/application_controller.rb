@@ -138,9 +138,4 @@ class ApplicationController < ActionController::Base
       browser.facebook? && browser.safari_webapp_mode? && browser.webkit_full_version.to_i >= 602
     ].any?
   end
-
-  # Enable development bar for authenticated sysadmins, or everyone in development.
-  def peek_enabled?
-    (user_fully_authenticated? && current_user.sysadmin?) || Rails.env.development?
-  end
 end

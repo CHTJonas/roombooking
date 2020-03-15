@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   get '/auth/failure' => 'sessions#failure', as: :auth_failure
 
   # Health & Performance
-  mount Peek::Railtie => '/peek'
   health_check_routes
 end
 

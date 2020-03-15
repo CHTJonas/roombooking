@@ -99,16 +99,6 @@ gem 'pg_search', '~> 2.3'
 gem 'redis', '~> 4.1'
 gem 'hiredis', '~> 0.6.3'
 
-# Performance profiling bar
-gem 'peek', '~> 1.1'
-gem 'peek-git', '~> 1.0'
-gem 'peek-performance_bar', '~> 1.3'
-gem 'peek-pg', '~> 1.3'
-gem 'peek-redis', '~> 1.2'
-gem 'peek-sidekiq', '~> 1.0'
-gem 'peek-gc', '~> 0.0.2'
-gem 'peek-rblineprof', '~> 0.2.0'
-
 # Metrics & Logging
 gem 'ddtrace', '~> 0.33.1'
 gem 'yell', '~> 2.2'
