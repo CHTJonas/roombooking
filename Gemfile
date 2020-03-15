@@ -75,7 +75,7 @@ gem 'rotp', '~> 5.1'
 gem 'rqrcode', '~> 1.1.2'
 gem 'recaptcha', '~> 5.3'
 # Authorisation
-gem 'cancancan', '~> 3.0'
+gem 'cancancan', '~> 3.1'
 # Error tracking and reporting
 gem 'sentry-raven', '~> 2.13'
 # DDoS protection and IP blocking
