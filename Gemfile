@@ -100,10 +100,14 @@ gem 'redis', '~> 4.1'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
+gem 'prometheus_exporter', '~> 0.5.1'
 gem 'ddtrace', '~> 0.33.1'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.0'
+
+# Reverse proxy
+gem 'rack-reverse-proxy', '~> 0.12.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

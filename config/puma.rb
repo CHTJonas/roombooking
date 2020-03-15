@@ -22,12 +22,20 @@ if environment == 'production'
   worker_shutdown_timeout 15
 end
 
-# We don't need to worry about ActiveRecord since we're not preloading.
-before_fork do
-  # ActiveRecord::Base.connection_pool.disconnect!
-end
 on_worker_boot do
-  # ActiveSupport.on_load(:active_record) do
-  #   ActiveRecord::Base.establish_connection
-  # end
+  require 'prometheus_exporter/instrumentation'
+  PrometheusExporter::Instrumentation::Process.start(type: 'puma')
+  PrometheusExporter::Instrumentation::ActiveRecord.start(
+    custom_labels: { type: 'puma' },
+    config_labels: [:database, :host]
+  )
+end
+
+after_worker_boot do
+  require 'prometheus_exporter/instrumentation'
+  PrometheusExporter::Instrumentation::Puma.start
+end
+
+on_worker_shutdown do
+  PrometheusExporter::Client.default.stop(wait_timeout_seconds: 10)
 end
