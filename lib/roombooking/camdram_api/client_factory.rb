@@ -5,7 +5,7 @@ module Roombooking
     module ClientFactory
       class << self
         def new(token_hash = nil)
-          Roombooking::CamdramApi::Client.new do |config|
+          Camdram::Client.new do |config|
             app_id     = ENV['CAMDRAM_APP_ID']
             app_secret = ENV['CAMDRAM_APP_SECRET']
             if token_hash

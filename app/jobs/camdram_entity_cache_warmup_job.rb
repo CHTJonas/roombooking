@@ -11,7 +11,7 @@ class CamdramEntityCacheWarmupJob
     camdram_entity = GlobalID::Locator.locate global_id
     Roombooking::CamdramApi.with_retry do
       camdram_entity.name(refresh_cache: true)
-    rescue Roombooking::CamdramApi::CamdramError
+    rescue Camdram::Error::GenericException
       # Preserve cache, do nothing.
     end
   end

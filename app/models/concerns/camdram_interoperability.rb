@@ -29,7 +29,7 @@ module CamdramInteroperability
           @camdram_object ||= Roombooking::CamdramApi.with do |client|
             client.send(method, self.camdram_id).make_orphan
           end
-        rescue Roombooking::CamdramApi::ClientError => e
+        rescue Camdram::Error::ClientError => e
           response_code = e.cause.code['code']
           if response_code == 404
             return nil

@@ -75,7 +75,7 @@ gem 'rotp', '~> 5.1'
 gem 'rqrcode', '~> 1.1.2'
 gem 'recaptcha', '~> 5.3'
 # Authorisation
-gem 'cancancan', '~> 3.0'
+gem 'cancancan', '~> 3.1'
 # Error tracking and reporting
 gem 'sentry-raven', '~> 2.13'
 # DDoS protection and IP blocking
@@ -99,21 +99,15 @@ gem 'pg_search', '~> 2.3'
 gem 'redis', '~> 4.1'
 gem 'hiredis', '~> 0.6.3'
 
-# Performance profiling bar
-gem 'peek', '~> 1.1'
-gem 'peek-git', '~> 1.0'
-gem 'peek-performance_bar', '~> 1.3'
-gem 'peek-pg', '~> 1.3'
-gem 'peek-redis', '~> 1.2'
-gem 'peek-sidekiq', '~> 1.0'
-gem 'peek-gc', '~> 0.0.2'
-gem 'peek-rblineprof', '~> 0.2.0'
-
 # Metrics & Logging
-gem 'ddtrace', '~> 0.33.0'
+gem 'prometheus_exporter', '~> 0.5.1'
+gem 'ddtrace', '~> 0.33.1'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.0'
+
+# Reverse proxy
+gem 'rack-reverse-proxy', '~> 0.12.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

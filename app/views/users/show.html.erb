@@ -34,9 +34,12 @@
   <% end %>
 <% end %>
 
-<hr class="my-4">
+<hr class="mt-4 mb-1">
 
 <%= content_tag :div, class: 'row' do %>
+  <small class="col-12 mb-4 form-text text-muted">
+    Information here is obtained asynchronously and may take several minutes to reflect that on Camdram.
+  </small>
   <%= content_tag :div, class: 'col-12 col-md-6 mb-3' do %>
     <% if @user == current_user %>
       <%= content_tag(:h4, 'My Shows:') %>

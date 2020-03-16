@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from Roombooking::CamdramApi::CamdramError do |exception|
+  rescue_from Camdram::Error::GenericException do |exception|
     Raven.capture_exception(exception)
     alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
     flash.now[:alert] = alert
@@ -137,10 +137,5 @@ class ApplicationController < ActionController::Base
       browser.opera? && browser.version.to_i >= 50,
       browser.facebook? && browser.safari_webapp_mode? && browser.webkit_full_version.to_i >= 602
     ].any?
-  end
-
-  # Enable development bar for authenticated sysadmins, or everyone in development.
-  def peek_enabled?
-    (user_fully_authenticated? && current_user.sysadmin?) || Rails.env.development?
   end
 end
