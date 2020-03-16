@@ -73,7 +73,7 @@ gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 5.1'
 gem 'rqrcode', '~> 1.1.2'
-gem 'recaptcha', '~> 5.4'
+gem 'recaptcha', '~> 5.3'
 # Authorisation
 gem 'cancancan', '~> 3.1'
 # Error tracking and reporting
