@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   # Show all information stored about a single user.
   def show
-    @user = User.includes(:camdram_account).includes(:camdram_shows).includes(:camdram_societies).find(params[:id])
+    @user = User.find(params[:id])
     authorize! :read, @user
   end
 
