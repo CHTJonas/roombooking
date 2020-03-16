@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-unless Rails.env.test? || defined? PrometheusExporter::Server
+if ENV['ENABLE_PROMETHEUS'] == '1' && !defined? PrometheusExporter::Server
   require 'rack/reverse_proxy'
   require 'prometheus_exporter/instrumentation'
   require 'prometheus_exporter/middleware'

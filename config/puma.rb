@@ -22,20 +22,22 @@ if environment == 'production'
   worker_shutdown_timeout 15
 end
 
-on_worker_boot do
-  require 'prometheus_exporter/instrumentation'
-  PrometheusExporter::Instrumentation::Process.start(type: 'puma')
-  PrometheusExporter::Instrumentation::ActiveRecord.start(
-    custom_labels: { type: 'puma' },
-    config_labels: [:database, :host]
-  )
-end
+if ENV['ENABLE_PROMETHEUS'] == '1'
+  on_worker_boot do
+    require 'prometheus_exporter/instrumentation'
+    PrometheusExporter::Instrumentation::Process.start(type: 'puma')
+    PrometheusExporter::Instrumentation::ActiveRecord.start(
+      custom_labels: { type: 'puma' },
+      config_labels: [:database, :host]
+    )
+  end
 
-after_worker_boot do
-  require 'prometheus_exporter/instrumentation'
-  PrometheusExporter::Instrumentation::Puma.start
-end
+  after_worker_boot do
+    require 'prometheus_exporter/instrumentation'
+    PrometheusExporter::Instrumentation::Puma.start
+  end
 
-on_worker_shutdown do
-  PrometheusExporter::Client.default.stop(wait_timeout_seconds: 10)
+  on_worker_shutdown do
+    PrometheusExporter::Client.default.stop(wait_timeout_seconds: 10)
+  end
 end
