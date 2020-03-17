@@ -20,7 +20,7 @@ module Roombooking
     def current_session
       begin
         @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
-      rescue Exception => e
+      rescue
         nil
       end
     end
@@ -34,7 +34,7 @@ module Roombooking
     def current_imposter
       begin
         @current_imposter ||= User.find(session[:imposter_id]) if session[:imposter_id]
-      rescue Exception => e
+      rescue
         nil
       end
     end
