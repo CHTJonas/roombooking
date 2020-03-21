@@ -13,7 +13,7 @@ class ContactFormMailerTest < ActionMailer::TestCase
     assert_equal ['production@adctheatre.com'], email.to
     assert_equal [from], email.reply_to
     assert_equal subject, email.subject
-    assert email.html_part.body.to_s.include? read_fixture('send_to_management_html').join
-    assert email.text_part.body.to_s.include? read_fixture('send_to_management_txt').join
+    assert email.html_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('send_to_management_html').join
+    assert email.text_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('send_to_management_txt').join
   end
 end
