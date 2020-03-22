@@ -17,7 +17,7 @@ gem 'rails', '~> 6.0.2'
 gem 'puma', '~> 4.3'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sass-rails', '~> 6.0'
-gem 'webpacker', '~> 4.2'
+gem 'webpacker', '~> 5.0'
 gem 'linked-list', '~> 0.0.14'
 
 # Audit model changes
