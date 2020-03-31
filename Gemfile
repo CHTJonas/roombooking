@@ -61,7 +61,7 @@ gem 'premailer-rails', '~> 1.11'
 # GDPR
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
-gem 'os', '~> 1.0'
+gem 'os', '~> 1.1'
 gem 'browser', '~> 4.0'
 # Connection pooling
 gem 'connection_pool', '~> 2.2', '>= 2.2.2'
