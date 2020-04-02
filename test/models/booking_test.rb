@@ -169,7 +169,7 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "should return ordinary bookings in range" do
-    week_start = Date.today.beginning_of_week
+    week_start = Time.zone.today.beginning_of_week
     week_end = week_start + 6.days
     bookings = Booking.ordinary_in_range(week_start, week_end)
     assert_equal 6, bookings.count
@@ -180,20 +180,20 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "should return daily repeat bookings in range" do
-    range_end = Date.today.beginning_of_week + 1.day
-    range_start = Date.today.beginning_of_week - 3.weeks
+    range_end = Time.zone.today.beginning_of_week + 1.day
+    range_start = Time.zone.today.beginning_of_week - 3.weeks
     test_daily_repeat_bookings(range_start, range_end)
   end
 
   test "should return daily repeat bookings in offset range" do
-    range_end = Date.today.beginning_of_week + 1.day + 3.days
-    range_start = Date.today.beginning_of_week - 3.weeks + 3.days
+    range_end = Time.zone.today.beginning_of_week + 1.day + 3.days
+    range_start = Time.zone.today.beginning_of_week - 3.weeks + 3.days
     test_daily_repeat_bookings(range_start, range_end)
   end
 
   test "should return weekly repeat bookings in range" do
-    range_end = Date.today.beginning_of_week + 1.day
-    range_start = Date.today.beginning_of_week - 2.weeks
+    range_end = Time.zone.today.beginning_of_week + 1.day
+    range_start = Time.zone.today.beginning_of_week - 2.weeks
     test_weekly_repeat_bookings(range_start, range_end)
   end
 

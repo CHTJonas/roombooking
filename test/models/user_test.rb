@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
     user.validate(token)
     assert user.validation_token.nil?
     assert user.validated_at.present?
-    assert user.validated_at.to_date == Date.today
+    assert user.validated_at.to_date == Time.zone.today
   end
 
   test "should not save with both a validation token and validation date present" do
