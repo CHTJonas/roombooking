@@ -52,5 +52,5 @@ chdir APP_ROOT do
   name = gets.chomp
   print Rainbow('Enter your email as it appears on Camdram: ').yellow
   email = gets.chomp
-  system! "bin/rails runner \"User.create(name: '#{name}', email: '#{email}', admin: true, sysadmin: true, validated_at: Time.now)\""
+  system! "bin/rails runner \"User.create(name: '#{name}', email: '#{email}', admin: true, sysadmin: true, validated_at: Time.zone.now)\""
 end

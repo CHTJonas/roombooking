@@ -4,7 +4,7 @@ charlie:
   admin: true
   sysadmin: true
   blocked: false
-  validated_at: <%= DateTime.now %>
+  validated_at: <%= Time.zone.now %>
 
 jane:
   name: Jane Doe
@@ -12,7 +12,7 @@ jane:
   admin: false
   sysadmin: false
   blocked: false
-  validated_at: <%= DateTime.now %>
+  validated_at: <%= Time.zone.now %>
 
 bob:
   name: Bob The Builder

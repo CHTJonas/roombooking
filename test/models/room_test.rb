@@ -23,7 +23,7 @@ class RoomTest < ActiveSupport::TestCase
   test "should return a room's ordinary booking at a given date" do
     room = rooms(:one)
     user = users(:charlie)
-    time = DateTime.now.beginning_of_week + 10.hours
+    time = Time.zone.now.beginning_of_week + 10.hours
     booking = room.get_booking_at(time)
     assert_equal 'other', booking.purpose
     assert_equal user, booking.user
@@ -33,7 +33,7 @@ class RoomTest < ActiveSupport::TestCase
   test "should return a room's daily repeat booking at a given date" do
     room = rooms(:one)
     user = users(:charlie)
-    time = DateTime.now.beginning_of_week - 2.weeks + 16.hours
+    time = Time.zone.now.beginning_of_week - 2.weeks + 16.hours
     booking = room.get_booking_at(time)
     assert_equal 'other', booking.purpose
     assert_equal user, booking.user
@@ -43,7 +43,7 @@ class RoomTest < ActiveSupport::TestCase
   test "should return a room's weekly booking at a given date" do
     room = rooms(:one)
     user = users(:charlie)
-    time = DateTime.now.beginning_of_week - 1.weeks + 9.hours + 30.minutes
+    time = Time.zone.now.beginning_of_week - 1.weeks + 9.hours + 30.minutes
     booking = room.get_booking_at(time)
     assert_equal 'other', booking.purpose
     assert_equal user, booking.user

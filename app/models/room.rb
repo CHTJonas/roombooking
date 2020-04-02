@@ -24,7 +24,7 @@ class Room < ApplicationRecord
   end
 
   def current_booking
-    now = DateTime.now
+    now = Time.zone.now
     get_booking_at(now)
   end
 

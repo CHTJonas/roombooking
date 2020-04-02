@@ -64,7 +64,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "should not save with both a validation token and validation date present" do
     user = User.new(name: "Jean-Luc Picard", email: "noreply@example.com")
-    user.validated_at = DateTime.now
+    user.validated_at = Time.zone.now
     user.validation_token = SecureRandom.alphanumeric(48)
     assert_not user.save
   end

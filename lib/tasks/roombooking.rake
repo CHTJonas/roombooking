@@ -37,7 +37,7 @@ Booking System from scratch? (type uppercase YES): }).yellow
   task backup: :environment do
     require 'open3'
     puts Rainbow('Dumping Postgres database...').blue
-    file_path = Rails.root.join('db', 'backup', "roombooking_#{Rails.env}_#{DateTime.now.to_i}.pgdump")
+    file_path = Rails.root.join('db', 'backup', "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump")
     return_value = nil
     Open3.popen3('pg_dump', '-Fc', "roombooking_#{Rails.env}") do |stdin, stdout, stderr, wait_thr|
       file = File.new(file_path, 'w')

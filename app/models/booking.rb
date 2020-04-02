@@ -113,13 +113,13 @@ class Booking < ApplicationRecord
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
   def cannot_be_in_the_past
-    if self.start_time.present? && self.start_time < DateTime.now
+    if self.start_time.present? && self.start_time < Time.zone.now
       errors.add(:start_time, "can't be in the past.") unless self.user.admin?
     end
   end
 
   def cannot_be_too_far_in_future
-    if self.start_time.present? && self.start_time > DateTime.now + 4.months
+    if self.start_time.present? && self.start_time > Time.zone.now + 4.months
       errors.add(:start_time, "is too far in the future.") unless self.user.admin?
     end
   end

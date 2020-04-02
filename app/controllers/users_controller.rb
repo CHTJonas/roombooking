@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     current_session.invalidate!
     sesh = Session.create(user: @user,
       expires_at: current_session.expires_at,
-      login_at: DateTime.now, ip: request.remote_ip,
+      login_at: Time.zone.now, ip: request.remote_ip,
       user_agent: request.user_agent)
     session[:sesh_id] = sesh.id
     redirect_to @user
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
       current_session.invalidate!
       sesh = Session.create(user: user,
         expires_at: current_session.expires_at,
-        login_at: DateTime.now, ip: request.remote_ip,
+        login_at: Time.zone.now, ip: request.remote_ip,
         user_agent: request.user_agent)
       session[:sesh_id] = sesh.id
       session.delete(:imposter_id)
