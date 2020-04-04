@@ -67,7 +67,7 @@ gem 'browser', '~> 4.0'
 gem 'connection_pool', '~> 2.2', '>= 2.2.2'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
-gem 'faraday_middleware', '~> 0.14.0'
+gem 'faraday_middleware', '~> 1.0.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
@@ -77,7 +77,7 @@ gem 'recaptcha', '~> 5.5'
 # Authorisation
 gem 'cancancan', '~> 3.1'
 # Error tracking and reporting
-gem 'sentry-raven', '~> 2.13'
+gem 'sentry-raven', '~> 3.0'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.2'
 # User Gravatar profile pictures
