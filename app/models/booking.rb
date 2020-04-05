@@ -119,8 +119,16 @@ class Booking < ApplicationRecord
   end
 
   def cannot_be_too_far_in_future
-    if self.start_time.present? && self.start_time > Time.zone.now + 4.months
-      errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+    if self.start_time.present?
+      if self.camdram_model.present? && self.camdram_model.instance_of?(CamdramShow)
+        performances = self.camdram_model.camdram_object.performances
+        last_performance = performances.sort { |p1, p2| p1.end_at - p2.end_at }.last
+        if self.start_time > last_performance.end_at
+          errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+        end
+      elsif self.start_time > Time.zone.now + 4.months
+        errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+      end
     end
   end
 
