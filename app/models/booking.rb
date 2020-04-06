@@ -114,7 +114,7 @@ class Booking < ApplicationRecord
   # are an admin.
   def cannot_be_in_the_past
     if self.start_time.present? && self.start_time < Time.zone.now
-      errors.add(:start_time, "can't be in the past.") unless self.user.admin?
+      errors.add(:start_time, "can't be in the past.") unless self.user.nil? || self.user.admin?
     end
   end
 
