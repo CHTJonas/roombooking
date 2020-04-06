@@ -118,6 +118,8 @@ class Booking < ApplicationRecord
     end
   end
 
+  # Prevent a show making bookings that occur after the show's final performance.
+  # Also prevent any bookings that occur more than four months in advance.
   def cannot_be_too_far_in_future
     if self.start_time.present?
       if self.camdram_model.present? && self.camdram_model.instance_of?(CamdramShow)

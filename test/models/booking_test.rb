@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class BookingTest < ActiveSupport::TestCase
+  teardown do
+    travel_back
+  end
+
   test "should not save booking without name" do
     booking = Booking.new(booking_test_hash.except(:name))
     assert_not booking.save
@@ -125,6 +129,16 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking if booking date is after the show's last performance" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time += 2.weeks
+    booking.end_time += 2.weeks
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    assert_not booking.save
+  end
+
   test "should save booking if Camdram venue is permitted" do
     booking = Booking.new(booking_test_hash)
     booking.purpose = :rehearsal_for
@@ -200,6 +214,7 @@ class BookingTest < ActiveSupport::TestCase
   private
 
   def booking_test_hash
+    travel_to Time.zone.local(2016, 1, 9, 12, 26, 44)
     {
       name: 'Test Booking',
       start_time: DateTime.tomorrow + 14.hours + 2.weeks,
