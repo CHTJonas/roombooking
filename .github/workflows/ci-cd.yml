@@ -10,7 +10,7 @@ jobs:
         if: contains(github.event.head_commit.message, 'skip ci') == false
         uses: actions/checkout@v1
       - name: Set up Ruby 2.6
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.6
       - name: Install dependencies
@@ -40,7 +40,7 @@ jobs:
         if: contains(github.event.head_commit.message, 'skip ci') == false
         uses: actions/checkout@master
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.6
       - name: Cache build artefacts
