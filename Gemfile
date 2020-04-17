@@ -10,7 +10,7 @@ gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 #   1) gem uninstall sassc
 #   2) gem install sassc -- --disable-march-tune-native
 #   3) bundle install
-gem 'sassc', '~> 2.2'
+gem 'sassc', '~> 2.3'
 
 # Rails
 gem 'rails', '~> 6.0.2'
