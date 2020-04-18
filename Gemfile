@@ -5,17 +5,11 @@ ruby '2.6.6'
 # Application config
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
-# A portability issue in the sassc gem exists on several platforms.
-# If this causes you issues (LoadErrors) then run the following commands:
-#   1) gem uninstall sassc
-#   2) gem install sassc -- --disable-march-tune-native
-#   3) bundle install
-gem 'sassc', '~> 2.3'
-
 # Rails
 gem 'rails', '~> 6.0.2'
 gem 'puma', '~> 4.3'
 gem 'rack-timeout', '~> 0.6.0'
+gem 'sassc', '~> 2.3'
 gem 'sass-rails', '~> 6.0'
 gem 'webpacker', '~> 5.0'
 gem 'linked-list', '~> 0.0.14'
