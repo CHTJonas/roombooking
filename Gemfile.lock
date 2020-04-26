@@ -191,7 +191,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.0)
     kaminari-core (1.2.0)
-    kramdown (2.1.0)
+    kramdown (2.2.1)
+      rexml
     linked-list (0.0.14)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -349,6 +350,7 @@ GEM
     remotipart (1.4.4)
     request_store (1.5.0)
       rack (>= 1.4)
+    rexml (3.2.4)
     rotp (6.0.0)
       addressable (~> 2.7)
     rqrcode (1.1.2)
