@@ -140,7 +140,7 @@ GEM
       faraday (~> 1.0)
     fast_blank (1.0.0)
     ffi (1.12.2)
-    fugit (1.3.4)
+    fugit (1.3.5)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
     gems (1.2.0)
