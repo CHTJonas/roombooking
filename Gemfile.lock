@@ -393,7 +393,7 @@ GEM
       eldritch
       redlock
       sidekiq
-    simple_calendar (2.3.0)
+    simple_calendar (2.4.0)
       rails (>= 3.0)
     simplecov (0.18.5)
       docile (~> 1.1)
@@ -519,7 +519,7 @@ DEPENDENCIES
   sidekiq-cron (~> 1.2)
   sidekiq-throttled (~> 0.11.0)
   sidekiq_queue_metrics (~> 3.0)
-  simple_calendar (~> 2.0)
+  simple_calendar (~> 2.4)
   sitemap_generator (~> 6.1)
   slack-notifier (~> 2.3)
   spring
