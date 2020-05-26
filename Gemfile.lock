@@ -193,7 +193,7 @@ GEM
     kaminari-core (1.2.0)
     kramdown (2.2.1)
       rexml
-    linked-list (0.0.14)
+    linked-list (0.0.15)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -481,7 +481,7 @@ DEPENDENCIES
   icalendar (~> 2.6)
   kaminari (~> 1.2)
   kramdown
-  linked-list (~> 0.0.14)
+  linked-list (~> 0.0.15)
   listen (>= 3.0.5, < 3.3)
   lograge (~> 0.11.2)
   minitest-retry (~> 0.2.0)

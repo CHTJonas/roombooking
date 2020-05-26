@@ -12,7 +12,7 @@ gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.3'
 gem 'sass-rails', '~> 6.0'
 gem 'webpacker', '~> 5.1'
-gem 'linked-list', '~> 0.0.14'
+gem 'linked-list', '~> 0.0.15'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.3'
