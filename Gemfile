@@ -136,7 +136,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver', '~> 3.142'
-  gem 'webdrivers', '~> 4.3'
+  gem 'webdrivers', '~> 4.4'
   gem 'minitest-retry', '~> 0.2.1', require: false
   gem 'codecov', '~> 0.1.16', require: false
 end
