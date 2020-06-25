@@ -835,10 +835,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@github/hotkey@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.4.1.tgz#36a6892a36130ede1c85eceebc9a03578f46f774"
-  integrity sha512-71/hNVwD+KcbtpcokuI5q+CxqEu8lHfJnKGE5qxKKg7CTRvRKIkrzQ+B38rpYmB5Djg7oQu/hD0Rty/8l6Fk0g==
+"@github/hotkey@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.4.2.tgz#35369f0f525712765f78d287ed615f7cd014721d"
+  integrity sha512-JBIHoy8XUoAfMCwsm2PY7z4BrrbpFJTzs1dPtQnMYCc78SA3Fko9daMvMULrpDn3vu+NkIxKfI93Pklwl8sy4g==
 
 "@rails/activestorage@^6.0.3":
   version "6.0.3"
