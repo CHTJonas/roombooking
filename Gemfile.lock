@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CHTJonas/camdram-ruby.git
-  revision: 26994a5f67d62b60561a9c9cbc987f6405b0d81d
+  revision: 5aa63b25e83ccfbc9152901b7e723ef4d2f4c459
   specs:
     camdram (2.0.0)
       mime-types (~> 3.2)
