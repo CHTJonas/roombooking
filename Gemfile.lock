@@ -166,7 +166,7 @@ GEM
     htmlentities (4.3.4)
     humanize_boolean (0.0.2)
       i18n
-    i18n (1.8.3)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     icalendar (2.6.1)
       ice_cube (~> 0.16)
@@ -394,7 +394,7 @@ GEM
       eldritch
       redlock
       sidekiq
-    simple_calendar (2.4.0)
+    simple_calendar (2.4.1)
       rails (>= 3.0)
     simplecov (0.18.5)
       docile (~> 1.1)
