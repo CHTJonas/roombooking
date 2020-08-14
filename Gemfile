@@ -16,7 +16,7 @@ gem 'linked-list', '~> 0.0.15'
 
 # Audit model changes
 gem 'paper_trail', '~> 10.3'
-gem 'paper_trail-association_tracking', '~> 2.0'
+gem 'paper_trail-association_tracking', '~> 2.1'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
 # Remove whitespace from model attributes
