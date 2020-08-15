@@ -11,6 +11,18 @@ This repository hosts the code for the [ADC Theatre's](https://www.adctheatre.co
 The site runs as a [Ruby on Rails](https://rubyonrails.org/) application with background job processing handled by [Sidekiq](https://sidekiq.org/).
 [Postgres](https://www.postgresql.org/) is used as the backend database of choice and [Redis](https://redis.io/) to store in-memory data.
 
+---
+
+⚠️ **COVID‑19:**
+In light of the global coronavirus pandemic, the management of the ADC Theatre have requested changes to the Room Booking System be made.
+Until further notice each booking must be accompanied by a list of names and email addresses of all those who will be present in the room.
+Nobody other that those listed may be present during the booking.
+Each room that can be booked will have a set maximum occupancy and some rooms will not be possible to book at all.
+Bookings are additionally restricted to management office hours only and out-of-hours keyholding will not be permitted.
+These changes will be implemented in the `Neon` release of the Room Booking System which is scheduled to go live before the start of Michaelmas Term.
+
+---
+
 ## Installation
 There are two officially supported methods of installation:
 
