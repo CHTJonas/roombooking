@@ -166,7 +166,7 @@ GEM
       i18n
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    icalendar (2.6.1)
+    icalendar (2.7.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
     jquery-rails (4.4.0)
@@ -477,7 +477,7 @@ DEPENDENCIES
   high_voltage (~> 3.1)
   hiredis (~> 0.6.3)
   humanize_boolean (~> 0.0.2)
-  icalendar (~> 2.6)
+  icalendar (~> 2.7)
   kaminari (~> 1.2)
   kramdown
   linked-list (~> 0.0.15)
