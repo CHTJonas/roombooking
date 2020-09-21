@@ -5,6 +5,20 @@
   The current status of all rooms is shown below — click on a room to view its calendar.
 </p>
 
+<div class="alert alert-warning" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  <p>In light of the COVID-19 pandemic, the following rules are now in force:</p>
+  <ol>
+    <li>There is a maximum capacity of six people per booking and nobody other that those listed may attend for the duration of the booking.</li>
+    <li>Each booking must be accompanied by a list of names and email addresses of all those who will be present.</li>
+    <li>Students will be allowed to make bookings of the following rooms only: ADC Dressing Rooms 1 & 2, the Bar and the Larkum Studio.</li>
+    <li>The Stage and the entirety of the Corpus Playroom may only be booked by management.</li>
+    <li>Bookings are additionally restricted to management office hours only and out-of-hours keyholding will not be permitted.</li>
+    <li>Meetings and auditions must take place via video conference and as such, these options have been removed from the booking form.</li>
+  </ol>
+  <p>Violations of these rules will be treated seriously and dealt with through appropriate university disciplinary procedures.</p>
+</div>
+
 <%= content_tag :div, class: 'list-group' do %>
   <% Room.order(:id).each do |room| %>
     <% if room.currently_booked? %>
