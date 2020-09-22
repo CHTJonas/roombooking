@@ -48,6 +48,7 @@ class Booking < ApplicationRecord
   belongs_to :room, touch: true
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
+  has_and_belongs_to_many :attendees
 
   validates :name, presence: true
   validates :start_time, presence: true
@@ -70,6 +71,7 @@ class Booking < ApplicationRecord
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
   validate :name_must_be_descriptive
+  validate :attendees_must_conform
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -289,6 +291,25 @@ class Booking < ApplicationRecord
         errors.add(:name, "needs to be more descriptive.") if test_name == test_camdram_name
       end
     end
+  end
+
+  def attendees_must_conform
+    errors.add(:attendees, "must list those who will be attending the booking.") if self.attendees.empty?
+    errors.add(:attendees, "list more than six people, which is the maximum.") if self.attendees.length > 6
+  end
+
+  def attendees_text
+    self.attendees.map(&:to_s).join("\r\n")
+  end
+
+  def attendees_text=(string)
+    atds = []
+    lines = string.chomp.split("\r\n")
+    lines.each do |line|
+      attendee = Attendee.parse(line)
+      atds << attendee if attendee.try(:valid?)
+    end
+    self.attendees = atds
   end
 
   # Prettified string describing the booking's duration.

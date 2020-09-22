@@ -19,6 +19,18 @@
   <%= content_tag(:td, describe_repeat_pattern(@booking.repeat_mode, @booking.repeat_until)) %>
 <% end %>
 <%= content_tag :tr do %>
+  <%= content_tag(:td, 'Attendees:') %>
+  <% if can? :crud, @booking %>
+    <%= content_tag :td do %>
+      <% @booking.attendees.each do |attendee| %>
+        <%= attendee %><br>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= content_tag(:td, @booking.attendees.length) %>
+  <% end %>
+<% end %>
+<%= content_tag :tr do %>
   <%= content_tag(:td, 'Room:') %>
   <%= content_tag :td do %>
     <%= link_to @booking.room.name, room_path(@booking.room, start_date: @booking.start_time.strftime("%Y-%m-%d")) %>
