@@ -221,7 +221,8 @@ class BookingTest < ActiveSupport::TestCase
       end_time: DateTime.tomorrow + 16.hours + 2.weeks,
       purpose: 'other',
       room: rooms(:two),
-      user: users(:jane)
+      user: users(:jane),
+      attendees: [attendees(:christine)]
     }
   end
 
