@@ -56,7 +56,7 @@ gem 'premailer-rails', '~> 1.11'
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
 gem 'os', '~> 1.1'
-gem 'browser', '~> 4.2'
+gem 'browser', '~> 5.0'
 # Connection pooling
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
