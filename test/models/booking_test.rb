@@ -211,6 +211,29 @@ class BookingTest < ActiveSupport::TestCase
     test_weekly_repeat_bookings(range_start, range_end)
   end
 
+  test "should not save booking without attendees listed" do
+    booking = Booking.new(booking_test_hash.except(:attendees))
+    assert_not booking.save
+    booking.attendees_text = "Test"
+    assert_not booking.save
+    booking.attendees_text = "tony@example.com"
+    assert_not booking.save
+    booking.attendees_text = "<tony@example.com>"
+    assert_not booking.save
+    booking.attendees_text = " <tony@example.com>"
+    assert_not booking.save
+    booking.attendees_text = "<tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony <tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony <tony@example.com> Johnston"
+    assert_not booking.save
+    booking.attendees_text = "Tony Johnston <tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony Johnston <tony@example.com>"
+    assert booking.save
+  end
+
   private
 
   def booking_test_hash
