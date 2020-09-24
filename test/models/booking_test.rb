@@ -213,6 +213,9 @@ class BookingTest < ActiveSupport::TestCase
 
   test "should not save booking without attendees listed" do
     booking = Booking.new(booking_test_hash.except(:attendees))
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
     assert_not booking.save
     booking.attendees_text = "Test"
     assert_not booking.save
@@ -231,6 +234,22 @@ class BookingTest < ActiveSupport::TestCase
     booking.attendees_text = "Tony Johnston <tony@example.com> "
     assert_not booking.save
     booking.attendees_text = "Tony Johnston <tony@example.com>"
+    assert booking.save
+  end
+
+  test "admins should be able to override attendee registration" do
+    booking = Booking.new(booking_test_hash.except(:attendees))
+    booking.purpose = :training
+    assert booking.save
+    booking.purpose = :other
+    assert booking.save
+    booking.purpose = :theatre_closed
+    assert booking.save
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    booking.purpose = :get_in_for
+    assert booking.save
+    booking.purpose = :performance_of
     assert booking.save
   end
 

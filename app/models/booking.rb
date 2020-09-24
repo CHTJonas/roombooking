@@ -295,8 +295,10 @@ class Booking < ApplicationRecord
   end
 
   def attendees_must_conform
-    errors.add(:attendees, "must list those who will be attending the booking.") if self.attendees.empty?
-    errors.add(:attendees, "list more than six people, which is the maximum.") if self.attendees.length > 6
+    unless self.purpose.nil? || Booking.admin_purposes.include?(self.purpose.to_sym)
+      errors.add(:attendees, "must list those who will be attending the booking.") if self.attendees.empty?
+      errors.add(:attendees, "list more than six people, which is the maximum.") if self.attendees.length > 6
+    end
   end
 
   def user_must_be_allowed_to_book_room
