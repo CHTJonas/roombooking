@@ -72,6 +72,7 @@ class Booking < ApplicationRecord
   validate :room_must_allow_camdram_venue
   validate :name_must_be_descriptive
   validate :attendees_must_conform
+  validate :user_must_be_allowed_to_book_room
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -296,6 +297,13 @@ class Booking < ApplicationRecord
   def attendees_must_conform
     errors.add(:attendees, "must list those who will be attending the booking.") if self.attendees.empty?
     errors.add(:attendees, "list more than six people, which is the maximum.") if self.attendees.length > 6
+  end
+
+  def user_must_be_allowed_to_book_room
+    return unless self.room && self.user
+    if self.room.admin_only? && !self.user.admin?
+      errors.add(:base, "Only management may make booking for this room.")
+    end
   end
 
   def attendees_text
