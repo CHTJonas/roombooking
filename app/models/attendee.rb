@@ -11,7 +11,7 @@ class Attendee < ApplicationRecord
   end
 
   def self.parse(string)
-    captures = /(.+)<(.+)>/.match(string)
+    captures = /^(.+) <(.+)>$/.match(string)
     return if captures.blank?
     self.find_or_create_by(email: captures[2]) do |attendee|
       attendee.name = captures[1]
