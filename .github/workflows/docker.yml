@@ -1,0 +1,36 @@
+name: Docker
+on:
+  push:
+    branches:
+      - master
+      - release
+
+jobs:
+  build-latest:
+    runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/master'"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Push to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: chtjonas/roombooking
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          dockerfile: Dockerfile
+          tags: "latest"
+  build-prod:
+    runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/release'"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Push to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: chtjonas/roombooking
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          dockerfile: Dockerfile.prod
+          tags: "prod"

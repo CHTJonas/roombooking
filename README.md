@@ -2,14 +2,28 @@
 
 # ADC Room Booking System
 
-[![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.5-brightgreen.svg)](https://www.ruby-lang.org/en/)
-[![Rails Version](https://img.shields.io/badge/Rails-v6.0.2-brightgreen.svg)](http://rubyonrails.org/)
-[![Build Status](https://github.com/CHTJonas/roombooking/workflows/CI%20CD/badge.svg)](https://launch-editor.github.com/actions?workflowID=CI%20CD&event=push&nwo=CHTJonas%2Froombooking)
+[![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.6-brightgreen.svg)](https://www.ruby-lang.org/en/)
+[![Rails Version](https://img.shields.io/badge/Rails-v6.0.3.3-brightgreen.svg)](http://rubyonrails.org/)
+[![Build Status](https://github.com/CHTJonas/roombooking/workflows/CI%20CD/badge.svg)](https://github.com/CHTJonas/roombooking/actions?query=workflow%3A%22CI+CD%22)
 [![Test Coverage](https://codecov.io/gh/CHTJonas/roombooking/branch/master/graph/badge.svg)](https://codecov.io/gh/CHTJonas/roombooking)
 
 This repository hosts the code for the [ADC Theatre's](https://www.adctheatre.com) new Room Booking System.
 The site runs as a [Ruby on Rails](https://rubyonrails.org/) application with background job processing handled by [Sidekiq](https://sidekiq.org/).
 [Postgres](https://www.postgresql.org/) is used as the backend database of choice and [Redis](https://redis.io/) to store in-memory data.
+
+---
+
+⚠️ **COVID‑19:**
+In light of the global coronavirus pandemic, the management of the ADC Theatre have requested changes to the Room Booking System be made.
+Until further notice each booking must be accompanied by a list of names and email addresses of all those who will be present.
+There is a maximum capacity of six people per booking and nobody other that those listed may attend for the duration of the booking.
+Students will be allowed to make bookings of the following rooms only: ADC Dressing Rooms 1 & 2, the Bar and the Larkum Studio.
+The Stage and the entirety of the Corpus Playroom may only be booked by management.
+Bookings are additionally restricted to management office hours only and out-of-hours keyholding will not be permitted.
+It is expected that meetings and auditions will take place via video conference and as such, these options will be removed from the booking form.
+These changes will be implemented in the `Neon` release of the Room Booking System which is scheduled to go live before the start of Michaelmas Term.
+
+---
 
 ## Installation
 There are two officially supported methods of installation:
@@ -80,6 +94,6 @@ You should be able to do this automatically by installing an [EditorConfig compa
 Management of the project is meritocratic; those who have a reasonable number of accepted contributions will be granted access to commit straight to the `master` branch of this repository.
 
 ## Copyright
-Copyright (c) 2018–2020 Charlie Jonas.
+Copyright (c) 2018–2020 Charlie Jonas and contributors.
 The ADC Room Booking System software is released under Version 3 of the GNU General Public License.
 See the LICENSE file for full details.

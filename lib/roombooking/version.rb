@@ -2,7 +2,7 @@ module Roombooking
   module Version
     class << self
       def release
-        "Helium".freeze
+        "Neon".freeze
       end
 
       def git_sha

@@ -8,6 +8,7 @@
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  admin_only :boolean          default(FALSE), not null
 #
 
 class Room < ApplicationRecord
@@ -24,7 +25,7 @@ class Room < ApplicationRecord
   end
 
   def current_booking
-    now = DateTime.now
+    now = Time.zone.now
     get_booking_at(now)
   end
 

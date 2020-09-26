@@ -19,10 +19,8 @@ module Roombooking
     # Returns the current session.
     def current_session
       begin
-        @current_session ||= Session
-          .eager_load(user: :latest_camdram_token)
-          .find(session[:sesh_id]) if session[:sesh_id]
-      rescue Exception => e
+        @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
+      rescue
         nil
       end
     end
@@ -36,7 +34,7 @@ module Roombooking
     def current_imposter
       begin
         @current_imposter ||= User.find(session[:imposter_id]) if session[:imposter_id]
-      rescue Exception => e
+      rescue
         nil
       end
     end

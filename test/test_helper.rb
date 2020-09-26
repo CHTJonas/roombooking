@@ -40,14 +40,14 @@ class ActiveSupport::TestCase
   OmniAuth.config.test_mode = true
 
   def sign_in_user
-    fake_token = { token: 'faketoken', refresh_token: 'faketoken', expires_at: Time.now + 1.hour }
+    fake_token = { token: 'faketoken', refresh_token: 'faketoken', expires_at: Time.zone.now + 1.hour }
     OmniAuth.config.add_mock(:camdram, uid: '1234', credentials: fake_token)
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:camdram]
     get auth_callback_path(:camdram)
   end
 
   def sign_in_admin
-    fake_token = { token: 'faketoken', refresh_token: 'faketoken', expires_at: Time.now + 1.hour }
+    fake_token = { token: 'faketoken', refresh_token: 'faketoken', expires_at: Time.zone.now + 1.hour }
     OmniAuth.config.add_mock(:camdram, uid: '3807', credentials: fake_token)
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:camdram]
     get auth_callback_path(:camdram)

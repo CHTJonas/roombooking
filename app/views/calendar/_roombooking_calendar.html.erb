@@ -24,7 +24,7 @@
         <tr>
           <% date_range.slice(0, 7).each do |day| %>
             <%= content_tag :td do %>
-              <% block.call(day, sorted_events.fetch(day, [])) %>
+              <% passed_block.call(day, sorted_events.fetch(day, [])) %>
             <% end %>
           <% end %>
         </tr>

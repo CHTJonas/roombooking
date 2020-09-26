@@ -34,6 +34,16 @@
     </div>
   </div>
   <div class="form-group row">
+    <%= form.label :attendees, class: 'col-sm-2 col-form-label' %>
+    <div class="col-sm-10">
+      <small class="form-text text-muted mb-2">
+        You must make a list of all those who will be present during the course of your booking.
+        Type their name followed by their email address enclosed in angle brackets.
+      </small>
+      <%= form.text_area :attendees_text, rows: 6, placeholder: 'Jon Warbrick <jw35@cam.ac.uk>', class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
     <%= form.label :repeat_mode, class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-auto">
       <% Booking.repeat_modes.keys.each do |mode| %>

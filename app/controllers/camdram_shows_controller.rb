@@ -10,7 +10,7 @@ class CamdramShowsController < ApplicationController
       flash.now[:alert] = alert
       render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
     end
-    @quota = @camdram_show.weekly_quota Date.today.beginning_of_week
+    @quota = @camdram_show.weekly_quota Time.zone.today.beginning_of_week
     @bookings = @camdram_show.bookings.where(purpose: [:audition_for, :meeting_for, :rehearsal_for])
   end
 

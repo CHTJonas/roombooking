@@ -48,6 +48,7 @@ class Booking < ApplicationRecord
   belongs_to :room, touch: true
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
+  has_and_belongs_to_many :attendees
 
   validates :name, presence: true
   validates :start_time, presence: true
@@ -70,6 +71,8 @@ class Booking < ApplicationRecord
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
   validate :name_must_be_descriptive
+  validate :attendees_must_conform
+  validate :user_must_be_allowed_to_book_room
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -113,14 +116,24 @@ class Booking < ApplicationRecord
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
   def cannot_be_in_the_past
-    if self.start_time.present? && self.start_time < DateTime.now
-      errors.add(:start_time, "can't be in the past.") unless self.user.admin?
+    if self.start_time.present? && self.start_time < Time.zone.now
+      errors.add(:start_time, "can't be in the past.") unless self.user.nil? || self.user.admin?
     end
   end
 
+  # Prevent a show making bookings that occur after the show's final performance.
+  # Also prevent any bookings that occur more than four months in advance.
   def cannot_be_too_far_in_future
-    if self.start_time.present? && self.start_time > DateTime.now + 4.months
-      errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+    if self.start_time.present?
+      if self.camdram_model.present? && self.camdram_model.instance_of?(CamdramShow)
+        performances = self.camdram_model.camdram_object.performances
+        last_performance = performances.sort { |p1, p2| p1.end_at - p2.end_at }.last
+        if self.start_time > last_performance.end_at
+          errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+        end
+      elsif self.start_time > Time.zone.now + 4.months
+        errors.add(:start_time, "is too far in the future.") unless self.user.admin?
+      end
     end
   end
 
@@ -279,6 +292,34 @@ class Booking < ApplicationRecord
         errors.add(:name, "needs to be more descriptive.") if test_name == test_camdram_name
       end
     end
+  end
+
+  def attendees_must_conform
+    unless self.purpose.nil? || Booking.admin_purposes.include?(self.purpose.to_sym)
+      errors.add(:attendees, "must list those who will be attending the booking.") if self.attendees.empty?
+      errors.add(:attendees, "list more than six people, which is the maximum.") if self.attendees.length > 6
+    end
+  end
+
+  def user_must_be_allowed_to_book_room
+    return unless self.room && self.user
+    if self.room.admin_only? && !self.user.admin?
+      errors.add(:base, "Only management may make booking for this room.")
+    end
+  end
+
+  def attendees_text
+    self.attendees.map(&:to_s).join("\r\n")
+  end
+
+  def attendees_text=(string)
+    atds = []
+    lines = string.chomp.split("\r\n")
+    lines.each do |line|
+      attendee = Attendee.parse(line)
+      atds << attendee if attendee.try(:valid?)
+    end
+    self.attendees = atds
   end
 
   # Prettified string describing the booking's duration.

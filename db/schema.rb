@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_221541) do
+ActiveRecord::Schema.define(version: 2020_09_25_191342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "unaccent"
+
+  create_table "attendees", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_attendees_on_email", unique: true
+  end
+
+  create_table "attendees_bookings", id: false, force: :cascade do |t|
+    t.bigint "attendee_id", null: false
+    t.bigint "booking_id", null: false
+    t.index ["attendee_id", "booking_id"], name: "index_attendees_bookings_on_attendee_id_and_booking_id", unique: true
+  end
 
   create_table "bookings", force: :cascade do |t|
     t.string "name", null: false
@@ -130,6 +144,7 @@ ActiveRecord::Schema.define(version: 2020_01_06_221541) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin_only", default: false, null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -172,24 +187,23 @@ ActiveRecord::Schema.define(version: 2020_01_06_221541) do
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
     t.string "foreign_type"
-    t.integer "transaction_id"
     t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
   create_table "versions", force: :cascade do |t|
     t.string "item_type", null: false
-    t.string "item_subtype"
-    t.integer "item_id", null: false
+    t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
+    t.datetime "created_at"
+    t.string "item_subtype"
     t.jsonb "object"
     t.jsonb "object_changes"
-    t.integer "transaction_id"
     t.inet "ip"
     t.string "user_agent"
     t.bigint "session"
-    t.datetime "created_at"
+    t.integer "transaction_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end

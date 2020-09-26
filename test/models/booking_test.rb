@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class BookingTest < ActiveSupport::TestCase
+  teardown do
+    travel_back
+  end
+
   test "should not save booking without name" do
     booking = Booking.new(booking_test_hash.except(:name))
     assert_not booking.save
@@ -125,6 +129,16 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
+  test "should not save booking if booking date is after the show's last performance" do
+    booking = Booking.new(booking_test_hash)
+    booking.start_time += 2.weeks
+    booking.end_time += 2.weeks
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    assert_not booking.save
+  end
+
   test "should save booking if Camdram venue is permitted" do
     booking = Booking.new(booking_test_hash)
     booking.purpose = :rehearsal_for
@@ -169,7 +183,7 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "should return ordinary bookings in range" do
-    week_start = Date.today.beginning_of_week
+    week_start = Time.zone.today.beginning_of_week
     week_end = week_start + 6.days
     bookings = Booking.ordinary_in_range(week_start, week_end)
     assert_equal 6, bookings.count
@@ -180,33 +194,77 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "should return daily repeat bookings in range" do
-    range_end = Date.today.beginning_of_week + 1.day
-    range_start = Date.today.beginning_of_week - 3.weeks
+    range_end = Time.zone.today.beginning_of_week + 1.day
+    range_start = Time.zone.today.beginning_of_week - 3.weeks
     test_daily_repeat_bookings(range_start, range_end)
   end
 
   test "should return daily repeat bookings in offset range" do
-    range_end = Date.today.beginning_of_week + 1.day + 3.days
-    range_start = Date.today.beginning_of_week - 3.weeks + 3.days
+    range_end = Time.zone.today.beginning_of_week + 1.day + 3.days
+    range_start = Time.zone.today.beginning_of_week - 3.weeks + 3.days
     test_daily_repeat_bookings(range_start, range_end)
   end
 
   test "should return weekly repeat bookings in range" do
-    range_end = Date.today.beginning_of_week + 1.day
-    range_start = Date.today.beginning_of_week - 2.weeks
+    range_end = Time.zone.today.beginning_of_week + 1.day
+    range_start = Time.zone.today.beginning_of_week - 2.weeks
     test_weekly_repeat_bookings(range_start, range_end)
+  end
+
+  test "should not save booking without attendees listed" do
+    booking = Booking.new(booking_test_hash.except(:attendees))
+    booking.purpose = :rehearsal_for
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    assert_not booking.save
+    booking.attendees_text = "Test"
+    assert_not booking.save
+    booking.attendees_text = "tony@example.com"
+    assert_not booking.save
+    booking.attendees_text = "<tony@example.com>"
+    assert_not booking.save
+    booking.attendees_text = " <tony@example.com>"
+    assert_not booking.save
+    booking.attendees_text = "<tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony <tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony <tony@example.com> Johnston"
+    assert_not booking.save
+    booking.attendees_text = "Tony Johnston <tony@example.com> "
+    assert_not booking.save
+    booking.attendees_text = "Tony Johnston <tony@example.com>"
+    assert booking.save
+  end
+
+  test "admins should be able to override attendee registration" do
+    booking = Booking.new(booking_test_hash.except(:attendees))
+    booking.purpose = :training
+    assert booking.save
+    booking.purpose = :other
+    assert booking.save
+    booking.purpose = :theatre_closed
+    assert booking.save
+    booking.camdram_model = camdram_shows(:spring_awakening)
+    booking.room = rooms(:one)
+    booking.purpose = :get_in_for
+    assert booking.save
+    booking.purpose = :performance_of
+    assert booking.save
   end
 
   private
 
   def booking_test_hash
+    travel_to Time.zone.local(2016, 1, 9, 12, 26, 44)
     {
       name: 'Test Booking',
       start_time: DateTime.tomorrow + 14.hours + 2.weeks,
       end_time: DateTime.tomorrow + 16.hours + 2.weeks,
       purpose: 'other',
       room: rooms(:two),
-      user: users(:jane)
+      user: users(:jane),
+      attendees: [attendees(:christine)]
     }
   end
 

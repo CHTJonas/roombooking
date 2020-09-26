@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CamdramTokenTest < ActiveSupport::TestCase
   test "should not save Camdram token without user" do
-    token = CamdramToken.new(expires_at: Time.now + 1.hour)
+    token = CamdramToken.new(expires_at: Time.zone.now + 1.hour)
     assert_not token.save
   end
 
@@ -26,16 +26,16 @@ class CamdramTokenTest < ActiveSupport::TestCase
   end
 
   test "should expire if expiry time is in past" do
-    token1 = CamdramToken.new(expires_at: Time.now - 3.hours)
-    token2 = CamdramToken.new(expires_at: Time.now + 3.hours)
+    token1 = CamdramToken.new(expires_at: Time.zone.now - 3.hours)
+    token2 = CamdramToken.new(expires_at: Time.zone.now + 3.hours)
     assert token1.expired?
     assert_not token2.expired?
   end
 
   test "should be refreshable if expiry time is less than one hour in the past" do
-    token1 = CamdramToken.new(expires_at: Time.now + 1.hour)
-    token2 = CamdramToken.new(expires_at: Time.now)
-    token3 = CamdramToken.new(expires_at: Time.now - 1.hour)
+    token1 = CamdramToken.new(expires_at: Time.zone.now + 1.hour)
+    token2 = CamdramToken.new(expires_at: Time.zone.now)
+    token3 = CamdramToken.new(expires_at: Time.zone.now - 1.hour)
     assert token1.refreshable?
     assert token2.refreshable?
     assert_not token3.refreshable?

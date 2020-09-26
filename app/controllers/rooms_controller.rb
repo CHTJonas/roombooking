@@ -64,10 +64,10 @@ class RoomsController < ApplicationController
         begin
           @start_date = Date.parse(params[:start_date]).beginning_of_week
         rescue
-          @start_date = Date.today.beginning_of_week
+          @start_date = Time.zone.today.beginning_of_week
         end
       else
-        @start_date = Date.today.beginning_of_week
+        @start_date = Time.zone.today.beginning_of_week
       end
       @end_date = @start_date + 7.days
       @events = @room.events_in_range(@start_date, @end_date)

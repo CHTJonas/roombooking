@@ -1,32 +1,26 @@
 source 'https://rubygems.org'
 
-ruby '2.6.5'
+ruby '2.6.6'
 
 # Application config
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
-# A portability issue in the sassc gem exists on several platforms.
-# If this causes you issues (LoadErrors) then run the following commands:
-#   1) gem uninstall sassc
-#   2) gem install sassc -- --disable-march-tune-native
-#   3) bundle install
-gem 'sassc', '~> 2.2'
-
 # Rails
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.0.3'
 gem 'puma', '~> 4.3'
 gem 'rack-timeout', '~> 0.6.0'
+gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
-gem 'webpacker', '~> 4.2'
-gem 'linked-list', '~> 0.0.13'
+gem 'webpacker', '~> 5.2'
+gem 'linked-list', '~> 0.0.15'
 
 # Audit model changes
-gem 'paper_trail', '~> 10.3'
-gem 'paper_trail-association_tracking', '~> 2.0'
+gem 'paper_trail', '~> 11.0'
+gem 'paper_trail-association_tracking', '~> 2.1'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
 # Remove whitespace from model attributes
-gem 'strip_attributes', '~> 1.9'
+gem 'strip_attributes', '~> 1.11'
 # HTTP security headers
 gem 'secure_headers', '~> 6.3'
 # Administrator interface
@@ -35,8 +29,8 @@ gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
 gem 'sidekiq', '~> 5.2'
-gem 'sidekiq-cron', '~> 1.1'
-gem 'sidekiq-throttled', '~> 0.11.0'
+gem 'sidekiq-cron', '~> 1.2'
+gem 'sidekiq-throttled', '~> 0.13.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
 gem 'high_voltage', '~> 3.1'
@@ -50,36 +44,36 @@ gem 'possessive', '~> 1.0'
 # Pagination
 gem 'kaminari', '~> 1.2'
 # Calendar
-gem 'simple_calendar', '~> 2.0'
-gem 'icalendar', '~> 2.6'
+gem 'simple_calendar', '~> 2.4'
+gem 'icalendar', '~> 2.7'
 # View rendering
 gem 'haml', '~> 5.1'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.5'
 # Inline email styles
-gem 'premailer-rails', '~> 1.10'
+gem 'premailer-rails', '~> 1.11'
 # GDPR
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
-gem 'os', '~> 1.0'
-gem 'browser', '~> 4.0'
+gem 'os', '~> 1.1'
+gem 'browser', '~> 5.0'
 # Connection pooling
-gem 'connection_pool', '~> 2.2', '>= 2.2.2'
+gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
-gem 'faraday_middleware', '~> 0.14.0'
+gem 'faraday_middleware', '~> 1.0.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
-gem 'rotp', '~> 5.1'
+gem 'rotp', '~> 6.1'
 gem 'rqrcode', '~> 1.1.2'
-gem 'recaptcha', '~> 5.3'
+gem 'recaptcha', '~> 5.5'
 # Authorisation
 gem 'cancancan', '~> 3.1'
 # Error tracking and reporting
-gem 'sentry-raven', '~> 2.13'
+gem 'sentry-raven', '~> 3.1'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 6.2'
+gem 'rack-attack', '~> 6.3'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
@@ -96,12 +90,12 @@ gem 'pg', '~> 1.2'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.1'
+gem 'redis', '~> 4.2'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 0.5.1'
-gem 'ddtrace', '~> 0.33.1'
+gem 'prometheus_exporter', '~> 0.5.3'
+gem 'ddtrace', '~> 0.40.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.0'
@@ -142,9 +136,9 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver', '~> 3.142'
-  gem 'webdrivers', '~> 4.2'
-  gem 'minitest-retry', '~> 0.2.0', require: false
-  gem 'codecov', '~> 0.1.16', require: false
+  gem 'webdrivers', '~> 4.4'
+  gem 'minitest-retry', '~> 0.2.1', require: false
+  gem 'codecov', '~> 0.2.11', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

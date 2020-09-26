@@ -106,7 +106,7 @@ class User < ApplicationRecord
   def validate(token)
     if token == self.validation_token
       PaperTrail.request.whodunnit = self.id
-      update(validation_token: nil, validated_at: DateTime.now)
+      update(validation_token: nil, validated_at: Time.zone.now)
     else
       return false
     end
@@ -133,7 +133,7 @@ class User < ApplicationRecord
             date_difference = (performance.repeat_until - performance.start_at.to_date)
             last_datetime += date_difference
           end
-          last_datetime < Time.now
+          last_datetime < Time.zone.now
         end
       end
       # Then authorise any such active shows that are not dormant.
