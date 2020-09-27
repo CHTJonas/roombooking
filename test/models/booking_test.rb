@@ -63,6 +63,7 @@ class BookingTest < ActiveSupport::TestCase
   test "should not save booking unless the end time is on the same day as the start time" do
     # Bookings ending the following day at midnight are okay.
     booking = Booking.new(booking_test_hash)
+    booking.user = users(:charlie)
     booking.start_time = DateTime.tomorrow + 19.hours
     booking.end_time = DateTime.tomorrow + 24.hours
     assert booking.save
@@ -250,6 +251,19 @@ class BookingTest < ActiveSupport::TestCase
     booking.purpose = :get_in_for
     assert booking.save
     booking.purpose = :performance_of
+    assert booking.save
+  end
+
+  test "non-admins should not be allowed to make bookings outside office hours" do
+    booking = Booking.new(booking_test_hash)
+    assert booking.save
+    booking.end_time = DateTime.tomorrow + 19.hours + 2.weeks
+    assert_not booking.save
+    booking.start_time = DateTime.tomorrow + 18.hours + 2.weeks
+    booking.end_time = DateTime.tomorrow + 20.hours + 2.weeks
+    assert_not booking.save
+    # Admin override
+    booking.user = users(:charlie)
     assert booking.save
   end
 

@@ -73,6 +73,7 @@ class Booking < ApplicationRecord
   validate :name_must_be_descriptive
   validate :attendees_must_conform
   validate :user_must_be_allowed_to_book_room
+  validate :cannot_be_outside_management_hours
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -305,6 +306,20 @@ class Booking < ApplicationRecord
     return unless self.room && self.user
     if self.room.admin_only? && !self.user.admin?
       errors.add(:base, "Only management may make booking for this room.")
+    end
+  end
+
+  def cannot_be_outside_management_hours
+    return if self.user.try(:admin?)
+    if self.start_time.present?
+      if self.start_time.hour < 11 || self.start_time.hour >= 18
+        errors.add(:start_time, "can't be outside management hours.")
+      end
+    end
+    if self.end_time.present?
+      if self.end_time.hour < 11 || self.end_time.hour >= 18
+        errors.add(:end_time, "can't be outside management hours.")
+      end
     end
   end
 
