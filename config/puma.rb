@@ -13,8 +13,6 @@ environment = ENV.fetch('RAILS_ENV') { 'development' }
 environment environment
 
 if environment == 'production'
-  # If we prune the bundler context in development then we lose Rails' logging to STDOUT.
-  prune_bundler
   port 8080
 
   worker_timeout 15
