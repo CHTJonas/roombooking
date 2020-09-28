@@ -7,7 +7,7 @@ gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
 # Rails
 gem 'rails', '~> 6.0.3'
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.0'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
