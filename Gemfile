@@ -47,7 +47,7 @@ gem 'kaminari', '~> 1.2'
 gem 'simple_calendar', '~> 2.4'
 gem 'icalendar', '~> 2.7'
 # View rendering
-gem 'haml', '~> 5.1'
+gem 'haml', '~> 5.2'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.5'
 # Inline email styles
