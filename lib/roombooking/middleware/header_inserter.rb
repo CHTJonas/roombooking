@@ -11,9 +11,8 @@ module Roombooking
         # Let the app respond to the request first.
         status, headers, response = @app.call(env)
 
-        # Add the software version headers.
-        headers['X-ADCRBS-Version'] = Roombooking::Version.git_sha
-        headers['X-ADCRBS-Camdram-Version'] = Camdram::Version.to_s
+        # Add the software version header.
+        headers['X-ADC-Room-Booking-Version'] = Roombooking::Version.git_description
 
         # Pass the response up the middleware stack.
         [status, headers, response]

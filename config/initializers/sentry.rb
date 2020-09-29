@@ -7,7 +7,7 @@ Raven.configure do |config|
   config.sanitize_fields += ['_roombooking_session']
   config.processors -= [Raven::Processor::PostData] # Do this to send POST data
   config.processors -= [Raven::Processor::Cookies] # Do this to send cookies
-  config.release = Roombooking::Version.git_sha
+  config.release = Roombooking::Version.git_description
   config.silence_ready = true
   config.async = lambda do |event|
     SentryJob.perform_async(event)

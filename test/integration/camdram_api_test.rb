@@ -4,7 +4,7 @@ class CamdramApiTest < ActionDispatch::IntegrationTest
   test "Camdram API client" do
     Roombooking::CamdramApi.with do |client|
       assert_equal "https://www.camdram.net", client.base_url
-      assert_equal "ADC Room Booking System #{Roombooking::Version.release}/#{Roombooking::Version.git_sha}", client.user_agent
+      assert_equal "ADC Room Booking System/#{Roombooking::Version.git_description} (+https://github.com/CHTJonas/roombooking)", client.user_agent
     end
   end
 
