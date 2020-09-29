@@ -94,4 +94,4 @@ jobs:
           mkdir -p $HOME/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" >> $HOME/.ssh/id_rsa
           echo "${{ secrets.SSH_HOST_KEY }}" >> $HOME/.ssh/known_hosts
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "export PATH="/opt/embedded/ruby/bin:$PATH" && cd /opt/roombooking && bin/update && sudo systemctl reload roombooking"
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "export PATH="/opt/embedded/ruby/bin:$PATH" && cd /opt/roombooking && bin/update release && sudo systemctl reload roombooking"

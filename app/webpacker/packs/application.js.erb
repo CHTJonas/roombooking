@@ -29,7 +29,7 @@ $(() => {
 
     Sentry.init({
       dsn: "<%= ENV['SENTRY_DSN'] %>",
-      release: '<%= Roombooking::Version.git_sha %>',
+      release: '<%= Roombooking::Version.git_description %>',
       environment: '<%= Rails.env %>'
     });
 
