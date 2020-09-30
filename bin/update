@@ -23,7 +23,7 @@ chdir APP_ROOT do
   puts Rainbow('Rolling back any local working changes...').blue
   system! 'git reset --hard && git clean -df'
   puts Rainbow('Fetching latest changes from git...').blue
-  system! "git fetch origin #{ARGV[0] || 'master'}"
+  system! "git fetch origin #{ARGV[0] || 'master'} --tags"
   system! "git merge --ff-only #{ARGV[1] || 'FETCH_HEAD'}"
 
   puts Rainbow('Installing dependencies...').blue
