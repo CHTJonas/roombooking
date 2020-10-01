@@ -6,14 +6,13 @@ class NotificationJob
 
   sidekiq_options queue: 'roombooking_jobs'
   sidekiq_throttle threshold: { limit: 10, period: 1.hour,
-    key_suffix: -> (booking_id, camdram_model_global_id) do
-      if camdram_model_global_id.present?
-        camdram_model_global_id
-      else
-        booking_id
-      end
-    end
-  }
+                                key_suffix: lambda do |booking_id, camdram_model_global_id|
+                                              if camdram_model_global_id.present?
+                                                camdram_model_global_id
+                                              else
+                                                booking_id
+                                              end
+                                            end }
 
   def perform(booking_id, camdram_model_global_id)
     @booking = Booking.find(booking_id)
@@ -26,15 +25,15 @@ class NotificationJob
   private
 
   def message
-    @message ||= (
+    @message ||= begin
       msg = "A new #{@booking.room.name} booking has been made on #{@booking.start_time.strftime('%d/%m/%Y')} at #{@booking.start_time.strftime('%R')} – #{@booking.name}."
       msg += " Description:\n#{@booking.notes}" if @booking.notes.present?
       msg.freeze
-    )
+    end
   end
 
   def notify_slack_webhook
     notifier = Slack::Notifier.new(@camdram_model.slack_webhook, username: 'Room Booking Bot')
-    notifier.post(text: message, icon_url: Roombooking::Host.url("logo-square.png"))
+    notifier.post(text: message, icon_url: Roombooking::Host.url('logo-square.png'))
   end
 end

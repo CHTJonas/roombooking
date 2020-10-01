@@ -31,11 +31,11 @@ class Session < ApplicationRecord
 
   # True if the Session has expired, false otherwise.
   def expired?
-    Time.zone.now >= self.expires_at
+    Time.zone.now >= expires_at
   end
 
   # Invalidates the session.
   def invalidate!
-    self.update(invalidated: true)
+    update(invalidated: true)
   end
 end

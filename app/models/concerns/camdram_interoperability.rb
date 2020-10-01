@@ -6,7 +6,7 @@ module CamdramInteroperability
   included do
     after_create_commit :warm_cache!
     validates :camdram_id, numericality: { only_integer: true,
-      greater_than: 0 }, uniqueness: { message: 'entity already exists' }
+                                           greater_than: 0 }, uniqueness: { message: 'entity already exists' }
   end
 
   module ClassMethods
@@ -24,10 +24,11 @@ module CamdramInteroperability
     # that the entity references.
     def uses_camdram_client_method(method)
       define_method(:camdram_object) do
-        return nil unless self.camdram_id.present?
+        return nil unless camdram_id.present?
+
         begin
           @camdram_object ||= Roombooking::CamdramApi.with do |client|
-            client.send(method, self.camdram_id).make_orphan
+            client.send(method, camdram_id).make_orphan
           end
         rescue Camdram::Error::ClientError => e
           response_code = e.cause.code['code']
@@ -43,7 +44,7 @@ module CamdramInteroperability
 
   # Clears the cached value of the entity's name when its Camdram ID is updated.
   def camdram_id=(cid)
-    Rails.cache.delete("#{cache_key}/name") if cid != self.camdram_id
+    Rails.cache.delete("#{cache_key}/name") if cid != camdram_id
     super(cid)
   end
 
@@ -64,7 +65,7 @@ module CamdramInteroperability
 
   # Queues a background job to refresh the entity's cached data from Camdram.
   def warm_cache!
-    global_id = self.to_global_id.to_s
+    global_id = to_global_id.to_s
     CamdramEntityCacheWarmupJob.perform_async(global_id)
   end
 end

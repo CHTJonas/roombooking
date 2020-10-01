@@ -19,12 +19,12 @@
 
 class User < ApplicationRecord
   has_paper_trail ignore: [:last_login]
-  strip_attributes only: [:name, :email]
+  strip_attributes only: %i[name email]
 
   include PgSearch::Model
-  pg_search_scope :search_by_name_and_email, against: [:name, :email],
-    ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
-    dmetaphone: { any_word: true }, trigram: { only: [:name] } }
+  pg_search_scope :search_by_name_and_email, against: %i[name email],
+                                             ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
+                                                                          dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   has_many :bookings, dependent: :destroy
   has_many :provider_accounts, dependent: :delete_all
@@ -41,15 +41,11 @@ class User < ApplicationRecord
 
   before_validation :generate_validation_token, on: :create
   after_create_commit do |user|
-    unless user.validated_at.present?
-      EmailVerificationMailer.deliver_async.notify(user.id)
-    end
+    EmailVerificationMailer.deliver_async.notify(user.id) unless user.validated_at.present?
   end
 
   def generate_validation_token
-    unless self.validated_at.present?
-      self.validation_token = SecureRandom.alphanumeric(48)
-    end
+    self.validation_token = SecureRandom.alphanumeric(48) unless validated_at.present?
   end
 
   # Returns a user from an OmniAuth::AuthHash.
@@ -76,49 +72,49 @@ class User < ApplicationRecord
 
   # Grants administrator privileges to the user.
   def make_admin!
-    self.update(admin: true)
+    update(admin: true)
   end
 
   # Revokes administrator privileges from the user.
   def revoke_admin!
-    self.update(admin: false)
+    update(admin: false)
   end
 
   # Blocks the user and invalidates all their sessions.
   def block!
-    self.update(blocked: true)
-    Session.where(user_id: self.id).each(&:invalidate!)
+    update(blocked: true)
+    Session.where(user_id: id).each(&:invalidate!)
   end
 
   # Unblocks the user.
   def unblock!
-    self.update(blocked: false)
+    update(blocked: false)
   end
 
   def refresh_permissions!
     ActiveRecord::Base.transaction do
-      self.update(camdram_shows: authorised_camdram_shows)
-      self.update(camdram_societies: authorised_camdram_societies)
+      update(camdram_shows: authorised_camdram_shows)
+      update(camdram_societies: authorised_camdram_societies)
     end
   end
 
   # Validates the user's account.
   def validate(token)
-    if token == self.validation_token
-      PaperTrail.request.whodunnit = self.id
+    if token == validation_token
+      PaperTrail.request.whodunnit = id
       update(validation_token: nil, validated_at: Time.zone.now)
     else
-      return false
+      false
     end
   end
 
   # Returns the user's Camdram uid.
   def camdram_id
-    self.camdram_account.try(:uid)
+    camdram_account.try(:uid)
   end
 
   def authorised_camdram_shows
-    if self.admin
+    if admin
       # Admins are authorised for all active shows that haven't been marked
       # as dormant (which happens at the start of each new term).
       CamdramShow.where(dormant: false, active: true)
@@ -127,14 +123,14 @@ class User < ApplicationRecord
       shows = camdram_client.user.get_shows
       shows.reject! do |show|
         performance = show.performances.last
-        unless performance.present?
-          last_datetime = performance.start_at
-          unless performance.repeat_until.present?
-            date_difference = (performance.repeat_until - performance.start_at.to_date)
-            last_datetime += date_difference
-          end
-          last_datetime < Time.zone.now
+        next if performance.present?
+
+        last_datetime = performance.start_at
+        unless performance.repeat_until.present?
+          date_difference = (performance.repeat_until - performance.start_at.to_date)
+          last_datetime += date_difference
         end
+        last_datetime < Time.zone.now
       end
       # Then authorise any such active shows that are not dormant.
       CamdramShow.where(camdram_id: shows.map(&:id), dormant: false, active: true)
@@ -142,7 +138,7 @@ class User < ApplicationRecord
   end
 
   def authorised_camdram_societies
-    if self.admin
+    if admin
       # Admins are authorised for all active societies.
       CamdramSociety.where(active: true)
     else
@@ -156,10 +152,10 @@ class User < ApplicationRecord
   # Either the user's email has been verified, in which case there should be no
   # token, or we are waiting for validation and the datetime field should be blank.
   def email_verification_state_must_be_valid
-    if self.validated_at.nil? && self.validation_token.nil?
+    if validated_at.nil? && validation_token.nil?
       errors.add(:validation_token, 'should be present if email is not validated.')
     end
-    if self.validated_at.present? && self.validation_token.present?
+    if validated_at.present? && validation_token.present?
       errors.add(:validation_token, 'should be blank if email is validated.')
     end
   end
@@ -172,6 +168,7 @@ class User < ApplicationRecord
   def camdram_client
     token = latest_camdram_token
     raise Roombooking::CamdramApi::NoAccessToken, 'No Camdram tokens found for the user' unless token.present?
+
     token_hash = {
       access_token: token.access_token,
       refresh_token: token.refresh_token,
@@ -179,5 +176,4 @@ class User < ApplicationRecord
     }
     Roombooking::CamdramApi::ClientFactory.new(token_hash)
   end
-
 end

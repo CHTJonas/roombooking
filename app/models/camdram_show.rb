@@ -76,9 +76,9 @@ class CamdramShow < ApplicationRecord
   # Returns true if the show has exceeded any of the given quotas,
   # false otherwise.
   def exceeded_weekly_quota?(quota)
-    quota[0] > self.max_rehearsals ||
-      quota[1] > self.max_auditions ||
-      quota[2] > self.max_meetings
+    quota[0] > max_rehearsals ||
+      quota[1] > max_auditions ||
+      quota[2] > max_meetings
   end
 
   def block_out_bookings(user)
@@ -100,8 +100,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-              room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+                            room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 23
             # Lateshow
             start_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
@@ -109,8 +109,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-              room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+                            room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           elsif performance_time.hour == 14
             # Matinee
             start_time = performance.start_at.beginning_of_day + 13.hours
@@ -118,8 +118,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Matinee', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-              room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
+                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+                            room: Room.find_by(name: 'Stage'), user: user, camdram_model: self)
           end
         elsif performance.venue.slug == 'corpus-playroom'
           if performance_time.hour == 19
@@ -129,8 +129,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-              room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
+                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+                            room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
           elsif performance_time.hour == 21
             # Lateshow
             start_time = performance.start_at.beginning_of_day + 21.hours
@@ -138,8 +138,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-              room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
+                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+                            room: Room.find_by(name: 'Playroom Auditorium'), user: user, camdram_model: self)
           end
         end
       end

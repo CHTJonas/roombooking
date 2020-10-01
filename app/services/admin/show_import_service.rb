@@ -18,7 +18,7 @@ module Admin
             CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           end
           true
-        rescue
+        rescue StandardError
           Raven.capture_exception(e)
           false
         end

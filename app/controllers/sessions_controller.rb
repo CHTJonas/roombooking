@@ -20,12 +20,12 @@ class SessionsController < ApplicationController
       log_abuse "#{user.name} attempted to login but their account is blocked"
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'user blocked'}, status: :forbidden
+      render 'layouts/blank', locals: { reason: 'user blocked' }, status: :forbidden
     elsif user.validated_at.nil?
       log_abuse "#{user.name} attempted to login but their account has not been validated yet"
       alert = { 'class' => 'warning', 'message' => 'Please check your emails for the link to validate your account.' }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'user not validated'}, status: :forbidden
+      render 'layouts/blank', locals: { reason: 'user not validated' }, status: :forbidden
     else
       camdram_token = CamdramToken.from_omniauth_and_user(auth, user)
       sesh = Session.from_user_and_request(user, request)
@@ -67,15 +67,14 @@ class SessionsController < ApplicationController
       raise ActionController::InvalidAuthenticityToken
     elsif message == 'access_denied'
       log_abuse 'User declined to login at Camdram prompt screen'
-      alert = { 'class' => 'warning', 'message' => "Login gracefully declined." }
+      alert = { 'class' => 'warning', 'message' => 'Login gracefully declined.' }
       flash[:alert] = alert
       redirect_to root_url
     else
       log_abuse "A login authentication system error occurred: #{message.humanize}"
       alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}." }
       flash[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'oauth2 failure'}, status: :internal_server_error
+      render 'layouts/blank', locals: { reason: 'oauth2 failure' }, status: :internal_server_error
     end
   end
-
 end

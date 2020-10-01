@@ -16,7 +16,7 @@ class CamdramTokenRefreshJob
       begin
         sleep 0.7 # Avoid hitting Camdram with requests too hard.
         user.camdram_tokens.expiring_soon.last.try(:refresh)
-      rescue => e
+      rescue StandardError => e
         Raven.capture_exception(e)
         next
       end

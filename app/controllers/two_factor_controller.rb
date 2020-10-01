@@ -14,6 +14,7 @@ class TwoFactorController < ApplicationController
   def create
     url = params[:origin] || root_url
     redirect_to url and return if two_factor_authenticated?
+
     code = params[:totp]
     token = current_user.two_factor_token
     auth = token.verify(code)

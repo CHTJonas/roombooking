@@ -18,13 +18,13 @@ class Ability
       # Logged in users can update societies they administer on Camdram.
       user.present? && user.camdram_societies.include?(camdram_society)
     end
-    if user.present?  # Additional permissions for logged in users...
+    if user.present? # Additional permissions for logged in users...
       if user.admin?
         can :manage, :all # Administrators can do anything!
       else
         can :create, Booking # Users can create new bookings if they are listed as a Camdram admin for the show or society.
         can :crud, Booking, user_id: user.id # Users have full CRUD control of their own bookings.
-        can [:read, :update], User, id: user.id # Users have edit control of their own user account.
+        can %i[read update], User, id: user.id # Users have edit control of their own user account.
       end
     end
   end

@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry, but the page you're looking for doesn't exist!" }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: '404 not found'}, status: :not_found, formats: :html and return
+    render 'layouts/blank', locals: { reason: '404 not found' }, status: :not_found, formats: :html and return
   end
 
   def render_504
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Render a nice page when the user attempts to view a record that doesn't exist.
-  rescue_from ActiveRecord::RecordNotFound do |exception|
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
     render_404
   end
 
@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     invalidate_session
     alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: "CSRF detected: #{exception.message}"}, status: :forbidden, formats: :html
+    render 'layouts/blank', locals: { reason: "CSRF detected: #{exception.message}" }, status: :forbidden, formats: :html
   end
 
   # Rescue exceptions raised by user access violations from CanCan.
@@ -54,20 +54,20 @@ class ApplicationController < ActionController::Base
       log_abuse "Blocked access to #{request.fullpath} by #{current_user.name.possessive} session with id #{current_session.id} as the CanCan authorisation check failed"
       alert = { 'class' => 'danger', 'message' => "Sorry, but you don't have permission to access this page!" }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: "cancan access denied: #{exception.message}"}, status: :forbidden
+      render 'layouts/blank', locals: { reason: "cancan access denied: #{exception.message}" }, status: :forbidden
     else
       log_abuse "Blocked access to #{request.fullpath} as no valid login session was present"
       alert = { 'class' => 'danger', 'message' => 'Sorry, but you need to login to access this page!' }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'not logged in'}, status: :unauthorized
+      render 'layouts/blank', locals: { reason: 'not logged in' }, status: :unauthorized
     end
   end
 
   rescue_from Camdram::Error::GenericException do |exception|
     Raven.capture_exception(exception)
-    alert = { 'class' => 'danger', 'message' => "Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems." }
+    alert = { 'class' => 'danger', 'message' => 'Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems.' }
     flash.now[:alert] = alert
-    render 'layouts/blank', locals: {reason: "camdram error: #{exception.message}"}, status: :internal_server_error, formats: :html
+    render 'layouts/blank', locals: { reason: "camdram error: #{exception.message}" }, status: :internal_server_error, formats: :html
   end
 
   def log_abuse(str)
@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
     if Rails.env.production? && request.format == :html && !browser_is_modern?
       alert = { 'class' => 'danger', 'message' => "You seem to be using a very outdated web browser! Unfortunately you'll need to update your system in order to use Room Booking." }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: "outdated browser"}, status: :ok
+      render 'layouts/blank', locals: { reason: 'outdated browser' }, status: :ok
     end
   end
 
