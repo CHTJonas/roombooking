@@ -23,10 +23,10 @@ SELECT array_to_string(ARRAY(SELECT dmetaphone(unnest(regexp_split_to_array($1, 
   desc 'Prevent accidental database operations'
   task protect: :environment do
     puts Rainbow('WARNING!!!').red
-    print Rainbow(%{Are you sure you wish to (re)install the ADC Room
-Booking System from scratch? (type uppercase YES): }
-    ).yellow unless STDIN.gets.chomp == 'YES'
-      puts 'Good thing I asked! Quitting...'
+    print Rainbow(%{Are you sure you wish to (re)install the ADC Room Booking System from
+scratch? (type uppercase YES): }).yellow
+    unless STDIN.gets.chomp == 'YES'
+      puts Rainbow('Good thing I asked! Quitting...').magenta
       exit 1
     end
     ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
