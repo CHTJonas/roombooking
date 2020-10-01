@@ -21,7 +21,7 @@ module Roombooking
             no_styles: true,
             safe_links_only: true,
             hard_wrap: true,
-            link_attributes: { rel: 'nofollow', target: "_blank" }
+            link_attributes: { rel: 'nofollow', target: '_blank' }
           }
         end
 

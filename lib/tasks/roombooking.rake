@@ -23,10 +23,9 @@ SELECT array_to_string(ARRAY(SELECT dmetaphone(unnest(regexp_split_to_array($1, 
   desc 'Prevent accidental database operations'
   task protect: :environment do
     puts Rainbow('WARNING!!!').red
-    print Rainbow(
-%{Are you sure you wish to (re)install the ADC Room
-Booking System from scratch? (type uppercase YES): }).yellow
-    unless (STDIN.gets.chomp == 'YES')
+    print Rainbow(%{Are you sure you wish to (re)install the ADC Room
+Booking System from scratch? (type uppercase YES): }
+    ).yellow unless STDIN.gets.chomp == 'YES'
       puts 'Good thing I asked! Quitting...'
       exit 1
     end
@@ -39,7 +38,7 @@ Booking System from scratch? (type uppercase YES): }).yellow
     puts Rainbow('Dumping Postgres database...').blue
     file_path = Rails.root.join('db', 'backup', "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump")
     return_value = nil
-    Open3.popen3('pg_dump', '-Fc', "roombooking_#{Rails.env}") do |stdin, stdout, stderr, wait_thr|
+    Open3.popen3('pg_dump', '-Fc', "roombooking_#{Rails.env}") do |_stdin, stdout, stderr, wait_thr|
       file = File.new(file_path, 'w')
       IO.copy_stream(stdout, file)
       print Rainbow(stderr.read).yellow

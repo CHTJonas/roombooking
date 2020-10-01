@@ -4,7 +4,7 @@ module Roombooking
   module CamdramApi
     class << self
       def user_agent
-        @user_agent ||= "ADC Room Booking System/#{Roombooking::Version.git_description} (+https://github.com/CHTJonas/roombooking)".freeze
+        @user_agent ||= "ADC Room Booking System/#{Roombooking::Version.git_description} (+https://github.com/CHTJonas/roombooking)"
       end
 
       def base_url
@@ -22,20 +22,18 @@ module Roombooking
       end
 
       def with_retry(count: 5, wait_time: 5, &block)
-        begin
-          retries ||= 0
-          if block.arity == 0
-            block.call
-          else
-            with(&block)
-          end
-        rescue Camdram::Error::ServerError, Camdram::Error::Timeout => e
-          if (retries += 1) < count
-            sleep wait_time # Sleep for a short while in case Camdram is overloaded.
-            retry
-          else
-            raise e
-          end
+        retries ||= 0
+        if block.arity == 0
+          block.call
+        else
+          with(&block)
+        end
+      rescue Camdram::Error::ServerError, Camdram::Error::Timeout => e
+        if (retries += 1) < count
+          sleep wait_time # Sleep for a short while in case Camdram is overloaded.
+          retry
+        else
+          raise e
         end
       end
 

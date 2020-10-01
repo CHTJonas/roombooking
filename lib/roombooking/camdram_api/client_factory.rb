@@ -26,12 +26,14 @@ module Roombooking
         private
 
         def faraday_connection_builder(cache_responses = false)
-          Proc.new do |faraday|
+          proc do |faraday|
             faraday.use(:ddtrace) if ENV['ENABLE_DATADOG_APM']
-            faraday.request  :url_encoded
-            faraday.response :caching do
-              Roombooking::CamdramApi::ResponseCacheStore
-            end if cache_responses && Rails.application.config.action_controller.perform_caching
+            faraday.request :url_encoded
+            if cache_responses && Rails.application.config.action_controller.perform_caching
+              faraday.response :caching do
+                Roombooking::CamdramApi::ResponseCacheStore
+              end
+            end
             faraday.response :logger, Yell['camdram'] do |logger|
               logger.filter(/Bearer[^"]*/m, '[FILTERED]')
             end
@@ -41,8 +43,6 @@ module Roombooking
             end
           end
         end
-
-        private
 
         def socket_timeout
           if Sidekiq.server?

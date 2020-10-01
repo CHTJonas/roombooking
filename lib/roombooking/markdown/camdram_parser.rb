@@ -21,32 +21,34 @@ module Roombooking
         end
 
         def scrubber
-          @scrubber ||= (
-            tags = ['b', 'i', 'u', 'strong', 'em', 'p', 'ul', 'li', 'ol', 'br', 'green', 'red', 'pre', 'hr']
+          @scrubber ||= begin
+            tags = %w[b i u strong em p ul li ol br green red pre hr]
             s = Rails::Html::PermitScrubber.new
             s.tags = tags
             s
-          )
+          end
         end
 
         def regex
           # https://camdram.github.io/api/markdown
+          # rubocop:disable Style/RegexpLiteral, Style/RedundantRegexpEscape
           @regex ||= {
-            /\[L:(www\.[a-zA-Z0-9\.:\\\/\_\-\?\&]+)\]/           =>  "[\\1](http://\\1)",
-            /\[L:([a-zA-Z0-9\.:\\\/\_\-\?\&]+)\]/                =>  "\\1",
-            /\[L:(www\.[a-zA-Z0-9\.:\\\/\_\-\?\&]+);([^\]]+)\]/  =>  "[\\2](http://\\1)",
-            /\[L:([a-zA-Z0-9\.:\\\/\_\-\?\&]+);([^\]]+)\]/       =>  "[\\2](\\1)",
-            /\[E:([a-zA-Z0-9\.@\_\-]+)\]/                        =>  "[\\1](mailto:\\1)",
-            /\[E:([a-zA-Z0-9\.@\_\-]+);([^\]]+)\]/               =>  "[\\2](mailto:\\1)",
-            /\[L:mailto\:([a-zA-Z0-9\.@\_\-]+)\]/                =>  "[\\1](mailto:\\1)",
-            /\[L:mailto\:([a-zA-Z0-9\.@\_\-]+);([^\]]+)\]/       =>  "[\\2](mailto:\\1)",
-            /<\/?b>/                                             =>  "**",
-            /<\/?i>/                                             =>  "*",
-            /<br>/                                               =>  "\n",
-            /<hr>/                                               =>  "\n_______\n",
-            /(?m)^(\#{2,5}[^#])/                                 =>  "#\\1",
-            /(?m)^#([^#])/                                       =>  "###\\1",
+            /\[L:(www\.[a-zA-Z0-9\.:\\\/\_\-\?\&]+)\]/          => '[\\1](http://\\1)',
+            /\[L:([a-zA-Z0-9\.:\\\/\_\-\?\&]+)\]/               => '\\1',
+            /\[L:(www\.[a-zA-Z0-9\.:\\\/\_\-\?\&]+);([^\]]+)\]/ => '[\\2](http://\\1)',
+            /\[L:([a-zA-Z0-9\.:\\\/\_\-\?\&]+);([^\]]+)\]/      => '[\\2](\\1)',
+            /\[E:([a-zA-Z0-9\.@\_\-]+)\]/                       => '[\\1](mailto:\\1)',
+            /\[E:([a-zA-Z0-9\.@\_\-]+);([^\]]+)\]/              => '[\\2](mailto:\\1)',
+            /\[L:mailto\:([a-zA-Z0-9\.@\_\-]+)\]/               => '[\\1](mailto:\\1)',
+            /\[L:mailto\:([a-zA-Z0-9\.@\_\-]+);([^\]]+)\]/      => '[\\2](mailto:\\1)',
+            /<\/?b>/                                            => '**',
+            /<\/?i>/                                            => '*',
+            /<br>/                                              => "\n",
+            /<hr>/                                              => "\n_______\n",
+            /(?m)^(\#{2,5}[^#])/                                => '#\\1',
+            /(?m)^#([^#])/                                      => '###\\1'
           }
+          # rubocop:enable Style/RegexpLiteral, Style/RedundantRegexpEscape
         end
       end
     end

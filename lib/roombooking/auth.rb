@@ -18,11 +18,9 @@ module Roombooking
 
     # Returns the current session.
     def current_session
-      begin
-        @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
-      rescue
-        nil
-      end
+      @current_session ||= Session.find(session[:sesh_id]) if session[:sesh_id]
+    rescue StandardError
+      nil
     end
 
     # Returns the user who is currently logged in, or nil otherwise.
@@ -32,11 +30,9 @@ module Roombooking
 
     # Returns the imposter who is currently logged in, or nil otherwise.
     def current_imposter
-      begin
-        @current_imposter ||= User.find(session[:imposter_id]) if session[:imposter_id]
-      rescue
-        nil
-      end
+      @current_imposter ||= User.find(session[:imposter_id]) if session[:imposter_id]
+    rescue StandardError
+      nil
     end
 
     # Returns the true user who is currently logged in, or nil if otherwise.
@@ -84,6 +80,7 @@ module Roombooking
       ensure_session_is_valid!
       ensure_session_is_current!
       return if user_is_imposter?
+
       ensure_camdram_token_is_present!
       ensure_camdram_token_is_valid!
     end
@@ -103,7 +100,7 @@ module Roombooking
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'user blocked'}, status: :unauthorized and return
+        render 'layouts/blank', locals: { reason: 'user blocked' }, status: :unauthorized and return
       end
     end
 
@@ -114,7 +111,7 @@ module Roombooking
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has been invalidated by yourself or an administrator. Please login again.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'session invalidated'}, status: :unauthorized and return
+        render 'layouts/blank', locals: { reason: 'session invalidated' }, status: :unauthorized and return
       end
     end
 
@@ -125,7 +122,7 @@ module Roombooking
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'session expired'}, status: :unauthorized and return
+        render 'layouts/blank', locals: { reason: 'session expired' }, status: :unauthorized and return
       end
     end
 
@@ -136,7 +133,7 @@ module Roombooking
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
-        render 'layouts/blank', locals: {reason: 'camdram token not present'}, status: :internal_server_error and return
+        render 'layouts/blank', locals: { reason: 'camdram token not present' }, status: :internal_server_error and return
       end
     end
 
@@ -151,7 +148,7 @@ module Roombooking
           invalidate_session
           alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
           flash.now[:alert] = alert
-          render 'layouts/blank', locals: {reason: 'unrefreshable expired camdram token'}, status: :unauthorized and return
+          render 'layouts/blank', locals: { reason: 'unrefreshable expired camdram token' }, status: :unauthorized and return
         end
       end
     end
