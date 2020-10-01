@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class BookingTest < ActiveSupport::TestCase
-  test "should return events in date range" do
+  test 'should return events in date range' do
     range_start = Time.zone.now.beginning_of_week - 2.days
     range_end = Time.zone.now.beginning_of_week + 1.day
     bookings = Booking.in_range(range_start, range_end)

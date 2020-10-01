@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CamdramVenueTest < ActiveSupport::TestCase
-  test "should not allow duplicate venues" do
+  test 'should not allow duplicate venues' do
     venue = CamdramVenue.new(camdram_id: 42)
     assert_not venue.save
   end
@@ -10,12 +10,12 @@ class CamdramVenueTest < ActiveSupport::TestCase
     venue = camdram_venues(:west_road)
     obj = venue.camdram_object
     assert_equal 89, obj.id
-    assert_equal "west-road-concert-hall", obj.slug
-    assert_equal "West Road Concert Hall", obj.name
-    assert_equal "11 West Road, Cambridge, CB3 9DP", obj.address
+    assert_equal 'west-road-concert-hall', obj.slug
+    assert_equal 'West Road Concert Hall', obj.name
+    assert_equal '11 West Road, Cambridge, CB3 9DP', obj.address
   end
 
-  test "should create venue from a Camdram object" do
+  test 'should create venue from a Camdram object' do
     Roombooking::CamdramApi.with do |client|
       obj = client.get_venue(45)
       assert_nothing_raised do
@@ -27,7 +27,7 @@ class CamdramVenueTest < ActiveSupport::TestCase
     CamdramEntityCacheWarmupJob.clear
   end
 
-  test "should find venue from a Camdram object" do
+  test 'should find venue from a Camdram object' do
     Roombooking::CamdramApi.with do |client|
       obj = client.get_venue(30)
       venue = camdram_venues(:playroom)
@@ -35,13 +35,13 @@ class CamdramVenueTest < ActiveSupport::TestCase
     end
   end
 
-  test "should return camdram object name" do
+  test 'should return camdram object name' do
     venue = camdram_venues(:fitzpat)
     assert_equal "Fitzpatrick Hall, Queens' College", venue.name
   end
 
-  test "should return camdram object url" do
+  test 'should return camdram object url' do
     venue = camdram_venues(:fitzpat)
-    assert_equal "https://www.camdram.net/venues/fitzpatrick-hall-queens-college", venue.url
+    assert_equal 'https://www.camdram.net/venues/fitzpatrick-hall-queens-college', venue.url
   end
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class EmailVerificationReminderJobTest < ActiveJob::TestCase
-  test "should send verification reminder" do
+  test 'should send verification reminder' do
     assert_equal 0, EmailVerificationReminderJob.jobs.size
     assert_equal 0, MailDeliveryJob.jobs.size
     EmailVerificationReminderJob.perform_async
