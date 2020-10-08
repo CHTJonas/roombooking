@@ -855,10 +855,10 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@rails/activestorage@^6.0.3-3":
-  version "6.0.3-3"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-6.0.3-3.tgz#0e1cb0f9e10ae5a043196d3a8f41e07062592fae"
-  integrity sha512-39ydo2XOZt380fMU5DbLHXYuD8Gy0qK1YYqVPM+cL9QBI6lm//dsOLUgooQtvHow+n3yF4B3Hoc6PWD2VrSp/A==
+"@rails/activestorage@^6.0.3-4":
+  version "6.0.3-4"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-6.0.3-4.tgz#4b6c161ba12acd94ef7215e479780357af67511c"
+  integrity sha512-WHgk4E5EwWol9LS3DNyhPyuCwWPszJZeMOSx7cZGuJa5C4Ytp5bQYWTRoHmIaRrycFTxXs/2RuHBvoBqf+Dgrw==
   dependencies:
     spark-md5 "^3.0.0"
 
