@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-if File.exist? File.expand_path('../.prod', __dir__)
-  ENV['RAILS_ENV'] = 'production'
-end
+require_relative 'prod'
 
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
