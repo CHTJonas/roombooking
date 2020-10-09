@@ -4,7 +4,7 @@
   "dependencies": {
     "@github/hotkey": "^1.4.2",
     "@rails/activestorage": "^6.0.3-4",
-    "@rails/ujs": "^6.0.3-3",
+    "@rails/ujs": "^6.0.3-4",
     "@rails/webpacker": "^5.2.1",
     "@sentry/browser": "5.25.0",
     "bootstrap": "^4.5.2",
