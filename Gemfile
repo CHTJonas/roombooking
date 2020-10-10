@@ -3,11 +3,11 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Application config
-gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
+gem 'dotenv-rails', '~> 2.7'
 
 # Rails
 gem 'rails', '~> 6.0.3'
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.0'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'

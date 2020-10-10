@@ -54,7 +54,8 @@ jobs:
         run: |
           sudo apt-get -y install libpq-dev
           gem install bundler
-          bundle install --deployment --jobs 4 --retry 3
+          bundle config set deployment 'true'
+          bundle install --jobs 4 --retry 3
           bin/yarn install --non-interactive --network-concurrency 4 --network-timeout 5000
       - name: Configure environment
         run: |
@@ -70,13 +71,13 @@ jobs:
           echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
           echo "CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}" >> .env
       - name: Setup database
-        run: bin/rails db:schema:load roombooking:search:setup
+        run: bin/bundle exec rails db:schema:load roombooking:search:setup
         env:
           RAILS_ENV: test
           DISABLE_SPRING: 1
           DATABASE_PORT: 5432
       - name: Run tests
-        run: bin/rails test
+        run: bin/bundle exec rails test
         env:
           RAILS_ENV: test
           DISABLE_SPRING: 1
