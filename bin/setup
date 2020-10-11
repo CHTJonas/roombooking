@@ -42,9 +42,9 @@ chdir APP_ROOT do
   puts ''
 
   if OS::Underlying.docker?
-    system! 'bin/rails roombooking:docker'
+    system! 'bin/bundle exec rails roombooking:docker'
   else
-    system! 'bin/rails roombooking:install'
+    system! 'bin/bundle exec rails roombooking:install'
   end
 
   puts Rainbow('Creating your user account...').blue
@@ -52,5 +52,5 @@ chdir APP_ROOT do
   name = gets.chomp
   print Rainbow('Enter your email as it appears on Camdram: ').yellow
   email = gets.chomp
-  system! "bin/rails runner \"User.create(name: '#{name}', email: '#{email}', admin: true, sysadmin: true, validated_at: Time.zone.now)\""
+  system! "bin/bundle exec rails runner \"User.create(name: '#{name}', email: '#{email}', admin: true, sysadmin: true, validated_at: Time.zone.now)\""
 end
