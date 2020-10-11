@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :edit, @user
     if @user.update(user_params)
-      alert = { 'class' => 'success', 'message' => "Account updated!"}
+      alert = { 'class' => 'success', 'message' => 'Account updated!' }
       flash[:alert] = alert
       redirect_to @user
     else
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       log_abuse "#{@user.name} attempted to validated their account but failed"
       alert = { 'class' => 'danger', 'message' => 'Something went wrong when validating your user account.' }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'user validation failed'}, status: :forbidden
+      render 'layouts/blank', locals: { reason: 'user validation failed' }, status: :forbidden
     end
   end
 
@@ -60,9 +60,9 @@ class UsersController < ApplicationController
     session[:imposter_id] = current_user.id
     current_session.invalidate!
     sesh = Session.create(user: @user,
-      expires_at: current_session.expires_at,
-      login_at: Time.zone.now, ip: request.remote_ip,
-      user_agent: request.user_agent)
+                          expires_at: current_session.expires_at,
+                          login_at: Time.zone.now, ip: request.remote_ip,
+                          user_agent: request.user_agent)
     session[:sesh_id] = sesh.id
     redirect_to @user
   end
@@ -74,9 +74,9 @@ class UsersController < ApplicationController
       user = current_imposter
       current_session.invalidate!
       sesh = Session.create(user: user,
-        expires_at: current_session.expires_at,
-        login_at: Time.zone.now, ip: request.remote_ip,
-        user_agent: request.user_agent)
+                            expires_at: current_session.expires_at,
+                            login_at: Time.zone.now, ip: request.remote_ip,
+                            user_agent: request.user_agent)
       session[:sesh_id] = sesh.id
       session.delete(:imposter_id)
       redirect_to user

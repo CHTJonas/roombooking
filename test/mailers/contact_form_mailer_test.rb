@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class ContactFormMailerTest < ActionMailer::TestCase
-  test "should email management contact form entries" do
+  test 'should email management contact form entries' do
     from = users(:charlie).email
-    subject = "Does the contact form work?"
-    message = "This is an exercise."
+    subject = 'Does the contact form work?'
+    message = 'This is an exercise.'
     email = ContactFormMailer.send_to_management(from, subject, message)
     assert_emails 1 do
       email.deliver_now

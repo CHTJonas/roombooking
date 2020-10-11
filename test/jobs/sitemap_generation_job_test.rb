@@ -5,7 +5,7 @@ class SitemapGenerationJobTest < ActiveJob::TestCase
     sitemap_file.delete if sitemap_file.exist?
   end
 
-  test "should generate sitemap" do
+  test 'should generate sitemap' do
     assert_not File.exist?(sitemap_file)
     assert_equal 0, SitemapGenerationJob.jobs.size
     SitemapGenerationJob.perform_async

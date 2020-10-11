@@ -7,7 +7,7 @@ class ContactFormMailer < ApplicationMailer
       @message = message
       mail(reply_to: from, subject: subject)
     else
-      raise Roombooking::InvalidStateError, "From, subject or message fields were not present"
+      raise Roombooking::InvalidStateError, 'From, subject or message fields were not present'
     end
   end
 end

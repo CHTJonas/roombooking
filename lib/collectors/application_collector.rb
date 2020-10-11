@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-unless defined? Rails
-  require File.expand_path("../../../config/environment", __FILE__)
-end
+require File.expand_path('../../config/environment', __dir__) unless defined? Rails
 
 class ApplicationCollector < PrometheusExporter::Server::TypeCollector
   def initialize
@@ -14,7 +12,7 @@ class ApplicationCollector < PrometheusExporter::Server::TypeCollector
   end
 
   def type
-    "app_global"
+    'app_global'
   end
 
   def observe(obj)

@@ -4,14 +4,14 @@ module Roombooking
   module Host
     class << self
       def name
-        ENV['SITE_HOSTNAME'].freeze
+        ENV['SITE_HOSTNAME']
       end
 
       def url(path = nil)
         if path
-          "https://#{name}/#{path}".freeze
+          "https://#{name}/#{path}"
         else
-          "https://#{name}".freeze
+          "https://#{name}"
         end
       end
     end

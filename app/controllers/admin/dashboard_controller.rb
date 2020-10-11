@@ -8,10 +8,10 @@ module Admin
       log_abuse "#{current_user.name.capitalize} downloaded a database dump"
       begin
         send_data `pg_dump -Fc roombooking_#{Rails.env}`,
-          filename: "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump"
-      rescue
+                  filename: "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump"
+      rescue StandardError
         Raven.capture_exception(e)
-        render plain: "An error occurred when creating the backup!"
+        render plain: 'An error occurred when creating the backup!'
       end
     end
 
@@ -20,11 +20,11 @@ module Admin
     end
 
     def gem_info
-      report_path = "tmp/gemsurance_report.html"
+      report_path = 'tmp/gemsurance_report.html'
       if File.exist?(report_path)
         render file: report_path, layout: false
       else
-        render plain: "Gemsurance report file not found!"
+        render plain: 'Gemsurance report file not found!'
       end
     end
   end

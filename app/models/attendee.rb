@@ -17,13 +17,14 @@ class Attendee < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
 
   def to_s
-    "#{self.name} <#{self.email}>"
+    "#{name} <#{email}>"
   end
 
   def self.parse(string)
     captures = /^(.+) <(.+)>$/.match(string)
     return if captures.blank?
-    self.find_or_create_by(email: captures[2]) do |attendee|
+
+    find_or_create_by(email: captures[2]) do |attendee|
       attendee.name = captures[1]
     end
   end

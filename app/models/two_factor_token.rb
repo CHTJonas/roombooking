@@ -17,7 +17,7 @@ class TwoFactorToken < ApplicationRecord
   belongs_to :user
 
   attr_encrypted_options.merge!(encode: false, encode_iv: false,
-    encode_salt: false, key: Roombooking::Crypto.secret_key)
+                                encode_salt: false, key: Roombooking::Crypto.secret_key)
   attr_encrypted :secret
 
   validates :secret, presence: true
@@ -33,12 +33,12 @@ class TwoFactorToken < ApplicationRecord
   end
 
   def verified?
-    self.last_otp_at != 0
+    last_otp_at != 0
   end
 
   # Generates a valid TOTP code for the current period, or the period with the
   # given timestamp.
-  def generate(at=nil)
+  def generate(at = nil)
     if at.present?
       totp.at(at)
     else
@@ -48,14 +48,14 @@ class TwoFactorToken < ApplicationRecord
 
   # Returns the QR code provisioning URI for the TOTP secret.
   def provisioning_uri
-    email = self.user.email
+    email = user.email
     totp.provisioning_uri(email)
   end
 
   # Returns the timestamp of the current period if the TOTP code is valid, or
   # nil otherwise.
   def verify(code)
-    period = totp.verify(code, after: self.last_otp_at, drift_behind: 15)
+    period = totp.verify(code, after: last_otp_at, drift_behind: 15)
     if period
       self.last_otp_at = period
       save! if persisted?
@@ -66,6 +66,6 @@ class TwoFactorToken < ApplicationRecord
   private
 
   def totp
-    @totp ||= ROTP::TOTP.new(self.secret, issuer: "ADC Room Booking System")
+    @totp ||= ROTP::TOTP.new(secret, issuer: 'ADC Room Booking System')
   end
 end

@@ -48,9 +48,7 @@ class CamdramSociety < ApplicationRecord
         occurrences = (start_repeating_from.to_date..booking.repeat_until.to_date).count
       end
       quota_increase = occurrences * booking.duration / 60 / 60
-      if booking.purpose == 'meeting_of'
-        quota += quota_increase
-      end
+      quota += quota_increase if booking.purpose == 'meeting_of'
     end
     quota
   end
@@ -58,6 +56,6 @@ class CamdramSociety < ApplicationRecord
   # Returns true if the society has exceeded it's booking quota, false
   # otherwise.
   def exceeded_weekly_quota?(quota)
-    quota > self.max_meetings
+    quota > max_meetings
   end
 end

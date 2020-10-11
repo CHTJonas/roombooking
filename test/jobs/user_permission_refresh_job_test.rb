@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserPermissionRefreshJobTest < ActiveJob::TestCase
-  test "should refresh permissions of all users" do
+  test 'should refresh permissions of all users' do
     assert_equal 0, UserPermissionRefreshJob.jobs.size
     assert_equal [], users(:charlie).camdram_shows
     assert_equal [], users(:charlie).camdram_societies

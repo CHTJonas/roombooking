@@ -7,12 +7,12 @@ class OmniauthCsrfTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = false
   end
 
-  test "should not accept GET requests to omniauth endpoint" do
+  test 'should not accept GET requests to omniauth endpoint' do
     get '/auth/camdram'
     assert_response :missing
   end
 
-  test "should not accept POST requests with invalid CSRF tokens to omniauth endpoint" do
+  test 'should not accept POST requests with invalid CSRF tokens to omniauth endpoint' do
     assert_raises ActionController::InvalidAuthenticityToken do
       post '/auth/camdram'
     end

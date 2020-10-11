@@ -8,7 +8,7 @@ class CamdramSocietiesController < ApplicationController
     if @external_society.nil?
       alert = { 'class' => 'warning', 'message' => 'This society appears to have been deleted from Camdram.' }
       flash.now[:alert] = alert
-      render 'layouts/blank', locals: {reason: 'camdram object does not exist'}, status: :not_found, formats: :html and return
+      render 'layouts/blank', locals: { reason: 'camdram object does not exist' }, status: :not_found, formats: :html and return
     end
     @quota = @camdram_society.weekly_quota Time.zone.today.beginning_of_week
     @bookings = @camdram_society.bookings.where(purpose: :meeting_of)
@@ -23,7 +23,7 @@ class CamdramSocietiesController < ApplicationController
     @camdram_society = CamdramSociety.find(params[:id])
     authorize! :edit, @camdram_society
     if @camdram_society.update(camdram_society_params)
-      alert = { 'class' => 'success', 'message' => "Updated #{@camdram_society.name}!"}
+      alert = { 'class' => 'success', 'message' => "Updated #{@camdram_society.name}!" }
       flash[:alert] = alert
       redirect_to @camdram_society
     else

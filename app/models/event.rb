@@ -25,6 +25,6 @@ class Event
 
   # Returns the duration of the event.
   def duration
-    @duration ||= self.start_time && self.end_time ? self.end_time - self.start_time : nil
+    @duration ||= start_time && end_time ? end_time - start_time : nil
   end
 end

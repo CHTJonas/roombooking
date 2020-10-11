@@ -4,9 +4,9 @@ require 'slack_test_helper'
 class CamdramShowTest < ActiveSupport::TestCase
   include SlackTestHelper
 
-  test "should not save if max_rehearsals is not an integer" do
+  test 'should not save if max_rehearsals is not an integer' do
     show = camdram_shows(:api_test_1)
-    show.max_rehearsals = "some string"
+    show.max_rehearsals = 'some string'
     assert_not show.save
     show.max_rehearsals = :some_symbol
     assert_not show.save
@@ -20,9 +20,9 @@ class CamdramShowTest < ActiveSupport::TestCase
     assert show.save
   end
 
-  test "should not save if max_auditions is not an integer" do
+  test 'should not save if max_auditions is not an integer' do
     show = camdram_shows(:api_test_1)
-    show.max_auditions = "some string"
+    show.max_auditions = 'some string'
     assert_not show.save
     show.max_auditions = :some_symbol
     assert_not show.save
@@ -36,9 +36,9 @@ class CamdramShowTest < ActiveSupport::TestCase
     assert show.save
   end
 
-  test "should not save if max_meetings is not an integer" do
+  test 'should not save if max_meetings is not an integer' do
     show = camdram_shows(:api_test_1)
-    show.max_meetings = "some string"
+    show.max_meetings = 'some string'
     assert_not show.save
     show.max_meetings = :some_symbol
     assert_not show.save
@@ -52,12 +52,12 @@ class CamdramShowTest < ActiveSupport::TestCase
     assert show.save
   end
 
-  test "should validate Slack webhook URLs" do
+  test 'should validate Slack webhook URLs' do
     show = CamdramShow.new(camdram_id: 6451)
     validates_slack_webhook(show)
   end
 
-  test "should not allow duplicate shows" do
+  test 'should not allow duplicate shows' do
     show = CamdramShow.new(camdram_id: 6514)
     assert_not show.save
   end
@@ -66,12 +66,12 @@ class CamdramShowTest < ActiveSupport::TestCase
     show = camdram_shows(:api_test_1)
     obj = show.camdram_object
     assert_equal 6514, obj.id
-    assert_equal "1997-api-test-1", obj.slug
-    assert_equal "ÁPÏ Test 1", obj.name
-    assert_equal "This show is a dummy used by Camdram for testing purposes only.", obj.description
+    assert_equal '1997-api-test-1', obj.slug
+    assert_equal 'ÁPÏ Test 1', obj.name
+    assert_equal 'This show is a dummy used by Camdram for testing purposes only.', obj.description
   end
 
-  test "should create show from a Camdram object" do
+  test 'should create show from a Camdram object' do
     Roombooking::CamdramApi.with do |client|
       obj = client.get_show(5471)
       assert_nothing_raised do
@@ -83,7 +83,7 @@ class CamdramShowTest < ActiveSupport::TestCase
     CamdramEntityCacheWarmupJob.clear
   end
 
-  test "should find show from a Camdram object" do
+  test 'should find show from a Camdram object' do
     Roombooking::CamdramApi.with do |client|
       obj = client.get_show(6514)
       show = camdram_shows(:api_test_1)
@@ -91,13 +91,13 @@ class CamdramShowTest < ActiveSupport::TestCase
     end
   end
 
-  test "should return camdram object name" do
+  test 'should return camdram object name' do
     show = camdram_shows(:api_test_1)
-    assert_equal "ÁPÏ Test 1", show.name
+    assert_equal 'ÁPÏ Test 1', show.name
   end
 
-  test "should return camdram object url" do
+  test 'should return camdram object url' do
     show = camdram_shows(:api_test_1)
-    assert_equal "https://www.camdram.net/shows/1997-api-test-1", show.url
+    assert_equal 'https://www.camdram.net/shows/1997-api-test-1', show.url
   end
 end

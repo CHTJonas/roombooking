@@ -2,13 +2,13 @@
 
 class BookingsController < ApplicationController
   before_action :populate_camdram_entities,
-    only: [:new, :edit, :create, :update]
+                only: %i[new edit create update]
 
   def index
     @bookings = Booking.order(created_at: :desc)
-      .eager_load(:user, :room)
-      .accessible_by(current_ability, :read)
-      .page(params[:page]).without_count
+                       .eager_load(:user, :room)
+                       .accessible_by(current_ability, :read)
+                       .page(params[:page]).without_count
   end
 
   def new
@@ -34,7 +34,7 @@ class BookingsController < ApplicationController
     if @booking.save
       NotificationJob.perform_async(@booking.id, @booking.camdram_model.try(:to_global_id).try(:to_s))
       msg = "Added #{@booking.name}!"
-      alert = { 'class' => 'success', 'message' =>  msg}
+      alert = { 'class' => 'success', 'message' => msg }
       flash[:alert] = alert
       redirect_to @booking
     else
@@ -55,7 +55,7 @@ class BookingsController < ApplicationController
     end
     authorize! :edit, @booking
     if @booking.save
-      alert = { 'class' => 'success', 'message' => "Updated #{@booking.name}!"}
+      alert = { 'class' => 'success', 'message' => "Updated #{@booking.name}!" }
       flash[:alert] = alert
       redirect_to @booking
     else
@@ -83,9 +83,9 @@ class BookingsController < ApplicationController
     json = params[:ids] || '[]'
     ids = JSON.parse(json).to_a.first(9)
     @bookings = Booking.where(id: ids)
-      .eager_load(:user, :room)
-      .accessible_by(current_ability, :read)
-      .sort_by { |booking| ids.index(booking.id.to_s) }
+                       .eager_load(:user, :room)
+                       .accessible_by(current_ability, :read)
+                       .sort_by { |booking| ids.index(booking.id.to_s) }
     render 'favourites', layout: false
   end
 

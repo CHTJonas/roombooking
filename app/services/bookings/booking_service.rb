@@ -29,13 +29,12 @@ module Bookings
         else
           id = @params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
           return unless id.present?
-          if Booking.purposes_with_shows.include?(@booking.purpose.to_sym)
-            @booking.camdram_model = CamdramShow.find(id)
-          elsif Booking.purposes_with_societies.include?(@booking.purpose.to_sym)
-            @booking.camdram_model = CamdramSociety.find(id)
-          else
-            @booking.camdram_model = nil
-          end
+
+          @booking.camdram_model = if Booking.purposes_with_shows.include?(@booking.purpose.to_sym)
+                                     CamdramShow.find(id)
+                                   elsif Booking.purposes_with_societies.include?(@booking.purpose.to_sym)
+                                     CamdramSociety.find(id)
+                                   end
         end
       end
     end
@@ -51,15 +50,17 @@ module Bookings
         # Nothing to authorise!
         return true
       end
+
       # We can't authorise if there's no show/society selected, but this get's caught by the Booking model validation.
       id = @params[:booking]["camdram_id_#{@booking.purpose}".to_sym]
       return true if id.nil?
+
       if Booking.purposes_with_shows.include?(@booking.purpose.to_sym)
-        return @user.camdram_shows.include? @booking.camdram_model
+        @user.camdram_shows.include? @booking.camdram_model
       elsif Booking.purposes_with_societies.include?(@booking.purpose.to_sym)
-        return @user.camdram_societies.include? @booking.camdram_model
+        @user.camdram_societies.include? @booking.camdram_model
       else
-        return false
+        false
       end
     end
   end

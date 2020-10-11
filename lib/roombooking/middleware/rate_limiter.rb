@@ -36,7 +36,6 @@ module Roombooking
         # Pass the response up the middleware stack.
         [status, headers, response]
       end
-
     end
   end
 end

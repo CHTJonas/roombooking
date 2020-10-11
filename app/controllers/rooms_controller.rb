@@ -2,13 +2,13 @@
 
 class RoomsController < ApplicationController
   def index
-    if request.format == :ics
-      @rooms = Room.eager_load(bookings: [:room, :user])
-        .preload(bookings: :camdram_model)
-        .accessible_by(current_ability, :read).order(:id)
-    else
-      @rooms = Room.accessible_by(current_ability, :read).order(:id)
-    end
+    @rooms = if request.format == :ics
+               Room.eager_load(bookings: %i[room user])
+                   .preload(bookings: :camdram_model)
+                   .accessible_by(current_ability, :read).order(:id)
+             else
+               Room.accessible_by(current_ability, :read).order(:id)
+             end
     respond_to do |format|
       format.html
       format.ics
@@ -43,7 +43,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     authorize! :edit, @room
     if @room.update(room_params)
-      alert = { 'class' => 'success', 'message' => "Updated #{@room.name}!"}
+      alert = { 'class' => 'success', 'message' => "Updated #{@room.name}!" }
       flash[:alert] = alert
       redirect_to @room
     else
@@ -55,15 +55,15 @@ class RoomsController < ApplicationController
 
   def show
     if request.format == :ics
-      @room = Room.eager_load(bookings: [:room, :user])
-        .preload(bookings: :camdram_model)
-        .find(params[:id])
+      @room = Room.eager_load(bookings: %i[room user])
+                  .preload(bookings: :camdram_model)
+                  .find(params[:id])
     else
       @room = Room.find(params[:id])
       if params[:start_date]
         begin
           @start_date = Date.parse(params[:start_date]).beginning_of_week
-        rescue
+        rescue StandardError
           @start_date = Time.zone.today.beginning_of_week
         end
       else
@@ -83,7 +83,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     authorize! :destroy, @room
     @room.destroy
-    alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!"}
+    alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!" }
     flash[:alert] = alert
     redirect_to rooms_path
   end

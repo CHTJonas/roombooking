@@ -21,14 +21,14 @@ Sidekiq::Testing.fake!
 require 'minitest/retry'
 Minitest::Retry.use!(
   exceptions_to_retry: [Camdram::Error::ServerError, Camdram::Error::Timeout],
-  retry_count: 5,
-  verbose: true
+  retry_count:         5,
+  verbose:             true
 )
 
-Minitest::Retry.on_retry do |klass, test_name, retry_count, result|
+Minitest::Retry.on_retry do |klass, test_name, retry_count, _result|
   # Retry with an exponential backoff.
-  timer = (3 ** ((retry_count + 1) / 2.0) + 2).ceil
-  puts ""
+  timer = (3**((retry_count + 1) / 2.0) + 2).ceil
+  puts ''
   puts "Encountered #{klass} during #{test_name} for the #{retry_count.ordinalize} time"
   puts "Retrying after #{timer} seconds"
   sleep timer

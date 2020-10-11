@@ -3,10 +3,10 @@
   "private": true,
   "dependencies": {
     "@github/hotkey": "^1.4.2",
-    "@rails/activestorage": "^6.0.3-3",
-    "@rails/ujs": "^6.0.3-3",
+    "@rails/activestorage": "^6.0.3-4",
+    "@rails/ujs": "^6.0.3-4",
     "@rails/webpacker": "^5.2.1",
-    "@sentry/browser": "5.24.2",
+    "@sentry/browser": "5.25.0",
     "bootstrap": "^4.5.2",
     "flatpickr": "4.6.6",
     "font-awesome": "^4.7.0",

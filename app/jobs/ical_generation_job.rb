@@ -6,7 +6,7 @@ class IcalGenerationJob
 
   sidekiq_options queue: 'roombooking_jobs'
   sidekiq_throttle concurrency: { limit: 1 },
-    threshold: { limit: 5, period: 10.minutes }
+                   threshold: { limit: 5, period: 10.minutes }
 
   def perform
     service = IcalGenerationService.new(Booking.all, 'rooms')

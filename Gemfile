@@ -3,11 +3,11 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Application config
-gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
+gem 'dotenv-rails', '~> 2.7'
 
 # Rails
 gem 'rails', '~> 6.0.3'
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.0'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
@@ -47,7 +47,7 @@ gem 'kaminari', '~> 1.2'
 gem 'simple_calendar', '~> 2.4'
 gem 'icalendar', '~> 2.7'
 # View rendering
-gem 'haml', '~> 5.1'
+gem 'haml', '~> 5.2'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.5'
 # Inline email styles
@@ -56,7 +56,7 @@ gem 'premailer-rails', '~> 1.11'
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
 gem 'os', '~> 1.1'
-gem 'browser', '~> 5.0'
+gem 'browser', '~> 5.1'
 # Connection pooling
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
@@ -65,7 +65,7 @@ gem 'faraday_middleware', '~> 1.0.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
-gem 'rotp', '~> 6.1'
+gem 'rotp', '~> 6.2'
 gem 'rqrcode', '~> 1.1.2'
 gem 'recaptcha', '~> 5.5'
 # Authorisation
@@ -95,7 +95,7 @@ gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
 gem 'prometheus_exporter', '~> 0.5.3'
-gem 'ddtrace', '~> 0.40.0'
+gem 'ddtrace', '~> 0.41.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.0'
@@ -138,7 +138,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142'
   gem 'webdrivers', '~> 4.4'
   gem 'minitest-retry', '~> 0.2.1', require: false
-  gem 'codecov', '~> 0.2.11', require: false
+  gem 'codecov', '~> 0.2.12', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

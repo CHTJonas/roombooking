@@ -10,16 +10,14 @@ module Admin
     def create
       id = create_camdram_show_params[:camdram_id]
       respond_to do |format|
-        begin
-          ActiveRecord::Base.transaction do
-            @roombooking_show = CamdramShow.create_from_id(id)
-            @roombooking_show.block_out_bookings(current_user)
-            @camdram_show = @roombooking_show.camdram_object
-          end
-          format.js
-        rescue ActiveRecord::RecordInvalid => e
-          format.js { render js: "rbModal('Import Error', 'Failed to import the specified show! #{e.message}');" }
+        ActiveRecord::Base.transaction do
+          @roombooking_show = CamdramShow.create_from_id(id)
+          @roombooking_show.block_out_bookings(current_user)
+          @camdram_show = @roombooking_show.camdram_object
         end
+        format.js
+      rescue ActiveRecord::RecordInvalid => e
+        format.js { render js: "rbModal('Import Error', 'Failed to import the specified show! #{e.message}');" }
       end
     end
 

@@ -2,7 +2,7 @@
 
 module RoomsHelper
   def event_time_range(event)
-    event.start_time.strftime("%H:%M") + "—" + event.end_time.strftime("%H:%M")
+    event.start_time.strftime('%H:%M') + '—' + event.end_time.strftime('%H:%M')
   end
 
   def event_div_styles(event)

@@ -11,7 +11,7 @@ module Roombooking
 
       def render_without_wrap(text)
         wrapped_html = render(text)
-        regex = Regexp.new(/\A<p>(.*)<\/p>(\n)*\z/m)
+        regex = Regexp.new(%r{\A<p>(.*)</p>(\n)*\z}m)
         match_data = regex.match(wrapped_html)
         match_data[1].html_safe
       end

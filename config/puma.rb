@@ -1,20 +1,17 @@
 # frozen_string_literal: true
 
+require_relative 'prod'
+
+rails_environment = ENV.fetch('RAILS_ENV') { 'development' }
 threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
 workers_count = ENV.fetch('WEB_CONCURRENCY') { 1 }
 
+environment rails_environment
 threads threads_count, threads_count
 workers workers_count
 
-if File.exist? File.expand_path('../.prod', __dir__)
-  ENV['RAILS_ENV'] = 'production'
-end
-environment = ENV.fetch('RAILS_ENV') { 'development' }
-environment environment
-
-if environment == 'production'
+if rails_environment == 'production'
   port 8080
-
   worker_timeout 15
   worker_boot_timeout 15
   worker_shutdown_timeout 15
