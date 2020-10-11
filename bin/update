@@ -27,10 +27,10 @@ chdir APP_ROOT do
   system! "git merge --ff-only #{ARGV[1] || 'FETCH_HEAD'}"
 
   puts Rainbow('Installing dependencies...').blue
-  system! 'bundle'
+  system! 'bundle install'
 
   puts Rainbow('Upgrading Rails...').blue
-  system! 'bin/rails roombooking:upgrade'
+  system! 'bin/bundle exec rails roombooking:upgrade'
 
   puts Rainbow('Executing Gemsurance report generator in background...').blue
   system! 'nohup bin/bundle exec gemsurance --output tmp/gemsurance_report.html > /dev/null 2>&1 &'
