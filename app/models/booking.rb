@@ -316,7 +316,7 @@ class Booking < ApplicationRecord
     if start_time.present? && (start_time.hour < 11 || start_time.hour >= 18)
       errors.add(:start_time, "can't be outside management hours.")
     end
-    if end_time.present? && (end_time.hour < 11 || end_time.hour >= 18)
+    if end_time.present? && (end_time.hour <= 11 || end_time.hour > 18)
       errors.add(:end_time, "can't be outside management hours.")
     end
   end
