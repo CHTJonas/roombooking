@@ -4,6 +4,8 @@ sidekiq_url = ENV['REDIS_STORE'].freeze
 
 Sidekiq.configure_server do |config|
   config.redis = { url: sidekiq_url }
+  config.logger.level = Logger::WARN if Rails.env.production?
+
   schedule_file = Rails.root.join('config', 'schedule.yml')
   Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
 
