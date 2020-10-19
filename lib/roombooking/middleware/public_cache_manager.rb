@@ -27,7 +27,7 @@ module Roombooking
       private
 
       def uncachable_paths
-        @@uncachable_paths ||= ['sitemaps']
+        @@uncachable_paths ||= ['sitemaps', 'robots.txt']
       end
     end
   end
