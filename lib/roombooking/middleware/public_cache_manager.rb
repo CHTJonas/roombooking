@@ -16,8 +16,8 @@ module Roombooking
 
         # Then modify the headers if we need to.
         if uncachable_paths.any? { |path| env['PATH_INFO'].include?(path) }
-          headers['Cache-Control'] = 'no-cache'
-          headers.except!('Expires')
+          headers['Cache-Control'] = 'no-store'
+          headers.except!('Expires', 'Vary', 'ETags', 'Last-Modified')
         end
 
         # Pass the response up the middleware stack.
