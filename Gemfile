@@ -28,7 +28,7 @@ gem 'rails_admin', '~> 2.0'
 gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
-gem 'sidekiq', '~> 5.2'
+gem 'sidekiq', '~> 6.1'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sidekiq-throttled', '~> 0.13.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
@@ -67,7 +67,7 @@ gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
 gem 'rqrcode', '~> 1.1.2'
-gem 'recaptcha', '~> 5.5'
+gem 'recaptcha', '~> 5.6'
 # Authorisation
 gem 'cancancan', '~> 3.1'
 # Error tracking and reporting

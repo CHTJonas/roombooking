@@ -11,10 +11,13 @@ module Roombooking
         # Let the app respond to the request first.
         status, headers, response = @app.call(env)
 
+        # Add an appropriate Vary header.
+        headers['Vary'] = 'Accept-Encoding'
+
         # Then modify the headers if we need to.
         if uncachable_paths.any? { |path| env['PATH_INFO'].include?(path) }
-          headers['Cache-Control'] = 'no-cache'
-          headers.except!('Expires')
+          headers['Cache-Control'] = 'no-store'
+          headers.except!('Expires', 'Vary', 'ETags', 'Last-Modified')
         end
 
         # Pass the response up the middleware stack.
@@ -24,7 +27,7 @@ module Roombooking
       private
 
       def uncachable_paths
-        @@uncachable_paths ||= ['sitemaps']
+        @@uncachable_paths ||= ['sitemaps', 'robots.txt']
       end
     end
   end
