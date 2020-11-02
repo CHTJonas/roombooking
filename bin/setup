@@ -20,6 +20,8 @@ chdir APP_ROOT do
   # This script is the starting point for setting up a new development
   # environment of the ADC Room Booking System.
 
+  puts Rainbow('Welcome to the friendly installer for the ADC Room Booking System').silver.underline.bright
+
   puts Rainbow('Configuring environment...').blue
   contents = "RAILS_MAX_THREADS=1\n"
   contents += "WEB_CONCURRENCY=1\n"
@@ -42,8 +44,12 @@ chdir APP_ROOT do
   puts ''
 
   if OS::Underlying.docker?
+    puts Rainbox('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:docker'
   else
+    puts Rainbox('Precompiling bootsnap cache...').blue
+    system! 'bin/bundle exec bootsnap precompile --gemfile app/ lib/'
+    puts Rainbox('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:install'
   end
 
