@@ -342,7 +342,7 @@ GEM
     redcarpet (3.5.0)
     redis (4.2.5)
     redis-prescription (1.0.0)
-    redlock (1.2.0)
+    redlock (1.2.1)
       redis (>= 3.0.0, < 5.0)
     reentrant_mutex (1.1.1)
     regexp_parser (1.8.2)
