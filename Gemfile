@@ -6,7 +6,7 @@ ruby '2.6.6'
 gem 'dotenv-rails', '~> 2.7'
 
 # Rails
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.0'
 gem 'puma', '~> 5.1'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
