@@ -90,7 +90,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
-    browser (5.1.0)
+    browser (5.2.0)
     builder (3.2.4)
     bullet (6.1.2)
       activesupport (>= 3.0.0)
@@ -456,7 +456,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)
-  browser (~> 5.1)
+  browser (~> 5.2)
   bullet
   byebug
   camdram!
