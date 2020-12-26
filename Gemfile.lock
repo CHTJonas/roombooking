@@ -357,7 +357,7 @@ GEM
     rqrcode (1.1.2)
       chunky_png (~> 1.0)
       rqrcode_core (~> 0.1)
-    rqrcode_core (0.1.2)
+    rqrcode_core (0.2.0)
     ruby2_keywords (0.0.2)
     ruby_multiton (0.1.2)
       extensible (~> 0.1.3)
