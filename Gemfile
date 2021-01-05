@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '2.7.2'
 
 # Application config
 gem 'dotenv-rails', '~> 2.7'
@@ -13,6 +13,9 @@ gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
 gem 'webpacker', '~> 5.2'
 gem 'linked-list', '~> 0.0.15'
+
+# The following line is needed because sync is no longer installed by default in Ruby 2.7
+gem 'sync'
 
 # Audit model changes
 gem 'paper_trail', '~> 11.1'

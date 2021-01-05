@@ -533,6 +533,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   strip_attributes (~> 1.11)
+  sync
   tzinfo-data
   web-console (>= 3.3.0)
   webdrivers (~> 4.4)
@@ -540,7 +541,7 @@ DEPENDENCIES
   yell (~> 2.2)
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.7.2p137
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
