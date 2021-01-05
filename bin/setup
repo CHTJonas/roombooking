@@ -44,12 +44,12 @@ chdir APP_ROOT do
   puts ''
 
   if OS::Underlying.docker?
-    puts Rainbox('Installing application...').blue
+    puts Rainbow('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:docker'
   else
-    puts Rainbox('Precompiling bootsnap cache...').blue
+    puts Rainbow('Precompiling bootsnap cache...').blue
     system! 'bin/bundle exec bootsnap precompile --gemfile app/ lib/'
-    puts Rainbox('Installing application...').blue
+    puts Rainbow('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:install'
   end
 
