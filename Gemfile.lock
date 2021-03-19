@@ -197,7 +197,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
-    kramdown (2.3.0)
+    kramdown (2.3.1)
       rexml
     linked-list (0.0.15)
     listen (3.4.1)
