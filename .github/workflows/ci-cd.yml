@@ -49,9 +49,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          key: roombooking-cache-v2-${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-gem-
+            roombooking-cache-v2-${{ runner.os }}-gem-
       - name: Install dependencies
         run: |
           sudo apt-get -y install libpq-dev
