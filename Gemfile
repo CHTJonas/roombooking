@@ -18,7 +18,7 @@ gem 'linked-list', '~> 0.0.15'
 gem 'sync'
 
 # Audit model changes
-gem 'paper_trail', '~> 11.1'
+gem 'paper_trail', '~> 12.0'
 gem 'paper_trail-association_tracking', '~> 2.1'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
