@@ -19,8 +19,8 @@ jobs:
         run: brakeman
       - name: Perform Bundler audit
         run: bundle audit check --update --ignore $(while read line; do echo -n "$line "; done <config/bundler-audit.ignore)
-      - name: Perform Yarn audit
-        run: bin/yarn audit
+#      - name: Perform Yarn audit
+#        run: bin/yarn audit
 
   test:
     name: Test
