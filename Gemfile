@@ -141,7 +141,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142'
   gem 'webdrivers', '~> 4.6'
   gem 'minitest-retry', '~> 0.2.2', require: false
-  gem 'codecov', '~> 0.5.1', require: false
+  gem 'codecov', '~> 0.5.2', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
