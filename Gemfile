@@ -11,7 +11,7 @@ gem 'puma', '~> 5.2'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
-gem 'webpacker', '~> 5.2'
+gem 'webpacker', '~> 5.3'
 gem 'linked-list', '~> 0.0.15'
 
 # The following line is needed because sync is no longer installed by default in Ruby 2.7
