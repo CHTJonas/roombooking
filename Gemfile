@@ -101,7 +101,7 @@ gem 'prometheus_exporter', '~> 0.7.0'
 gem 'ddtrace', '~> 0.49.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
-gem 'health_check', '~> 3.0'
+gem 'health_check', '~> 3.1'
 
 # Reverse proxy
 gem 'rack-reverse-proxy', '~> 0.12.0'
