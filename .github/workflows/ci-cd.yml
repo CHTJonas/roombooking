@@ -94,9 +94,9 @@ jobs:
     name: Deploy
     needs: [static-analysis, test]
     runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/release'"
     steps:
       - name: SSH to server
-        if: github.ref == 'refs/heads/release'
         run: |
           umask 0077
           mkdir -p $HOME/.ssh
