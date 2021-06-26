@@ -1,5 +1,9 @@
 name: CI CD
-on: push
+on:
+  push:
+    branches:
+      - master
+      - release
 
 jobs:
   static-analysis:
@@ -12,13 +16,15 @@ jobs:
       - name: Set up Ruby 2.6
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.2
       - name: Install dependencies
         run: gem install brakeman bundler-audit
       - name: Perform Brakeman vulnerability scan
         run: brakeman
       - name: Perform Bundler audit
         run: bundle audit check --update --ignore $(while read line; do echo -n "$line "; done <config/bundler-audit.ignore)
+#      - name: Perform Yarn audit
+#        run: bin/yarn audit
 
   test:
     name: Test
@@ -42,14 +48,14 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.2
       - name: Cache build artefacts
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          key: roombooking-cache-v2-${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-gem-
+            roombooking-cache-v2-${{ runner.os }}-gem-
       - name: Install dependencies
         run: |
           sudo apt-get -y install libpq-dev
@@ -63,6 +69,7 @@ jobs:
           echo "RAILS_ENV=test" >> .env
           echo "RAILS_MAX_THREADS=1" >> .env
           echo "WEB_CONCURRENCY=1" >> .env
+          echo "DISABLE_SPRING=1" >> .env
           echo "SITE_HOSTNAME=roombooking.adctheatre.com" >> .env
           echo "REDIS_CACHE=redis://127.0.0.1:6379/1" >> .env
           echo "REDIS_STORE=redis://127.0.0.1:6379/1" >> .env
@@ -87,9 +94,9 @@ jobs:
     name: Deploy
     needs: [static-analysis, test]
     runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/release'"
     steps:
       - name: SSH to server
-        if: github.ref == 'refs/heads/release'
         run: |
           umask 0077
           mkdir -p $HOME/.ssh

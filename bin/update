@@ -29,6 +29,9 @@ chdir APP_ROOT do
   puts Rainbow('Installing dependencies...').blue
   system! 'bundle install'
 
+  puts Rainbow('Precompiling bootsnap cache...').blue
+  system! 'bin/bundle exec bootsnap precompile --gemfile app/ lib/'
+
   puts Rainbow('Upgrading Rails...').blue
   system! 'bin/bundle exec rails roombooking:upgrade'
 

@@ -2,8 +2,8 @@
 
 # ADC Room Booking System
 
-[![Ruby Version](https://img.shields.io/badge/Ruby-v2.6.6-brightgreen.svg)](https://www.ruby-lang.org/en/)
-[![Rails Version](https://img.shields.io/badge/Rails-v6.0.3.3-brightgreen.svg)](http://rubyonrails.org/)
+[![Ruby Version](https://img.shields.io/badge/Ruby-v2.7.2-brightgreen.svg)](https://www.ruby-lang.org/en/)
+[![Rails Version](https://img.shields.io/badge/Rails-v6.1.4-brightgreen.svg)](http://rubyonrails.org/)
 [![Build Status](https://github.com/CHTJonas/roombooking/workflows/CI%20CD/badge.svg)](https://github.com/CHTJonas/roombooking/actions?query=workflow%3A%22CI+CD%22)
 [![Test Coverage](https://codecov.io/gh/CHTJonas/roombooking/branch/master/graph/badge.svg)](https://codecov.io/gh/CHTJonas/roombooking)
 
@@ -94,6 +94,6 @@ You should be able to do this automatically by installing an [EditorConfig compa
 Management of the project is meritocratic; those who have a reasonable number of accepted contributions will be granted access to commit straight to the `master` branch of this repository.
 
 ## Copyright
-Copyright (c) 2018–2020 Charlie Jonas and contributors.
+Copyright (c) 2018–2021 Charlie Jonas and contributors.
 The ADC Room Booking System software is released under Version 3 of the GNU General Public License.
 See the LICENSE file for full details.

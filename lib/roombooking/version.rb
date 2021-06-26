@@ -6,7 +6,7 @@ module Roombooking
       end
 
       def git_description
-        @git_description ||= `bin/git-description`.chomp.freeze
+        @git_description ||= `git describe --tags --always --dirty`.chomp.freeze
       end
 
       def git_description_without_prefix

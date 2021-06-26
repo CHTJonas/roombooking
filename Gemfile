@@ -1,21 +1,24 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '2.7.2'
 
 # Application config
 gem 'dotenv-rails', '~> 2.7'
 
 # Rails
-gem 'rails', '~> 6.0.3'
-gem 'puma', '~> 5.0'
+gem 'rails', '~> 6.1.4'
+gem 'puma', '~> 5.3'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
-gem 'webpacker', '~> 5.2'
+gem 'webpacker', '~> 5.4'
 gem 'linked-list', '~> 0.0.15'
 
+# The following line is needed because sync is no longer installed by default in Ruby 2.7
+gem 'sync'
+
 # Audit model changes
-gem 'paper_trail', '~> 11.0'
+gem 'paper_trail', '~> 11.1'
 gem 'paper_trail-association_tracking', '~> 2.1'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
@@ -24,11 +27,11 @@ gem 'strip_attributes', '~> 1.11'
 # HTTP security headers
 gem 'secure_headers', '~> 6.3'
 # Administrator interface
-gem 'rails_admin', '~> 2.0'
+gem 'rails_admin', '~> 2.1'
 gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
-gem 'sidekiq', '~> 6.1'
+gem 'sidekiq', '~> 6.2'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sidekiq-throttled', '~> 0.13.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
@@ -56,7 +59,7 @@ gem 'premailer-rails', '~> 1.11'
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
 gem 'os', '~> 1.1'
-gem 'browser', '~> 5.1'
+gem 'browser', '~> 5.3'
 # Connection pooling
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
@@ -66,14 +69,16 @@ gem 'faraday_middleware', '~> 1.0.0'
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
-gem 'rqrcode', '~> 1.1.2'
-gem 'recaptcha', '~> 5.6'
+gem 'rqrcode', '~> 2.0.0'
+gem 'recaptcha', '~> 5.8'
 # Authorisation
-gem 'cancancan', '~> 3.1'
+gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-raven', '~> 3.1'
+gem 'sentry-ruby', '~> 4.5'
+gem 'sentry-rails', '~> 4.5'
+gem 'sentry-sidekiq', '~> 4.5'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 6.3'
+gem 'rack-attack', '~> 6.5'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
@@ -81,7 +86,7 @@ gem 'rainbow', '~> 3.0'
 # Use pry console
 gem 'pry-rails', '~> 0.3.9'
 # Push notifications
-gem 'slack-notifier', '~> 2.3'
+gem 'slack-notifier', '~> 2.4'
 # Sitemaps
 gem 'sitemap_generator', '~> 6.1'
 
@@ -90,15 +95,15 @@ gem 'pg', '~> 1.2'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.2'
+gem 'redis', '~> 4.3'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 0.5.3'
-gem 'ddtrace', '~> 0.41.0'
+gem 'prometheus_exporter', '~> 0.7.0'
+gem 'ddtrace', '~> 0.50.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
-gem 'health_check', '~> 3.0'
+gem 'health_check', '~> 3.1'
 
 # Reverse proxy
 gem 'rack-reverse-proxy', '~> 0.12.0'
@@ -109,7 +114,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Performance improvements using native extensions
 gem 'escape_utils', '~> 1.2'
 gem 'fast_blank', '~> 1.0'
-gem 'oj', '~> 3.10'
+gem 'oj', '~> 3.11'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -122,7 +127,7 @@ group :development do
   gem 'binding_of_caller'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.3'
+  gem 'listen', '>= 3.0.5', '< 3.6'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -136,9 +141,9 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver', '~> 3.142'
-  gem 'webdrivers', '~> 4.4'
-  gem 'minitest-retry', '~> 0.2.1', require: false
-  gem 'codecov', '~> 0.2.12', require: false
+  gem 'webdrivers', '~> 4.6'
+  gem 'minitest-retry', '~> 0.2.2', require: false
+  gem 'codecov', '~> 0.5.2', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

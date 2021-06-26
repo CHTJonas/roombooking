@@ -19,7 +19,7 @@ module Admin
           end
           true
         rescue StandardError
-          Raven.capture_exception(e)
+          Sentry.capture_exception(e)
           false
         end
       else

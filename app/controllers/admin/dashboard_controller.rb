@@ -10,7 +10,7 @@ module Admin
         send_data `pg_dump -Fc roombooking_#{Rails.env}`,
                   filename: "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump"
       rescue StandardError
-        Raven.capture_exception(e)
+        Sentry.capture_exception(e)
         render plain: 'An error occurred when creating the backup!'
       end
     end

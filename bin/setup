@@ -20,30 +20,52 @@ chdir APP_ROOT do
   # This script is the starting point for setting up a new development
   # environment of the ADC Room Booking System.
 
+  puts Rainbow('Welcome to the friendly installer for the ADC Room Booking System').silver.underline.bright
+
   puts Rainbow('Configuring environment...').blue
   contents = "RAILS_MAX_THREADS=1\n"
   contents += "WEB_CONCURRENCY=1\n"
   contents += "SITE_HOSTNAME=roombooking.adctheatre.com\n"
+
+  # Deal with connectivity to Redis databases.
   unless OS::Underlying.docker?
     contents += "REDIS_CACHE=redis://127.0.0.1:6379/1\n"
     contents += "REDIS_STORE=redis://127.0.0.1:6379/1\n"
   end
+
+  # Deal with Camdram API credentials.
   print Rainbow('Enter your Camdram API App ID: ').yellow
   app_id = gets.chomp
   contents += "CAMDRAM_APP_ID=#{app_id}\n"
   print Rainbow('Enter your Camdram API App Secret: ').yellow
   app_secret = gets.chomp
   contents += "CAMDRAM_APP_SECRET=#{app_secret}\n"
+
+  # Deal with reCAPTCHA keys.
+  print Rainbow('Enter your reCAPTCHA site key: ').yellow
+  site_key = gets.chomp
+  contents += "RECAPTCHA_SITE_KEY=#{site_key}\n"
+  print Rainbow('Enter your reCAPTCHA secret key: ').yellow
+  secret_key = gets.chomp
+  contents += "RECAPTCHA_SECRET_KEY=#{secret_key}\n"
+
+  # Generate a secret key for Rails.
   secret_key_base = SecureRandom.hex(64)
   contents += "SECRET_KEY_BASE=#{secret_key_base}\n"
+
+  # Persist all environment variables.
   File.open(ENV_FILE, 'w') do |f|
     f.write(contents)
   end
   puts ''
 
   if OS::Underlying.docker?
+    puts Rainbow('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:docker'
   else
+    puts Rainbow('Precompiling bootsnap cache...').blue
+    system! 'bin/bundle exec bootsnap precompile --gemfile app/ lib/'
+    puts Rainbow('Installing application...').blue
     system! 'bin/bundle exec rails roombooking:install'
   end
 
