@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   # Render a nice(ish) page when a request times out.
   rescue_from Rack::Timeout::RequestTimeoutException do |exception|
-    Raven.capture_exception(exception)
+    Sentry.capture_exception(exception)
     render_504
   end
 
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Camdram::Error::GenericException do |exception|
-    Raven.capture_exception(exception)
+    Sentry.capture_exception(exception)
     alert = { 'class' => 'danger', 'message' => 'Sorry, but an error occurred when making a request to the Camdram API! Errors are tracked automatically but please contact Theatre Management if you continue to experience problems.' }
     flash.now[:alert] = alert
     render 'layouts/blank', locals: { reason: "camdram error: #{exception.message}" }, status: :internal_server_error, formats: :html
@@ -77,12 +77,12 @@ class ApplicationController < ActionController::Base
 
   # Add extra context to any Sentry error reports.
   def set_sentry!
-    Raven.user_context(sentry_user_context)
-    Raven.tags_context(sentry_tags_context)
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    Sentry.set_user(sentry_user_context)
+    Sentry.set_tags(sentry_tags_context)
+    Sentry.set_extras(sentry_extras_context)
   end
 
-  # Params to send as user context along with Sentry errors.
+  # User context to send to Sentry.
   def sentry_user_context
     {
       id: current_user.try(:id),
@@ -91,11 +91,19 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  # Params to send as tag context along with Sentry errors.
+  # Tags context to send to Sentry.
   def sentry_tags_context
     {
       program: sentry_program_context,
       camdram_version: Camdram::Version.to_s
+    }
+  end
+
+  # Extras context to send to Sentry.
+  def sentry_extras_context
+    {
+      params: params.to_unsafe_h,
+      url: request.url
     }
   end
 

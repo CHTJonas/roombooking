@@ -13,7 +13,7 @@ class UserPermissionRefreshJob
         user.refresh_permissions!
       end
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       next
     end
   end

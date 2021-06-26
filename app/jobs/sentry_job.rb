@@ -5,7 +5,7 @@ class SentryJob
 
   sidekiq_options queue: 'roombooking_jobs'
 
-  def perform(event)
-    Raven.send_event(event)
+  def perform(event, hint)
+    Sentry.send_event(event, hint)
   end
 end
