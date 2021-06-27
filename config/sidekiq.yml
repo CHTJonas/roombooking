@@ -8,3 +8,4 @@ Dotenv.load
 :queues:
   - [roombooking_jobs, 2]
   - [roombooking_mail, 1]
+  - [roombooking_exceptions, 1]
