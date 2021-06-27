@@ -20,12 +20,8 @@ Rails.application.configure do
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   config.require_master_key = true
 
-  # Serve and cache static assets as the NGINX frontend only handles TLS.
+  # Serve static assets as the NGINX frontend only handles TLS.
   config.public_file_server.enabled = true
-  config.public_file_server.headers = {
-    'Cache-Control' => "public, max-age=#{1.year.to_i}, immutable"
-  }
-  config.middleware.insert_before ActionDispatch::Static, Roombooking::Middleware::PublicCacheManager
 
   # Compress CSS using a preprocessor.
   config.assets.css_compressor = :sass

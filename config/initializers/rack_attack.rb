@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'roombooking/middleware/rate_limiter'
-
 Rails.application.config.middleware.use Roombooking::Middleware::RateLimiter
 Rails.application.config.middleware.use Rack::Attack
 
