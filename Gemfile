@@ -74,9 +74,9 @@ gem 'recaptcha', '~> 5.8'
 # Authorisation
 gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 4.5'
-gem 'sentry-rails', '~> 4.5'
-gem 'sentry-sidekiq', '~> 4.5'
+gem 'sentry-ruby', '~> 4.6'
+gem 'sentry-rails', '~> 4.6'
+gem 'sentry-sidekiq', '~> 4.6'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.5'
 # User Gravatar profile pictures
