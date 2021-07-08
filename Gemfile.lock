@@ -421,7 +421,7 @@ GEM
       eldritch
       redlock
       sidekiq
-    simple_calendar (2.4.2)
+    simple_calendar (2.4.3)
       rails (>= 3.0)
     simplecov (0.21.2)
       docile (~> 1.1)
