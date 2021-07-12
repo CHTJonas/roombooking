@@ -5,7 +5,7 @@ class SlackWebhookValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     unless value.blank? || value =~ @@slack_webhook_regexp
-      record.errors[attribute].add(options[:message] || 'is not a valid Slack webhook URL')
+      record.errors.add(attribute, options[:message] || 'is not a valid Slack webhook URL')
     end
   end
 end
