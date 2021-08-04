@@ -64,7 +64,7 @@ gem 'browser', '~> 5.3'
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
-gem 'faraday_middleware', '~> 1.0.0'
+gem 'faraday_middleware', '~> 1.1.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
