@@ -121,7 +121,7 @@ GEM
     css_parser (1.10.0)
       addressable
     datey (1.1.0)
-    ddtrace (0.51.1)
+    ddtrace (0.52.0)
       ffi (~> 1.0)
       msgpack
     debug_inspector (1.1.0)
@@ -499,7 +499,7 @@ DEPENDENCIES
   connection_pool (~> 2.2)
   cookies_eu
   datey (~> 1.1)
-  ddtrace (~> 0.51.1)
+  ddtrace (~> 0.52.0)
   dotenv-rails (~> 2.7)
   escape_utils (~> 1.2)
   faraday_middleware (~> 1.1.0)
