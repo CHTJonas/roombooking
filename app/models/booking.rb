@@ -58,8 +58,8 @@ class Booking < ApplicationRecord
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :duration, numericality: {
-    greater_than_or_equal_to: 1800,
-    message: 'must be at least 30 minutes'
+    greater_than_or_equal_to: 900,
+    message: 'must be at least 15 minutes'
   }
   validates :purpose, presence: true
 
@@ -159,10 +159,10 @@ class Booking < ApplicationRecord
     end
   end
 
-  # Bookings should fit into 30 minute time slots.
+  # Bookings should fit into 15 minute time slots.
   def must_fill_half_hour_slot
-    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 30 != 0
-    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 1800 != 0
+    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 15 != 0
+    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 900 != 0
   end
 
   # A booking cannot overlap with any other booking.

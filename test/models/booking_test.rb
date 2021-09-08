@@ -74,16 +74,16 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
-  test 'should not save booking unless times align to the half-hour' do
+  test 'should not save booking unless times align to the quarter-hour' do
     booking = Booking.new(booking_test_hash)
-    booking.start_time += 15.minutes
+    booking.start_time += 10.minutes
     assert_not booking.save
     booking = Booking.new(booking_test_hash)
-    booking.end_time += 15.minutes
+    booking.end_time += 20.minutes
     assert_not booking.save
     booking = Booking.new(booking_test_hash)
-    booking.start_time += 15.minutes
-    booking.end_time += 15.minutes
+    booking.start_time += 10.minutes
+    booking.end_time += 10.minutes
     assert_not booking.save
   end
 
@@ -155,16 +155,16 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'should return stringified length' do
     start_time = DateTime.parse('2019-01-01 12:00')
-    end_time = DateTime.parse('2019-01-01 15:30')
+    end_time = DateTime.parse('2019-01-01 15:15')
     booking = Booking.new(start_time: start_time, end_time: end_time)
-    assert_equal '3 hours 30 minutes', booking.length
+    assert_equal '3 hours 15 minutes', booking.length
   end
 
   test 'should set end time from stringified length' do
     start_time = DateTime.parse('2019-01-01 12:00')
     booking = Booking.new(start_time: start_time)
-    booking.length = '1 hour 30 minutes'
-    assert_equal DateTime.parse('2019-01-01 13:30'), booking.end_time
+    booking.length = '1 hour 15 minutes'
+    assert_equal DateTime.parse('2019-01-01 13:15'), booking.end_time
     booking.length = '7200'
     assert_equal DateTime.parse('2019-01-01 14:00'), booking.end_time
   end
