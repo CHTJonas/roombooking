@@ -1,9 +1,9 @@
 $(() => {
     const start_time_input_box = $('#booking_start_time')[0];
-    const start_time_hint = $('#booking_start_time_management_hours_hint')[0];
+    const start_time_hint = $('#booking_start_time_keyholder_hint')[0];
     const length_input_box = $('#booking_length')[0];
-    const length_hint = $('#booking_length_management_hours_hint')[0];
-    const warn_text = "Due to COVID-19, bookings outside Management office hours (11am to 6pm) are currently forbidden.";
+    const length_hint = $('#booking_length_keyholder_hint')[0];
+    const warn_text = "You will need a trained keyholder present as this falls outside Management office hours (11am to 6pm).";
 
     if (start_time_input_box) {
         start_time_input_box.onchange = () => {

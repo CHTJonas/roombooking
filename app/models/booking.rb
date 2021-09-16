@@ -75,9 +75,6 @@ class Booking < ApplicationRecord
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
   validate :name_must_be_descriptive
-  validate :attendees_must_conform
-  validate :user_must_be_allowed_to_book_room
-  validate :cannot_be_outside_management_hours
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -303,44 +300,6 @@ class Booking < ApplicationRecord
         errors.add(:name, 'needs to be more descriptive.') if test_name == test_camdram_name
       end
     end
-  end
-
-  def attendees_must_conform
-    unless purpose.nil? || Booking.admin_purposes.include?(purpose.to_sym)
-      errors.add(:attendees, 'must list those who will be attending the booking.') if attendees.empty?
-      errors.add(:attendees, 'list more than six people, which is the maximum.') if attendees.length > 6
-    end
-  end
-
-  def user_must_be_allowed_to_book_room
-    return unless room && user
-
-    errors.add(:base, 'Only management may make booking for this room.') if room.admin_only? && !user.admin?
-  end
-
-  def cannot_be_outside_management_hours
-    return if user.try(:admin?)
-
-    if start_time.present? && (start_time.hour < 11 || start_time.hour >= 18)
-      errors.add(:start_time, "can't be outside management hours.")
-    end
-    if end_time.present? && (end_time.hour <= 11 || end_time.hour > 18)
-      errors.add(:end_time, "can't be outside management hours.")
-    end
-  end
-
-  def attendees_text
-    attendees.map(&:to_s).join("\r\n")
-  end
-
-  def attendees_text=(string)
-    atds = []
-    lines = string.chomp.split("\r\n")
-    lines.each do |line|
-      attendee = Attendee.parse(line)
-      atds << attendee if attendee.try(:valid?)
-    end
-    self.attendees = atds
   end
 
   # Prettified string describing the booking's duration.

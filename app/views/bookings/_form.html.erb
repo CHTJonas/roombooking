@@ -21,32 +21,20 @@
     <div class="col-sm-10">
       <%= form.text_field :start_time, class: 'form-control flatdatetimepickr form-control-enabled',
         value: british_date_and_time(@booking.start_time) %>
-      <small id="booking_start_time_management_hours_hint" class="form-text text-secondary"></small>
+      <small id="booking_start_time_keyholder_hint" class="form-text text-secondary"></small>
     </div>
   </div>
   <div class="form-group row">
     <%= form.label :length, class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-10">
       <%= form.text_field :length, class: 'form-control' %>
-      <small id="booking_length_management_hours_hint" class="form-text text-secondary"></small>
+      <small id="booking_length_keyholder_hint" class="form-text text-secondary"></small>
     </div>
   </div>
   <div class="form-group row">
     <%= form.label :room_id, class: 'col-sm-2 col-form-label' %>
     <div class="col-sm-10">
       <%= form.collection_select :room_id, Room.all.order(:id), :id, :name, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group row">
-    <%= form.label :attendees, class: 'col-sm-2 col-form-label' %>
-    <div class="col-sm-10">
-      <small class="form-text text-muted mb-2">
-        You must make a list of all those who will be present during the course of your booking.
-        Type their name followed by their email address enclosed in angle brackets.
-        Up to six people may attend a single booking.
-        Be sure to list yourself if you will be in attendance personally.
-      </small>
-      <%= form.text_area :attendees_text, rows: 6, placeholder: 'Jon Warbrick <jw35@cam.ac.uk>', class: 'form-control' %>
     </div>
   </div>
   <div class="form-group row">
@@ -90,7 +78,7 @@
     <div class="col-sm-12">
       <%= form.submit class: 'btn btn-outline-primary' %>
       <small class="form-text text-muted mt-4">
-        Please note that bookings which take place outside Management office hours (11am to 6pm) are currently forbidden due to the COVID-19 pandemic.
+        Please note that a break of 15 minutes between bookings will be enforced by the software in order to ensure adequate ventilation of the room.
       </small>
     </div>
   </div>
