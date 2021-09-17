@@ -2,7 +2,7 @@ module Roombooking
   module Version
     class << self
       def release
-        'Neon'.freeze
+        'Argon'.freeze
       end
 
       def git_description
