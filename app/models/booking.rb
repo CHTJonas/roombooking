@@ -58,8 +58,8 @@ class Booking < ApplicationRecord
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :duration, numericality: {
-    greater_than_or_equal_to: 1800,
-    message: 'must be at least 30 minutes'
+    greater_than_or_equal_to: 900,
+    message: 'must be at least 15 minutes'
   }
   validates :purpose, presence: true
 
@@ -75,9 +75,6 @@ class Booking < ApplicationRecord
   validate :must_not_exceed_quota
   validate :room_must_allow_camdram_venue
   validate :name_must_be_descriptive
-  validate :attendees_must_conform
-  validate :user_must_be_allowed_to_book_room
-  validate :cannot_be_outside_management_hours
 
   # Scope all bookings that occur between the two given dates. Note that
   # end_date should be midnight of the day after the last day you'd like
@@ -159,10 +156,10 @@ class Booking < ApplicationRecord
     end
   end
 
-  # Bookings should fit into 30 minute time slots.
+  # Bookings should fit into 15 minute time slots.
   def must_fill_half_hour_slot
-    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 30 != 0
-    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 1800 != 0
+    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 15 != 0
+    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 900 != 0
   end
 
   # A booking cannot overlap with any other booking.
@@ -175,12 +172,20 @@ class Booking < ApplicationRecord
          when 'none' then end_time
          else repeat_until || return
          end
+
+    # Because of the COVID-19 pandemic, bookings need 15 minutes between
+    # them so that the room can be sufficiently ventilated.
+    st -= 15.minutes
+    et += 15.minutes
+
     overlapping_bookings = room.bookings.where.not(id: id)
                                .in_range(st.to_date, et.to_date + 1.day)
                                .select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
-      errors.add(:base, "The times given overlap with another booking [here](#{url}).")
+      errMsg = "The times given overlap with another booking [here](#{url})."
+      errMsg+= " Remember that you must leave a 15 minute gap between bookings so that the room can be sufficiently ventilated."
+      errors.add(:base, errMsg)
     end
   end
 
@@ -297,44 +302,6 @@ class Booking < ApplicationRecord
     end
   end
 
-  def attendees_must_conform
-    unless purpose.nil? || Booking.admin_purposes.include?(purpose.to_sym)
-      errors.add(:attendees, 'must list those who will be attending the booking.') if attendees.empty?
-      errors.add(:attendees, 'list more than six people, which is the maximum.') if attendees.length > 6
-    end
-  end
-
-  def user_must_be_allowed_to_book_room
-    return unless room && user
-
-    errors.add(:base, 'Only management may make booking for this room.') if room.admin_only? && !user.admin?
-  end
-
-  def cannot_be_outside_management_hours
-    return if user.try(:admin?)
-
-    if start_time.present? && (start_time.hour < 11 || start_time.hour >= 18)
-      errors.add(:start_time, "can't be outside management hours.")
-    end
-    if end_time.present? && (end_time.hour <= 11 || end_time.hour > 18)
-      errors.add(:end_time, "can't be outside management hours.")
-    end
-  end
-
-  def attendees_text
-    attendees.map(&:to_s).join("\r\n")
-  end
-
-  def attendees_text=(string)
-    atds = []
-    lines = string.chomp.split("\r\n")
-    lines.each do |line|
-      attendee = Attendee.parse(line)
-      atds << attendee if attendee.try(:valid?)
-    end
-    self.attendees = atds
-  end
-
   # Prettified string describing the booking's duration.
   def length
     @length ||= duration ? ChronicDuration.output(duration, format: :long) : nil
@@ -415,10 +382,12 @@ class Booking < ApplicationRecord
 
     repeat_iterator do |st1, et1|
       booking.repeat_iterator do |st2, et2|
-        if st2 < st1
-          return true if et2 > st1
+        # Because of the COVID-19 pandemic, bookings need 15 minutes between
+        # them so that the room can be sufficiently ventilated.
+        if st2 < st1 - 15.minutes
+          return true if et2 + 15.minutes > st1
         else
-          return true if st2 < et1
+          return true if st2 < et1 + 15.minutes
         end
       end
     end

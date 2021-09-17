@@ -7,7 +7,7 @@ gem 'dotenv-rails', '~> 2.7'
 
 # Rails
 gem 'rails', '~> 6.1.4'
-gem 'puma', '~> 5.3'
+gem 'puma', '~> 5.4'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
@@ -27,7 +27,7 @@ gem 'strip_attributes', '~> 1.11'
 # HTTP security headers
 gem 'secure_headers', '~> 6.3'
 # Administrator interface
-gem 'rails_admin', '~> 2.1'
+gem 'rails_admin', '~> 2.2'
 gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
@@ -64,19 +64,19 @@ gem 'browser', '~> 5.3'
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
-gem 'faraday_middleware', '~> 1.0.0'
+gem 'faraday_middleware', '~> 1.1.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
-gem 'rqrcode', '~> 2.0.0'
+gem 'rqrcode', '~> 2.1.0'
 gem 'recaptcha', '~> 5.8'
 # Authorisation
 gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 4.5'
-gem 'sentry-rails', '~> 4.5'
-gem 'sentry-sidekiq', '~> 4.5'
+gem 'sentry-ruby', '~> 4.7'
+gem 'sentry-rails', '~> 4.7'
+gem 'sentry-sidekiq', '~> 4.7'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.5'
 # User Gravatar profile pictures
@@ -95,12 +95,12 @@ gem 'pg', '~> 1.2'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.3'
+gem 'redis', '~> 4.4'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 0.7.0'
-gem 'ddtrace', '~> 0.50.0'
+gem 'prometheus_exporter', '~> 0.8.1'
+gem 'ddtrace', '~> 0.52.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'
@@ -114,7 +114,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Performance improvements using native extensions
 gem 'escape_utils', '~> 1.2'
 gem 'fast_blank', '~> 1.0'
-gem 'oj', '~> 3.11'
+gem 'oj', '~> 3.13'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -127,7 +127,7 @@ group :development do
   gem 'binding_of_caller'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.6'
+  gem 'listen', '>= 3.0.5', '< 3.8'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -143,7 +143,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142'
   gem 'webdrivers', '~> 4.6'
   gem 'minitest-retry', '~> 0.2.2', require: false
-  gem 'codecov', '~> 0.5.2', require: false
+  gem 'codecov', '~> 0.6.0', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

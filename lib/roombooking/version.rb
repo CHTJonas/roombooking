@@ -2,7 +2,7 @@ module Roombooking
   module Version
     class << self
       def release
-        'Neon'.freeze
+        'Argon'.freeze
       end
 
       def git_description
@@ -12,6 +12,8 @@ module Roombooking
       def git_description_without_prefix
         git_description.delete_prefix('v').freeze
       end
+
+      alias :to_s :git_description
     end
   end
 end

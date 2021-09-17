@@ -74,16 +74,16 @@ class BookingTest < ActiveSupport::TestCase
     assert_not booking.save
   end
 
-  test 'should not save booking unless times align to the half-hour' do
+  test 'should not save booking unless times align to the quarter-hour' do
     booking = Booking.new(booking_test_hash)
-    booking.start_time += 15.minutes
+    booking.start_time += 10.minutes
     assert_not booking.save
     booking = Booking.new(booking_test_hash)
-    booking.end_time += 15.minutes
+    booking.end_time += 20.minutes
     assert_not booking.save
     booking = Booking.new(booking_test_hash)
-    booking.start_time += 15.minutes
-    booking.end_time += 15.minutes
+    booking.start_time += 10.minutes
+    booking.end_time += 10.minutes
     assert_not booking.save
   end
 
@@ -155,16 +155,16 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'should return stringified length' do
     start_time = DateTime.parse('2019-01-01 12:00')
-    end_time = DateTime.parse('2019-01-01 15:30')
+    end_time = DateTime.parse('2019-01-01 15:15')
     booking = Booking.new(start_time: start_time, end_time: end_time)
-    assert_equal '3 hours 30 minutes', booking.length
+    assert_equal '3 hours 15 minutes', booking.length
   end
 
   test 'should set end time from stringified length' do
     start_time = DateTime.parse('2019-01-01 12:00')
     booking = Booking.new(start_time: start_time)
-    booking.length = '1 hour 30 minutes'
-    assert_equal DateTime.parse('2019-01-01 13:30'), booking.end_time
+    booking.length = '1 hour 15 minutes'
+    assert_equal DateTime.parse('2019-01-01 13:15'), booking.end_time
     booking.length = '7200'
     assert_equal DateTime.parse('2019-01-01 14:00'), booking.end_time
   end
@@ -212,61 +212,6 @@ class BookingTest < ActiveSupport::TestCase
     test_weekly_repeat_bookings(range_start, range_end)
   end
 
-  test 'should not save booking without attendees listed' do
-    booking = Booking.new(booking_test_hash.except(:attendees))
-    booking.purpose = :rehearsal_for
-    booking.camdram_model = camdram_shows(:spring_awakening)
-    booking.room = rooms(:one)
-    assert_not booking.save
-    booking.attendees_text = 'Test'
-    assert_not booking.save
-    booking.attendees_text = 'tony@example.com'
-    assert_not booking.save
-    booking.attendees_text = '<tony@example.com>'
-    assert_not booking.save
-    booking.attendees_text = ' <tony@example.com>'
-    assert_not booking.save
-    booking.attendees_text = '<tony@example.com> '
-    assert_not booking.save
-    booking.attendees_text = 'Tony <tony@example.com> '
-    assert_not booking.save
-    booking.attendees_text = 'Tony <tony@example.com> Johnston'
-    assert_not booking.save
-    booking.attendees_text = 'Tony Johnston <tony@example.com> '
-    assert_not booking.save
-    booking.attendees_text = 'Tony Johnston <tony@example.com>'
-    assert booking.save
-  end
-
-  test 'admins should be able to override attendee registration' do
-    booking = Booking.new(booking_test_hash.except(:attendees))
-    booking.purpose = :training
-    assert booking.save
-    booking.purpose = :other
-    assert booking.save
-    booking.purpose = :theatre_closed
-    assert booking.save
-    booking.camdram_model = camdram_shows(:spring_awakening)
-    booking.room = rooms(:one)
-    booking.purpose = :get_in_for
-    assert booking.save
-    booking.purpose = :performance_of
-    assert booking.save
-  end
-
-  test 'non-admins should not be allowed to make bookings outside office hours' do
-    booking = Booking.new(booking_test_hash)
-    assert booking.save
-    booking.end_time = DateTime.tomorrow + 19.hours + 2.weeks
-    assert_not booking.save
-    booking.start_time = DateTime.tomorrow + 18.hours + 2.weeks
-    booking.end_time = DateTime.tomorrow + 20.hours + 2.weeks
-    assert_not booking.save
-    # Admin override
-    booking.user = users(:charlie)
-    assert booking.save
-  end
-
   private
 
   def booking_test_hash
@@ -277,8 +222,7 @@ class BookingTest < ActiveSupport::TestCase
       end_time:   DateTime.tomorrow + 16.hours + 2.weeks,
       purpose:    'other',
       room:       rooms(:two),
-      user:       users(:jane),
-      attendees:  [attendees(:christine)]
+      user:       users(:jane)
     }
   end
 
