@@ -183,7 +183,7 @@ class Booking < ApplicationRecord
                                .select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
-      errMsg = "The times given overlap with another booking [here](#{url})."
+      errMsg = "The times over this booking overlap with another booking [here](#{url})."
       errMsg+= " Remember that you must leave a 15 minute gap between bookings so that the room can be sufficiently ventilated."
       errors.add(:base, errMsg)
     end
