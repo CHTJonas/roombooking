@@ -364,7 +364,7 @@ GEM
     redcarpet (3.5.1)
     redis (4.4.0)
     redis-prescription (1.0.0)
-    redlock (1.2.1)
+    redlock (1.2.2)
       redis (>= 3.0.0, < 5.0)
     reentrant_mutex (1.1.1)
     regexp_parser (2.1.1)
