@@ -383,11 +383,13 @@ class Booking < ApplicationRecord
     repeat_iterator do |st1, et1|
       booking.repeat_iterator do |st2, et2|
         # Because of the COVID-19 pandemic, bookings need 15 minutes between
-        # them so that the room can be sufficiently ventilated.
-        if st2 < st1 - 15.minutes
-          return true if et2 + 15.minutes > st1
+        # them so that the room can be sufficiently ventilated. The only
+        # exception is two back-to-back performances which can be butted up.
+        offset = purpose == 'performance_of' && booking.purpose == 'performance_of' ? 0 : 15.minutes
+        if st2 < st1 - offset
+          return true if et2 + offset > st1
         else
-          return true if st2 < et1 + 15.minutes
+          return true if st2 < et1 + offset
         end
       end
     end
