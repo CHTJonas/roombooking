@@ -8,11 +8,13 @@ module Roombooking
         # by ActiveSupport::Cache::Store.
 
         def read(name)
+          return nil unless perform_caching?
           key = "#{cache_namespace}/#{name}"
           Rails.cache.read(key)
         end
 
         def write(name, value)
+          return false unless perform_caching?
           key = "#{cache_namespace}/#{name}"
           Rails.cache.write(key, value, expires_in: expiry_time)
         end
@@ -20,8 +22,10 @@ module Roombooking
         def fetch(name, &block)
           key = "#{cache_namespace}/#{name}"
           if block_given?
+            return block.call(key)
             Rails.cache.fetch(key, expires_in: expiry_time, &block)
           else
+            return nil unless perform_caching?
             Rails.cache.fetch(key)
           end
         end
