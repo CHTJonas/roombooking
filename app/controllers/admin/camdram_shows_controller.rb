@@ -5,6 +5,7 @@ module Admin
     def index
       all_tuples = Admin::ShowRetrievalService.perform
       @show_tuples = Kaminari.paginate_array(all_tuples).page(params[:page])
+      @batch_job_result = BatchImportResult.where('queued > ?', Time.now - 2.hours).last
     end
 
     def create
@@ -36,7 +37,7 @@ module Admin
     end
 
     def batch_import
-      BatchImportJob.perform_async(current_user.id)
+      BatchImportJob.perform_async(current_user.id, Time.now.to_f)
       head :no_content
     end
 
