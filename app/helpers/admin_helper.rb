@@ -50,4 +50,8 @@ module AdminHelper
       end
     end
   end
+
+  def time_diff_for_batch_import_job(batch_import_result)
+    ChronicDuration.output(Time.now - batch_import_result.queued, units: 2)
+  end
 end

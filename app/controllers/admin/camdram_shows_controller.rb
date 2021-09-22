@@ -5,7 +5,13 @@ module Admin
     def index
       all_tuples = Admin::ShowRetrievalService.perform
       @show_tuples = Kaminari.paginate_array(all_tuples).page(params[:page])
-      @batch_job_result = BatchImportResult.where('queued > ?', Time.now - 2.hours).last
+
+      @batch_import_result = BatchImportResult.where('queued > ?', Time.now - 2.hours).last
+      Roombooking::CamdramApi.with do |client|
+        @shows_imported_successfully = @batch_import_result.shows_imported_successfully.map { |sid| client.get_show(sid).name }
+        @shows_imported_unsuccessfully = @batch_import_result.shows_imported_unsuccessfully.map { |sid| client.get_show(sid).name }
+        @shows_already_imported = @batch_import_result.shows_already_imported.map { |sid| client.get_show(sid).name }
+      end
     end
 
     def create

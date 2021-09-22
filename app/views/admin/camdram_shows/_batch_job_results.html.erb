@@ -1,30 +1,30 @@
-<% if @batch_job_result %>
+<% if @batch_import_result %>
   <div class="alert alert-warning">
-    <p>Please note that a batch import job was recently initiated <%= ChronicDuration.output(Time.now - @batch_job_result.queued, units: 2) %> ago.</p>
-    <% if @batch_job_result.completed %>
-      <% if @batch_job_result.shows_imported_successfully.length > 0 %>
+    <p>Please note that a batch import job was recently initiated <%= time_diff_for_batch_import_job(@batch_import_result) %> ago.</p>
+    <% if @batch_import_result.completed %>
+      <% if @shows_imported_successfully.length > 0 %>
         <p>The following shows were imported successfully (and have had block bookings made for their performance dates):</p>
         <ol>
-          <% @batch_job_result.shows_imported_successfully.each do |sid| %>
-            <li><%= Roombooking::CamdramApi.with { |c| c.get_show(sid).name } %></li>
+          <% @shows_imported_successfully.each do |name| %>
+            <li><%= name %></li>
           <% end %>
         </ol>
       <% end %>
 
-      <% if @batch_job_result.shows_imported_unsuccessfully.length > 0 %>
+      <% if @shows_imported_unsuccessfully.length > 0 %>
         <p>The following shows were <b>not</b> imported successfully (perhaps because their performance dates clash with an existing booking):</p>
         <ol>
-          <% @batch_job_result.shows_imported_unsuccessfully.each do |sid| %>
-            <li><%= Roombooking::CamdramApi.with { |c| c.get_show(sid).name } %></li>
+          <% @shows_imported_unsuccessfully.each do |name| %>
+            <li><%= name %></li>
           <% end %>
         </ol>
       <% end %>
 
-      <% if @batch_job_result.shows_already_imported.length > 0 %>
+      <% if @shows_already_imported.length > 0 %>
         <p>The following shows were not imported because they had already been imported previously:</p>
         <ol>
-          <% @batch_job_result.shows_already_imported.each do |sid| %>
-            <li><%= Roombooking::CamdramApi.with { |c| c.get_show(sid).name } %></li>
+          <% @shows_already_imported.each do |name| %>
+            <li><%= name %></li>
           <% end %>
         </ol>
       <% end %>
