@@ -416,7 +416,7 @@ GEM
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
-    sidekiq-throttled (0.13.0)
+    sidekiq-throttled (0.14.1)
       concurrent-ruby
       redis-prescription
       sidekiq
@@ -552,7 +552,7 @@ DEPENDENCIES
   sentry-sidekiq (~> 4.7)
   sidekiq (~> 6.2)
   sidekiq-cron (~> 1.2)
-  sidekiq-throttled (~> 0.13.0)
+  sidekiq-throttled (~> 0.14.1)
   sidekiq_queue_metrics (~> 3.0)
   simple_calendar (~> 2.4)
   sitemap_generator (~> 6.1)
