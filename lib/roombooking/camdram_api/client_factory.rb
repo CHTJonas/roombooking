@@ -30,7 +30,7 @@ module Roombooking
             faraday.use(:ddtrace) if ENV['ENABLE_DATADOG_APM']
             faraday.request :url_encoded
             if cache_responses && Rails.application.config.action_controller.perform_caching
-              faraday.response :caching do
+              faraday.response :caching, full_key: true do
                 Roombooking::CamdramApi::ResponseCacheStore
               end
             end
