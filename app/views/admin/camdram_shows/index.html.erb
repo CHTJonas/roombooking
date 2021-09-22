@@ -18,7 +18,10 @@
   preserved for historic record.
 </p>
 
-<%= render 'batch_job_results' %>
+<% if @batch_import_result %>
+  <%= render 'batch_job_results' %>
+<% end %>
+
 <%= render 'import_tools' %>
 
 <table class="table table-condensed table-bordered table-hover">
