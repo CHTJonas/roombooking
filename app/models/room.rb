@@ -8,7 +8,6 @@
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  admin_only :boolean          default(FALSE), not null
 #
 
 class Room < ApplicationRecord
