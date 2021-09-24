@@ -19,6 +19,8 @@ class Room < ApplicationRecord
 
   validates :name, presence: true
 
+  before_destroy :can_destroy?, prepend: true
+
   def currently_booked?
     current_booking.present?
   end
@@ -51,5 +53,14 @@ class Room < ApplicationRecord
 
   def events_in_range(start_date, end_date)
     Event.from_bookings(bookings.in_range(start_date, end_date))
+  end
+
+  private
+
+  def can_destroy?
+    unless bookings.count == 0 || ENV['LET_ME_DESTROY_ROOMS'] == "YES_I_WANT_TO_LOSE_HISTORICAL_DATA"
+      self.errors.add(:base, "Room can't be destroyed because the system is configured to prevent the loss of historic booking data.")
+      throw :abort
+    end
   end
 end
