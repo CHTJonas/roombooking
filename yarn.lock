@@ -1080,10 +1080,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@github/hotkey@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.4.4.tgz#d25a877723f8cefef70f092c2e51c710140ff5e8"
-  integrity sha512-4lMGQfP4DkIdyrp/ar3E/j8/qI9BIajq6SnX3bORRoFMNj6jkrsrQeQlDaebN7411QOv4zOeRBguNQFShLKJEQ==
+"@github/hotkey@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@github/hotkey/-/hotkey-1.5.0.tgz#564388ebbde90177eb3e29e27f3358875cc8f09b"
+  integrity sha512-hxipR/grkXznbgTz1YV6QKvMfDRK2/XJs95k7ZrQmMoBT1Y9C4CTgkEnA0NMc6fxVhNe67XpZdpWrJwP3mc2Jw==
 
 "@npmcli/move-file@^1.0.1":
   version "1.0.1"
