@@ -9,9 +9,9 @@ module Admin
       @batch_import_result = BatchImportResult.where('queued > ?', Time.now - 2.hours).last
       if @batch_import_result
         Roombooking::CamdramApi.with do |client|
-          @shows_imported_successfully = @batch_import_result.shows_imported_successfully.map { |sid| client.get_show(sid).name }
-          @shows_imported_unsuccessfully = @batch_import_result.shows_imported_unsuccessfully.map { |sid| client.get_show(sid).name }
-          @shows_already_imported = @batch_import_result.shows_already_imported.map { |sid| client.get_show(sid).name }
+          @shows_imported_successfully = @batch_import_result.shows_imported_successfully.try(:map) { |sid| client.get_show(sid).name }
+          @shows_imported_unsuccessfully = @batch_import_result.shows_imported_unsuccessfully.try(:map) { |sid| client.get_show(sid).name }
+          @shows_already_imported = @batch_import_result.shows_already_imported.try(:map) { |sid| client.get_show(sid).name }
         end
       end
     end
