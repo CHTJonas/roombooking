@@ -9,18 +9,18 @@ module Roombooking
 
         def read(name)
           return nil unless perform_caching?
-          key = "#{cache_namespace}/#{name}"
+          key = "#{key_namespace}/#{trim_leading_slash(name)}"
           Rails.cache.read(key)
         end
 
         def write(name, value)
           return false unless perform_caching?
-          key = "#{cache_namespace}/#{name}"
+          key = "#{key_namespace}/#{trim_leading_slash(name)}"
           Rails.cache.write(key, value, expires_in: expiry_time)
         end
 
         def fetch(name, &block)
-          key = "#{cache_namespace}/#{name}"
+          key = "#{key_namespace}/#{trim_leading_slash(name)}"
           if block_given?
             return block.call(key)
             Rails.cache.fetch(key, expires_in: expiry_time, &block)
@@ -30,17 +30,24 @@ module Roombooking
           end
         end
 
+        def trim_leading_slash(name)
+          name.reverse.chomp("/").reverse
+        end
+
+        def key_namespace
+          'camdram_api_responses'
+        end
+
         def expiry_time
           5.minutes
         end
 
-        def cache_namespace
-          'rbCamdramApiResponses'
+        def kill_switch_key
+          'cache_camdram_api_responses'
         end
 
         def perform_caching?
-          key = "#{cache_namespace}/perform_caching"
-          Rails.cache.fetch(key) { true }
+          Rails.cache.fetch(kill_switch_key) { true }
         end
       end
     end
