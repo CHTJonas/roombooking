@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 2021_09_23_143627) do
     t.index ["attendee_id", "booking_id"], name: "index_attendees_bookings_on_attendee_id_and_booking_id", unique: true
   end
 
-  create_table "batch_import_results", id: false, force: :cascade do |t|
-    t.string "jid", null: false
+  create_table "batch_import_results", force: :cascade do |t|
+    t.string "jid"
     t.datetime "queued", null: false
     t.datetime "started"
     t.datetime "completed"

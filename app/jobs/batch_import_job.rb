@@ -7,8 +7,9 @@ class BatchImportJob
   sidekiq_options queue: 'roombooking_jobs'
   sidekiq_throttle concurrency: { limit: 1 }
 
-  def perform(user_id, queued_time)
-    result = BatchImportResult.create!(jid: jid, queued: Time.at(queued_time), started: Time.now)
+  def perform(user_id, result_id)
+    result = BatchImportResult.lock.find(result_id)
+    result.update!(started: Time.now)
 
     PaperTrail.request.whodunnit = user_id
     shows = ShowEnumerationService.perform
@@ -39,10 +40,12 @@ class BatchImportJob
     end
 
     PaperTrail.request.whodunnit = nil
-    result.completed = Time.now
-    result.shows_imported_successfully = shows_imported_successfully
-    result.shows_imported_unsuccessfully = shows_imported_unsuccessfully
-    result.shows_already_imported = shows_already_imported
-    result.save!
+    result.with_lock do
+      result.completed = Time.now
+      result.shows_imported_successfully = shows_imported_successfully
+      result.shows_imported_unsuccessfully = shows_imported_unsuccessfully
+      result.shows_already_imported = shows_already_imported
+      result.save!
+    end
   end
 end

@@ -1,7 +1,7 @@
 class CreateBatchImportResults < ActiveRecord::Migration[6.1]
   def change
-    create_table :batch_import_results, id: false do |t|
-      t.string :jid, null: false
+    create_table :batch_import_results do |t|
+      t.string :jid
       t.timestamp :queued, null: false
       t.timestamp :started
       t.timestamp :completed

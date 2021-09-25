@@ -45,7 +45,11 @@ module Admin
     end
 
     def batch_import
-      BatchImportJob.perform_async(current_user.id, Time.now.to_f)
+      result = BatchImportResult.create!(queued: Time.now)
+      result.with_lock do
+        jid = BatchImportJob.perform_async(current_user.id, result.id)
+        result.update!(jid: jid)
+      end
       head :no_content
     end
 

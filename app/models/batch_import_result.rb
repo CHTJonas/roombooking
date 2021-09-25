@@ -2,7 +2,8 @@
 #
 # Table name: batch_import_results
 #
-#  jid                           :string           not null, primary key
+#  id                            :bigint           not null, primary key
+#  jid                           :string
 #  queued                        :datetime         not null
 #  started                       :datetime
 #  completed                     :datetime
@@ -11,8 +12,5 @@
 #  shows_already_imported        :integer          is an Array
 #
 class BatchImportResult < ApplicationRecord
-  validates :jid, presence: true
   validates :queued, presence: true
-
-  self.primary_key = :jid
 end
