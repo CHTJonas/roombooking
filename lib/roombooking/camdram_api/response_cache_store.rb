@@ -47,7 +47,8 @@ module Roombooking
         end
 
         def perform_caching?
-          Rails.cache.fetch(kill_switch_key) { true }
+          master_cache = Rails.application.config.action_controller.perform_caching
+          Rails.cache.fetch(kill_switch_key) { true } && (master_cache || Rails.env.test?)
         end
       end
     end
