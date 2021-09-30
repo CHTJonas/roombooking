@@ -39,7 +39,7 @@ module Roombooking
         end
 
         def expiry_time
-          5.minutes
+          8.hours
         end
 
         def kill_switch_key
