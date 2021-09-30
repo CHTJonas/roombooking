@@ -82,10 +82,15 @@ class RoomsController < ApplicationController
   def destroy
     @room = Room.find(params[:id])
     authorize! :destroy, @room
-    @room.destroy
-    alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!" }
-    flash[:alert] = alert
-    redirect_to rooms_path
+    if @room.destroy
+      alert = { 'class' => 'success', 'message' => "Deleted #{@room.name}!" }
+      flash[:alert] = alert
+      redirect_to rooms_path
+    else
+      alert = { 'class' => 'danger', 'message' => @room.errors.full_messages.first }
+      flash[:alert] = alert
+      redirect_to rooms_path
+    end
   end
 
   private

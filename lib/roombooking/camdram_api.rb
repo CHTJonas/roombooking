@@ -11,10 +11,6 @@ module Roombooking
         @base_url ||= 'https://www.camdram.net'
       end
 
-      def url_for(entity)
-        base_url + entity.url_slug.chomp('.json')
-      end
-
       def with(&block)
         client_pool.with do |client|
           block.call(client)

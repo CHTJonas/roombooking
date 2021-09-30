@@ -11,11 +11,9 @@ class IcalGenerationJob
   def perform
     service = IcalGenerationService.new(Booking.all, 'rooms')
     service.perform(refresh_cache: true)
-    sleep 6
     Room.all.each do |room|
       service = IcalGenerationService.new(room.bookings, room.cache_key)
       service.perform(refresh_cache: true)
-      sleep 3
     end
   end
 end

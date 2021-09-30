@@ -18,7 +18,7 @@ module Admin
             CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           end
           true
-        rescue StandardError
+        rescue StandardError => e
           Sentry.capture_exception(e)
           false
         end

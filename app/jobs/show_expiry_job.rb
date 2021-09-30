@@ -13,7 +13,6 @@ class ShowExpiryJob
     CamdramShow.where(dormant: false).find_each do |show|
       camdram_object = show.camdram_object
       next if camdram_object.nil?
-
       performances = camdram_object.performances.select do |p|
         p.venue.present? && venue_ids.include?(p.venue.id)
       end

@@ -7,12 +7,12 @@ gem 'dotenv-rails', '~> 2.7'
 
 # Rails
 gem 'rails', '~> 6.1.4'
-gem 'puma', '~> 5.4'
+gem 'puma', '~> 5.5'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
 gem 'webpacker', '~> 5.4'
-gem 'linked-list', '~> 0.0.15'
+gem 'linked-list', '~> 0.0.16'
 
 # The following line is needed because sync is no longer installed by default in Ruby 2.7
 gem 'sync'
@@ -33,7 +33,7 @@ gem 'gemsurance', '~> 0.10.0'
 # Background job processing
 gem 'sidekiq', '~> 6.2'
 gem 'sidekiq-cron', '~> 1.2'
-gem 'sidekiq-throttled', '~> 0.13.0'
+gem 'sidekiq-throttled', '~> 0.14.1'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
 gem 'high_voltage', '~> 3.1'

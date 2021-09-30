@@ -10,9 +10,13 @@ class CamdramEntityCacheWarmupJob
   def perform(global_id)
     camdram_entity = GlobalID::Locator.locate global_id
     Roombooking::CamdramApi.with_retry do
-      camdram_entity.name(refresh_cache: true)
+      camdram_entity.response_cache_keys.each do |key|
+        Rails.cache.delete(key)
+      end
+      camdram_entity.clear_camdram_object!
+      camdram_entity.camdram_object
     rescue Camdram::Error::GenericException
-      # Preserve cache, do nothing.
+      # NOOP
     end
   end
 end

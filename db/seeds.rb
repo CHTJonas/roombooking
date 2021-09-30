@@ -7,14 +7,14 @@ playroom = CamdramVenue.create(camdram_id: 30)
 adc_venues = [adc, bar, larkum]
 playroom_venues = [playroom]
 
-Room.create(name: 'Stage', camdram_venues: adc_venues, admin_only: true)
-Room.create(name: 'Larkum Studio', camdram_venues: adc_venues, admin_only: false)
-Room.create(name: 'Dressing Room 1', camdram_venues: adc_venues, admin_only: false)
-Room.create(name: 'Dressing Room 2', camdram_venues: adc_venues, admin_only: false)
-Room.create(name: 'Bar', camdram_venues: adc_venues, admin_only: false)
-Room.create(name: 'Playroom Auditorium', camdram_venues: playroom_venues, admin_only: true)
-Room.create(name: 'Playroom Dressing Room 1', camdram_venues: playroom_venues, admin_only: true)
-Room.create(name: 'Playroom Dressing Room 2', camdram_venues: playroom_venues, admin_only: true)
+Room.create(name: 'ADC Stage', camdram_venues: adc_venues)
+Room.create(name: 'Larkum Studio', camdram_venues: adc_venues)
+Room.create(name: 'ADC Dressing Room 1', camdram_venues: adc_venues)
+Room.create(name: 'ADC Dressing Room 2', camdram_venues: adc_venues)
+Room.create(name: 'ADC Bar', camdram_venues: adc_venues)
+Room.create(name: 'Playroom Auditorium', camdram_venues: playroom_venues)
+Room.create(name: 'Playroom Dressing Room 1', camdram_venues: playroom_venues)
+Room.create(name: 'Playroom Dressing Room 2', camdram_venues: playroom_venues)
 
 cj = User.create(name: "Charlie Jonas", email: "charlie@charliejonas.co.uk", admin: true, sysadmin: true, validated_at: Time.zone.now)
 ProviderAccount.create(provider: "camdram", uid: "3807", user: cj)

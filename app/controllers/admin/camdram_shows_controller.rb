@@ -5,6 +5,15 @@ module Admin
     def index
       all_tuples = Admin::ShowRetrievalService.perform
       @show_tuples = Kaminari.paginate_array(all_tuples).page(params[:page])
+
+      @batch_import_result = BatchImportResult.where('queued > ?', Time.now - 2.hours).last
+      if @batch_import_result
+        Roombooking::CamdramApi.with do |client|
+          @shows_imported_successfully = @batch_import_result.shows_imported_successfully.try(:map) { |sid| client.get_show(sid).name }
+          @shows_imported_unsuccessfully = @batch_import_result.shows_imported_unsuccessfully.try(:map) { |sid| client.get_show(sid).name }
+          @shows_already_imported = @batch_import_result.shows_already_imported.try(:map) { |sid| client.get_show(sid).name }
+        end
+      end
     end
 
     def create
@@ -36,7 +45,11 @@ module Admin
     end
 
     def batch_import
-      BatchImportJob.perform_async(current_user.id)
+      result = BatchImportResult.create!(queued: Time.now)
+      result.with_lock do
+        jid = BatchImportJob.perform_async(current_user.id, result.id)
+        result.update!(jid: jid)
+      end
       head :no_content
     end
 

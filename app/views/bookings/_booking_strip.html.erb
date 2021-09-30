@@ -5,7 +5,7 @@
       <%= link_to 'View', booking_path(booking) %>
     </div>
     <span class="d-block">
-      <%= booking.user.name %> has booked the <%= booking.room.name %>
+      <%= booking.user.name %> has booked <%= booking.room.name %>
       from <%= booking.start_time.strftime("%H:%M") %> to <%= booking.end_time.strftime("%H:%M") %>
       on <%= booking.start_time.strftime("%d/%m/%y") %>.
     </span>
