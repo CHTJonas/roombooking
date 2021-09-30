@@ -9,7 +9,7 @@ class UserPermissionRefreshJobTest < ActiveJob::TestCase
     assert_equal 1, UserPermissionRefreshJob.jobs.size
     UserPermissionRefreshJob.drain
     assert_equal 0, UserPermissionRefreshJob.jobs.size
-    assert_equal CamdramShow.where(dormant: false, active: true), users(:charlie).reload.camdram_shows
+    assert_equal CamdramShow.where(active: true, dormant: false), users(:charlie).reload.camdram_shows
     assert_equal CamdramSociety.where(active: true), users(:charlie).reload.camdram_societies
   end
 end
