@@ -14,7 +14,7 @@ class CamdramEntityCacheWarmupJob
         Rails.cache.delete(key)
       end
       camdram_entity.clear_camdram_object!
-      camdram_entity.name(refresh_cache: true)
+      camdram_entity.camdram_object
     rescue Camdram::Error::GenericException
       # NOOP
     end
