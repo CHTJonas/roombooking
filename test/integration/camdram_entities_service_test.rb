@@ -15,13 +15,13 @@ class CamdramEntitiesServiceTest < ActionDispatch::IntegrationTest
 
   test 'should return an array of authorised Camdram entities for an admin' do
     service = CamdramEntitiesService.create(@admin, nil)
-    assert_equal CamdramShow.where(dormant: false, active: true), service.shows
+    assert_equal CamdramShow.where(active: true, dormant: false), service.shows
     assert_equal CamdramSociety.where(active: true), service.societies
   end
 
   test 'should return an array of authorised Camdram entities for an imposter' do
     service = CamdramEntitiesService.create(@user, @admin)
-    assert_equal CamdramShow.where(dormant: false, active: true), service.shows
+    assert_equal CamdramShow.where(active: true, dormant: false), service.shows
     assert_equal CamdramSociety.where(active: true), service.societies
   end
 end

@@ -22,7 +22,7 @@ class ApplicationCollector < PrometheusExporter::Server::TypeCollector
   def metrics
     @user_count.observe User.count
     @booking_count.observe Booking.count
-    @camdram_show_count.observe CamdramShow.where(active: true).count
+    @camdram_show_count.observe CamdramShow.where(active: true, dormant: false).count
     @camdram_society_count.observe CamdramSociety.count
     @email_count.observe Email.count
 

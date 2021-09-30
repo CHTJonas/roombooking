@@ -53,6 +53,7 @@ module CamdramInteroperability
 
   # Returns the entity's canonical URL on Camdram.
   def url
+    return nil if camdram_object.nil?
     Roombooking::CamdramApi.base_url + camdram_object.url_slug.chomp('.json')
   end
 
@@ -81,6 +82,6 @@ module CamdramInteroperability
   def response_cache_keys
     base_url = Roombooking::CamdramApi.base_url
     key_namespace = Roombooking::CamdramApi::ResponseCacheStore.key_namespace
-    [url, url_by_id_for].map { |u| u.sub(base_url, key_namespace) + '.json'}
+    [url, url_by_id_for].reject { |u| u.nil? }.map { |u| u.sub(base_url, key_namespace) + '.json'}
   end
 end
