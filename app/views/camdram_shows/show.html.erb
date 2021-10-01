@@ -39,21 +39,29 @@
 <%= content_tag :div, class: 'row' do %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-8' do %>
     <%= content_tag(:h4, 'Description') %>
-    <%= Roombooking::Markdown.render_like_camdram(@external_show.description) %>
+    <% if @external_show.present? %>
+      <%= Roombooking::Markdown.render_like_camdram(@external_show.description) %>
+    <% else %>
+      <p><i>Description unavailable</i></p>
+    <% end %>
   <% end %>
   <%= content_tag :div, nil, class: 'd-sm-none w-100' %>
   <%= content_tag :div, class: 'col col-sm-12 col-lg-4' do %>
     <%= content_tag(:h4, 'Performances:') %>
-    <ul class="list-group list-group-flush">
-      <% @external_show.performances.each do |performance| %>
-        <% if performance.repeat_until.present? %>
-          <% (performance.start_at.to_date..performance.repeat_until.try(:to_date)).each do |date| %>
-            <%= render 'performance', performance: performance, date: date %>
+    <% if @external_show.present? %>
+      <ul class="list-group list-group-flush">
+        <% @external_show.performances.each do |performance| %>
+          <% if performance.repeat_until.present? %>
+            <% (performance.start_at.to_date..performance.repeat_until.try(:to_date)).each do |date| %>
+              <%= render 'performance', performance: performance, date: date %>
+            <% end %>
+          <% else %>
+            <%= render 'performance', performance: performance, date: performance.start_at.to_date %>
           <% end %>
-        <% else %>
-          <%= render 'performance', performance: performance, date: performance.start_at.to_date %>
         <% end %>
-      <% end %>
-    </ul>
+      </ul>
+    <% else %>
+      <p><i>Performance data unavailable</i></p>
+    <% end %>
   <% end %>
 <% end %>
