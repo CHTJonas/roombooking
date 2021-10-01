@@ -1,64 +1,33 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "1d89de62b0cd8a31093836bbfea403610483a3d81c9c85ccfe53c030886d7e79",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/users/show.html.erb",
-      "line": 29,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => User.includes(:camdram_account).includes(:camdram_shows).includes(:camdram_societies).find(params[:id]), {})",
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "1ae2c214bdced6da0349335ce86c3d8e4158c3c16c09c5871dd5d05b1eeb5c19",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/camdram_shows/show.html.erb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"View on Camdram\", CamdramShow.find(params[:id]).url, :class => \"btn btn-outline-info my-md-1\")",
       "render_path": [
         {
           "type": "controller",
-          "class": "UsersController",
+          "class": "CamdramShowsController",
           "method": "show",
-          "line": 36,
-          "file": "app/controllers/users_controller.rb",
+          "line": 14,
+          "file": "app/controllers/camdram_shows_controller.rb",
           "rendered": {
-            "name": "users/show",
-            "file": "app/views/users/show.html.erb"
+            "name": "camdram_shows/show",
+            "file": "app/views/camdram_shows/show.html.erb"
           }
         }
       ],
       "location": {
         "type": "template",
-        "template": "users/show"
+        "template": "camdram_shows/show"
       },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "52c18f2db502ca26bf65bab5112be1f84bf403b4a3160ef07fdd72809abef762",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/users/show.html.erb",
-      "line": 68,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => User.includes(:camdram_account).includes(:camdram_shows).includes(:camdram_societies).find(params[:id]).camdram_societies, {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "UsersController",
-          "method": "show",
-          "line": 36,
-          "file": "app/controllers/users_controller.rb",
-          "rendered": {
-            "name": "users/show",
-            "file": "app/views/users/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "users/show"
-      },
-      "user_input": "params[:id]",
+      "user_input": "CamdramShow.find(params[:id]).url",
       "confidence": "Weak",
       "note": ""
     },
@@ -80,37 +49,6 @@
       },
       "user_input": ":admin",
       "confidence": "High",
-      "note": ""
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "959df23ef8e28b4deae305093dd9937879e715c225203dc2551a592a9655b56f",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/users/show.html.erb",
-      "line": 52,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => User.includes(:camdram_account).includes(:camdram_shows).includes(:camdram_societies).find(params[:id]).camdram_shows, {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "UsersController",
-          "method": "show",
-          "line": 36,
-          "file": "app/controllers/users_controller.rb",
-          "rendered": {
-            "name": "users/show",
-            "file": "app/views/users/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "users/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
       "note": ""
     },
     {
@@ -145,6 +83,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-02-16 00:34:17 +0000",
-  "brakeman_version": "4.7.2"
+  "updated": "2021-10-01 21:24:20 +0100",
+  "brakeman_version": "5.1.1"
 }
