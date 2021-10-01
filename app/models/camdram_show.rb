@@ -14,6 +14,7 @@
 #  slack_webhook  :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  memoized_name  :string
 #
 
 class CamdramShow < ApplicationRecord
@@ -48,6 +49,10 @@ class CamdramShow < ApplicationRecord
       roombooking_show.max_meetings = 4
       roombooking_show.active = true
     end
+  end
+
+  def name
+    memoized_name || camdram_object.try(:name)
   end
 
   # Abstraction to allow vallidation of new bookings. Returns an array that
