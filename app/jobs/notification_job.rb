@@ -5,17 +5,19 @@ class NotificationJob
   include Sidekiq::Throttled::Worker
 
   sidekiq_options queue: 'roombooking_jobs'
-  sidekiq_throttle threshold: { limit: 10, period: 1.hour,
-                                key_suffix: lambda do |booking_id, camdram_model_global_id|
-                                              if camdram_model_global_id.present?
-                                                camdram_model_global_id
-                                              else
-                                                booking_id
-                                              end
-                                            end }
+  sidekiq_throttle threshold: {
+    limit: 10, period: 1.hour, key_suffix: lambda do |booking_id, camdram_model_global_id|
+      if camdram_model_global_id.present?
+        camdram_model_global_id
+      else
+        booking_id
+      end
+    end
+  }
 
   def perform(booking_id, camdram_model_global_id)
-    @booking = Booking.find(booking_id)
+    @booking = Booking.find_by_id(booking_id)
+    return unless @booking.present?
     @camdram_model = GlobalID::Locator.locate camdram_model_global_id if camdram_model_global_id
     if @camdram_model.present?
       notify_slack_webhook if @camdram_model.slack_webhook.present?
