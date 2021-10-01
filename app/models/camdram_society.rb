@@ -16,6 +16,7 @@
 class CamdramSociety < ApplicationRecord
   include CamdramInteroperability
   include CamdramBookingHandling
+  include DataPreservation
 
   has_paper_trail
   strip_attributes only: [:slack_webhook]

@@ -7,8 +7,7 @@ class CamdramShowsController < ApplicationController
     @external_show = @camdram_show.camdram_object
     if @external_show.nil?
       alert = { 'class' => 'warning', 'message' => 'This show appears to have been deleted from Camdram.' }
-      flash.now[:alert] = alert
-      render 'layouts/blank', locals: { reason: 'camdram object does not exist' }, status: :not_found, formats: :html and return
+      flash[:alert] = alert
     end
     @quota = @camdram_show.weekly_quota Time.zone.today.beginning_of_week
     @bookings = @camdram_show.bookings.where(purpose: %i[audition_for meeting_for rehearsal_for])

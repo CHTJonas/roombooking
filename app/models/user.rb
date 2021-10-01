@@ -18,6 +18,8 @@
 #
 
 class User < ApplicationRecord
+  include DataPreservation
+
   has_paper_trail ignore: [:last_login]
   strip_attributes only: %i[name email]
 

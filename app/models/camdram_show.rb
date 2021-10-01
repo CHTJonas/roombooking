@@ -14,11 +14,13 @@
 #  slack_webhook  :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  memoized_name  :string
 #
 
 class CamdramShow < ApplicationRecord
   include CamdramInteroperability
   include CamdramBookingHandling
+  include DataPreservation
 
   has_paper_trail
   strip_attributes only: [:slack_webhook]
@@ -48,6 +50,10 @@ class CamdramShow < ApplicationRecord
       roombooking_show.max_meetings = 4
       roombooking_show.active = true
     end
+  end
+
+  def name
+    memoized_name || camdram_object.try(:name)
   end
 
   # Abstraction to allow vallidation of new bookings. Returns an array that

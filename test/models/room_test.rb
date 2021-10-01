@@ -20,6 +20,15 @@ class RoomTest < ActiveSupport::TestCase
     CamdramEntityCacheWarmupJob.clear
   end
 
+  test "should preserve a room's historic booking data" do
+    room = rooms(:one)
+    assert_not_equal 0, room.bookings.count
+    assert_not room.destroy
+    room.bookings.destroy_all
+    assert_equal 0, room.bookings.count
+    assert room.destroy
+  end
+
   test "should return a room's ordinary booking at a given date" do
     room = rooms(:one)
     user = users(:charlie)
