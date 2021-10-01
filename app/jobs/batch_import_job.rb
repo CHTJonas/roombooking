@@ -40,6 +40,7 @@ class BatchImportJob
     end
 
     PaperTrail.request.whodunnit = nil
+    UserPermissionRefreshJob.perform_async
     result.with_lock do
       result.completed = Time.now
       result.shows_imported_successfully = shows_imported_successfully
