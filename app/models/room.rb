@@ -11,6 +11,8 @@
 #
 
 class Room < ApplicationRecord
+  include DataPreservation
+
   has_paper_trail
   strip_attributes only: [:name]
 
@@ -18,8 +20,6 @@ class Room < ApplicationRecord
   has_and_belongs_to_many :camdram_venues
 
   validates :name, presence: true
-
-  before_destroy :can_destroy?, prepend: true
 
   def currently_booked?
     current_booking.present?
@@ -53,14 +53,5 @@ class Room < ApplicationRecord
 
   def events_in_range(start_date, end_date)
     Event.from_bookings(bookings.in_range(start_date, end_date))
-  end
-
-  private
-
-  def can_destroy?
-    unless bookings.count == 0 || ENV['LET_ME_DESTROY_ROOMS'] == "YES_I_WANT_TO_LOSE_BOOKING_DATA"
-      self.errors.add(:base, "Room can't be destroyed because the system is configured to prevent the loss of booking data.")
-      throw :abort
-    end
   end
 end
