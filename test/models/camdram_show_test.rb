@@ -52,6 +52,25 @@ class CamdramShowTest < ActiveSupport::TestCase
     assert show.save
   end
 
+  test "should preserve a shows's historic booking data" do
+    travel_to Time.zone.local(2016, 1, 9, 12, 26, 44)
+    show = camdram_shows(:spring_awakening)
+    booking = Booking.create!(
+      name:          'Data Preservation Test',
+      start_time:    DateTime.tomorrow + 14.hours + 2.weeks,
+      end_time:      DateTime.tomorrow + 16.hours + 2.weeks,
+      purpose:       'rehearsal_for',
+      camdram_model: show,
+      room:          rooms(:one),
+      user:          users(:charlie)
+    )
+    assert_not_equal 0, show.bookings.count
+    assert_not show.destroy
+    show.bookings.destroy_all
+    assert_equal 0, show.bookings.count
+    assert show.destroy
+  end
+
   test 'should validate Slack webhook URLs' do
     show = CamdramShow.new(camdram_id: 6451)
     validates_slack_webhook(show)

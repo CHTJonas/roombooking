@@ -22,6 +22,15 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.save
   end
 
+  test "should preserve a user's historic booking data" do
+    user = users(:charlie)
+    assert_not_equal 0, user.bookings.count
+    assert_not user.destroy
+    user.bookings.destroy_all
+    assert_equal 0, user.bookings.count
+    assert user.destroy
+  end
+
   test 'User#revoke_admin! should revoke user admin rights' do
     user = users(:charlie)
     user.update(admin: true)

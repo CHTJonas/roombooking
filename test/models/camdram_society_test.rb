@@ -30,6 +30,25 @@ class CamdramSocietyTest < ActiveSupport::TestCase
     assert_not soc.save
   end
 
+  test "should preserve a society's historic booking data" do
+    society = camdram_societies(:camdram)
+    society.update!(max_meetings: 2)
+    booking = Booking.create!(
+      name:          'Data Preservation Test',
+      start_time:    DateTime.tomorrow + 8.weeks + 12.hours,
+      end_time:      DateTime.tomorrow + 8.weeks + 14.hours,
+      purpose:       'meeting_of',
+      camdram_model: society,
+      room:          rooms(:one),
+      user:          users(:charlie)
+    )
+    assert_not_equal 0, society.bookings.count
+    assert_not society.destroy
+    society.bookings.destroy_all
+    assert_equal 0, society.bookings.count
+    assert society.destroy
+  end
+
   test "should return society's camdram object" do
     soc = camdram_societies(:camdram)
     obj = soc.camdram_object
