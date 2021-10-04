@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CHTJonas/camdram-ruby.git
-  revision: 8734b536791da8eea096fae5c07b39b371e19e19
+  revision: 7e02620ab4e5626ff2ba77b9235b239f78765cd4
   specs:
     camdram (2.0.0)
       mime-types (~> 3.2)
@@ -199,7 +199,7 @@ GEM
     js_cookie_rails (2.2.0)
       railties (>= 3.1)
     json (2.5.1)
-    jwt (2.2.3)
+    jwt (2.3.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
