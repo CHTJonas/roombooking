@@ -27,7 +27,7 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     cals = Icalendar::Calendar.parse(body)
     evts = cals.first.events
-    assert_equal "Purpose: Other\n\n", evts.first.description
+    assert_equal "Purpose: Other", evts.first.description
     assert_equal 'ADC Theatre', evts.first.location
     assert_equal 'Charlie Jonas', evts.first.organizer
     assert_equal 'ordinary_booking_0', evts[0].summary
