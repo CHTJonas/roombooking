@@ -52,9 +52,7 @@ module Roombooking
         end
 
         def clear!
-          Rails.cache.redis.keys.filter { |s| s.start_with? key_namespace }.each do |key|
-            Rails.cache.delete(key)
-          end
+          Rails.cache.delete_matched("#{key_namespace}*")
         end
       end
     end
