@@ -50,6 +50,12 @@ module Roombooking
           master_cache = Rails.application.config.action_controller.perform_caching
           Rails.cache.fetch(kill_switch_key) { true } && (master_cache || Rails.env.test?)
         end
+
+        def clear!
+          Rails.cache.redis.keys.filter { |s| s.start_with? key_namespace }.each do |key|
+            Rails.cache.delete(key)
+          end
+        end
       end
     end
   end
