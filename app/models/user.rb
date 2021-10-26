@@ -24,30 +24,45 @@ class User < ApplicationRecord
   strip_attributes only: %i[name email]
 
   include PgSearch::Model
-  pg_search_scope :search_by_name_and_email, against: %i[name email],
-                                             ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
-                                                                          dmetaphone: { any_word: true }, trigram: { only: [:name] } }
+  pg_search_scope :search_by_name_and_email, against: %i[name email], ignoring: :accents, using: {
+    tsearch: { prefix: true, dictionary: 'english' },
+    dmetaphone: { any_word: true },
+    trigram: { only: [:name] }
+  }
 
+  has_one :two_factor_token, dependent: :delete
   has_many :bookings, dependent: :destroy
-  has_many :provider_accounts, dependent: :delete_all
   has_and_belongs_to_many :camdram_shows
   has_and_belongs_to_many :camdram_societies
+  has_many :provider_accounts, dependent: :delete_all
   has_one :camdram_account, -> { where(provider: 'camdram') }, class_name: 'ProviderAccount'
   has_many :camdram_tokens, dependent: :delete_all
   has_one :latest_camdram_token, -> { order(created_at: :desc) }, class_name: 'CamdramToken'
-  has_one :two_factor_token, dependent: :delete
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   validate :email_verification_state_must_be_valid
 
   before_validation :generate_validation_token, on: :create
+
   after_create_commit do |user|
-    EmailVerificationMailer.deliver_async.notify(user.id) unless user.validated_at.present?
+    EmailVerificationMailer.deliver_async.create(user.id) unless user.validated_at.present?
+  end
+
+  after_update_commit do |user|
+    EmailVerificationMailer.deliver_async.update(user.id) unless user.validated_at.present?
   end
 
   def generate_validation_token
     self.validation_token = SecureRandom.alphanumeric(48) unless validated_at.present?
+  end
+
+  def email=(address)
+    if address != self.email
+      self.validated_at = nil
+      generate_validation_token
+    end
+    super
   end
 
   # Returns a user from an OmniAuth::AuthHash.
@@ -58,12 +73,12 @@ class User < ApplicationRecord
     if account.present?
       account.user
     else
-      name = auth_hash['info']['name']
       email = auth_hash['info']['email'].downcase
       user = User.find_by(email: email)
       ActiveRecord::Base.transaction do
+        PaperTrail.request.whodunnit = email
         unless user.present?
-          PaperTrail.request.whodunnit = email
+          name = auth_hash['info']['name']
           user = User.create!(name: name, email: email)
         end
         ProviderAccount.create!(provider: provider, uid: uid, user: user)

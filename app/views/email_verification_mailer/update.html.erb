@@ -1,0 +1,16 @@
+<% content_for :heading, 'Verify your email address' %>
+
+<p>Dear <%= @user.name.split.first %>,</p>
+
+<p>You or someone acting on your behalf has updated the email address of your account on the ADC Room Booking System.</p>
+
+<p>
+  To complete the process, please follow the link below to verify your email address.
+  Alternatively you may copy the URL into the address box of your web browser.
+</p>
+
+<%= link_to nil, validate_user_url(@user, token: @user.validation_token) %>
+
+<p>Thank you,</p>
+
+<p>The ADC Room Booking System.</p>

@@ -1,17 +1,17 @@
 require 'test_helper'
 
 class EmailVerificationMailerTest < ActionMailer::TestCase
-  test 'should email user a verification link' do
+  test 'should email a new user a verification link' do
     user = users(:bob)
-    email = EmailVerificationMailer.notify(user.id)
+    email = EmailVerificationMailer.create(user.id)
     assert_emails 1 do
       email.deliver_now
     end
     assert_equal ['roombooking@adctheatre.com'], email.from
     assert_equal ['bob.builder@example.com'], email.to
     assert_equal 'Verify your email address', email.subject
-    assert email.html_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('notify_html').join
-    assert email.text_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('notify_txt').join
+    assert email.html_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('create_html').join
+    assert email.text_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('create_txt').join
   end
 
   test 'should email user a verification reminder' do
