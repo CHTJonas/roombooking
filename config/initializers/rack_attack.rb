@@ -3,6 +3,8 @@
 Rails.application.config.middleware.use Roombooking::Middleware::RateLimiter
 Rails.application.config.middleware.use Rack::Attack
 
+Rack::Attack.cache.prefix = 'rack-attack'
+
 # Accept from allowlist.
 Rack::Attack.safelist('allowlist-by-ip') do |req|
   '127.0.0.1' == req.ip || '::1' == req.ip ||
