@@ -61,4 +61,7 @@ Rails.application.configure do
   # Don't timeout requests in development unless the timeout is explicitely set.
   # This is useful for in-depth debugging with byebug.
   ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'] ||= '0'
+
+  # Disable rack-attack gem.
+  Rack::Attack.enabled = false
 end
