@@ -261,7 +261,7 @@ GEM
     omniauth-camdram (1.0.0)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
-    omniauth-oauth2 (1.7.1)
+    omniauth-oauth2 (1.7.2)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
     omniauth-rails_csrf_protection (0.1.2)
