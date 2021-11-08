@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SitemapGenerationJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
   include Sidekiq::Throttled::Worker
 
   sidekiq_options queue: 'roombooking_jobs'
