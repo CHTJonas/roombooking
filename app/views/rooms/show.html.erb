@@ -16,3 +16,10 @@
     <i class="fa fa-calendar"></i> Subscribe to iCal
   <% end %>
 <% end %>
+
+<% if @room.notes %>
+  <h4 class="mt-4">Notes</h4>
+  <p class="mt-1">
+    <%= @room.notes %>
+  </p>
+<% end %>
