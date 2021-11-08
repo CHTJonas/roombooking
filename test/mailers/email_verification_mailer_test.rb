@@ -14,6 +14,19 @@ class EmailVerificationMailerTest < ActionMailer::TestCase
     assert email.text_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('create_txt').join
   end
 
+  test 'should email a user who updates their email address a verification link' do
+    user = users(:bob)
+    email = EmailVerificationMailer.update(user.id)
+    assert_emails 1 do
+      email.deliver_now
+    end
+    assert_equal ['roombooking@adctheatre.com'], email.from
+    assert_equal ['bob.builder@example.com'], email.to
+    assert_equal 'Verify your email address', email.subject
+    assert email.html_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('update_html').join
+    assert email.text_part.body.to_s.gsub(/\r\n?/, "\n").include? read_fixture('update_txt').join
+  end
+
   test 'should email user a verification reminder' do
     user = users(:bob)
     email = EmailVerificationMailer.remind(user.id)
