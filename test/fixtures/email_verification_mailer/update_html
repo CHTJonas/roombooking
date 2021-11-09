@@ -1,13 +1,10 @@
 <p>Dear Bob,</p>
 
-<p>
-  You have yet to verify the email address associated with your account on the Room Booking System.
-  You will need to do this before you can login and make bookings.
-</p>
+<p>You or someone acting on your behalf has updated the email address of your account on the ADC Room Booking System.</p>
 
 <p>
-  To complete the process, please follow the link below.
-  Alternatively you may copy the URL into the address bar of your web browser.
+  To complete the process, please follow the link below to verify your email address.
+  Alternatively you may copy the URL into the address box of your web browser.
 </p>
 
 <a href="https://roombooking.adctheatre.com/users/902541635/validate?token=KTsbFf4QQ6wCxmWUHPVplAZMWhrQpoWI1QB3AejVmu0ViJaC">https://roombooking.adctheatre.com/users/902541635/validate?token=KTsbFf4QQ6wCxmWUHPVplAZMWhrQpoWI1QB3AejVmu0ViJaC</a>

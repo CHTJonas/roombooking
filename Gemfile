@@ -31,7 +31,7 @@ gem 'rails_admin', '~> 2.2'
 gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'gemsurance', '~> 0.10.0'
 # Background job processing
-gem 'sidekiq', '~> 6.2'
+gem 'sidekiq', '~> 6.3'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sidekiq-throttled', '~> 0.14.1'
 gem 'sidekiq_queue_metrics', '~> 3.0'
@@ -64,7 +64,7 @@ gem 'browser', '~> 5.3'
 gem 'connection_pool', '~> 2.2'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
-gem 'faraday_middleware', '~> 1.1.0'
+gem 'faraday_middleware', '~> 1.2.0'
 # Authentication
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
@@ -95,12 +95,12 @@ gem 'pg', '~> 1.2'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.4'
+gem 'redis', '~> 4.5'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
 gem 'prometheus_exporter', '~> 0.8.1'
-gem 'ddtrace', '~> 0.52.0'
+gem 'ddtrace', '~> 0.53.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'
@@ -140,8 +140,8 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver', '~> 3.142'
-  gem 'webdrivers', '~> 4.6'
+  gem 'selenium-webdriver', '~> 4.0'
+  gem 'webdrivers', '~> 4.7'
   gem 'minitest-retry', '~> 0.2.2', require: false
   gem 'codecov', '~> 0.6.0', require: false
 end

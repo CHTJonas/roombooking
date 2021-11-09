@@ -16,7 +16,8 @@ class IcalGenerationService < ApplicationService
             e.rrule = "FREQ=#{booking.repeat_mode};UNTIL=#{(booking.repeat_until + 1.day).strftime('%Y%m%d')}"
           end
           e.summary     = booking.name
-          e.description = "Purpose: #{booking.purpose_string}\n\n#{booking.notes}"
+          e.description = "Purpose: #{booking.purpose_string}"
+          e.description += "\n\n#{booking.notes}" if booking.notes
           e.location    = booking.room.name
           e.organizer   = booking.user.name
           e.url         = Roombooking::UrlGenerator.url_for(booking)

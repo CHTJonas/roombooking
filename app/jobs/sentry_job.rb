@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SentryJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   sidekiq_options queue: 'roombooking_exceptions', retry: 0
 

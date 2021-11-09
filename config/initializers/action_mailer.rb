@@ -4,8 +4,8 @@ require 'roombooking/host'
 
 config = Rails.application.config
 
-mail_log_file = Rails.root.join('log', "roombooking_#{Rails.env}_mail.log")
 Yell['mail'] = Yell.new do |l|
+  mail_log_file = Rails.root.join('log', "roombooking_#{Rails.env}_mail.log")
   l.adapter(:datefile, mail_log_file, keep: 31, level: 'gte.info')
 end
 config.action_mailer.logger = Yell['mail']
@@ -35,3 +35,10 @@ else
     :enable_starttls_auto   => ENV['SMTP_STARTTLS'] == '1'
   }
 end
+
+ActionMailer::Base.register_observer(Class.new do
+  def self.delivered_email(message)
+    Email.create_from_message(message)
+    Yell['mail'].info("Message-ID:#{message.message_id} From:#{message.from[0]} To:#{message.to[0]} Subject:#{message.subject}")
+  end
+end)

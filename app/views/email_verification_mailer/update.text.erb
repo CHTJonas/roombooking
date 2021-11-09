@@ -1,0 +1,15 @@
+<% content_for :heading, 'Verify your email address' %>
+
+Dear <%= @user.name.split.first %>,
+
+You or someone acting on your behalf has updated the email address of your
+account on the ADC Room Booking System.
+
+To complete the process you need to verify your email address. To do this please
+navigate to the URL below by copying it into the address bar of your web browser.
+
+<%= validate_user_url(@user, token: @user.validation_token) %>
+
+Thank you,
+
+The ADC Room Booking System.

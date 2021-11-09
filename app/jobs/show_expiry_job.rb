@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ShowExpiryJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
   include Sidekiq::Throttled::Worker
 
   sidekiq_options queue: 'roombooking_jobs'
@@ -10,7 +10,7 @@ class ShowExpiryJob
   def perform
     now = DateTime.now
     venue_ids = CamdramVenue.all.map(&:camdram_id)
-    CamdramShow.where(dormant: false).find_each do |show|
+    CamdramShow.where(dormant: false).find_each(batch_size: 10) do |show|
       camdram_object = show.camdram_object
       next if camdram_object.nil?
       performances = camdram_object.performances.select do |p|

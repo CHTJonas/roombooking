@@ -1,7 +1,12 @@
 class EmailVerificationMailerPreview < ActionMailer::Preview
-  def notify
+  def create
     user_id = User.first.id
-    EmailVerificationMailer.notify(user_id)
+    EmailVerificationMailer.create(user_id)
+  end
+
+  def update
+    user_id = User.first.id
+    EmailVerificationMailer.create(user_id)
   end
 
   def remind

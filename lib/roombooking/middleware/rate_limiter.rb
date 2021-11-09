@@ -14,7 +14,7 @@ module Roombooking
         # Then add the X-RateLimit headers if possible.
         throttle_data = env['rack.attack.throttle_data']
         if throttle_data
-          per_ip_throttle_data = throttle_data['requests by ip']
+          per_ip_throttle_data = throttle_data['requests-by-ip']
           if per_ip_throttle_data
             count = per_ip_throttle_data[:count]
             period = per_ip_throttle_data[:period]
