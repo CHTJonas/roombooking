@@ -138,12 +138,13 @@ class ApplicationController < ActionController::Base
 
   def browser_is_modern?
     [
-      browser.chrome? && browser.version.to_i >= 65,
-      browser.safari? && browser.version.to_i >= 10,
-      browser.firefox? && browser.version.to_i >= 52,
-      browser.edge? && browser.version.to_i >= 15,
-      browser.opera? && browser.version.to_i >= 50,
-      browser.facebook? && browser.safari_webapp_mode? && browser.webkit_full_version.to_i >= 602
+      browser.chrome?(">= 65"),
+      browser.safari?(">= 10"),
+      browser.firefox?(">= 52"),
+      browser.edge?(">= 15"),
+      browser.opera?(">= 50"),
+      browser.facebook? && browser.safari_webapp_mode? && browser.webkit_full_version.to_i >= 602,
+      browser.bot?
     ].any?
   end
 end
