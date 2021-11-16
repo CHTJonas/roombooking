@@ -7,6 +7,10 @@
     class: 'btn btn-outline-danger my-md-1' if can? :manage, @room %>
 <% end %>
 
+<% if @room.notes %>
+  <%= content_tag :p, @room.notes, class: 'mb-4' %>
+<% end %>
+
 <% cache "#{@room.updated_at.utc.to_s(:usec)}?#{@start_date}" do %>
   <%= render 'calendar' %>
 <% end %>
@@ -15,11 +19,4 @@
   <%= link_to room_path(@room, format: :ics), class: 'btn btn-link' do %>
     <i class="fa fa-calendar"></i> Subscribe to iCal
   <% end %>
-<% end %>
-
-<% if @room.notes %>
-  <h4 class="mt-4">Notes</h4>
-  <p class="mt-1">
-    <%= @room.notes %>
-  </p>
 <% end %>
