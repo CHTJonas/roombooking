@@ -395,7 +395,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.3.3)
-    selenium-webdriver (4.0.3)
+    selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
@@ -550,7 +550,7 @@ DEPENDENCIES
   sass-rails (~> 6.0)
   sassc (~> 2.4)
   secure_headers (~> 6.3)
-  selenium-webdriver (~> 4.0)
+  selenium-webdriver (~> 4.1)
   sentry-rails (~> 4.8)
   sentry-ruby (~> 4.8)
   sentry-sidekiq (~> 4.8)
