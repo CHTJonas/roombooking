@@ -11,9 +11,7 @@
   <%= content_tag :p, @room.notes, class: 'mb-4' %>
 <% end %>
 
-<% cache "#{@room.updated_at.utc.to_s(:usec)}?#{@start_date}" do %>
-  <%= render 'calendar' %>
-<% end %>
+<%= render 'calendar' %>
 
 <%= content_tag :div, class: 'float-right mt-1' do %>
   <%= link_to room_path(@room, format: :ics), class: 'btn btn-link' do %>
