@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_08_174444) do
+ActiveRecord::Schema.define(version: 2021_11_24_233910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -40,7 +40,9 @@ ActiveRecord::Schema.define(version: 2021_11_08_174444) do
     t.integer "shows_imported_successfully", array: true
     t.integer "shows_imported_unsuccessfully", array: true
     t.integer "shows_already_imported", array: true
+    t.bigint "user_id"
     t.index ["jid"], name: "index_batch_import_results_on_jid", unique: true
+    t.index ["user_id"], name: "index_batch_import_results_on_user_id"
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -220,6 +222,7 @@ ActiveRecord::Schema.define(version: 2021_11_08_174444) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
+  add_foreign_key "batch_import_results", "users"
   add_foreign_key "bookings", "rooms"
   add_foreign_key "bookings", "users"
   add_foreign_key "camdram_tokens", "users"

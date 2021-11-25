@@ -10,7 +10,10 @@
 #  shows_imported_successfully   :integer          is an Array
 #  shows_imported_unsuccessfully :integer          is an Array
 #  shows_already_imported        :integer          is an Array
+#  user_id                       :bigint
 #
 class BatchImportResult < ApplicationRecord
+  belongs_to :user
+
   validates :queued, presence: true
 end
