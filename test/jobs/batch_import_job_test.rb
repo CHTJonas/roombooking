@@ -4,7 +4,7 @@ class BatchImportJobTest < ActiveJob::TestCase
   test 'should import shows' do
     user = users(:charlie)
     assert_equal 0, BatchImportJob.jobs.size
-    result = BatchImportResult.create!(queued: Time.now)
+    result = BatchImportResult.create!(queued: Time.now, user: user)
     result.with_lock do
       jid = BatchImportJob.perform_async(user.id, result.id)
       result.update!(jid: jid)
