@@ -29,7 +29,6 @@ gem 'secure_headers', '~> 6.3'
 # Administrator interface
 gem 'rails_admin', '~> 2.2'
 gem 'rails_admin_history_rollback', '~> 1.0'
-gem 'gemsurance', '~> 0.10.0'
 # Background job processing
 gem 'sidekiq', '~> 6.3'
 gem 'sidekiq-cron', '~> 1.2'
@@ -99,8 +98,8 @@ gem 'redis', '~> 4.5'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 0.8.1'
-gem 'ddtrace', '~> 0.53.0'
+gem 'prometheus_exporter', '~> 1.0.0'
+gem 'ddtrace', '~> 0.54.0'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'
@@ -140,7 +139,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver', '~> 4.0'
+  gem 'selenium-webdriver', '~> 4.1'
   gem 'webdrivers', '~> 5.0'
   gem 'minitest-retry', '~> 0.2.2', require: false
   gem 'codecov', '~> 0.6.0', require: false

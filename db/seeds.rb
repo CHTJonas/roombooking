@@ -16,5 +16,5 @@ Room.create(name: 'Playroom Auditorium', camdram_venues: playroom_venues)
 Room.create(name: 'Playroom Dressing Room 1', camdram_venues: playroom_venues)
 Room.create(name: 'Playroom Dressing Room 2', camdram_venues: playroom_venues)
 
-cj = User.create(name: "Charlie Jonas", email: "charlie@charliejonas.co.uk", admin: true, sysadmin: true, validated_at: Time.zone.now)
+cj = User.create(name: "Charlie Jonas", email: "charlie@charliejonas.co.uk", admin: true, sysadmin: true, validated_at: Time.zone.now, validation_token: nil)
 ProviderAccount.create(provider: "camdram", uid: "3807", user: cj)
