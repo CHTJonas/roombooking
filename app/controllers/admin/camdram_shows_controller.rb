@@ -24,6 +24,7 @@ module Admin
           @roombooking_show.block_out_bookings(current_user)
           @camdram_show = @roombooking_show.camdram_object
         end
+        UserPermissionRefreshJob.perform_async
         format.js
       rescue ActiveRecord::RecordInvalid => e
         format.js { render js: "rbModal('Import Error', 'Failed to import the specified show! #{e.message}');" }

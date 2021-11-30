@@ -1,11 +1,13 @@
 $fixed-width-amount: 140px;
+$fixed-margin-amount: 16px;
 
 #import-tools {
   .import-tools-fixed-width {
     width: $fixed-width-amount !important;
+    margin-left: $fixed-margin-amount !important;
   }
 
   .import-tools-width-remaining {
-    min-width: calc(100% - #{$fixed-width-amount}) !important;
+    min-width: calc(100% - #{$fixed-width-amount} - #{$fixed-margin-amount}) !important;
   }
 }

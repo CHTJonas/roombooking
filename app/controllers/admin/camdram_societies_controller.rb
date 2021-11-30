@@ -13,6 +13,7 @@ module Admin
         @roombooking_society.active = true
         @camdram_society = @roombooking_society.camdram_object
         if @roombooking_society.save
+          UserPermissionRefreshJob.perform_async
           format.js
         else
           format.js { render js: "rbModal('Import Error', 'Failed to import the specified society! #{@roombooking_society.errors.full_messages.first}.');" }

@@ -17,6 +17,7 @@ module Admin
           ActiveRecord::Base.transaction do
             CamdramShow.create_from_camdram(camdram_show).block_out_bookings(@user)
           end
+          UserPermissionRefreshJob.perform_async
           true
         rescue StandardError => e
           Sentry.capture_exception(e)
