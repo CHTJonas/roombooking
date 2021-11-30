@@ -5,7 +5,8 @@
     <div class="col-sm-10">
       <small class="form-text text-muted mb-2">
         The name you want your booking to be known by in the timetable.
-        Please try to use something descriptive rather than simply your own name.
+        <br class="d-none d-md-inline">
+        Please try to use something descriptive rather than simply your own name or the name of your show/society.
       </small>
       <%= form.text_field :name, class: 'form-control' %>
     </div>
@@ -79,6 +80,8 @@
       <%= form.submit class: 'btn btn-outline-primary' %>
       <small class="form-text text-muted mt-4">
         Please note that a break of 15 minutes between bookings will be enforced by the software in order to ensure adequate ventilation of the room.
+        <br class="d-none d-lg-inline">
+        Not seeing your show/society appear? The data used to populate the dropdown lists is obtained asynchronously and may take several minutes to reflect that on Camdram.
       </small>
     </div>
   </div>
