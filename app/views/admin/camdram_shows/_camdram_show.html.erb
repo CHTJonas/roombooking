@@ -1,6 +1,5 @@
 <%= content_tag :tr, id: "show-#{camdram_show.id}" do %>
-  <% name = camdram_show.try(:name) || roombooking_show.name %>
-  <%= content_tag(:td, name) %>
+  <%= configure_entity_tag(camdram_show, roombooking_show) %>
   <%= content_tag(:td, (actions_for_show camdram_show, roombooking_show)) %>
   <%= content_tag :td do %>
     <%= form_with model: roombooking_show, url: admin_camdram_show_path(roombooking_show) do |form| %>

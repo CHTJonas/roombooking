@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module AdminHelper
+  def configure_entity_tag(camdram_entity, roombooking_entity)
+    if roombooking_entity.present?
+      content_tag :td do
+        link_to roombooking_entity.name, url_for(roombooking_entity)
+      end
+    else
+      content_tag(:td, camdram_entity.name)
+    end
+  end
+
   def actions_for_show(camdram_show, roombooking_show)
     if roombooking_show.nil?
       roombooking_show = CamdramShow.new
