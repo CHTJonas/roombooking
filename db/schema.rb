@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_24_233910) do
+ActiveRecord::Schema.define(version: 2021_12_08_010233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2021_11_24_233910) do
     t.string "slack_webhook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "memoized_name"
     t.index ["active"], name: "index_camdram_societies_on_active", where: "(active = true)"
     t.index ["camdram_id"], name: "index_camdram_societies_on_camdram_id", unique: true
   end
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_11_24_233910) do
     t.bigint "camdram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "memoized_name"
     t.index ["camdram_id"], name: "index_camdram_venues_on_camdram_id", unique: true
   end
 

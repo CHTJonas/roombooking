@@ -4,10 +4,11 @@
 #
 # Table name: camdram_venues
 #
-#  id         :bigint           not null, primary key
-#  camdram_id :bigint           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :bigint           not null, primary key
+#  camdram_id    :bigint           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  memoized_name :string
 #
 
 class CamdramVenue < ApplicationRecord

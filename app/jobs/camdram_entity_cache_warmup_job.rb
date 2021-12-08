@@ -15,7 +15,7 @@ class CamdramEntityCacheWarmupJob
       end
       camdram_entity.clear_camdram_object!
       name = camdram_entity.camdram_object.try(:name)
-      if camdram_entity.instance_of?(CamdramShow) && name.present?
+      if name.present?
         camdram_entity.with_lock do
           camdram_entity.update!(memoized_name: name)
         end

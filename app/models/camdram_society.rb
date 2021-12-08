@@ -11,6 +11,7 @@
 #  slack_webhook :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  memoized_name :string
 #
 
 class CamdramSociety < ApplicationRecord

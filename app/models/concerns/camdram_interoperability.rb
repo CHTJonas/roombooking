@@ -47,8 +47,9 @@ module CamdramInteroperability
     @camdram_object = nil
   end
 
+  # Returns the entity's name.
   def name
-    camdram_object.try(:name)
+    memoized_name || camdram_object.try(:name)
   end
 
   # Returns the entity's canonical URL on Camdram.

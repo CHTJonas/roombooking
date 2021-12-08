@@ -52,10 +52,6 @@ class CamdramShow < ApplicationRecord
     end
   end
 
-  def name
-    memoized_name || camdram_object.try(:name)
-  end
-
   # Abstraction to allow vallidation of new bookings. Returns an array that
   # counts the show's currently used quota for the week beginning on the
   # given date.
