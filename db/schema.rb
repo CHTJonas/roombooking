@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_010233) do
+ActiveRecord::Schema.define(version: 2021_12_09_201629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_010233) do
     t.integer "shows_imported_successfully", array: true
     t.integer "shows_imported_unsuccessfully", array: true
     t.integer "shows_already_imported", array: true
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["jid"], name: "index_batch_import_results_on_jid", unique: true
     t.index ["user_id"], name: "index_batch_import_results_on_user_id"
   end
