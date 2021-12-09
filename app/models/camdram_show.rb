@@ -41,14 +41,20 @@ class CamdramShow < ApplicationRecord
     greater_than_or_equal_to: 0
   }
 
-  # Creates a CamdramShow model from a numeric Camdram id.
+  # Creates a CamdramShow model from a numeric Camdram ID.
   def self.create_from_id(id)
+    create_from_id_and_name(id, nil)
+  end
+
+  # Creates a CamdramShow model from a numeric Camdram ID and name.
+  def self.create_from_id_and_name(id, name)
     create! do |roombooking_show|
       roombooking_show.camdram_id = id
       roombooking_show.max_rehearsals = 12
       roombooking_show.max_auditions = 10
       roombooking_show.max_meetings = 4
       roombooking_show.active = true
+      roombooking_show.memoized_name = name if name.present?
     end
   end
 
