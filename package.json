@@ -2,7 +2,7 @@
   "name": "roombooking",
   "private": true,
   "dependencies": {
-    "@github/hotkey": "^1.6.0",
+    "@github/hotkey": "^1.6.1",
     "@rails/activestorage": "^6.1.4",
     "@rails/ujs": "^6.1.4",
     "@rails/webpacker": "^5.4.3",
