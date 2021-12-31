@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   # Recue exceptions raised due to cross-site request forgery.
   rescue_from ActionController::InvalidAuthenticityToken do |exception|
-    log_abuse "Possible CSRF attack detected at #{request.fullpath} by #{current_user.try(:name).try(:possessive) || 'anonymous user'} session with id #{current_session.try(:id) || 'none'}"
+    log_abuse "Possible CSRF attack detected at #{request.fullpath} by #{current_user.try(:to_log_s) || 'anonymous user'} session with session ID #{current_session.try(:id) || 'none'}"
     invalidate_session
     alert = { 'class' => 'danger', 'message' => "Cross-site request forgery detected! If you are seeing this message, try clearing your browser's cache/cookies and then try again." }
     flash.now[:alert] = alert
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   # Rescue exceptions raised by user access violations from CanCan.
   rescue_from CanCan::AccessDenied do |exception|
     if user_logged_in?
-      log_abuse "Blocked access to #{request.fullpath} by #{current_user.name.possessive} session with id #{current_session.id} as the CanCan authorisation check failed"
+      log_abuse "Blocked access to #{request.fullpath} by #{current_user.to_log_s} with session ID #{current_session.id} as the CanCan authorisation check failed"
       alert = { 'class' => 'danger', 'message' => "Sorry, but you don't have permission to access this page!" }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: { reason: "cancan access denied: #{exception.message}" }, status: :forbidden

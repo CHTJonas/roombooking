@@ -17,13 +17,13 @@ class SessionsController < ApplicationController
     user = User.from_omniauth(auth)
     reset_session
     if user.blocked?
-      log_abuse "#{user.name} attempted to login but their account is blocked"
+      log_abuse "#{user.to_log_s} attempted to login but their account is blocked"
       Roombooking::InfoCounter.poke('Unsuccessful logins since boot')
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: { reason: 'user blocked' }, status: :forbidden
     elsif user.validated_at.nil?
-      log_abuse "#{user.name} attempted to login but their account has not been validated yet"
+      log_abuse "#{user.to_log_s} attempted to login but their account has not been validated yet"
       Roombooking::InfoCounter.poke('Unsuccessful logins since boot')
       alert = { 'class' => 'warning', 'message' => 'Please check your emails for the link to validate your account.' }
       flash.now[:alert] = alert
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
     else
       camdram_token = CamdramToken.from_omniauth_and_user(auth, user)
       sesh = Session.from_user_and_request(user, request)
-      log_abuse "#{user.name} successfully logged in with session #{sesh.id} and camdram token #{camdram_token.id}"
+      log_abuse "#{user.to_log_s} successfully logged in with session ID #{sesh.id} and Camdram token #{camdram_token.id}"
       Roombooking::InfoCounter.poke('Successful logins since boot')
       session[:sesh_id] = sesh.id
       alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
   # Handle user logouts.
   def destroy
     if user_logged_in?
-      log_abuse "#{current_user.name.capitalize} successfully logged out of their session with id #{current_session.id}"
+      log_abuse "#{current_user.to_log_s} successfully logged out of their session with ID #{current_session.id}"
       Roombooking::InfoCounter.poke('Logouts since boot')
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
@@ -55,7 +55,7 @@ class SessionsController < ApplicationController
   # Forces a logout everywhere the user is currently logged in by invalidating all active sessions.
   def destroy_all
     if user_logged_in?
-      log_abuse "#{current_user.name.capitalize} successfully triggered a log out of all their current sessions from the session with id #{current_session.id}"
+      log_abuse "#{current_user.to_log_s} successfully triggered a log out of all their current sessions from the session with ID #{current_session.id}"
       invalidate_session
       Session.where(user: current_user, invalidated: false).map(&:invalidate!)
       alert = { 'class' => 'success', 'message' => 'You have successfully been logged out on all your devices.' }

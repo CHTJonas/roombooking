@@ -13,7 +13,7 @@ module Admin
     def shutdown; end
 
     def backup
-      log_abuse "#{current_user.name.capitalize} downloaded a database dump"
+      log_abuse "#{current_user.to_log_s} downloaded a database dump"
       begin
         send_data `pg_dump -Fc roombooking_#{Rails.env}`,
                   filename: "roombooking_#{Rails.env}_#{Time.zone.now.to_i}.pgdump"

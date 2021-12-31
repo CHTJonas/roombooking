@@ -96,7 +96,7 @@ module Roombooking
     # Forces user logout if the user's account has been blocked.
     def ensure_user_is_not_blocked!
       if user_logged_in? && true_user.blocked?
-        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as their account was blocked"
+        log_abuse "Forced logout of #{current_user.to_log_s} session with ID #{current_session.id} as their account was blocked"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'Your account has been blocked by an administrator. Please try again later.' }
         flash.now[:alert] = alert
@@ -107,7 +107,7 @@ module Roombooking
     # Forces user logout if the user's session has been invalidated.
     def ensure_session_is_valid!
       if user_logged_in? && current_session.invalidated?
-        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as it was invalidated"
+        log_abuse "Forced logout of #{current_user.to_log_s} session with ID #{current_session.id} as it was invalidated"
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has been invalidated by yourself or an administrator. Please login again.' }
         flash.now[:alert] = alert
@@ -118,7 +118,7 @@ module Roombooking
     # Forces user logout if the user's session has expired.
     def ensure_session_is_current!
       if user_logged_in? && current_session.expired?
-        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as it had expired"
+        log_abuse "Forced logout of #{current_user.to_log_s} session with ID #{current_session.id} as it had expired"
         invalidate_session
         alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
         flash.now[:alert] = alert
@@ -129,7 +129,7 @@ module Roombooking
     # Forces user logout if the user has no Camdram token.
     def ensure_camdram_token_is_present!
       if user_logged_in? && current_camdram_token.nil?
-        log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as no current Camdram token was found"
+        log_abuse "Forced logout of #{current_user.to_log_s} session with ID #{current_session.id} as no current Camdram token was found"
         invalidate_session
         alert = { 'class' => 'danger', 'message' => 'A Camdram OAuth token error has occured. Please logout and then login again.' }
         flash.now[:alert] = alert
@@ -144,7 +144,7 @@ module Roombooking
         if current_camdram_token.refreshable?
           current_camdram_token.refresh
         else
-          log_abuse "Forced logout of #{current_user.name.possessive} session with id #{current_session.id} as the Camdram token was expired and couldn't be refreshed"
+          log_abuse "Forced logout of #{current_user.to_log_s} session with ID #{current_session.id} as the Camdram token was expired and couldn't be refreshed"
           invalidate_session
           alert = { 'class' => 'warning', 'message' => 'Your session has expired. Please login again.' }
           flash.now[:alert] = alert

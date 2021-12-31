@@ -87,6 +87,11 @@ class User < ApplicationRecord
     end
   end
 
+  # Used as a helper for log_abuse methods in controllers.
+  def to_log_s
+    "User ##{id}".freeze
+  end
+
   # Grants administrator privileges to the user.
   def make_admin!
     update(admin: true)
