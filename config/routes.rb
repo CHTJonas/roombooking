@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#index', as: 'dashboard'
     get '/system/info' => 'dashboard#info'
-    get '/system/restart' => 'dashboard#restart'
-    get '/system/shutdown' => 'dashboard#shutdown'
-    get '/system/backup' => 'dashboard#backup'
+    post '/system/restart' => 'dashboard#restart'
+    post '/system/shutdown' => 'dashboard#shutdown'
+    post '/system/backup' => 'dashboard#backup'
     resources :camdram_shows, only: [:index, :create, :update] do
       post 'new_term', on: :collection
       post 'batch_import', on: :collection
