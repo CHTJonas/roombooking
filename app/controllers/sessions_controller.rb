@@ -18,11 +18,13 @@ class SessionsController < ApplicationController
     reset_session
     if user.blocked?
       log_abuse "#{user.name} attempted to login but their account is blocked"
+      Roombooking::InfoCounter.poke('Unsuccessful logins since boot')
       alert = { 'class' => 'danger', 'message' => 'You have been temporarily blocked. Please try again later.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: { reason: 'user blocked' }, status: :forbidden
     elsif user.validated_at.nil?
       log_abuse "#{user.name} attempted to login but their account has not been validated yet"
+      Roombooking::InfoCounter.poke('Unsuccessful logins since boot')
       alert = { 'class' => 'warning', 'message' => 'Please check your emails for the link to validate your account.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: { reason: 'user not validated' }, status: :forbidden
@@ -30,6 +32,7 @@ class SessionsController < ApplicationController
       camdram_token = CamdramToken.from_omniauth_and_user(auth, user)
       sesh = Session.from_user_and_request(user, request)
       log_abuse "#{user.name} successfully logged in with session #{sesh.id} and camdram token #{camdram_token.id}"
+      Roombooking::InfoCounter.poke('Successful logins since boot')
       session[:sesh_id] = sesh.id
       alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
       flash[:alert] = alert
@@ -41,6 +44,7 @@ class SessionsController < ApplicationController
   def destroy
     if user_logged_in?
       log_abuse "#{current_user.name.capitalize} successfully logged out of their session with id #{current_session.id}"
+      Roombooking::InfoCounter.poke('Logouts since boot')
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
       flash[:alert] = alert
@@ -72,6 +76,7 @@ class SessionsController < ApplicationController
       redirect_to root_url
     else
       log_abuse "A login authentication system error occurred: #{message.humanize}"
+      Roombooking::InfoCounter.poke('Auth errors since boot')
       alert = { 'class' => 'danger', 'message' => "Authentication error. Please contact support and quote the following error: #{message.humanize}." }
       flash[:alert] = alert
       render 'layouts/blank', locals: { reason: 'oauth2 failure' }, status: :internal_server_error

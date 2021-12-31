@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  before_action :increment_request_counter
   before_action :set_sentry!
   before_action :check_browser_version
   include Roombooking::Auth
@@ -73,6 +74,10 @@ class ApplicationController < ActionController::Base
   def log_abuse(str)
     str += " : [#{request.remote_ip} - #{request.user_agent}]"
     Yell['abuse'].info(str)
+  end
+
+  def increment_request_counter
+    Roombooking::InfoCounter.poke('Requests since boot')
   end
 
   # Add extra context to any Sentry error reports.
