@@ -81,7 +81,7 @@ gem 'rack-attack', '~> 6.5'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
-gem 'rainbow', '~> 3.0'
+gem 'rainbow', '~> 3.1'
 # Use pry console
 gem 'pry-rails', '~> 0.3.9'
 # Push notifications
