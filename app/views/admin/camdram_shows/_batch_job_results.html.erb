@@ -1,5 +1,5 @@
 <div class="alert alert-warning">
-  <p>Please note that a batch import job was recently initiated <%= time_diff_for_batch_import_job(@batch_import_result) %> ago.</p>
+  <p>Please note that a batch import job was recently initiated by <%= @batch_import_result.user.name %> <%= time_diff_for_batch_import_job(@batch_import_result) %> ago.</p>
   <% if @batch_import_result.completed %>
     <% if @shows_imported_successfully.length > 0 %>
       <p>The following shows were imported successfully (and have had block bookings made for their performance dates):</p>

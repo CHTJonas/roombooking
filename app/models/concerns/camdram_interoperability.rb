@@ -4,7 +4,10 @@ module CamdramInteroperability
   extend ActiveSupport::Concern
 
   included do
-    after_create_commit :warm_cache!
+    after_create_commit do
+      warm_cache! if memoized_name.nil?
+    end
+
     validates :camdram_id,
       numericality: { only_integer: true, greater_than: 0 },
       uniqueness: { message: 'entity already exists' }
@@ -13,7 +16,7 @@ module CamdramInteroperability
   module ClassMethods
     # Creates a Camdram entity model from a Camdram::Base object.
     def create_from_camdram(camdram_base)
-      create_from_id(camdram_base.id)
+      create_from_id_and_name(camdram_base.id, camdram_base.name)
     end
 
     # Find a Camdram entity model from a Camdram::Base object.
@@ -47,8 +50,9 @@ module CamdramInteroperability
     @camdram_object = nil
   end
 
+  # Returns the entity's name.
   def name
-    camdram_object.try(:name)
+    memoized_name || camdram_object.try(:name)
   end
 
   # Returns the entity's canonical URL on Camdram.

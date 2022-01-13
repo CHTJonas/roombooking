@@ -23,7 +23,7 @@ gem 'paper_trail-association_tracking', '~> 2.1'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
 # Remove whitespace from model attributes
-gem 'strip_attributes', '~> 1.11'
+gem 'strip_attributes', '~> 1.12'
 # HTTP security headers
 gem 'secure_headers', '~> 6.3'
 # Administrator interface
@@ -32,7 +32,7 @@ gem 'rails_admin_history_rollback', '~> 1.0'
 # Background job processing
 gem 'sidekiq', '~> 6.3'
 gem 'sidekiq-cron', '~> 1.2'
-gem 'sidekiq-throttled', '~> 0.14.1'
+gem 'sidekiq-throttled', '~> 0.15.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
 gem 'high_voltage', '~> 3.1'
@@ -81,7 +81,7 @@ gem 'rack-attack', '~> 6.5'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
-gem 'rainbow', '~> 3.0'
+gem 'rainbow', '~> 3.1'
 # Use pry console
 gem 'pry-rails', '~> 0.3.9'
 # Push notifications
@@ -98,8 +98,8 @@ gem 'redis', '~> 4.5'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 1.0.0'
-gem 'ddtrace', '~> 0.54.0'
+gem 'prometheus_exporter', '~> 1.0.1'
+gem 'ddtrace', '~> 0.54.1'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'

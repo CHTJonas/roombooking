@@ -11,6 +11,7 @@
 #  slack_webhook :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  memoized_name :string
 #
 
 class CamdramSociety < ApplicationRecord
@@ -29,12 +30,18 @@ class CamdramSociety < ApplicationRecord
     greater_than_or_equal_to: 0
   }
 
-  # Creates a CamdramSociety model from a numeric Camdram id.
+  # Creates a CamdramSociety model from a numeric Camdram ID.
   def self.create_from_id(id)
+    create_from_id_and_name(id, nil)
+  end
+
+  # Creates a CamdramSociety model from a numeric Camdram ID and name.
+  def self.create_from_id_and_name(id, name)
     create! do |roombooking_society|
       roombooking_society.camdram_id = id
       roombooking_society.max_meetings = 14
       roombooking_society.active = false
+      roombooking_society.memoized_name = name if name.present?
     end
   end
 
