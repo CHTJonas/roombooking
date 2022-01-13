@@ -25,7 +25,7 @@
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'System Information', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Information about system settings and configuration.', class: 'card-text mb-3' %>
+        <%= content_tag :p, 'View configuration settings.', class: 'card-text mb-3' %>
         <%= link_to 'Get Info', admin_system_info_path, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
@@ -35,7 +35,7 @@
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'System Operations', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Quick-access to emergency system controls.', class: 'card-text mb-3' %>
+        <%= content_tag :p, 'Quick-access to emergency controls.', class: 'card-text mb-3' %>
         <%= link_to 'Restart', admin_system_restart_path, method: :post, class: 'btn btn-warning mt-1' %>
         <%= link_to 'Shutdown ⚠', admin_system_shutdown_path, method: :post, class: 'btn btn-danger mt-1' %>
       <% end %>
@@ -46,8 +46,8 @@
     <%= content_tag :div, class: 'card' do %>
       <%= content_tag :div, 'System Backup', class: 'card-header' %>
       <%= content_tag :div, class: 'card-body' do %>
-        <%= content_tag :p, 'Download a machine-readable copy of all data stored on the system.', class: 'card-text mb-3' %>
-        <%= link_to 'Download Backup', admin_system_backup_path, method: :post, class: 'btn btn-primary mt-1' %>
+        <%= content_tag :p, 'Download an archive of all stored data.', class: 'card-text mb-3' %>
+        <%= link_to 'Export data', admin_system_backup_path, method: :post, class: 'btn btn-primary mt-1' %>
       <% end %>
     <% end %>
   <% end %>
