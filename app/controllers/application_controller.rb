@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :increment_request_counter
+  before_action :set_response_headers
   before_action :set_sentry!
   before_action :check_browser_version
   include Roombooking::Auth
@@ -78,6 +79,10 @@ class ApplicationController < ActionController::Base
 
   def increment_request_counter
     Roombooking::InfoCounter.poke('Requests since boot')
+  end
+
+  def set_response_headers
+    response.headers['X-Powered-By'] = 'https://github.com/CHTJonas/roombooking'
   end
 
   # Add extra context to any Sentry error reports.
