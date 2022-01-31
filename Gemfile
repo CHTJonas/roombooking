@@ -77,7 +77,7 @@ gem 'sentry-ruby', '~> 4.8'
 gem 'sentry-rails', '~> 4.8'
 gem 'sentry-sidekiq', '~> 4.8'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 6.5'
+gem 'rack-attack', '~> 6.6'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
