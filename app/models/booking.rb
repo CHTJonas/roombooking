@@ -27,8 +27,8 @@ class Booking < ApplicationRecord
   paginates_per 9
   include PgSearch::Model
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
-                                             ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
-                                                                          dmetaphone: { any_word: true }, trigram: { only: [:name] } }
+    ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
+    dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   def self.admin_purposes
     %i[performance_of get_in_for theatre_closed training other audition_for meeting_for meeting_of]
@@ -112,8 +112,7 @@ class Booking < ApplicationRecord
       .where(%{ date_part('dow', start_time) IN (
       SELECT date_part('dow', d) FROM (
         SELECT generate_series(:start, :end, '1 day'::interval) AS d
-      ) AS _)
-    }, { start: start_date, end: end_date })
+      ) AS _) }, { start: start_date, end: end_date })
   }
 
   # Users should not be able to make ex post facto bookings, unless they
@@ -178,9 +177,8 @@ class Booking < ApplicationRecord
     st -= 15.minutes
     et += 15.minutes
 
-    overlapping_bookings = room.bookings.where.not(id: id)
-                               .in_range(st.to_date, et.to_date + 1.day)
-                               .select { |b| b.overlaps?(self) }
+    bookings_in_scope = room.bookings.where.not(id: id).in_range(st.to_date, et.to_date + 1.day)
+    overlapping_bookings = bookings_in_scope.select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
       errMsg = "The times over this booking overlap with another booking [here](#{url})."
@@ -261,9 +259,7 @@ class Booking < ApplicationRecord
       end
       weeks_to_check.each do |start_of_week|
         end_of_week = start_of_week + 1.week
-        bookings = camdram_model.bookings
-                                .where.not(id: id)
-                                .in_range(start_of_week, end_of_week)
+        bookings = camdram_model.bookings.where.not(id: id).in_range(start_of_week, end_of_week)
         bookings << self
         quota = camdram_model.calculate_weekly_quota(start_of_week, bookings)
         if camdram_model.exceeded_weekly_quota?(quota)
