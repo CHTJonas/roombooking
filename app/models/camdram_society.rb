@@ -48,15 +48,18 @@ class CamdramSociety < ApplicationRecord
   # Abstraction to allow vallidation of new bookings. Returns the society's
   # currently used quota for the week beginning on the given date.
   def calculate_weekly_quota(start_of_week, bookings)
+    end_of_week = start_of_week + 7.days
     quota = 0
     bookings.each do |booking|
-      occurrences = 1
-      if booking.repeat_mode == 'daily'
-        start_repeating_from = start_of_week < booking.start_time ? booking.start_time : start_of_week
-        occurrences = (start_repeating_from.to_date..booking.repeat_until.to_date).count
+      booking.repeat_iterator do |st, _|
+        break if st >= end_of_week
+        if st >= start_of_week
+          quota_increase = booking.duration / 60 / 60
+          if booking.purpose == 'meeting_of'
+            quota += quota_increase
+          end
+        end
       end
-      quota_increase = occurrences * booking.duration / 60 / 60
-      quota += quota_increase if booking.purpose == 'meeting_of'
     end
     quota
   end
