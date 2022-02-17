@@ -94,7 +94,7 @@ gem 'pg', '~> 1.3'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.5'
+gem 'redis', '~> 4.6'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
