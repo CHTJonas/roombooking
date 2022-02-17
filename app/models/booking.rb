@@ -157,8 +157,8 @@ class Booking < ApplicationRecord
 
   # Bookings should fit into 15 minute time slots.
   def must_fill_half_hour_slot
-    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 15 != 0
-    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 900 != 0
+    errors.add(:start_time, 'must be a multiple of fifteen minutes.') if start_time.present? && start_time.min % 15 != 0
+    errors.add(:duration, 'must be a multiple of fifteen minutes.') if duration.present? && duration % 900 != 0
   end
 
   # A booking cannot overlap with any other booking.
