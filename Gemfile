@@ -98,7 +98,7 @@ gem 'redis', '~> 4.6'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 1.0.1'
+gem 'prometheus_exporter', '~> 2.0.0'
 gem 'ddtrace', '~> 0.54.2'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
