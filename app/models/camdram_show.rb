@@ -62,20 +62,21 @@ class CamdramShow < ApplicationRecord
   # counts the show's currently used quota for the week beginning on the
   # given date.
   def calculate_weekly_quota(start_of_week, bookings)
+    end_of_week = start_of_week + 7.days
     quota = [0, 0, 0] # [rehearsals, auditions, meetings]
     bookings.each do |booking|
-      occurrences = 1
-      if booking.repeat_mode == 'daily'
-        start_repeating_from = start_of_week < booking.start_time ? booking.start_time : start_of_week
-        occurrences = (start_repeating_from.to_date..booking.repeat_until.to_date).count
-      end
-      quota_increase = occurrences * booking.duration / 60 / 60
-      if booking.purpose == 'rehearsal_for'
-        quota[0] += quota_increase
-      elsif booking.purpose == 'audition_for'
-        quota[1] += quota_increase
-      elsif booking.purpose == 'meeting_for'
-        quota[2] += quota_increase
+      booking.repeat_iterator do |st, _|
+        break if st >= end_of_week
+        if st >= start_of_week
+          quota_increase = booking.duration / 60 / 60
+          if booking.purpose == 'rehearsal_for'
+            quota[0] += quota_increase
+          elsif booking.purpose == 'audition_for'
+            quota[1] += quota_increase
+          elsif booking.purpose == 'meeting_for'
+            quota[2] += quota_increase
+          end
+        end
       end
     end
     quota

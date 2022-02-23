@@ -27,8 +27,8 @@ class Booking < ApplicationRecord
   paginates_per 9
   include PgSearch::Model
   pg_search_scope :search_by_name_and_notes, against: { name: 'A', notes: 'B' },
-                                             ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
-                                                                          dmetaphone: { any_word: true }, trigram: { only: [:name] } }
+    ignoring: :accents, using: { tsearch: { prefix: true, dictionary: 'english' },
+    dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   def self.admin_purposes
     %i[performance_of get_in_for theatre_closed training other audition_for meeting_for meeting_of]
@@ -112,8 +112,7 @@ class Booking < ApplicationRecord
       .where(%{ date_part('dow', start_time) IN (
       SELECT date_part('dow', d) FROM (
         SELECT generate_series(:start, :end, '1 day'::interval) AS d
-      ) AS _)
-    }, { start: start_date, end: end_date })
+      ) AS _) }, { start: start_date, end: end_date })
   }
 
   # Users should not be able to make ex post facto bookings, unless they
@@ -158,8 +157,8 @@ class Booking < ApplicationRecord
 
   # Bookings should fit into 15 minute time slots.
   def must_fill_half_hour_slot
-    errors.add(:start_time, 'must be a multiple of thirty minutes.') if start_time.present? && start_time.min % 15 != 0
-    errors.add(:duration, 'must be a multiple of thirty minutes.') if duration.present? && duration % 900 != 0
+    errors.add(:start_time, 'must be a multiple of fifteen minutes.') if start_time.present? && start_time.min % 15 != 0
+    errors.add(:duration, 'must be a multiple of fifteen minutes.') if duration.present? && duration % 900 != 0
   end
 
   # A booking cannot overlap with any other booking.
@@ -178,9 +177,8 @@ class Booking < ApplicationRecord
     st -= 15.minutes
     et += 15.minutes
 
-    overlapping_bookings = room.bookings.where.not(id: id)
-                               .in_range(st.to_date, et.to_date + 1.day)
-                               .select { |b| b.overlaps?(self) }
+    bookings_in_scope = room.bookings.where.not(id: id).in_range(st.to_date, et.to_date + 1.day)
+    overlapping_bookings = bookings_in_scope.select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
       errMsg = "The times over this booking overlap with another booking [here](#{url})."
@@ -261,9 +259,7 @@ class Booking < ApplicationRecord
       end
       weeks_to_check.each do |start_of_week|
         end_of_week = start_of_week + 1.week
-        bookings = camdram_model.bookings
-                                .where.not(id: id)
-                                .in_range(start_of_week, end_of_week)
+        bookings = camdram_model.bookings.where.not(id: id).in_range(start_of_week, end_of_week)
         bookings << self
         quota = camdram_model.calculate_weekly_quota(start_of_week, bookings)
         if camdram_model.exceeded_weekly_quota?(quota)
@@ -287,13 +283,15 @@ class Booking < ApplicationRecord
     end
   end
 
-  # Ensure the booking as a descriptive title, as much as is possible.
+  # Ensure the booking has a descriptive title insofar as that is possible.
   def name_must_be_descriptive
     if name.present?
       test_name = I18n.transliterate(name.downcase).gsub(/[^a-z]/, '')
       if user.present?
         test_user_name = I18n.transliterate(user.name.downcase).gsub(/[^a-z]/, '')
-        errors.add(:name, 'needs to be more descriptive.') if test_name == test_user_name
+        if test_name == test_user_name || test_name.split.first == test_user_name.split.first
+          errors.add(:name, 'needs to be more descriptive.')
+        end
       end
       if camdram_model.present?
         test_camdram_name = I18n.transliterate(camdram_model.name.downcase).gsub(/[^a-z]/, '')

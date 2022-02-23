@@ -7,7 +7,7 @@ gem 'dotenv-rails', '~> 2.7'
 
 # Rails
 gem 'rails', '~> 6.1.4'
-gem 'puma', '~> 5.5'
+gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
 gem 'sass-rails', '~> 6.0'
@@ -30,7 +30,7 @@ gem 'secure_headers', '~> 6.3'
 gem 'rails_admin', '~> 2.2'
 gem 'rails_admin_history_rollback', '~> 1.0'
 # Background job processing
-gem 'sidekiq', '~> 6.3'
+gem 'sidekiq', '~> 6.4'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sidekiq-throttled', '~> 0.15.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
@@ -68,16 +68,16 @@ gem 'faraday_middleware', '~> 1.2.0'
 gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
-gem 'rqrcode', '~> 2.1.0'
+gem 'rqrcode', '~> 2.1.1'
 gem 'recaptcha', '~> 5.8'
 # Authorisation
 gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 4.8'
-gem 'sentry-rails', '~> 4.8'
-gem 'sentry-sidekiq', '~> 4.8'
+gem 'sentry-ruby', '~> 5.1'
+gem 'sentry-rails', '~> 5.1'
+gem 'sentry-sidekiq', '~> 5.1'
 # DDoS protection and IP blocking
-gem 'rack-attack', '~> 6.5'
+gem 'rack-attack', '~> 6.6'
 # User Gravatar profile pictures
 gem 'gravatar_image_tag', '~> 1.2'
 # Colour text for ANSI terminals
@@ -87,22 +87,25 @@ gem 'pry-rails', '~> 0.3.9'
 # Push notifications
 gem 'slack-notifier', '~> 2.4'
 # Sitemaps
-gem 'sitemap_generator', '~> 6.1'
+gem 'sitemap_generator', '~> 6.2'
 
 # Database persistence
-gem 'pg', '~> 1.2'
+gem 'pg', '~> 1.3'
 gem 'pg_search', '~> 2.3'
 
 # Key/value caching
-gem 'redis', '~> 4.5'
+gem 'redis', '~> 4.6'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 1.0.1'
-gem 'ddtrace', '~> 0.54.1'
+gem 'prometheus_exporter', '~> 2.0.0'
+gem 'ddtrace', '~> 0.54.2'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'
+
+# Systemd integration
+gem 'sd_notify', '~> 0.1.1'
 
 # Reverse proxy
 gem 'rack-reverse-proxy', '~> 0.12.0'
