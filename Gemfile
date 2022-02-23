@@ -104,6 +104,9 @@ gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'
 gem 'health_check', '~> 3.1'
 
+# Systemd integration
+gem 'sd_notify', '~> 0.1.1'
+
 # Reverse proxy
 gem 'rack-reverse-proxy', '~> 0.12.0'
 

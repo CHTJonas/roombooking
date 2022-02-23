@@ -390,6 +390,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sd_notify (0.1.1)
     secure_headers (6.3.3)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
@@ -544,6 +545,7 @@ DEPENDENCIES
   rqrcode (~> 2.1.1)
   sass-rails (~> 6.0)
   sassc (~> 2.4)
+  sd_notify (~> 0.1.1)
   secure_headers (~> 6.3)
   selenium-webdriver (~> 4.1)
   sentry-rails (~> 4.8)
