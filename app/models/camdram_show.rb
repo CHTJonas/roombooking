@@ -104,31 +104,75 @@ class CamdramShow < ApplicationRecord
         if performance.venue.slug == 'adc-theatre'
           if performance_time.hour == 19
             # Mainshow
-            start_time = performance.start_at.beginning_of_day + 18.hours
-            end_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
+            get_in_start_time = performance.start_at.beginning_of_week + 8.hours
+            get_in_end_time = performance.start_at.beginning_of_week + 24.hours
+            performance_start_time = performance.start_at.beginning_of_day + 18.hours
+            performance_end_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
-            Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-                            room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
+              repeat_until: performance.start_at.beginning_of_week.to_date + 1.day, repeat_mode: :daily,
+              purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time, end_time: get_in_end_time,
+              repeat_until: performance.start_at.beginning_of_week.to_date + 1.day, repeat_mode: :daily,
+              purpose: :get_in_for, room_id: 4, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time + 2.days,
+              end_time: get_in_start_time + 2.days + 10.hours, purpose: :get_in_for, room_id: 1,
+              user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time + 2.days,
+              end_time: get_in_start_time + 2.days + 10.hours, purpose: :get_in_for, room_id: 4,
+              user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow', start_time: performance_start_time, end_time: performance_end_time,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+              room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Dressing Room', start_time: performance_start_time,
+              end_time: performance_end_time.beginning_of_day + 24.hours, repeat_until: repeat_until,
+              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 4, user: user, camdram_model: self)
+            Booking.create!(name: 'Unavailable for use', start_time: performance_start_time + 1.hour,
+              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              purpose: :theatre_closed, room_id: 2, user: user,
+              notes: 'Please email production@adctheatre.com to book during these hours.')
           elsif performance_time.hour == 23
             # Lateshow
-            start_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
-            end_time = performance.start_at.beginning_of_day + 24.hours
+            get_in_start_time = performance.start_at.beginning_of_week + 3.days + 8.hours
+            get_in_end_time = performance.start_at.beginning_of_week + 3.days + 18.hours
+            performance_start_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
+            performance_end_time = performance.start_at.beginning_of_day + 24.hours
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
-            Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-                            room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Lateshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
+              purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Lateshow Dressing Room', start_time: get_in_start_time,
+              end_time: performance.start_at.beginning_of_day + 21.hours, purpose: :get_in_for, room_id: 3,
+              user: user, camdram_model: self)
+            Booking.create!(name: 'Lateshow', start_time: performance_start_time, end_time: performance_end_time,
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+              room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Lateshow Dressing Room', start_time: performance.start_at.beginning_of_day + 21.hours,
+              end_time: performance.start_at.beginning_of_day + 24.hours, repeat_until: repeat_until,
+              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 3, user: user, camdram_model: self)
+            Booking.create!(name: 'Unavailable for use', start_time: performance_start_time,
+              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              purpose: :theatre_closed, room_id: 2, user: user,
+              notes: 'Please email production@adctheatre.com to book during these hours.')
           elsif performance_time.hour == 14
             # Matinee
-            start_time = performance.start_at.beginning_of_day + 13.hours
-            end_time = performance.start_at.beginning_of_day + 18.hours
+            performance_start_time = performance.start_at.beginning_of_day + 13.hours
+            performance_end_time = performance.start_at.beginning_of_day + 18.hours
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
-            Booking.create!(name: 'Matinee', start_time: start_time, end_time: end_time,
-                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-                            room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Matinee Dressing Room', start_time: performance_start_time,
+              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              purpose: :performance_of, room_id: 4, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Matinee', start_time: performance_start_time,
+              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              purpose: :performance_of, room_id: 1, user: user, camdram_model: self)
+            Booking.create!(name: 'Unavailable for use', start_time: performance_start_time + 30.minutes,
+              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              purpose: :theatre_closed, room_id: 2, user: user,
+              notes: 'Please email production@adctheatre.com to book during these hours.')
+          else
+            raise NotImplementedError
           end
         elsif performance.venue.slug == 'corpus-playroom'
           if performance_time.hour == 19
@@ -138,8 +182,8 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
-                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-                            room_id: 6, user: user, camdram_model: self)
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+              room_id: 6, user: user, camdram_model: self)
           elsif performance_time.hour == 21
             # Lateshow
             start_time = performance.start_at.beginning_of_day + 21.hours
@@ -147,8 +191,10 @@ class CamdramShow < ApplicationRecord
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Lateshow', start_time: start_time, end_time: end_time,
-                            repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
-                            room_id: 6, user: user, camdram_model: self)
+              repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
+              room_id: 6, user: user, camdram_model: self)
+          else
+            raise NotImplementedError
           end
         end
       end
