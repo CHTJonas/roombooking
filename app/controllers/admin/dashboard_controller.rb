@@ -11,7 +11,7 @@ module Admin
     def restart
       log_abuse "#{current_user.to_log_s} initiated a system restart"
       if Rails.env.production?
-        `/usr/bin/sudo /bin/systemctl restart roombooking`
+        `/usr/bin/sudo /bin/systemctl restart roombooking.target`
       else
         render plain: 'No restart handler available; refusing to do so.'
       end
@@ -20,7 +20,7 @@ module Admin
     def shutdown
       log_abuse "#{current_user.to_log_s} initiated a system shutdown"
       if Rails.env.production?
-        `/usr/bin/sudo /bin/systemctl restart roombooking`
+        `/usr/bin/sudo /bin/systemctl stop roombooking.target`
       else
         render plain: 'No shutdown handler available; refusing to do so.'
       end
