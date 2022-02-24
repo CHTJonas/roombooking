@@ -31,7 +31,7 @@ class Booking < ApplicationRecord
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   def self.admin_purposes
-    %i[performance_of get_in_for theatre_closed training other audition_for meeting_for meeting_of]
+    %i[performance_of get_in_for theatre_closed training other]
   end
 
   def self.purposes_with_shows
