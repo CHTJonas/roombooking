@@ -102,7 +102,7 @@ class CamdramShow < ApplicationRecord
       performances.each do |performance|
         performance_time = performance.start_at.in_time_zone('London')
         if performance.venue.slug == 'adc-theatre'
-          if performance_time.hour == 19 && performance_time.minutes == 45
+          if performance_time.hour == 19 && performance_time.min == 45
             # Mainshow
             get_in_start_time = performance.start_at.beginning_of_week + 8.hours
             get_in_end_time = performance.start_at.beginning_of_week + 24.hours
@@ -132,7 +132,7 @@ class CamdramShow < ApplicationRecord
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :theatre_closed, room_id: 2, user: user,
               notes: 'Please email production@adctheatre.com to book during these hours.')
-          elsif performance_time.hour == 23 && performance_time.minutes == 0
+          elsif performance_time.hour == 23 && performance_time.min == 0
             # Lateshow
             get_in_start_time = performance.start_at.beginning_of_week + 3.days + 8.hours
             get_in_end_time = performance.start_at.beginning_of_week + 3.days + 18.hours
@@ -155,7 +155,7 @@ class CamdramShow < ApplicationRecord
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :theatre_closed, room_id: 2, user: user,
               notes: 'Please email production@adctheatre.com to book during these hours.')
-          elsif performance_time.hour == 14 && performance_time.minutes == 30
+          elsif performance_time.hour == 14 && performance_time.min == 30
             # Matinee
             performance_start_time = performance.start_at.beginning_of_day + 13.hours
             performance_end_time = performance.start_at.beginning_of_day + 18.hours
@@ -176,7 +176,7 @@ class CamdramShow < ApplicationRecord
             send_not_implemented_email(user, performance)
           end
         elsif performance.venue.slug == 'corpus-playroom'
-          if performance_time.hour == 19 && performance_time.minutes == 0
+          if performance_time.hour == 19 && performance_time.min == 0
             # Mainshow
             start_time = performance.start_at.beginning_of_day + 18.hours
             end_time = performance.start_at.beginning_of_day + 21.hours
@@ -185,7 +185,7 @@ class CamdramShow < ApplicationRecord
             Booking.create!(name: 'Mainshow', start_time: start_time, end_time: end_time,
               repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room_id: 6, user: user, camdram_model: self)
-          elsif performance_time.hour == 21 && performance_time.minutes == 30
+          elsif performance_time.hour == 21 && performance_time.min == 30
             # Lateshow
             start_time = performance.start_at.beginning_of_day + 21.hours
             end_time = performance.start_at.beginning_of_day + 24.hours
