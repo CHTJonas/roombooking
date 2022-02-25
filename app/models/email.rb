@@ -10,7 +10,7 @@
 class Email < ApplicationRecord
   validates :message, presence: true
 
-  # Creates an Email record from a Mail:Message object.
+  # Creates an Email record from a Mail::Message object.
   def self.create_from_message(msg)
     json = msg.to_json
     create!(message: json)

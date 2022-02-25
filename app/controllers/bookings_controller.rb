@@ -5,10 +5,9 @@ class BookingsController < ApplicationController
                 only: %i[new edit create update]
 
   def index
-    @bookings = Booking.order(created_at: :desc)
-                       .eager_load(:user, :room)
-                       .accessible_by(current_ability, :read)
-                       .page(params[:page]).without_count
+    @bookings = Booking.where.not(purpose: %i[performance_of get_in_for theatre_closed])
+      .order(created_at: :desc).eager_load(:user, :room).accessible_by(current_ability, :read)
+      .page(params[:page]).without_count
   end
 
   def new
@@ -82,10 +81,8 @@ class BookingsController < ApplicationController
   def favourites
     json = params[:ids] || '[]'
     ids = JSON.parse(json).to_a.first(9)
-    @bookings = Booking.where(id: ids)
-                       .eager_load(:user, :room)
-                       .accessible_by(current_ability, :read)
-                       .sort_by { |booking| ids.index(booking.id.to_s) }
+    @bookings = Booking.where(id: ids).eager_load(:user, :room)
+      .accessible_by(current_ability, :read).sort_by { |booking| ids.index(booking.id.to_s) }
     render 'favourites', layout: false
   end
 

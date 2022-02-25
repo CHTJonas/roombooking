@@ -31,7 +31,7 @@ class Booking < ApplicationRecord
     dmetaphone: { any_word: true }, trigram: { only: [:name] } }
 
   def self.admin_purposes
-    %i[performance_of get_in_for theatre_closed training other audition_for meeting_for meeting_of]
+    %i[performance_of get_in_for theatre_closed training other]
   end
 
   def self.purposes_with_shows
@@ -382,8 +382,12 @@ class Booking < ApplicationRecord
       booking.repeat_iterator do |st2, et2|
         # Because of the COVID-19 pandemic, bookings need 15 minutes between
         # them so that the room can be sufficiently ventilated. The only
-        # exception is two back-to-back performances which can be butted up.
-        offset = purpose == 'performance_of' && booking.purpose == 'performance_of' ? 0 : 15.minutes
+        # exceptions are get-ins and performances, which can be butted up.
+        offset = 15.minutes
+        exceptions = ['get_in_for', 'performance_of', 'theatre_closed']
+        if purpose.in?(exceptions) && booking.purpose.in?(exceptions)
+          offset = 0
+        end
         if st2 < st1 - offset
           return true if et2 + offset > st1
         else
