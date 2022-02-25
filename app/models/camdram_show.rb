@@ -172,7 +172,8 @@ class CamdramShow < ApplicationRecord
               purpose: :theatre_closed, room_id: 2, user: user,
               notes: 'Please email production@adctheatre.com to book during these hours.')
           else
-            raise NotImplementedError
+            Sentry.capture_exception(NotImplementedError.new)
+            send_not_implemented_email(user, performance)
           end
         elsif performance.venue.slug == 'corpus-playroom'
           if performance_time.hour == 19
@@ -194,10 +195,46 @@ class CamdramShow < ApplicationRecord
               repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room_id: 6, user: user, camdram_model: self)
           else
-            raise NotImplementedError
+            Sentry.capture_exception(NotImplementedError.new)
+            send_not_implemented_email(user, performance)
           end
         end
       end
     end
+  end
+
+  private
+
+  def send_not_implemented_email(user, performance)
+    ApplicationMailer.new.mail(
+      to: user.email,
+      bcc: 'charlie@charliejonas.co.uk',
+      subject: '[Room Booking System] Block Booking Failure',
+      body: <<~END
+        Hello,
+
+        This is an automated email from the ADC Room Booking System. Please do
+        not reply.
+
+        The following show was imported successfully, but could not be
+        recognised as a regular Mainshow or Lateshow. To be safe, it therefore
+        did not have its block bookings created automatically.
+
+        ====================
+        #{camdram_object.name}
+        (Camdram ID #{camdram_object.id})
+        #{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)}
+        #{performance.venue.name}
+        ====================
+
+        Please manually make bookings of the Stage, Dressing Rooms and Larkum
+        Studio as necessary for the show's performance, get-in and rehearsal
+        times.
+
+        Kind regards,
+
+        Your friendly Room Booking Robots
+      END
+    ).deliver
   end
 end
