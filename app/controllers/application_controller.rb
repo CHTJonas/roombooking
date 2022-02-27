@@ -104,7 +104,6 @@ class ApplicationController < ActionController::Base
   # Tags context to send to Sentry.
   def sentry_tags_context
     {
-      program: sentry_program_context,
       camdram_version: Camdram::Version.to_s
     }
   end
@@ -115,17 +114,6 @@ class ApplicationController < ActionController::Base
       params: params.to_unsafe_h,
       url: request.url
     }
-  end
-
-  # Differentiate between application and worker errors in Sentry reporting.
-  def sentry_program_context
-    if Rails.const_defined? 'Console'
-      'rails-console'
-    elsif Sidekiq.server?
-      'sidekiq-worker'
-    else
-      'rails-server'
-    end
   end
 
   # Record this information when auditing models.
