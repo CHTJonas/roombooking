@@ -175,7 +175,7 @@ class CamdramShow < ApplicationRecord
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :performance_of, room_id: 1, user: user, camdram_model: self)
             Booking.create!(name: 'Unavailable for use', start_time: performance_start_time + 30.minutes,
-              end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
+              end_time: performance_end_time + 1.hour, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :theatre_closed, room_id: 2, user: user,
               notes: 'Please email production@adctheatre.com to book during these hours.')
           else
