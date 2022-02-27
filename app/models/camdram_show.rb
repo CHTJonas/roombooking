@@ -110,17 +110,22 @@ class CamdramShow < ApplicationRecord
             performance_end_time = performance.start_at.beginning_of_day + 22.hours + 30.minutes
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
+            get_in_repeat_until = performance.start_at.beginning_of_week.to_date + 1.day
+            if !repeat_until.nil? && performance.start_at.wday == 3 # Wednesday
+              # This show appears to be a Panto or LTM.
+              get_in_repeat_until = get_in_repeat_until + 1.day
+            end
             Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
-              repeat_until: performance.start_at.beginning_of_week.to_date + 1.day, repeat_mode: :daily,
-              purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
+              repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
+              room_id: 1, user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time, end_time: get_in_end_time,
-              repeat_until: performance.start_at.beginning_of_week.to_date + 1.day, repeat_mode: :daily,
-              purpose: :get_in_for, room_id: 4, user: user, camdram_model: self)
-            Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time + 2.days,
-              end_time: get_in_start_time + 2.days + 10.hours, purpose: :get_in_for, room_id: 1,
+              repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
+              room_id: 4, user: user, camdram_model: self)
+            Booking.create!(name: 'Mainshow Get-in', start_time: get_in_repeat_until + 1.day + 8.hours,
+              end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 1,
               user: user, camdram_model: self)
-            Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time + 2.days,
-              end_time: get_in_start_time + 2.days + 10.hours, purpose: :get_in_for, room_id: 4,
+            Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_repeat_until + 1.day + 8.hours,
+              end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 4,
               user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow', start_time: performance_start_time, end_time: performance_end_time,
               repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
@@ -140,11 +145,13 @@ class CamdramShow < ApplicationRecord
             performance_end_time = performance.start_at.beginning_of_day + 24.hours
             repeat_until = performance.repeat_until
             repeat_mode = repeat_until.nil? ? :none : :daily
-            Booking.create!(name: 'Lateshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
-              purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
-            Booking.create!(name: 'Lateshow Dressing Room', start_time: get_in_start_time,
-              end_time: performance.start_at.beginning_of_day + 21.hours, purpose: :get_in_for, room_id: 3,
-              user: user, camdram_model: self)
+            unless repeat_until.nil? || performance.start_at.wday != 3 # Wednesday
+              Booking.create!(name: 'Lateshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
+                purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
+              Booking.create!(name: 'Lateshow Dressing Room', start_time: get_in_start_time,
+                end_time: performance.start_at.beginning_of_day + 21.hours, purpose: :get_in_for, room_id: 3,
+                user: user, camdram_model: self)
+            end
             Booking.create!(name: 'Lateshow', start_time: performance_start_time, end_time: performance_end_time,
               repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room_id: 1, user: user, camdram_model: self)
