@@ -240,7 +240,7 @@ class CamdramShow < ApplicationRecord
 
         Kind regards,
 
-        Your friendly Room Booking Robots
+        The friendly Room Booking Robots
       END
     ).deliver
   end
