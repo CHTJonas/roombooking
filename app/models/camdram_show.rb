@@ -180,7 +180,7 @@ class CamdramShow < ApplicationRecord
               notes: 'Please email production@adctheatre.com to book during these hours.')
           else
             Sentry.capture_exception(NotImplementedError.new)
-            send_not_implemented_email(user, performance)
+            send_unrecognised_performance_email(user, performance)
           end
         elsif performance.venue.slug == 'corpus-playroom'
           if performance_time.hour == 19 && performance_time.min == 0
@@ -203,7 +203,7 @@ class CamdramShow < ApplicationRecord
               room_id: 6, user: user, camdram_model: self)
           else
             Sentry.capture_exception(NotImplementedError.new)
-            send_not_implemented_email(user, performance)
+            send_unrecognised_performance_email(user, performance)
           end
         end
       end
@@ -212,36 +212,46 @@ class CamdramShow < ApplicationRecord
 
   private
 
-  def send_not_implemented_email(user, performance)
+  def send_unrecognised_performance_email(user, performance)
     ApplicationMailer.new.mail(
       to: user.email,
       bcc: 'charlie@charliejonas.co.uk',
-      subject: '[Room Booking System] Block Booking Failure',
+      subject: '[Room Booking System] Unrecognised Show Imported',
       body: <<~END
         Hello,
 
         This is an automated email from the ADC Room Booking System. Please do
         not reply.
 
-        The following show was imported successfully, but could not be
-        recognised as a regular Mainshow or Lateshow. To be safe, it therefore
-        did not have its block bookings created automatically.
+        The following show was imported successfully, but (at least) one of its
+        performance schedules could not be recognised as a regular Mainshow or
+        Lateshow. Therefore, to be safe, this particular performance or set of
+        performances did not have its block bookings created automatically,
+        although other performances of the same show might.
 
         ====================
         #{camdram_object.name}
         (Camdram ID #{camdram_object.id})
-        #{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)}
+        #{unrecognised_show_email_helper(performance)}
         #{performance.venue.name}
         ====================
 
-        Please manually make bookings of the Stage, Dressing Rooms and Larkum
-        Studio as necessary for the show's performance, get-in and rehearsal
-        times.
+        Please manually make bookings of the ADC Stage, the Playroom Auditorium,
+        any Dressing Rooms and/or the Larkum Studio as necessary for the show's
+        performance, get-in and rehearsal times.
 
         Kind regards,
 
         The friendly Room Booking Robots
       END
     ).deliver
+  end
+
+  def unrecognised_show_email_helper(performance)
+    if performance.repeat_until.nil?
+      "#{performance.start_at.to_s(:rfc822)}}"
+    else
+      "#{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)}"
+    end
   end
 end
