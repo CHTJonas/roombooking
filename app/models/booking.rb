@@ -171,19 +171,11 @@ class Booking < ApplicationRecord
          when 'none' then end_time
          else repeat_until || return
          end
-
-    # Because of the COVID-19 pandemic, bookings need 15 minutes between
-    # them so that the room can be sufficiently ventilated.
-    st -= 15.minutes
-    et += 15.minutes
-
     bookings_in_scope = room.bookings.where.not(id: id).in_range(st.to_date, et.to_date + 1.day)
     overlapping_bookings = bookings_in_scope.select { |b| b.overlaps?(self) }
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
-      errMsg = "The times of this booking overlap with another booking [here](#{url})."
-      errMsg+= " Remember that you must leave a 15 minute gap between bookings so that the room can be sufficiently ventilated."
-      errors.add(:base, errMsg)
+      errors.add(:base, "The times of this booking overlap with another booking [here](#{url}).")
     end
   end
 
@@ -377,18 +369,10 @@ class Booking < ApplicationRecord
     return false if room != booking.room
     repeat_iterator do |st1, et1|
       booking.repeat_iterator do |st2, et2|
-        # Because of the COVID-19 pandemic, bookings need 15 minutes between
-        # them so that the room can be sufficiently ventilated. The only
-        # exceptions are get-ins and performances, which can be butted up.
-        offset = 15.minutes
-        exceptions = ['get_in_for', 'performance_of', 'theatre_closed']
-        if purpose.in?(exceptions) && booking.purpose.in?(exceptions)
-          offset = 0
-        end
-        if st2 < st1 - offset
-          return true if et2 + offset > st1
+        if st2 < st1
+          return true if et2 > st1
         else
-          return true if st2 < et1 + offset
+          return true if st2 < et1
         end
       end
     end
