@@ -118,24 +118,25 @@ class Booking < ApplicationRecord
   # Users should not be able to make ex post facto bookings, unless they
   # are an admin.
   def cannot_be_in_the_past
+    return if Current.override
     if start_time.present? && start_time < Time.zone.now
-      errors.add(:start_time, "can't be in the past.") unless user.nil? || user.admin?
+      errors.add(:start_time, "can't be in the past.")
     end
   end
 
   # Prevent a show making bookings that occur after the show's final performance.
   # Also prevent any bookings that occur more than four months in advance.
   def cannot_be_too_far_in_future
-    if start_time.present?
-      if camdram_model.present? && camdram_model.instance_of?(CamdramShow)
-        performances = camdram_model.camdram_object.performances
-        last_performance = performances.max { |p1, p2| p1.end_at - p2.end_at }
-        if start_time > last_performance.end_at
-          errors.add(:start_time, 'is too far in the future.') unless user.admin?
-        end
-      elsif start_time > Time.zone.now + 4.months
-        errors.add(:start_time, 'is too far in the future.') unless user.admin?
+    return unless start_time.present?
+    return if Current.override
+    if camdram_model.present? && camdram_model.instance_of?(CamdramShow)
+      performances = camdram_model.camdram_object.performances
+      last_performance = performances.max { |p1, p2| p1.end_at - p2.end_at }
+      if start_time > last_performance.end_at
+        errors.add(:start_time, 'is too far in the future.')
       end
+    elsif start_time > Time.zone.now + 4.months
+      errors.add(:start_time, 'is too far in the future.')
     end
   end
 
@@ -163,9 +164,8 @@ class Booking < ApplicationRecord
 
   # A booking cannot overlap with any other booking.
   def must_not_overlap
-    # Needs to have start & end time and a venue to validate overlap.
     return if start_time.nil? || end_time.nil? || room.nil?
-
+    return if Current.override
     st = start_time
     et = case repeat_mode
          when 'none' then end_time
@@ -207,7 +207,6 @@ class Booking < ApplicationRecord
     end
     return if excluded_repeat_dates.blank?
     return if repeat_until.nil?
-
     start = start_time.to_date
     finish = repeat_until
     arr = []
@@ -228,7 +227,6 @@ class Booking < ApplicationRecord
   # A booking must have an associated Camdram model if required by its purpose.
   def camdram_model_must_be_valid
     return if purpose.nil?
-
     if Booking.purposes_with_none.include?(purpose.to_sym)
       self.camdram_model = nil
     else
@@ -243,7 +241,7 @@ class Booking < ApplicationRecord
   # A booking with an associated Camdram model must not go over it's weekly quota.
   def must_not_exceed_quota
     return if purpose.nil? || camdram_model.nil? || duration.nil?
-
+    return if Current.override
     unless Booking.purposes_with_none.include?(purpose.to_sym)
       start = start_time.to_date.beginning_of_week
       weeks_to_check = []
@@ -271,9 +269,9 @@ class Booking < ApplicationRecord
 
   # The booking's selected room must allow a show's camdram venue.
   def room_must_allow_camdram_venue
+    return if Current.override
     if room.present? && camdram_model.instance_of?(CamdramShow)
       return if camdram_model.camdram_object.nil?
-
       permitted_ids = room.camdram_venues.map(&:camdram_id)
       camdram_model.camdram_object.performances.each do |performance|
         next if performance.venue.nil?
@@ -285,6 +283,7 @@ class Booking < ApplicationRecord
 
   # Ensure the booking has a descriptive title insofar as that is possible.
   def name_must_be_descriptive
+    return if Current.override
     if name.present?
       test_name = I18n.transliterate(name.downcase).gsub(/[^a-z]/, '')
       if user.present?
@@ -326,7 +325,6 @@ class Booking < ApplicationRecord
   # Returns an array of dates that are excluded from the booking repeat cycle.
   def excluded_dates_array
     return [] unless excluded_repeat_dates.present?
-
     excluded_repeat_dates.split(',').map(&:to_date)
   end
 
@@ -377,7 +375,6 @@ class Booking < ApplicationRecord
   # passed as a parameter, false otherwise.
   def overlaps?(booking)
     return false if room != booking.room
-
     repeat_iterator do |st1, et1|
       booking.repeat_iterator do |st2, et2|
         # Because of the COVID-19 pandemic, bookings need 15 minutes between

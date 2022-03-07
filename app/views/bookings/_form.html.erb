@@ -1,4 +1,7 @@
 <%= form_with model: @booking, local: true do |form| %>
+  <% if flash[:alert] && (user_is_admin? || user_is_imposter?) %>
+    <%= form.submit 'Attempt Override', name: 'override', class: 'btn btn-outline-danger mb-5' %>
+  <% end %>
 
   <div class="form-group row">
     <%= form.label :name, class: 'col-sm-2 col-form-label' %>

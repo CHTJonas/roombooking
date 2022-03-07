@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class BookingsController < ApplicationController
-  before_action :populate_camdram_entities,
-                only: %i[new edit create update]
+  before_action :populate_camdram_entities, only: %i[new edit create update]
+  before_action do
+    Current.override = false
+  end
 
   def index
     @bookings = Booking.where.not(purpose: %i[performance_of get_in_for theatre_closed])
@@ -30,6 +32,7 @@ class BookingsController < ApplicationController
       render :new and return
     end
     authorize! :create, @booking
+    Current.override = !!params[:override] && (user_is_admin? || user_is_imposter?)
     if @booking.save
       NotificationJob.perform_async(@booking.id, @booking.camdram_model.try(:to_global_id).try(:to_s))
       msg = "Added #{@booking.name}!"
@@ -53,6 +56,7 @@ class BookingsController < ApplicationController
       render :edit and return
     end
     authorize! :edit, @booking
+    Current.override = !!params[:override] && (user_is_admin? || user_is_imposter?)
     if @booking.save
       alert = { 'class' => 'success', 'message' => "Updated #{@booking.name}!" }
       flash[:alert] = alert
