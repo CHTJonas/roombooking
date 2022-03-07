@@ -49,7 +49,7 @@ class Booking < ApplicationRecord
   enum repeat_mode: %i[none daily weekly], _prefix: :repeat_mode
   enum purpose: purposes_with_shows + purposes_with_societies + purposes_with_none, _prefix: :purpose
 
-  belongs_to :room, touch: true
+  belongs_to :room
   belongs_to :user
   belongs_to :camdram_model, polymorphic: true, required: false
   has_and_belongs_to_many :attendees
