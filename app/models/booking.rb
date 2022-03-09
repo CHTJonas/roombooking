@@ -114,12 +114,12 @@ class Booking < ApplicationRecord
       ) AS _) }, { start: start_date, end: end_date })
   }
 
-  # Users should not be able to make ex post facto bookings, unless they
-  # are an admin.
+  # Users should not be able to make ex post facto bookings.
   def cannot_be_in_the_past
     return if Current.override
     if start_time.present? && start_time < Time.zone.now
       errors.add(:start_time, "can't be in the past.")
+      Current.overridable = true
     end
   end
 
@@ -133,9 +133,11 @@ class Booking < ApplicationRecord
       last_performance = performances.max { |p1, p2| p1.end_at - p2.end_at }
       if start_time > last_performance.end_at
         errors.add(:start_time, 'is too far in the future.')
+        Current.overridable = true
       end
     elsif start_time > Time.zone.now + 4.months
       errors.add(:start_time, 'is too far in the future.')
+      Current.overridable = true
     end
   end
 
@@ -175,6 +177,7 @@ class Booking < ApplicationRecord
     unless overlapping_bookings.empty?
       url = Roombooking::UrlGenerator.url_for(overlapping_bookings.first)
       errors.add(:base, "The times of this booking overlap with another booking [here](#{url}).")
+      Current.overridable = true
     end
   end
 
@@ -253,6 +256,7 @@ class Booking < ApplicationRecord
         quota = camdram_model.calculate_weekly_quota(start_of_week, bookings)
         if camdram_model.exceeded_weekly_quota?(quota)
           errors.add(:base, "You have exceeded your weekly booking quota (for the week beginning #{start_of_week.to_date}).")
+          Current.overridable = true
         end
       end
     end
@@ -269,6 +273,7 @@ class Booking < ApplicationRecord
         return if permitted_ids.include?(performance.venue.id)
       end
       errors.add(:base, 'Your show may not make bookings for this room.')
+      Current.overridable = true
     end
   end
 
@@ -281,11 +286,13 @@ class Booking < ApplicationRecord
         test_user_name = I18n.transliterate(user.name.downcase).gsub(/[^a-z]/, '')
         if test_name == test_user_name || test_name.split.first == test_user_name.split.first
           errors.add(:name, 'needs to be more descriptive.')
+          Current.overridable = true
         end
       end
       if camdram_model.present?
         test_camdram_name = I18n.transliterate(camdram_model.name.downcase).gsub(/[^a-z]/, '')
         errors.add(:name, 'needs to be more descriptive.') if test_name == test_camdram_name
+        Current.overridable = true
       end
     end
   end

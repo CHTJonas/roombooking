@@ -1,6 +1,13 @@
+<% if user_being_impersonated? %>
+  <div class="alert alert-dark">
+    <strong>Caution - you are currently impersonating a user!</strong>
+    This booking will be made under <%= current_user.name.possessive %> name.
+  </div>
+<% end %>
+
 <%= form_with model: @booking, local: true do |form| %>
-  <% if flash[:alert] && (user_is_admin? || user_is_imposter?) %>
-    <%= form.submit 'Attempt Override', name: 'override', class: 'btn btn-outline-danger mb-5' %>
+  <% if Current.can_override? %>
+    <%= form.submit 'Override', name: 'override', class: 'btn btn-outline-danger mb-5' %>
   <% end %>
 
   <div class="form-group row">

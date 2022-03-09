@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :set_sentry!
   before_action :check_browser_version
   include Roombooking::Auth
-  before_action :set_paper_trail_whodunnit
 
   def render_404
     alert = { 'class' => 'dark', 'message' => "Sorry, but the page you're looking for doesn't exist!" }

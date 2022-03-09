@@ -4,10 +4,10 @@ module Bookings
   class BookingService < ApplicationService
     attr_reader :booking, :shows, :societies
 
-    def initialize(params, user, current_imposter, camdram_entity_service)
+    def initialize(params, user, login_user, camdram_entity_service)
       @params = params
       @user = user
-      @current_imposter = current_imposter
+      @login_user = login_user
       @camdram_entity_service = camdram_entity_service
     end
 
@@ -40,6 +40,8 @@ module Bookings
     end
 
     def booking_authorised_against_camdram?
+      return true if Current.override
+
       # We can't authorise if there's no purpose given, but this get's caught by the Booking model validation.
       return true if @booking.purpose.nil?
       if Booking.admin_purposes.include?(@booking.purpose.to_sym)

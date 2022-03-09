@@ -31,9 +31,10 @@ class SessionsController < ApplicationController
     else
       camdram_token = CamdramToken.from_omniauth_and_user(auth, user)
       sesh = Session.from_user_and_request(user, request)
-      log_abuse "#{user.to_log_s} successfully logged in with session ID #{sesh.id} and Camdram token #{camdram_token.id}"
+      log_abuse "#{user.to_log_s} successfully logged in with session ID #{sesh.id} and Camdram token ID #{camdram_token.id}"
       Roombooking::InfoCounter.poke('Successful logins since boot')
-      session[:sesh_id] = sesh.id
+      session[:sid] = sesh.id
+      session[:uid] = user.id
       alert = { 'class' => 'success', 'message' => 'You have successfully logged in.' }
       flash[:alert] = alert
       redirect_to request.env['omniauth.origin'] || root_url
@@ -43,22 +44,10 @@ class SessionsController < ApplicationController
   # Handle user logouts.
   def destroy
     if user_logged_in?
-      log_abuse "#{current_user.to_log_s} successfully logged out of their session with ID #{current_session.id}"
+      log_abuse "#{login_user.to_log_s} successfully logged out of their session with ID #{current_session.id}"
       Roombooking::InfoCounter.poke('Logouts since boot')
       invalidate_session
       alert = { 'class' => 'success', 'message' => 'You have successfully logged out.' }
-      flash[:alert] = alert
-    end
-    redirect_to root_url
-  end
-
-  # Forces a logout everywhere the user is currently logged in by invalidating all active sessions.
-  def destroy_all
-    if user_logged_in?
-      log_abuse "#{current_user.to_log_s} successfully triggered a log out of all their current sessions from the session with ID #{current_session.id}"
-      invalidate_session
-      Session.where(user: current_user, invalidated: false).map(&:invalidate!)
-      alert = { 'class' => 'success', 'message' => 'You have successfully been logged out on all your devices.' }
       flash[:alert] = alert
     end
     redirect_to root_url

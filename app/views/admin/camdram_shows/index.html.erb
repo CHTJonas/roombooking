@@ -18,6 +18,13 @@
   preserved for historic record.
 </p>
 
+<% if user_being_impersonated? %>
+  <div class="alert alert-dark">
+    <strong>Caution - you are currently impersonating a user!</strong>
+    Shows you import will have their block bookings made under <%= current_user.name.possessive %> name.
+  </div>
+<% end %>
+
 <% if @batch_import_result %>
   <%= render 'batch_job_results' %>
 <% end %>

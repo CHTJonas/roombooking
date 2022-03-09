@@ -16,8 +16,10 @@
 class TwoFactorToken < ApplicationRecord
   belongs_to :user
 
-  attr_encrypted_options.merge!(encode: false, encode_iv: false,
-                                encode_salt: false, key: Roombooking::Crypto.secret_key)
+  attr_encrypted_options.merge!(
+    encode: false, encode_iv: false,
+    encode_salt: false, key: Roombooking::Crypto.secret_key
+  )
   attr_encrypted :secret
 
   validates :secret, presence: true
@@ -36,8 +38,7 @@ class TwoFactorToken < ApplicationRecord
     last_otp_at != 0
   end
 
-  # Generates a valid TOTP code for the current period, or the period with the
-  # given timestamp.
+  # Generates a valid TOTP code for the current period, or the period with the given timestamp.
   def generate(at = nil)
     if at.present?
       totp.at(at)
@@ -52,8 +53,7 @@ class TwoFactorToken < ApplicationRecord
     totp.provisioning_uri(email)
   end
 
-  # Returns the timestamp of the current period if the TOTP code is valid, or
-  # nil otherwise.
+  # Returns the timestamp of the current period if the TOTP code is valid, or nil otherwise.
   def verify(code)
     period = totp.verify(code, after: last_otp_at, drift_behind: 15)
     if period

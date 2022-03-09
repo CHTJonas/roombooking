@@ -3,18 +3,15 @@
 class UsersController < ApplicationController
   before_action :must_be_admin!, only: :impersonate
 
-  # Show all users that are registered.
   def index
     @users = User.accessible_by(current_ability, :read).page(params[:page])
   end
 
-  # Edit a particular user.
   def edit
     @user = User.find(params[:id])
     authorize! :edit, @user
   end
 
-  # Update a user's fields in the database.
   def update
     @user = User.find(params[:id])
     authorize! :edit, @user
@@ -29,60 +26,53 @@ class UsersController < ApplicationController
     end
   end
 
-  # Show all information stored about a single user.
   def show
     @user = User.find(params[:id])
     authorize! :read, @user
   end
 
-  # Validates a user's account fro the first time when created.
+  # Validates a user's email when their account is first created.
   def validate
-    @user = User.find(params[:id])
-    if @user.validate(params[:token])
-      log_abuse "#{@user.to_log_s} validated their account"
+    user = User.find(params[:id])
+    if user.validate(params[:token])
+      log_abuse "#{user.to_log_s} validated their account"
       alert = { 'class' => 'success', 'message' => 'You have successfully validated your user account! Please now login.' }
       flash[:alert] = alert
       redirect_to root_path
     else
-      log_abuse "#{@user.to_log_s} attempted to validated their account, but failed"
+      log_abuse "#{user.to_log_s} attempted to validated their account, but failed"
       alert = { 'class' => 'danger', 'message' => 'Something went wrong when validating your user account.' }
       flash.now[:alert] = alert
       render 'layouts/blank', locals: { reason: 'user validation failed' }, status: :forbidden
     end
   end
 
-  # Allows and administrator to impersonate a user.
+  # Allows an administrator to impersonate a user.
   def impersonate
-    # An imposter can't be a double agent!
-    @current_user = current_imposter if user_is_imposter?
-    @user = User.find(params[:id])
-    log_abuse "#{@current_user.to_log_s} started impersonating #{@user.to_log_s}"
-    session[:imposter_id] = current_user.id
-    current_session.invalidate!
-    sesh = Session.create(user: @user,
-                          expires_at: current_session.expires_at,
-                          login_at: Time.zone.now, ip: request.remote_ip,
-                          user_agent: request.user_agent)
-    session[:sesh_id] = sesh.id
-    redirect_to @user
+    new_user = User.find(params[:id])
+    log_abuse "#{current_user.to_log_s} started impersonating #{new_user.to_log_s}"
+    session[:uid] = new_user.id
+    redirect_to new_user
   end
 
   # Stops an impersonation and returns the user to their rightful account.
   def discontinue_impersonation
-    if user_is_imposter? && current_imposter.admin?
-      log_abuse "#{current_imposter.to_log_s} stopped impersonating #{@current_user.to_log_s}"
-      user = current_imposter
-      current_session.invalidate!
-      sesh = Session.create(user: user,
-                            expires_at: current_session.expires_at,
-                            login_at: Time.zone.now, ip: request.remote_ip,
-                            user_agent: request.user_agent)
-      session[:sesh_id] = sesh.id
-      session.delete(:imposter_id)
-      redirect_to user
-    else
-      redirect_to current_user
+    if user_being_impersonated?
+      log_abuse "#{login_user.to_log_s} stopped impersonating #{current_user.to_log_s}"
+      session[:uid] = login_user.id
     end
+    redirect_to current_user # This may still refer to the user being impersonated.
+  end
+
+  # Forces a logout everywhere the user is currently logged in by invalidating all active sessions.
+  def logout_everywhere
+    @user = User.find(params[:id])
+    authorize! :edit, @user
+    log_abuse "#{login_user.to_log_s} successfully triggered a log out of all current login sessions for #{@user.to_log_s} from the session with ID #{current_session.id}"
+    Session.where(user: @user, invalidated: false).map(&:invalidate!)
+    alert = { 'class' => 'success', 'message' => "#{@user.name} has been logged out of all their sessions." }
+    flash[:alert] = alert
+    redirect_to root_url
   end
 
   private
