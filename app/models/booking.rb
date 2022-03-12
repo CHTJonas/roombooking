@@ -127,7 +127,7 @@ class Booking < ApplicationRecord
   # Also prevent any bookings that occur more than four months in advance.
   def cannot_be_too_far_in_future
     return unless start_time.present?
-    return if Current.override
+    return if Current.override || Current.blocking_out
     if camdram_model.present? && camdram_model.instance_of?(CamdramShow)
       performances = camdram_model.camdram_object.performances
       last_performance = performances.max { |p1, p2| p1.end_at - p2.end_at }
