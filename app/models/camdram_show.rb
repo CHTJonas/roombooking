@@ -120,19 +120,19 @@ class CamdramShow < ApplicationRecord
               room_id: 1, user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time, end_time: get_in_end_time,
               repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
-              room_id: 4, user: user, camdram_model: self)
+              room_id: 3, user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Get-in', start_time: get_in_repeat_until + 1.day + 8.hours,
               end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 1,
               user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_repeat_until + 1.day + 8.hours,
-              end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 4,
+              end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 3,
               user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow', start_time: performance_start_time, end_time: performance_end_time,
               repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
               room_id: 1, user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Dressing Room', start_time: performance_start_time,
               end_time: performance_end_time.beginning_of_day + 24.hours, repeat_until: repeat_until,
-              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 4, user: user, camdram_model: self)
+              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 3, user: user, camdram_model: self)
             Booking.create!(name: 'Unavailable for use', start_time: performance_start_time + 1.hour,
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :theatre_closed, room_id: 2, user: user,
@@ -149,7 +149,7 @@ class CamdramShow < ApplicationRecord
               Booking.create!(name: 'Lateshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
                 purpose: :get_in_for, room_id: 1, user: user, camdram_model: self)
               Booking.create!(name: 'Lateshow Dressing Room', start_time: get_in_start_time,
-                end_time: performance.start_at.beginning_of_day + 21.hours, purpose: :get_in_for, room_id: 3,
+                end_time: performance.start_at.beginning_of_day + 21.hours, purpose: :get_in_for, room_id: 4,
                 user: user, camdram_model: self)
             end
             Booking.create!(name: 'Lateshow', start_time: performance_start_time, end_time: performance_end_time,
@@ -157,7 +157,7 @@ class CamdramShow < ApplicationRecord
               room_id: 1, user: user, camdram_model: self)
             Booking.create!(name: 'Lateshow Dressing Room', start_time: performance.start_at.beginning_of_day + 21.hours,
               end_time: performance.start_at.beginning_of_day + 24.hours, repeat_until: repeat_until,
-              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 3, user: user, camdram_model: self)
+              repeat_mode: repeat_mode, purpose: :performance_of, room_id: 4, user: user, camdram_model: self)
             Booking.create!(name: 'Unavailable for use', start_time: performance_start_time,
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :theatre_closed, room_id: 2, user: user,
@@ -170,7 +170,7 @@ class CamdramShow < ApplicationRecord
             repeat_mode = repeat_until.nil? ? :none : :daily
             Booking.create!(name: 'Matinee Dressing Room', start_time: performance_start_time,
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
-              purpose: :performance_of, room_id: 4, user: user, camdram_model: self)
+              purpose: :performance_of, room_id: 3, user: user, camdram_model: self)
             Booking.create!(name: 'Mainshow Matinee', start_time: performance_start_time,
               end_time: performance_end_time, repeat_until: repeat_until, repeat_mode: repeat_mode,
               purpose: :performance_of, room_id: 1, user: user, camdram_model: self)
