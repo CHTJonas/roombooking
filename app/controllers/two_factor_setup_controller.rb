@@ -11,7 +11,7 @@ class TwoFactorSetupController < ApplicationController
     code = params[:totp] || ''
     result = @token.verify(code)
     if result
-      session[:two_factor_auth] = result
+      session[:tfa] = result
       alert = { 'class' => 'success', 'message' => 'Two-factor authentication successfully setup.' }
       flash[:alert] = alert
       redirect_to user_path(@user) and return

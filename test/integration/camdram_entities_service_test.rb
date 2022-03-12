@@ -19,7 +19,7 @@ class CamdramEntitiesServiceTest < ActionDispatch::IntegrationTest
     assert_equal CamdramSociety.where(active: true), service.societies
   end
 
-  test 'should return an array of authorised Camdram entities for an imposter' do
+  test 'should return an array of authorised Camdram entities for an impersonator' do
     service = CamdramEntitiesService.create(@user, @admin)
     assert_equal CamdramShow.where(active: true, dormant: false), service.shows
     assert_equal CamdramSociety.where(active: true), service.societies

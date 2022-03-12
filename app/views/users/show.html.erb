@@ -3,8 +3,9 @@
 <% content_for :heading, 'User Details' %>
 <% content_for :controller_links do %>
   <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary my-md-1' %>
-  <%= link_to 'Impersonate', impersonate_user_path(@user), method: :post,
-    class: 'btn btn-outline-warning my-md-1' unless @user == current_user || @user == current_imposter || !user_is_admin? %>
+  <% if user_is_admin? && @user != current_user && @user != login_user %>
+    <%= link_to 'Impersonate', impersonate_user_path(@user), method: :post, class: 'btn btn-outline-warning my-md-1' %>
+  <% end %>
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-outline-primary my-md-1' if can? :edit, @user %>
 <% end %>
 
@@ -30,7 +31,7 @@
       </tbody>
     </table>
     <%= link_to 'Setup 2FA', show_2fa_qr_user_path(@user), class: 'btn btn-outline-primary mt-3' %>
-    <%= link_to 'Logout Everywhere', logout_everywhere_path, class: 'btn btn-outline-danger mt-3', method: :delete %>
+    <%= link_to 'Logout Everywhere', logout_everywhere_user_path(@user), class: 'btn btn-outline-danger mt-3', method: :delete %>
   <% end %>
 <% end %>
 

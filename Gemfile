@@ -70,13 +70,13 @@ gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
 gem 'rqrcode', '~> 2.1.1'
-gem 'recaptcha', '~> 5.8'
+gem 'recaptcha', '~> 5.9'
 # Authorisation
 gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 5.1'
-gem 'sentry-rails', '~> 5.1'
-gem 'sentry-sidekiq', '~> 5.1'
+gem 'sentry-ruby', '~> 5.2'
+gem 'sentry-rails', '~> 5.2'
+gem 'sentry-sidekiq', '~> 5.2'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.6'
 # User Gravatar profile pictures
@@ -99,7 +99,7 @@ gem 'redis', '~> 4.6'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 2.0.1'
+gem 'prometheus_exporter', '~> 2.0.2'
 gem 'ddtrace', '~> 0.54.2'
 gem 'yell', '~> 2.2'
 gem 'lograge', '~> 0.11.2'

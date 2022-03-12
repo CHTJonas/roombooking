@@ -5,22 +5,6 @@
   The current status of all rooms is shown below — click on a room to view its calendar.
 </p>
 
-<div class="alert alert-warning" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-  <h5>COVID-19 Rules</h5>
-  <p>Theatre management have issued the following updated rules for Michaelmas 2021:</p>
-  <ol>
-    <li>Face coverings <b>must</b> be worn in all spaces except the ADC Stage or Corpus Playroom stage, unless medically exempt.</li>
-    <li>There is no longer a maximum capacity per booking.</li>
-    <li>Names/contact details of attendees no longer need to be supplied.</li>
-    <li>Students are able to make bookings in all spaces at the ADC theatre and Corpus Playroom.</li>
-    <li>Bookings can also be made outside of management hours, provided that a trained keyholder is present.</li>
-    <li>Rooms can now be booked for meetings and auditions as well as rehearsals.</li>
-    <li>A break of 15 minutes must be left before the next use of any space. This will be enforced automatically by the software.</li>
-  </ol>
-  <p>Violations will be treated seriously and dealt with through the appropriate University disciplinary procedures.</p>
-</div>
-
 <%= content_tag :div, class: 'list-group' do %>
   <% Room.order(:id).each do |room| %>
     <% if room.currently_booked? %>

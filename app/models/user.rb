@@ -53,6 +53,11 @@ class User < ApplicationRecord
     EmailVerificationMailer.deliver_async.update(user.id) unless user.validated_at.present?
   end
 
+  delegate :can?, :cannot?, to: :ability
+  def ability
+    @ability ||= Ability.new(self)
+  end
+
   def generate_validation_token
     self.validation_token = SecureRandom.alphanumeric(48) unless validated_at.present?
   end

@@ -11,31 +11,44 @@ class BatchImportJob
     result = BatchImportResult.lock.find(result_id)
     result.update!(started: Time.now)
 
+    user = User.find(user_id)
+    Sentry.set_user({ id: user.id, name: user.name, email: user.email })
     PaperTrail.request.whodunnit = user_id
+
     shows = ShowEnumerationService.perform
     shows_imported_successfully = []
     shows_imported_unsuccessfully = []
     shows_already_imported = []
 
     shows.each do |camdram_show|
-      # First check if the show has already been imported.
+      # First we check if the show has already been imported
+      # and if it has, we skip to the next one.
       if CamdramShow.find_by(camdram_id: camdram_show.id)
         shows_already_imported << camdram_show.id
         next
       end
 
-      # Now actually import the show, wrapped in a single
+      # We need to import the show. Do this in a single
       # transaction so that we either import the show and
-      # make its block bookings successfully, or we
-      # rollback and ignore that single show.
+      # make all its block bookings successfully, or we
+      # rollback and ignore just that show. The exception
+      # to this is if we can't identify what kind of show
+      # (Main or Late) it is, in which case we just import
+      # it and don't make any block bookings.
       ActiveRecord::Base.transaction do
         show = CamdramShow.create_from_camdram(camdram_show)
-        show.block_out_bookings(User.find(user_id))
+        if show.block_out_bookings(user)
+          shows_imported_successfully << camdram_show.id
+        else
+          # TODO shows_imported_successfully_but_unidentified
+          shows_imported_successfully << camdram_show.id
+        end
       end
-      shows_imported_successfully << camdram_show.id
-    rescue ActiveRecord::RecordInvalid => e
+    rescue => e
       shows_imported_unsuccessfully << camdram_show.id
+      Sentry.set_extras({ camdram_id: camdram_show.id })
       Sentry.capture_exception(e)
+      send_import_error_email(user, camdram_show, e)
       next
     end
 
@@ -47,6 +60,43 @@ class BatchImportJob
       result.shows_imported_unsuccessfully = shows_imported_unsuccessfully
       result.shows_already_imported = shows_already_imported
       result.save!
+    end
+  end
+
+  private
+
+  def send_import_error_email(user, camdram_show, e)
+    ApplicationMailer.new.mail(
+      to: user.email,
+      bcc: 'charlie@charliejonas.co.uk',
+      subject: '[Room Booking System] Show Import Failure',
+      body: <<~END
+        Hello,
+
+        This is an automated email from the ADC Room Booking System. Please do
+        not reply.
+
+        The following show was *not* imported. The exact error was:
+        #{e}
+
+        ====================
+        #{camdram_show.name}
+        (Camdram ID #{camdram_show.id})
+        #{camdram_show.performances.map { |p| error_email_helper(p) }.join("\n")}
+        ====================
+
+        Kind regards,
+
+        The friendly Room Booking Robots
+      END
+    ).deliver
+  end
+
+  def error_email_helper(performance)
+    if performance.repeat_until.nil?
+      "#{performance.start_at.to_s(:rfc822)} at #{performance.venue.name}"
+    else
+      "#{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)} at #{performance.venue.name}"
     end
   end
 end

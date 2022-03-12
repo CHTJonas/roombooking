@@ -10,27 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_201629) do
+ActiveRecord::Schema.define(version: 2022_03_07_214433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "unaccent"
-
-  create_table "attendees", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "email", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_attendees_on_email", unique: true
-  end
-
-  create_table "attendees_bookings", id: false, force: :cascade do |t|
-    t.bigint "attendee_id", null: false
-    t.bigint "booking_id", null: false
-    t.index ["attendee_id", "booking_id"], name: "index_attendees_bookings_on_attendee_id_and_booking_id", unique: true
-  end
 
   create_table "batch_import_results", force: :cascade do |t|
     t.string "jid"

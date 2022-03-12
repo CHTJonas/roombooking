@@ -44,8 +44,8 @@ Rails.application.routes.draw do
     post '2fa', to: 'two_factor_setup#validate', as: 'validate_2fa_code', on: :member
     get 'validate', on: :member
     post 'impersonate', on: :member
-    post 'discontinue_impersonation', on: :collection,
-      as: 'discontinue_impersonation_of'
+    post 'discontinue_impersonation', on: :collection, as: 'discontinue_impersonation_of'
+    delete 'logout_everywhere', on: :member
   end
 
   # Contact form
@@ -56,7 +56,6 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#new'
   get '/logout' => 'sessions#destroy'
   delete '/logout' => 'sessions#destroy'
-  delete '/logout_everywhere' => 'sessions#destroy_all'
   get '/auth/2fa' => 'two_factor#new'
   post '/auth/2fa' => 'two_factor#create'
   get '/auth/:provider/callback' => 'sessions#create', as: :auth_callback

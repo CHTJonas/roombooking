@@ -1,5 +1,5 @@
 <%= form_tag search_bookings_path, class: 'd-inline-flex align-items-center justify-content-md-end flex-wrap', method: :get do %>
-  <% if user_is_imposter? %>
+  <% if user_being_impersonated? %>
     <%= link_to "Impersonating #{current_user.name}!", discontinue_impersonation_of_users_path, method: :post, class: 'badge badge-warning mx-md-1 my-1' %>
   <% end %>
   <% query_string = (controller.controller_name != 'users') ? params['q'] : nil %>

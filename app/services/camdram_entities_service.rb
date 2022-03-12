@@ -3,9 +3,9 @@
 class CamdramEntitiesService < ApplicationService
   attr_reader :shows, :societies
 
-  def initialize(user, current_imposter)
+  def initialize(user, login_user)
     @user = user
-    @current_imposter = current_imposter
+    @login_user = login_user
   end
 
   def perform
@@ -13,9 +13,9 @@ class CamdramEntitiesService < ApplicationService
       @shows = @societies = []
       return
     end
-    if @current_imposter.present?
-      @shows = @current_imposter.camdram_shows
-      @societies = @current_imposter.camdram_societies
+    if @login_user.present?
+      @shows = @login_user.camdram_shows
+      @societies = @login_user.camdram_societies
     else
       @shows = @user.camdram_shows
       @societies = @user.camdram_societies
