@@ -8,7 +8,7 @@
     "@rails/webpacker": "^5.4.3",
     "@sentry/browser": "6.18.2",
     "bootstrap": "^4.6.1",
-    "flatpickr": "4.6.10",
+    "flatpickr": "4.6.11",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
