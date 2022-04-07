@@ -10,14 +10,12 @@ GIT
 
 GIT
   remote: https://github.com/moove-it/sidekiq-scheduler.git
-  revision: eb013561ac1d65540296d5f69eb38142761ca058
+  revision: bd26b06b0020e31d9f96d2b2bb07e54645f993f0
   specs:
     sidekiq-scheduler (3.1.1)
-      e2mmap
-      redis (>= 3, < 5)
+      redis (>= 4.2.0)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 3)
-      thwait
       tilt (>= 1.4.0)
 
 GEM
@@ -144,7 +142,6 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    e2mmap (0.1.0)
     eldritch (1.1.3)
       reentrant_mutex (~> 1.1.0)
     encryptor (3.0.0)
@@ -449,8 +446,6 @@ GEM
     sync (0.5.0)
     temple (0.8.2)
     thor (1.2.1)
-    thwait (0.2.0)
-      e2mmap
     tilt (2.0.10)
     turbo-rails (1.0.1)
       actionpack (>= 6.0.0)
