@@ -6,7 +6,7 @@
     "@rails/activestorage": "^6.1.5",
     "@rails/ujs": "^6.1.5",
     "@rails/webpacker": "^5.4.3",
-    "@sentry/browser": "6.19.5",
+    "@sentry/browser": "6.19.6",
     "bootstrap": "^4.6.1",
     "flatpickr": "4.6.11",
     "font-awesome": "^4.7.0",
