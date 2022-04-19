@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/moove-it/sidekiq-scheduler.git
-  revision: bd26b06b0020e31d9f96d2b2bb07e54645f993f0
+  revision: cb3815055b1b93d3a40aa15ad7cae79eb48f5a22
   specs:
     sidekiq-scheduler (3.1.1)
       redis (>= 4.2.0)
