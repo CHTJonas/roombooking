@@ -10,9 +10,9 @@ GIT
 
 GIT
   remote: https://github.com/moove-it/sidekiq-scheduler.git
-  revision: bd26b06b0020e31d9f96d2b2bb07e54645f993f0
+  revision: bf988b976a192719fa870af2445feb0b67a244b9
   specs:
-    sidekiq-scheduler (3.1.1)
+    sidekiq-scheduler (4.0.0.alpha1)
       redis (>= 4.2.0)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 3)
