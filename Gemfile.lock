@@ -361,7 +361,7 @@ GEM
     redlock (1.2.2)
       redis (>= 3.0.0, < 5.0)
     reentrant_mutex (1.1.1)
-    regexp_parser (2.3.1)
+    regexp_parser (2.4.0)
     request_store (1.5.1)
       rack (>= 1.4)
     rexml (3.2.5)
