@@ -441,7 +441,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    strip_attributes (1.12.0)
+    strip_attributes (1.13.0)
       activemodel (>= 3.0, < 8.0)
     sync (0.5.0)
     temple (0.8.2)
@@ -559,7 +559,7 @@ DEPENDENCIES
   slack-notifier (~> 2.4)
   spring
   spring-watcher-listen (~> 2.0.0)
-  strip_attributes (~> 1.12)
+  strip_attributes (~> 1.13)
   sync
   tzinfo-data
   web-console (>= 3.3.0)
