@@ -10,12 +10,12 @@ GIT
 
 GIT
   remote: https://github.com/moove-it/sidekiq-scheduler.git
-  revision: bd26b06b0020e31d9f96d2b2bb07e54645f993f0
+  revision: e9e11a2481164a9424e23228238718bc395811cd
   specs:
-    sidekiq-scheduler (3.1.1)
+    sidekiq-scheduler (4.0.0)
       redis (>= 4.2.0)
       rufus-scheduler (~> 3.2)
-      sidekiq (>= 3)
+      sidekiq (>= 4)
       tilt (>= 1.4.0)
 
 GEM
