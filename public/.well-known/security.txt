@@ -1,9 +1,7 @@
 Contact: mailto:charlie@charliejonas.co.uk
 Expires: 2022-12-29T00:00:00.000Z
 Encryption: https://id.charliejonas.co.uk/pgp.asc
-Encryption: https://github.com/CHTJonas.gpg
-Encryption: https://keybase.io/CHTJonas/key.asc
 Preferred-Languages: en
 Canonical: https://roombooking.adctheatre.com/.well-known/security.txt
 Policy: https://github.com/CHTJonas/roombooking/blob/master/SECURITY.md
-Hiring: https://github.com/CHTJonas/roombooking
+Hiring: https://github.com/CHTJonas/roombooking/blob/master/CONTRIBUTING.md
