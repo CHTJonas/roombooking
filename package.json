@@ -13,6 +13,7 @@
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "rails-erb-loader": "^5.5.2",
+    "rails_admin": "3.0.0",
     "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
