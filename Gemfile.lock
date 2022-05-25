@@ -132,10 +132,6 @@ GEM
     css_parser (1.11.0)
       addressable
     datey (1.1.0)
-    ddtrace (0.54.2)
-      debase-ruby_core_source (<= 0.10.14)
-      msgpack
-    debase-ruby_core_source (0.10.14)
     debug_inspector (1.1.0)
     docile (1.4.0)
     dotenv (2.7.6)
@@ -498,7 +494,6 @@ DEPENDENCIES
   connection_pool (~> 2.2)
   cookies_eu
   datey (~> 1.1)
-  ddtrace (~> 0.54.2)
   dotenv-rails (~> 2.7)
   escape_utils (~> 1.2)
   faraday_middleware (~> 1.2.0)
