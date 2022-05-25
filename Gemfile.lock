@@ -8,16 +8,6 @@ GIT
       ruby_multiton (~> 0.1.2)
       sync (~> 0.5.0)
 
-GIT
-  remote: https://github.com/moove-it/sidekiq-scheduler.git
-  revision: e9e11a2481164a9424e23228238718bc395811cd
-  specs:
-    sidekiq-scheduler (4.0.0)
-      redis (>= 4.2.0)
-      rufus-scheduler (~> 3.2)
-      sidekiq (>= 4)
-      tilt (>= 1.4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -407,6 +397,11 @@ GEM
     sidekiq-cron (1.4.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
+    sidekiq-scheduler (4.0.0)
+      redis (>= 4.2.0)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 4)
+      tilt (>= 1.4.0)
     sidekiq-throttled (0.15.0)
       concurrent-ruby
       redis-prescription
@@ -546,7 +541,7 @@ DEPENDENCIES
   sentry-sidekiq (~> 5.3)
   sidekiq (~> 6.4)
   sidekiq-cron (~> 1.4)
-  sidekiq-scheduler!
+  sidekiq-scheduler (~> 4.0)
   sidekiq-throttled (~> 0.15.0)
   sidekiq_queue_metrics (~> 3.0)
   simple_calendar (~> 2.4)
