@@ -14,6 +14,7 @@ require_relative '../config/environment'
 require 'rails/test_help'
 Rails.application.eager_load!
 Rails.cache.clear
+PaperTrail.enabled = false
 
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+Redis.silence_deprecations = true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -79,14 +81,8 @@ Rails.application.configure do
     }
   end
   config.lograge.custom_options = lambda do |event|
-    correlation = Datadog.tracer.active_correlation
     exceptions = %w(controller action format id)
     {
-      :dd => {
-        :trace_id => correlation.trace_id,
-        :span_id => correlation.span_id
-      },
-      :ddsource => ["ruby"],
       params: event.payload[:params].except(*exceptions)
     }
   end

@@ -37,11 +37,11 @@ class CamdramVenueTest < ActiveSupport::TestCase
 
   test 'should return camdram object name' do
     venue = camdram_venues(:fitzpat)
-    assert_equal "Fitzpatrick Hall, Queens' College", venue.name
+    assert_equal "Fitzpatrick Hall", venue.name
   end
 
   test 'should return camdram object url' do
     venue = camdram_venues(:fitzpat)
-    assert_equal 'https://www.camdram.net/venues/fitzpatrick-hall-queens-college', venue.url
+    assert_equal 'https://www.camdram.net/venues/fitzpatrick-hall', venue.url
   end
 end

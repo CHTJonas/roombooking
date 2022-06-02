@@ -3,7 +3,7 @@
 # ADC Room Booking System
 
 [![Ruby Version](https://img.shields.io/badge/Ruby-v2.7.3-brightgreen.svg)](https://www.ruby-lang.org/en/)
-[![Rails Version](https://img.shields.io/badge/Rails-v6.1.4-brightgreen.svg)](http://rubyonrails.org/)
+[![Rails Version](https://img.shields.io/badge/Rails-v6.1.6-brightgreen.svg)](http://rubyonrails.org/)
 [![Build Status](https://github.com/CHTJonas/roombooking/workflows/CI%20CD/badge.svg)](https://github.com/CHTJonas/roombooking/actions?query=workflow%3A%22CI+CD%22)
 [![Test Coverage](https://codecov.io/gh/CHTJonas/roombooking/branch/master/graph/badge.svg)](https://codecov.io/gh/CHTJonas/roombooking)
 

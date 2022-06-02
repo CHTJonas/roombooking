@@ -6,7 +6,7 @@ ruby '2.7.3'
 gem 'dotenv-rails', '~> 2.7'
 
 # Rails
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1.6'
 gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.0'
 gem 'sassc', '~> 2.4'
@@ -18,21 +18,21 @@ gem 'linked-list', '~> 0.0.16'
 gem 'sync'
 
 # Audit model changes
-gem 'paper_trail', '~> 11.1'
-gem 'paper_trail-association_tracking', '~> 2.1'
+gem 'paper_trail', '~> 12.3'
+gem 'paper_trail-association_tracking', '~> 2.2'
 # Encrypt sensitive model attributes
 gem 'attr_encrypted', '~> 3.1'
 # Remove whitespace from model attributes
-gem 'strip_attributes', '~> 1.12'
+gem 'strip_attributes', '~> 1.13'
 # HTTP security headers
 gem 'secure_headers', '~> 6.3'
 # Administrator interface
-gem 'rails_admin', '~> 2.2'
+gem 'rails_admin', '~> 3.0'
 gem 'rails_admin_history_rollback', '~> 1.0'
 # Background job processing
 gem 'sidekiq', '~> 6.4'
-gem 'sidekiq-scheduler', git: 'https://github.com/moove-it/sidekiq-scheduler.git'
-gem 'sidekiq-cron', '~> 1.2'
+gem 'sidekiq-scheduler', '~> 4.0'
+gem 'sidekiq-cron', '~> 1.4'
 gem 'sidekiq-throttled', '~> 0.15.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
@@ -70,13 +70,13 @@ gem 'omniauth-camdram', '~> 1.0'
 gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
 gem 'rotp', '~> 6.2'
 gem 'rqrcode', '~> 2.1.1'
-gem 'recaptcha', '~> 5.9'
+gem 'recaptcha', '~> 5.10'
 # Authorisation
 gem 'cancancan', '~> 3.3'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 5.2'
-gem 'sentry-rails', '~> 5.2'
-gem 'sentry-sidekiq', '~> 5.2'
+gem 'sentry-ruby', '~> 5.3'
+gem 'sentry-rails', '~> 5.3'
+gem 'sentry-sidekiq', '~> 5.3'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.6'
 # User Gravatar profile pictures
@@ -99,10 +99,9 @@ gem 'redis', '~> 4.6'
 gem 'hiredis', '~> 0.6.3'
 
 # Metrics & Logging
-gem 'prometheus_exporter', '~> 2.0.2'
-gem 'ddtrace', '~> 0.54.2'
+gem 'prometheus_exporter', '~> 2.0.3'
 gem 'yell', '~> 2.2'
-gem 'lograge', '~> 0.11.2'
+gem 'lograge', '~> 0.12.0'
 gem 'health_check', '~> 3.1'
 
 # Systemd integration
@@ -143,7 +142,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver', '~> 4.1'
+  gem 'selenium-webdriver', '~> 4.2'
   gem 'webdrivers', '~> 5.0'
   gem 'minitest-retry', '~> 0.2.2', require: false
   gem 'codecov', '~> 0.6.0', require: false

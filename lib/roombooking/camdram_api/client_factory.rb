@@ -27,7 +27,6 @@ module Roombooking
 
         def faraday_connection_builder(cache_responses = false)
           proc do |faraday|
-            faraday.use(:ddtrace) if ENV['ENABLE_DATADOG_APM']
             faraday.request :url_encoded
             if cache_responses
               faraday.response :caching do
