@@ -91,6 +91,7 @@ class CamdramShow < ApplicationRecord
   end
 
   def block_out_bookings(user)
+    get_in_booked = false
     venue_ids = CamdramVenue.all.map(&:camdram_id)
     performances = camdram_object.performances.select do |p|
       p.venue && venue_ids.include?(p.venue.id)
@@ -116,18 +117,21 @@ class CamdramShow < ApplicationRecord
                 # This show appears to be a Panto or LTM.
                 get_in_repeat_until = get_in_repeat_until + 1.day
               end
-              Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
-                repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
-                room_id: 1, user: user, camdram_model: self)
-              Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time, end_time: get_in_end_time,
-                repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
-                room_id: 3, user: user, camdram_model: self)
-              Booking.create!(name: 'Mainshow Get-in', start_time: get_in_repeat_until + 1.day + 8.hours,
-                end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 1,
-                user: user, camdram_model: self)
-              Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_repeat_until + 1.day + 8.hours,
-                end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 3,
-                user: user, camdram_model: self)
+              unless get_in_booked
+                Booking.create!(name: 'Mainshow Get-in', start_time: get_in_start_time, end_time: get_in_end_time,
+                  repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
+                  room_id: 1, user: user, camdram_model: self)
+                Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_start_time, end_time: get_in_end_time,
+                  repeat_until: get_in_repeat_until, repeat_mode: :daily, purpose: :get_in_for,
+                  room_id: 3, user: user, camdram_model: self)
+                Booking.create!(name: 'Mainshow Get-in', start_time: get_in_repeat_until + 1.day + 8.hours,
+                  end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 1,
+                  user: user, camdram_model: self)
+                Booking.create!(name: 'Mainshow Dressing Room', start_time: get_in_repeat_until + 1.day + 8.hours,
+                  end_time: get_in_repeat_until + 1.day + 18.hours, purpose: :get_in_for, room_id: 3,
+                  user: user, camdram_model: self)
+                get_in_booked = true
+              end
               Booking.create!(name: 'Mainshow', start_time: performance_start_time, end_time: performance_end_time,
                 repeat_until: repeat_until, repeat_mode: repeat_mode, purpose: :performance_of,
                 room_id: 1, user: user, camdram_model: self)
