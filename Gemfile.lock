@@ -132,7 +132,7 @@ GEM
       reentrant_mutex (~> 1.1.0)
     encryptor (3.0.0)
     erubi (1.10.0)
-    escape_utils (1.2.1)
+    escape_utils (1.2.2)
     et-orbi (1.2.7)
       tzinfo
     extensible (0.1.3)
