@@ -398,7 +398,7 @@ GEM
     sidekiq-cron (1.4.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
-    sidekiq-scheduler (4.0.0)
+    sidekiq-scheduler (4.0.1)
       redis (>= 4.2.0)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 4)
