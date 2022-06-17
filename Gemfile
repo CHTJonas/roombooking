@@ -114,7 +114,7 @@ gem 'rack-reverse-proxy', '~> 0.12.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Performance improvements using native extensions
-gem 'escape_utils', '~> 1.2'
+gem 'escape_utils', '~> 1.3'
 gem 'fast_blank', '~> 1.0'
 gem 'oj', '~> 3.13'
 
