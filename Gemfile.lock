@@ -374,7 +374,7 @@ GEM
       tilt
     sd_notify (0.1.1)
     secure_headers (6.3.3)
-    selenium-webdriver (4.2.1)
+    selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -537,7 +537,7 @@ DEPENDENCIES
   sassc (~> 2.4)
   sd_notify (~> 0.1.1)
   secure_headers (~> 6.3)
-  selenium-webdriver (~> 4.2)
+  selenium-webdriver (~> 4.3)
   sentry-rails (~> 5.3)
   sentry-ruby (~> 5.3)
   sentry-sidekiq (~> 5.3)
