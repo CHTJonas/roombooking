@@ -373,7 +373,7 @@ GEM
       sprockets-rails
       tilt
     sd_notify (0.1.1)
-    secure_headers (6.3.3)
+    secure_headers (6.3.4)
     selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
