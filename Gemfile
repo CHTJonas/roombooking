@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.7.3'
 
 # Application config
-gem 'dotenv-rails', '~> 2.7'
+gem 'dotenv-rails', '~> 2.8'
 
 # Rails
 gem 'rails', '~> 6.1.6'
