@@ -33,7 +33,7 @@ gem 'rails_admin_history_rollback', '~> 1.0'
 gem 'sidekiq', '~> 6.5'
 gem 'sidekiq-scheduler', '~> 4.0'
 gem 'sidekiq-cron', '~> 1.7'
-gem 'sidekiq-throttled', '~> 0.16.2'
+gem 'sidekiq-throttled', '~> 0.17.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
 gem 'high_voltage', '~> 3.1'
