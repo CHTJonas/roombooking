@@ -403,10 +403,10 @@ GEM
       rufus-scheduler (~> 3.2)
       sidekiq (>= 4)
       tilt (>= 1.4.0)
-    sidekiq-throttled (0.16.2)
+    sidekiq-throttled (0.17.0)
       concurrent-ruby
       redis-prescription
-      sidekiq
+      sidekiq (>= 6.4)
     sidekiq_queue_metrics (3.0.0)
       eldritch
       redlock
@@ -544,7 +544,7 @@ DEPENDENCIES
   sidekiq (~> 6.5)
   sidekiq-cron (~> 1.7)
   sidekiq-scheduler (~> 4.0)
-  sidekiq-throttled (~> 0.16.2)
+  sidekiq-throttled (~> 0.17.0)
   sidekiq_queue_metrics (~> 3.0)
   simple_calendar (~> 2.4)
   sitemap_generator (~> 6.3)
