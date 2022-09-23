@@ -35,17 +35,18 @@ class Room < ApplicationRecord
     query = bookings.find_by(repeat_mode: :none, start_time: Time.at(0)..date, end_time: date..DateTime::Infinity.new)
     return query unless query.nil?
 
+    secs = date.in_time_zone('Europe/London').seconds_since_midnight
     bookings.where(repeat_mode: :daily, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
-      next unless bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
-      if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight || bkg.end_time.seconds_since_midnight == 0
+      next unless bkg.start_time.seconds_since_midnight < secs
+      if bkg.end_time.seconds_since_midnight > secs || bkg.end_time.seconds_since_midnight == 0
         return bkg
       end
     end
+
     bookings.where(repeat_mode: :weekly, start_time: Time.at(0)..date, repeat_until: date..DateTime::Infinity.new).each do |bkg|
       next unless bkg.start_time.wday == date.wday
-
-      next unless bkg.start_time.seconds_since_midnight < date.seconds_since_midnight
-      if bkg.end_time.seconds_since_midnight > date.seconds_since_midnight || bkg.end_time.seconds_since_midnight == 0
+      next unless bkg.start_time.seconds_since_midnight < secs
+      if bkg.end_time.seconds_since_midnight > secs || bkg.end_time.seconds_since_midnight == 0
         return bkg
       end
     end
