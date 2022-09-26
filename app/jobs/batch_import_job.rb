@@ -94,9 +94,18 @@ class BatchImportJob
 
   def error_email_helper(performance)
     if performance.repeat_until.nil?
-      "#{performance.start_at.to_s(:rfc822)} at #{performance.venue.name}"
+      "#{performance.start_at.to_s(:rfc822)} at #{get_performance_venue_name(performance)}"
     else
-      "#{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)} at #{performance.venue.name}"
+      "#{performance.start_at.to_s(:rfc822)} until #{performance.repeat_until.to_s(:rfc822)} at #{get_performance_venue_name(performance)}"
+    end
+  end
+
+  # TODO extract this method out into camdram-ruby lib
+  def get_performance_venue_name(performance)
+    if performance.venue
+      performance.venue.name
+    else
+      performance.other_venue
     end
   end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RailsAdmin.config do |config|
-  config.asset_source = :webpacker
   config.parent_controller = 'LegacyContentController'
 
   config.authorize_with :cancancan
