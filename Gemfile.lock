@@ -396,10 +396,10 @@ GEM
     sidekiq-cron (1.7.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
-    sidekiq-scheduler (4.0.2)
+    sidekiq-scheduler (4.0.3)
       redis (>= 4.2.0)
       rufus-scheduler (~> 3.2)
-      sidekiq (>= 4)
+      sidekiq (>= 4, < 7)
       tilt (>= 1.4.0)
     sidekiq-throttled (0.17.0)
       concurrent-ruby
