@@ -74,7 +74,7 @@ gem 'recaptcha', '~> 5.12'
 # Authorisation
 gem 'cancancan', '~> 3.4'
 # Error tracking and reporting
-gem 'sentry-ruby', '~> 5.4'
+gem 'sentry-ruby', '~> 5.5'
 gem 'sentry-rails', '~> 5.4'
 gem 'sentry-sidekiq', '~> 5.4'
 # DDoS protection and IP blocking
