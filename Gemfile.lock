@@ -169,7 +169,7 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     gravatar_image_tag (1.2.0)
-    haml (6.0.1)
+    haml (6.0.7)
       temple (>= 0.8.2)
       thor
       tilt
