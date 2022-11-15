@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CHTJonas/camdram-ruby.git
-  revision: 103e4cc630348c6dff1e8f26e4eb6f51a1dbe97e
+  revision: 8fd88329f30a3b235d6aeeda6ee1260ed62e54fc
   specs:
     camdram (2.0.0)
       mime-types (~> 3.2)
@@ -239,12 +239,12 @@ GEM
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     numerizer (0.1.1)
-    oauth2 (1.4.10)
+    oauth2 (1.4.11)
       faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
-      rack (>= 1.2, < 3)
+      rack (>= 1.2, < 4)
     oj (3.13.21)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
