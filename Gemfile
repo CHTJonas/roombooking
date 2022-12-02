@@ -76,7 +76,7 @@ gem 'cancancan', '~> 3.4'
 # Error tracking and reporting
 gem 'sentry-ruby', '~> 5.4'
 gem 'sentry-rails', '~> 5.4'
-gem 'sentry-sidekiq', '~> 5.4'
+gem 'sentry-sidekiq', '~> 5.7'
 # DDoS protection and IP blocking
 gem 'rack-attack', '~> 6.6'
 # User Gravatar profile pictures
