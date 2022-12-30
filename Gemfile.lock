@@ -119,7 +119,7 @@ GEM
     cookies_eu (1.7.8)
       js_cookie_rails (~> 2.2.0)
     crass (1.0.6)
-    css_parser (1.12.0)
+    css_parser (1.13.0)
       addressable
     datey (1.1.0)
     debug_inspector (1.1.0)
@@ -283,7 +283,7 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (5.0.0)
+    public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
     raabro (1.4.0)
