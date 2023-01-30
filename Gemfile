@@ -52,7 +52,7 @@ gem 'icalendar', '~> 2.8'
 # View rendering
 gem 'haml', '~> 6.0'
 gem 'kramdown', require: false
-gem 'redcarpet', '~> 3.5'
+gem 'redcarpet', '~> 3.6'
 # Inline email styles
 gem 'premailer-rails', '~> 1.11'
 # GDPR
