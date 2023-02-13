@@ -115,7 +115,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Performance improvements using native extensions
 gem 'escape_utils', '~> 1.3'
 gem 'fast_blank', '~> 1.0'
-gem 'oj', '~> 3.13'
+gem 'oj', '~> 3.14'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
