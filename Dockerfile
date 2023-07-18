@@ -1,4 +1,4 @@
-FROM ruby:2.7.3
+FROM ruby:2.7.8
 
 # Install apt-transport-https
 RUN apt-get update

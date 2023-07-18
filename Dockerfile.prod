@@ -1,4 +1,4 @@
-FROM ruby:2.7.3
+FROM ruby:2.7.8
 
 ENV DISABLE_SPRING 1
 ENV RAILS_ENV production
