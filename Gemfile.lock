@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CHTJonas/camdram-ruby.git
-  revision: 103e4cc630348c6dff1e8f26e4eb6f51a1dbe97e
+  revision: 51e04c1f6ee583f536db2782d190a3d4e1c79f61
   specs:
     camdram (2.0.0)
       mime-types (~> 3.2)
@@ -135,7 +135,7 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     extensible (0.1.3)
-    faraday (1.10.2)
+    faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -188,7 +188,7 @@ GEM
     js_cookie_rails (2.2.0)
       railties (>= 3.1)
     json (2.6.3)
-    jwt (2.5.0)
+    jwt (2.7.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -231,19 +231,19 @@ GEM
     msgpack (1.6.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     nested_form (0.3.2)
     nio4r (2.5.8)
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     numerizer (0.1.1)
-    oauth2 (1.4.10)
+    oauth2 (1.4.11)
       faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
-      rack (>= 1.2, < 3)
+      rack (>= 1.2, < 4)
     oj (3.14.2)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
