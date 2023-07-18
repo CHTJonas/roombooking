@@ -49,7 +49,7 @@ gem 'kaminari', '~> 1.2'
 gem 'simple_calendar', '~> 2.4'
 gem 'icalendar', '~> 2.8'
 # View rendering
-gem 'haml', '~> 6.0'
+gem 'haml', '~> 6.1'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.6'
 # Inline email styles
