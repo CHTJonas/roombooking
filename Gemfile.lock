@@ -357,7 +357,7 @@ GEM
     recaptcha (5.12.3)
       json
     redcarpet (3.6.0)
-    redis (4.8.0)
+    redis (4.8.1)
     redis-client (0.12.1)
       connection_pool
     redis-prescription (1.0.0)
