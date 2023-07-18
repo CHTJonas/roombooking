@@ -27,7 +27,7 @@ gem 'strip_attributes', '~> 1.13'
 # HTTP security headers
 gem 'secure_headers', '~> 6.4'
 # Administrator interface
-gem 'rails_admin', '~> 3.0'
+gem 'rails_admin', '~> 3.1'
 gem 'rails_admin_history_rollback', '~> 1.0'
 # Background job processing
 gem 'sidekiq', '~> 6.5'
