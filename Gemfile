@@ -53,7 +53,7 @@ gem 'haml', '~> 6.0'
 gem 'kramdown', require: false
 gem 'redcarpet', '~> 3.6'
 # Inline email styles
-gem 'premailer-rails', '~> 1.11'
+gem 'premailer-rails', '~> 1.12'
 # GDPR
 gem 'cookies_eu'
 # Detection of server platofrm and client browser
