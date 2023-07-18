@@ -31,7 +31,7 @@ gem 'rails_admin', '~> 3.1'
 gem 'rails_admin_history_rollback', '~> 1.0'
 # Background job processing
 gem 'sidekiq', '~> 6.5'
-gem 'sidekiq-cron', '~> 1.7'
+gem 'sidekiq-cron', '~> 1.10'
 gem 'sidekiq-throttled', '~> 0.17.0'
 gem 'sidekiq_queue_metrics', '~> 3.0'
 # Static page serving
