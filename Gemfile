@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.3'
+ruby '2.7.8'
 
 # Application config
 gem 'dotenv-rails', '~> 2.8'

@@ -550,7 +550,7 @@ DEPENDENCIES
   yell (~> 2.2)
 
 RUBY VERSION
-   ruby 2.7.3p183
+   ruby 2.7.8p225
 
 BUNDLED WITH
    2.1.4
