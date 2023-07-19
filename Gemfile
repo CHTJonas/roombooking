@@ -60,7 +60,7 @@ gem 'cookies_eu'
 gem 'os', '~> 1.1'
 gem 'browser', '~> 5.3'
 # Connection pooling
-gem 'connection_pool', '~> 2.3'
+gem 'connection_pool', '~> 2.4'
 # Camdram API wrapper
 gem 'camdram', git: 'https://github.com/CHTJonas/camdram-ruby.git', require: 'camdram/client'
 gem 'faraday_middleware', '~> 1.2.0'
