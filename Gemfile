@@ -21,7 +21,7 @@ gem 'sync'
 gem 'paper_trail', '~> 13.0'
 gem 'paper_trail-association_tracking', '~> 2.2'
 # Encrypt sensitive model attributes
-gem 'attr_encrypted', '~> 3.1'
+gem 'attr_encrypted', '~> 4.0'
 # Remove whitespace from model attributes
 gem 'strip_attributes', '~> 1.13'
 # HTTP security headers
