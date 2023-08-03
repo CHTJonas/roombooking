@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CHTJonas/camdram-ruby.git
-  revision: 51e04c1f6ee583f536db2782d190a3d4e1c79f61
+  revision: 3cf7edd1968988fb437712bf5a810ce76c6b00fb
   specs:
     camdram (2.0.0)
       mime-types (~> 3.2)
@@ -301,7 +301,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.7.1)
-    rack (2.2.7)
+    rack (2.2.8)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-proxy (0.7.6)
