@@ -46,7 +46,7 @@ gem 'possessive', '~> 1.0'
 # Pagination
 gem 'kaminari', '~> 1.2'
 # Calendar
-gem 'simple_calendar', '~> 2.4'
+gem 'simple_calendar', '~> 3.0'
 gem 'icalendar', '~> 2.8'
 # View rendering
 gem 'haml', '~> 6.1'
