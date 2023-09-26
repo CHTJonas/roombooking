@@ -162,7 +162,7 @@ GEM
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
     fast_blank (1.0.1)
-    ffi (1.15.5)
+    ffi (1.16.2)
     fugit (1.8.1)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
