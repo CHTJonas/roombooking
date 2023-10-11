@@ -100,7 +100,7 @@ gem 'hiredis', '~> 0.6.3'
 # Metrics & Logging
 gem 'prometheus_exporter', '~> 2.0.8'
 gem 'yell', '~> 2.2'
-gem 'lograge', '~> 0.12.0'
+gem 'lograge', '~> 0.14.0'
 gem 'health_check', '~> 3.1'
 
 # Systemd integration
