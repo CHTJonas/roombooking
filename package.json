@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@github/hotkey": "^2.1.1",
-    "@rails/activestorage": "^6.1.7",
+    "@rails/activestorage": "^8.1.401",
     "@rails/ujs": "^6.1.7",
     "@rails/webpacker": "^5.4.4",
     "@sentry/browser": "7.74.0",
