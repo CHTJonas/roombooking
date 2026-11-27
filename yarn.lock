@@ -1066,58 +1066,61 @@
     webpack-cli "^3.3.12"
     webpack-sources "^1.4.3"
 
-"@sentry-internal/tracing@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry-internal/tracing/-/tracing-7.74.0.tgz#11b0762d0b18b01cc18dfb1e40bbaa41c6f97452"
-  integrity sha512-JK6IRGgdtZjswGfaGIHNWIThffhOHzVIIaGmglui+VFIzOsOqePjoxaDV0MEvzafxXZD7eWqGE5RGuZ0n6HFVg==
+"@sentry/browser-utils@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser-utils/-/browser-utils-11.17.0.tgz#00973e0c05564e763eef2105d3b1897e773236ea"
+  integrity sha512-+0JIKG68z7ziTiCbtgX0H6jsUNvEruyforiQ3rOebW9k52j6RK2X6vlcDByPMzQW/w/AI2WryswnYU4sCL+xBA==
   dependencies:
-    "@sentry/core" "7.74.0"
-    "@sentry/types" "7.74.0"
-    "@sentry/utils" "7.74.0"
-    tslib "^2.4.1 || ^1.9.3"
+    "@sentry/conventions" "^0.35.0"
+    "@sentry/core" "11.17.0"
+    web-vitals "^6.2.3"
 
-"@sentry/browser@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-7.74.0.tgz#4a01bccb34059894007b9a22a89892f2c4dff130"
-  integrity sha512-Njr8216Z1dFUcl6NqBOk20dssK9SjoVddY74Xq+Q4p3NfXBG3lkMcACXor7SFoJRZXq8CZWGS13Cc5KwViRw4g==
+"@sentry/browser@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-11.17.0.tgz#f13c76c6f4437dcfdfac6f8aea18e9b3a640c73d"
+  integrity sha512-6zxDfbpb2qgsgiAIkgRx+QuF3EFowEHEwf1tcx2WSrbn8VJ2ViUN4OUOFpB525vJaiOou2MwOxbw80FBQpOkvA==
   dependencies:
-    "@sentry-internal/tracing" "7.74.0"
-    "@sentry/core" "7.74.0"
-    "@sentry/replay" "7.74.0"
-    "@sentry/types" "7.74.0"
-    "@sentry/utils" "7.74.0"
-    tslib "^2.4.1 || ^1.9.3"
+    "@sentry/browser-utils" "11.17.0"
+    "@sentry/conventions" "^0.35.0"
+    "@sentry/core" "11.17.0"
+    "@sentry/feedback" "11.17.0"
+    "@sentry/replay" "11.17.0"
+    "@sentry/replay-canvas" "11.17.0"
 
-"@sentry/core@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.74.0.tgz#2cfcb5133a4a3f82fbac09d3573ea9f508fb7c67"
-  integrity sha512-83NRuqn7nDZkSVBN5yJQqcpXDG4yMYiB7TkYUKrGTzBpRy6KUOrkCdybuKk0oraTIGiGSe5WEwCFySiNgR9FzA==
+"@sentry/conventions@^0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@sentry/conventions/-/conventions-0.35.0.tgz#061fa4809b2ff1d05e9d4c30311aa52d63081e76"
+  integrity sha512-bq2ecu6zaBni0gG5bHN9cY7fmUsOW49ntjGZ6VA69PVAa1Uk1NvgF1SdTGoVC0zkqQKziTnxzOs9KuuVlpb26w==
+
+"@sentry/core@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-11.17.0.tgz#056a307e8b2a3f71dc41f145d596bb2772560a06"
+  integrity sha512-Tf9XOBEMeGdZZNaCBzFTk1lN/q9gzSnWtnNRZW9IYtokM99VVfx4wTWVeg6qZ++c6mNybmhUbltnN7b87RqOwQ==
   dependencies:
-    "@sentry/types" "7.74.0"
-    "@sentry/utils" "7.74.0"
-    tslib "^2.4.1 || ^1.9.3"
+    "@sentry/conventions" "^0.35.0"
 
-"@sentry/replay@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry/replay/-/replay-7.74.0.tgz#618d40f7c9ecc7589dd14df0c560b20a24839d3f"
-  integrity sha512-GoYa3cHTTFVI/J1cnZ0i4X128mf/JljaswO3PWNTe2k3lSHq/LM5aV0keClRvwM0W8hlix8oOTT06nnenOUmmw==
+"@sentry/feedback@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/feedback/-/feedback-11.17.0.tgz#1a0018551fb52314eaff2722493914f42409b5a8"
+  integrity sha512-hLAZZYzWOs8Bc44QyxNzqd5o3/9bM0oV8n9G66qtqOGyxFLgeuwb6LLUeqmnY5tom6unkjSnKtKRIthk+M3KkQ==
   dependencies:
-    "@sentry/core" "7.74.0"
-    "@sentry/types" "7.74.0"
-    "@sentry/utils" "7.74.0"
+    "@sentry/core" "11.17.0"
 
-"@sentry/types@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.74.0.tgz#810a62cd28db21c5f15f131da6525d7ddf7a29db"
-  integrity sha512-rI5eIRbUycWjn6s6o3yAjjWtIvYSxZDdnKv5je2EZINfLKcMPj1dkl6wQd2F4y7gLfD/N6Y0wZYIXC3DUdJQQg==
-
-"@sentry/utils@7.74.0":
-  version "7.74.0"
-  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.74.0.tgz#e0a16d345b2af6f8b09d157c8c8a3145d7a2070a"
-  integrity sha512-k3np8nuTPtx5KDODPtULfFln4UXdE56MZCcF19Jv6Ljxf+YN/Ady1+0Oi3e0XoSvFpWNyWnglauT7M65qCE6kg==
+"@sentry/replay-canvas@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/replay-canvas/-/replay-canvas-11.17.0.tgz#71bac977a96df3815895bd39b27a5c2870234f85"
+  integrity sha512-pyYzfa+OogDMlh5QWWkaNGXzdbuPXsFhRtiJrcry/9xFsZXESS9FgoaJQgmxjD0TRQKgsRA3oTso4hmnw7rf2g==
   dependencies:
-    "@sentry/types" "7.74.0"
-    tslib "^2.4.1 || ^1.9.3"
+    "@sentry/core" "11.17.0"
+    "@sentry/replay" "11.17.0"
+
+"@sentry/replay@11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@sentry/replay/-/replay-11.17.0.tgz#33d80fe3599919fe14a3061093edd0548adedd89"
+  integrity sha512-TUunibV0YUkcoVNRBPbY171n4yDn6OqZjzmDqWyZfl7vBchnglslwj4CkBaHyQfZJMfytx5Uput6vlqnfkLJCw==
+  dependencies:
+    "@sentry/browser-utils" "11.17.0"
+    "@sentry/core" "11.17.0"
 
 "@types/glob@^7.1.1":
   version "7.2.0"
@@ -6748,11 +6751,6 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-"tslib@^2.4.1 || ^1.9.3":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
-  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
-
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
@@ -6990,6 +6988,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
+
+web-vitals@^6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-6.2.3.tgz#8581188b2a46875d04b9536ab06b352e3a0468b8"
+  integrity sha512-Dmy+vdO1UPMqXiAtZSNayhl4f794Bxfd94W4HIj2HlYtczEQfEOon969memlcpcHrTuOKLa5baFjX7WbgmOq+A==
 
 webpack-assets-manifest@^3.1.1:
   version "3.1.1"
